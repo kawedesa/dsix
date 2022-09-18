@@ -1,0 +1,183 @@
+import 'package:dsix/model/user.dart';
+import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_widgets/app_attribute_slider.dart';
+import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
+import 'package:dsix/shared/app_widgets/dialog/app_text_dialog.dart';
+import 'package:dsix/shared/app_widgets/dialog/app_text_input_dialog.dart';
+import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
+import 'package:dsix/shared/app_widgets/text/app_title.dart';
+import 'package:dsix/view/attribute/attribute_vm.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../shared/app_widgets/text/app_bar_title.dart';
+
+class AttributeView extends StatefulWidget {
+  const AttributeView({Key? key}) : super(key: key);
+
+  @override
+  State<AttributeView> createState() => _AttributeViewState();
+}
+
+class _AttributeViewState extends State<AttributeView> {
+  final AttributeVM _attributeVM = AttributeVM();
+
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: AppBarTitle(
+          title: 'assign attributes',
+          color: user.darkColor,
+        ),
+        centerTitle: true,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.07,
+        leading: Padding(
+          padding:
+              EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.01),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.exit_to_app,
+              color: user.darkColor,
+              size: MediaQuery.of(context).size.height * 0.05,
+            ),
+          ),
+        ),
+        backgroundColor: user.color,
+      ),
+      body: SafeArea(
+        child: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.shortestSide * 0.9,
+            height: MediaQuery.of(context).size.height * 0.85,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppTitle(
+                  title: 'points:${user.player!.attributes}',
+                  color: user.color,
+                ),
+                const AppSeparatorVertical(value: 0.02),
+                AppAttributeSlider(
+                  attributeTitle: 'attack',
+                  attributeDescription:
+                      'this represents how well you can attack your enemies.',
+                  color: user.color,
+                  icon: AppImages.attack,
+                  iconColor: user.darkColor,
+                  value: user.player!.attack,
+                  plus: () {
+                    setState(() {
+                      _attributeVM.plus(user.player!, 'attack');
+                    });
+                  },
+                  minus: () {
+                    setState(() {
+                      _attributeVM.minus(user.player!, 'attack');
+                    });
+                  },
+                ),
+                const AppSeparatorVertical(value: 0.02),
+                AppAttributeSlider(
+                  attributeTitle: 'defend',
+                  attributeDescription:
+                      'this represents how well you can protect yourself and others',
+                  color: user.color,
+                  icon: AppImages.defend,
+                  iconColor: user.darkColor,
+                  value: user.player!.defend,
+                  plus: () {
+                    setState(() {
+                      _attributeVM.plus(user.player!, 'defend');
+                    });
+                  },
+                  minus: () {
+                    setState(() {
+                      _attributeVM.minus(user.player!, 'defend');
+                    });
+                  },
+                ),
+                const AppSeparatorVertical(value: 0.02),
+                AppAttributeSlider(
+                  attributeTitle: 'move',
+                  attributeDescription: 'this represents how far you can move.',
+                  color: user.color,
+                  icon: AppImages.move,
+                  iconColor: user.darkColor,
+                  value: user.player!.move,
+                  plus: () {
+                    setState(() {
+                      _attributeVM.plus(user.player!, 'move');
+                    });
+                  },
+                  minus: () {
+                    setState(() {
+                      _attributeVM.minus(user.player!, 'move');
+                    });
+                  },
+                ),
+                const AppSeparatorVertical(value: 0.02),
+                AppAttributeSlider(
+                  attributeTitle: 'look',
+                  attributeDescription:
+                      'this represents how far you can see and your ability to find things.',
+                  color: user.color,
+                  icon: AppImages.look,
+                  iconColor: user.darkColor,
+                  value: user.player!.look,
+                  plus: () {
+                    setState(() {
+                      _attributeVM.plus(user.player!, 'look');
+                    });
+                  },
+                  minus: () {
+                    setState(() {
+                      _attributeVM.minus(user.player!, 'look');
+                    });
+                  },
+                ),
+                const AppSeparatorVertical(value: 0.025),
+                AppTextButton(
+                    buttonText: 'confirm',
+                    color: user.color,
+                    onTap: (user.player!.attributes == 0)
+                        ? () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AppTextInputDialog(
+                                    title: 'choose a name',
+                                    color: user.color,
+                                    onConfirm: (String name) {
+                                      Navigator.pop(context);
+                                      _attributeVM.confirm(user.player!, name);
+                                    },
+                                  );
+                                });
+                          }
+                        : () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AppTextDialog(
+                                    title: 'spend your points',
+                                    color: user.color,
+                                    dialogText:
+                                        'assign points by clicking on the + button next to each attribute.',
+                                  );
+                                });
+                          }),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
