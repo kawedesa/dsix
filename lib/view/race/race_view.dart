@@ -1,6 +1,7 @@
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/text/app_bar_title.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
@@ -34,20 +35,23 @@ class _RaceViewState extends State<RaceView> {
           color: user.darkColor,
         ),
         centerTitle: true,
-        toolbarHeight: MediaQuery.of(context).size.height * 0.07,
-        leading: Padding(
-          padding:
-              EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.01),
-          child: GestureDetector(
-            onTap: () {
-              _raceVM.goBackToPlayerSelection(context, game, user.player!.id);
-            },
-            child: Icon(
-              Icons.exit_to_app,
-              color: user.darkColor,
-              size: MediaQuery.of(context).size.height * 0.05,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.06,
+        leading: Row(
+          children: [
+            const AppSeparatorHorizontal(
+              value: 0.01,
             ),
-          ),
+            GestureDetector(
+              onTap: () {
+                _raceVM.goBackToPlayerSelection(context, game, user.player!.id);
+              },
+              child: Icon(
+                Icons.exit_to_app,
+                color: user.darkColor,
+                size: MediaQuery.of(context).size.height * 0.035,
+              ),
+            ),
+          ],
         ),
         backgroundColor: user.color,
       ),

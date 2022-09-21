@@ -63,7 +63,7 @@ class _AppTextInputDialogState extends State<AppTextInputDialog> {
                         },
                         style: TextStyle(
                           fontSize:
-                              MediaQuery.of(context).size.shortestSide * 0.025,
+                              MediaQuery.of(context).size.shortestSide * 0.03,
                           fontWeight: FontWeight.w500,
                           letterSpacing:
                               MediaQuery.of(context).size.shortestSide * 0.008,

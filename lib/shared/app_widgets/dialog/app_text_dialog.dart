@@ -1,5 +1,6 @@
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_dialog_title.dart';
+import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 
 class AppTextDialog extends StatefulWidget {
@@ -48,17 +49,12 @@ class _AppTextDialogState extends State<AppTextDialog> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width * 0.02),
-                    child: Text(widget.dialogText.toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize:
-                              MediaQuery.of(context).size.shortestSide * 0.025,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing:
-                              MediaQuery.of(context).size.shortestSide * 0.008,
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        )),
+                    child: AppText(
+                      text: widget.dialogText.toUpperCase(),
+                      fontSize: 0.025,
+                      letterSpacing: 0.008,
+                      color: Colors.white,
+                    ),
                   ),
                   const AppSeparatorVertical(value: 0.06),
                 ],

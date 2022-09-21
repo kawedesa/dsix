@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/view/game_settings/game_settings_view.dart';
+import 'package:dsix/view/creator/creator_view.dart';
 import 'package:flutter/material.dart';
 
 import '../race/race_view.dart';
@@ -46,10 +46,10 @@ class HomeVM {
     await database.collection('game').doc('gameID').update(game.toMap());
   }
 
-  void goToGameSettingsView(context) {
+  void goToControllerHubView(context) {
     Route newRoute = PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          const GameSettings(),
+          const CreatorView(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = const Offset(1.0, 0.0);
         var end = const Offset(0.0, 0.0);

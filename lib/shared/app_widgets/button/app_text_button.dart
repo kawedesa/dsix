@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
@@ -42,16 +43,12 @@ class _AppTextButtonState extends State<AppTextButton> {
                   fit: BoxFit.fill,
                 ),
                 Center(
-                  child: Text(widget.buttonText.toUpperCase(),
-                      style: TextStyle(
-                        fontSize:
-                            MediaQuery.of(context).size.shortestSide * 0.025,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing:
-                            MediaQuery.of(context).size.shortestSide * 0.008,
-                        fontFamily: 'Poppins',
-                        color: widget.color,
-                      )),
+                  child: AppText(
+                    text: widget.buttonText.toUpperCase(),
+                    fontSize: 0.025,
+                    letterSpacing: 0.008,
+                    color: widget.color,
+                  ),
                 ),
               ],
             ),

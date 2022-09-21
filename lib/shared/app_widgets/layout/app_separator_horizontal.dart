@@ -10,7 +10,7 @@ class AppSeparatorHorizontal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.width * value,
+      width: MediaQuery.of(context).size.width * value,
     );
   }
 }

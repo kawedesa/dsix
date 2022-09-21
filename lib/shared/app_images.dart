@@ -10,6 +10,10 @@ class AppImages {
   static const look = 'assets/images/ui/look.svg';
   static const move = 'assets/images/ui/move.svg';
 
+  static const pDamage = 'assets/images/ui/pDamage.svg';
+  static const mDamage = 'assets/images/ui/mDamage.svg';
+  static const pArmor = 'assets/images/ui/pArmor.svg';
+  static const mArmor = 'assets/images/ui/mArmor.svg';
   static const health = 'assets/images/ui/health.svg';
   static const weight = 'assets/images/ui/weight.svg';
 
@@ -18,6 +22,9 @@ class AppImages {
 
   static const settings = 'assets/images/ui/settings.svg';
   static const map = 'assets/images/ui/map.svg';
+  static const profile = 'assets/images/ui/profile.svg';
+  static const inventory = 'assets/images/ui/inventory.svg';
+  static const shop = 'assets/images/ui/shop.svg';
 
   //Races
   static const dwarfBody = 'assets/images/sprites/dwarfBody.svg';

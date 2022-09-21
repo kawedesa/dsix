@@ -4,6 +4,7 @@ import 'package:dsix/shared/app_widgets/app_attribute_slider.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_text_dialog.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_text_input_dialog.dart';
+import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/text/app_title.dart';
 import 'package:dsix/view/attribute/attribute_vm.dart';
@@ -33,20 +34,23 @@ class _AttributeViewState extends State<AttributeView> {
           color: user.darkColor,
         ),
         centerTitle: true,
-        toolbarHeight: MediaQuery.of(context).size.height * 0.07,
-        leading: Padding(
-          padding:
-              EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.01),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.exit_to_app,
-              color: user.darkColor,
-              size: MediaQuery.of(context).size.height * 0.05,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.06,
+        leading: Row(
+          children: [
+            const AppSeparatorHorizontal(
+              value: 0.01,
             ),
-          ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.exit_to_app,
+                color: user.darkColor,
+                size: MediaQuery.of(context).size.height * 0.035,
+              ),
+            ),
+          ],
         ),
         backgroundColor: user.color,
       ),
@@ -72,14 +76,14 @@ class _AttributeViewState extends State<AttributeView> {
                   icon: AppImages.attack,
                   iconColor: user.darkColor,
                   value: user.player!.attack,
-                  plus: () {
+                  add: () {
                     setState(() {
-                      _attributeVM.plus(user.player!, 'attack');
+                      _attributeVM.addAttribute(user.player!, 'attack');
                     });
                   },
-                  minus: () {
+                  remove: () {
                     setState(() {
-                      _attributeVM.minus(user.player!, 'attack');
+                      _attributeVM.removeAttribute(user.player!, 'attack');
                     });
                   },
                 ),
@@ -92,14 +96,14 @@ class _AttributeViewState extends State<AttributeView> {
                   icon: AppImages.defend,
                   iconColor: user.darkColor,
                   value: user.player!.defend,
-                  plus: () {
+                  add: () {
                     setState(() {
-                      _attributeVM.plus(user.player!, 'defend');
+                      _attributeVM.addAttribute(user.player!, 'defend');
                     });
                   },
-                  minus: () {
+                  remove: () {
                     setState(() {
-                      _attributeVM.minus(user.player!, 'defend');
+                      _attributeVM.removeAttribute(user.player!, 'defend');
                     });
                   },
                 ),
@@ -111,14 +115,14 @@ class _AttributeViewState extends State<AttributeView> {
                   icon: AppImages.move,
                   iconColor: user.darkColor,
                   value: user.player!.move,
-                  plus: () {
+                  add: () {
                     setState(() {
-                      _attributeVM.plus(user.player!, 'move');
+                      _attributeVM.addAttribute(user.player!, 'move');
                     });
                   },
-                  minus: () {
+                  remove: () {
                     setState(() {
-                      _attributeVM.minus(user.player!, 'move');
+                      _attributeVM.removeAttribute(user.player!, 'move');
                     });
                   },
                 ),
@@ -131,14 +135,14 @@ class _AttributeViewState extends State<AttributeView> {
                   icon: AppImages.look,
                   iconColor: user.darkColor,
                   value: user.player!.look,
-                  plus: () {
+                  add: () {
                     setState(() {
-                      _attributeVM.plus(user.player!, 'look');
+                      _attributeVM.addAttribute(user.player!, 'look');
                     });
                   },
-                  minus: () {
+                  remove: () {
                     setState(() {
-                      _attributeVM.minus(user.player!, 'look');
+                      _attributeVM.removeAttribute(user.player!, 'look');
                     });
                   },
                 ),
@@ -155,8 +159,13 @@ class _AttributeViewState extends State<AttributeView> {
                                     title: 'choose a name',
                                     color: user.color,
                                     onConfirm: (String name) {
+                                      if (name == '') {
+                                        return;
+                                      }
                                       Navigator.pop(context);
-                                      _attributeVM.confirm(user.player!, name);
+                                      _attributeVM.finishPlayer(
+                                          user.player!, name);
+                                      _attributeVM.goToPlayerView(context);
                                     },
                                   );
                                 });

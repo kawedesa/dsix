@@ -11,6 +11,7 @@ class Player {
   int defend;
   int move;
   int look;
+  bool finished;
   Player(
       {required this.id,
       required this.name,
@@ -23,22 +24,25 @@ class Player {
       required this.attack,
       required this.defend,
       required this.move,
-      required this.look});
+      required this.look,
+      required this.finished});
 
   factory Player.newPlayer(String id) {
     return Player(
-        id: id,
-        name: '',
-        race: '',
-        attributes: 0,
-        maxHealth: 0,
-        currentHealth: 0,
-        maxWeight: 0,
-        currentWeight: 0,
-        attack: 0,
-        defend: 0,
-        move: 0,
-        look: 0);
+      id: id,
+      name: '',
+      race: '',
+      attributes: 0,
+      maxHealth: 0,
+      currentHealth: 0,
+      maxWeight: 0,
+      currentWeight: 0,
+      attack: 0,
+      defend: 0,
+      move: 0,
+      look: 0,
+      finished: false,
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -55,6 +59,7 @@ class Player {
       'defend': defend,
       'move': move,
       'look': look,
+      'finished': finished,
     };
   }
 
@@ -72,6 +77,7 @@ class Player {
       defend: data?['defend'],
       move: data?['move'],
       look: data?['look'],
+      finished: data?['finished'],
     );
   }
 
@@ -112,5 +118,89 @@ class Player {
         look = -1;
         break;
     }
+  }
+
+  void addAttribute(String selectedAttribute) {
+    switch (selectedAttribute) {
+      case 'attack':
+        if (attack < 2) {
+          attack++;
+          attributes--;
+        }
+        break;
+      case 'defend':
+        if (defend < 2) {
+          defend++;
+          attributes--;
+        }
+        break;
+      case 'look':
+        if (look < 2) {
+          look++;
+          attributes--;
+        }
+        break;
+      case 'move':
+        if (move < 2) {
+          move++;
+          attributes--;
+        }
+        break;
+    }
+  }
+
+  void removeAttribute(String selectedAttribute) {
+    int baseAttack = 0;
+    int baseDefend = 0;
+    int baseLook = 0;
+    int baseMove = 0;
+
+    switch (race) {
+      case 'orc':
+        baseAttack = 1;
+        baseMove = -1;
+
+        break;
+      case 'elf':
+        baseLook = 1;
+        baseMove = 1;
+        break;
+      case 'dwarf':
+        baseLook = -1;
+        baseDefend = 1;
+        break;
+    }
+
+    switch (selectedAttribute) {
+      case 'attack':
+        if (attack > baseAttack) {
+          attack--;
+          attributes++;
+        }
+        break;
+      case 'defend':
+        if (defend > baseDefend) {
+          defend--;
+          attributes++;
+        }
+        break;
+      case 'look':
+        if (look > baseLook) {
+          look--;
+          attributes++;
+        }
+        break;
+      case 'move':
+        if (move > baseMove) {
+          move--;
+          attributes++;
+        }
+        break;
+    }
+  }
+
+  void finishPlayer(String name) {
+    this.name = name;
+    finished = true;
   }
 }

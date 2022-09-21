@@ -10,8 +10,8 @@ class AppAttributeSlider extends StatefulWidget {
   final Color iconColor;
   final String icon;
   final int value;
-  final Function() plus;
-  final Function() minus;
+  final Function() add;
+  final Function() remove;
   const AppAttributeSlider({
     super.key,
     required this.attributeTitle,
@@ -20,8 +20,8 @@ class AppAttributeSlider extends StatefulWidget {
     required this.iconColor,
     required this.icon,
     required this.value,
-    required this.plus,
-    required this.minus,
+    required this.add,
+    required this.remove,
   });
 
   @override
@@ -40,7 +40,7 @@ class _AppAttributeSliderState extends State<AppAttributeSlider> {
           color: Colors.transparent,
           borderColor: widget.color,
           size: 0.1,
-          onTap: () => widget.minus(),
+          onTap: () => widget.remove(),
         ),
         SizedBox(
           width: MediaQuery.of(context).size.shortestSide * 0.5,
@@ -168,7 +168,7 @@ class _AppAttributeSliderState extends State<AppAttributeSlider> {
           color: Colors.transparent,
           borderColor: widget.color,
           size: 0.1,
-          onTap: () => widget.plus(),
+          onTap: () => widget.add(),
         ),
       ],
     );

@@ -16,7 +16,7 @@ class AppDialogTitle extends StatelessWidget {
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.shortestSide * 0.035,
               fontWeight: FontWeight.bold,
-              letterSpacing: MediaQuery.of(context).size.shortestSide * 0.008,
+              letterSpacing: MediaQuery.of(context).size.shortestSide * 0.005,
               fontFamily: 'Poppins',
               color: Colors.black,
             )),

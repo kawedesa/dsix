@@ -31,8 +31,9 @@ class _AppCircularButtonState extends State<AppCircularButton> {
     return TweenAnimationBuilder(
       duration: const Duration(milliseconds: 400),
       tween: Tween<double>(
-          begin: 0.0,
-          end: MediaQuery.of(context).size.shortestSide * widget.size),
+        begin: 0.0,
+        end: MediaQuery.of(context).size.shortestSide * widget.size,
+      ),
       curve: Curves.easeOutCubic,
       builder: (_, double tweenValue, __) {
         return SizedBox(

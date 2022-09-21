@@ -1,102 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/view/player/player_view.dart';
+import 'package:flutter/material.dart';
 
 class AttributeVM {
   final database = FirebaseFirestore.instance;
 
-  void plus(Player player, String attribute) {
+  void addAttribute(Player player, String selectedAttribute) {
     if (player.attributes == 0) {
       return;
     }
-
-    switch (attribute) {
-      case 'attack':
-        if (player.attack < 2) {
-          player.attack++;
-          player.attributes--;
-        }
-        break;
-      case 'defend':
-        if (player.defend < 2) {
-          player.defend++;
-          player.attributes--;
-        }
-        break;
-      case 'look':
-        if (player.look < 2) {
-          player.look++;
-          player.attributes--;
-        }
-        break;
-      case 'move':
-        if (player.move < 2) {
-          player.move++;
-          player.attributes--;
-        }
-        break;
-    }
-
+    player.addAttribute(selectedAttribute);
     updatePlayer(player);
   }
 
-  void minus(Player player, String attribute) {
+  void removeAttribute(Player player, String selectedAttribute) {
     if (player.attributes == 2) {
       return;
     }
-
-    int baseAttack = 0;
-    int baseDefend = 0;
-    int baseLook = 0;
-    int baseMove = 0;
-
-    switch (player.race) {
-      case 'orc':
-        baseAttack = 1;
-        baseMove = -1;
-
-        break;
-      case 'elf':
-        baseLook = 1;
-        baseMove = 1;
-        break;
-      case 'dwarf':
-        baseLook = -1;
-        baseDefend = 1;
-        break;
-    }
-
-    switch (attribute) {
-      case 'attack':
-        if (player.attack > baseAttack) {
-          player.attack--;
-          player.attributes++;
-        }
-        break;
-      case 'defend':
-        if (player.defend > baseDefend) {
-          player.defend--;
-          player.attributes++;
-        }
-        break;
-      case 'look':
-        if (player.look > baseLook) {
-          player.look--;
-          player.attributes++;
-        }
-        break;
-      case 'move':
-        if (player.move > baseMove) {
-          player.move--;
-          player.attributes++;
-        }
-        break;
-    }
-
+    player.removeAttribute(selectedAttribute);
     updatePlayer(player);
   }
 
-  void confirm(Player player, String name) {
-    player.name = name;
+  void finishPlayer(Player player, String name) {
+    player.finishPlayer(name);
     updatePlayer(player);
   }
 
@@ -107,5 +34,26 @@ class AttributeVM {
         .collection('players')
         .doc(player.id)
         .update(player.toMap());
+  }
+
+  void goToPlayerView(context) {
+    Route newRoute = PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const PlayerView(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = const Offset(1.0, 0.0);
+        var end = const Offset(0.0, 0.0);
+        var curve = Curves.ease;
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+
+    Navigator.of(context).push(newRoute);
   }
 }
