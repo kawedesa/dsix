@@ -7,18 +7,18 @@ class AttributeVM {
   final database = FirebaseFirestore.instance;
 
   void addAttribute(Player player, String selectedAttribute) {
-    if (player.attributes == 0) {
+    if (player.attributes.availablePoints == 0) {
       return;
     }
-    player.addAttribute(selectedAttribute);
+    player.attributes.add(selectedAttribute);
     updatePlayer(player);
   }
 
   void removeAttribute(Player player, String selectedAttribute) {
-    if (player.attributes == 2) {
+    if (player.attributes.availablePoints == 2) {
       return;
     }
-    player.removeAttribute(selectedAttribute);
+    player.attributes.remove(selectedAttribute, player.race);
     updatePlayer(player);
   }
 

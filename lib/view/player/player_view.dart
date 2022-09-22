@@ -67,7 +67,7 @@ class _PlayerViewState extends State<PlayerView> {
                 value: 0.01,
               ),
               AppText(
-                text: '${user.player!.currentHealth}/${user.player!.maxHealth}',
+                text: '${user.player!.life.current}/${user.player!.life.max}',
                 fontSize: 0.03,
                 letterSpacing: 0.002,
                 color: user.darkColor,
@@ -85,7 +85,8 @@ class _PlayerViewState extends State<PlayerView> {
                 value: 0.01,
               ),
               AppText(
-                text: '${user.player!.currentWeight}/${user.player!.maxWeight}',
+                text:
+                    '${user.player!.equipment.currentWeight}/${user.player!.equipment.maxWeight}',
                 fontSize: 0.03,
                 letterSpacing: 0.002,
                 color: user.darkColor,

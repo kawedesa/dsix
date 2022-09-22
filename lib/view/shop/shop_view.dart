@@ -1,8 +1,10 @@
 import 'package:dsix/model/user.dart';
+import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/text/app_title.dart';
+import 'package:dsix/view/shop/shop_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +16,8 @@ class ShopView extends StatefulWidget {
 }
 
 class _ShopViewState extends State<ShopView> {
+  final ShopVM _shopVM = ShopVM();
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -30,11 +34,44 @@ class _ShopViewState extends State<ShopView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppCircularButton(
-                  color: user.color, borderColor: user.color, size: 0.075),
+                icon: AppImages.weaponMenu,
+                iconColor: user.darkColor,
+                borderColor:
+                    (_shopVM.selectedMenu == 0) ? user.lightColor : user.color,
+                color: user.color,
+                size: 0.075,
+                onTap: () {
+                  setState(() {
+                    _shopVM.changeMenu(0);
+                  });
+                },
+              ),
               AppCircularButton(
-                  color: user.color, borderColor: user.color, size: 0.075),
+                icon: AppImages.armorMenu,
+                iconColor: user.darkColor,
+                borderColor:
+                    (_shopVM.selectedMenu == 1) ? user.lightColor : user.color,
+                color: user.color,
+                size: 0.075,
+                onTap: () {
+                  setState(() {
+                    _shopVM.changeMenu(1);
+                  });
+                },
+              ),
               AppCircularButton(
-                  color: user.color, borderColor: user.color, size: 0.075),
+                icon: AppImages.consumableMenu,
+                iconColor: user.darkColor,
+                borderColor:
+                    (_shopVM.selectedMenu == 2) ? user.lightColor : user.color,
+                color: user.color,
+                size: 0.075,
+                onTap: () {
+                  setState(() {
+                    _shopVM.changeMenu(2);
+                  });
+                },
+              ),
             ],
           ),
         ),
@@ -45,7 +82,7 @@ class _ShopViewState extends State<ShopView> {
         const AppSeparatorVertical(
           value: 0.02,
         ),
-        AppTitle(title: 'shop', color: user.color)
+        AppTitle(title: _shopVM.menuTitle, color: user.color)
       ],
     );
   }

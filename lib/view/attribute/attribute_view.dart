@@ -64,7 +64,7 @@ class _AttributeViewState extends State<AttributeView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppTitle(
-                  title: 'points:${user.player!.attributes}',
+                  title: 'points:${user.player!.attributes.availablePoints}',
                   color: user.color,
                 ),
                 const AppSeparatorVertical(value: 0.02),
@@ -75,7 +75,7 @@ class _AttributeViewState extends State<AttributeView> {
                   color: user.color,
                   icon: AppImages.attack,
                   iconColor: user.darkColor,
-                  value: user.player!.attack,
+                  value: user.player!.attributes.attack,
                   add: () {
                     setState(() {
                       _attributeVM.addAttribute(user.player!, 'attack');
@@ -95,7 +95,7 @@ class _AttributeViewState extends State<AttributeView> {
                   color: user.color,
                   icon: AppImages.defend,
                   iconColor: user.darkColor,
-                  value: user.player!.defend,
+                  value: user.player!.attributes.defend,
                   add: () {
                     setState(() {
                       _attributeVM.addAttribute(user.player!, 'defend');
@@ -114,7 +114,7 @@ class _AttributeViewState extends State<AttributeView> {
                   color: user.color,
                   icon: AppImages.move,
                   iconColor: user.darkColor,
-                  value: user.player!.move,
+                  value: user.player!.attributes.move,
                   add: () {
                     setState(() {
                       _attributeVM.addAttribute(user.player!, 'move');
@@ -134,7 +134,7 @@ class _AttributeViewState extends State<AttributeView> {
                   color: user.color,
                   icon: AppImages.look,
                   iconColor: user.darkColor,
-                  value: user.player!.look,
+                  value: user.player!.attributes.look,
                   add: () {
                     setState(() {
                       _attributeVM.addAttribute(user.player!, 'look');
@@ -150,7 +150,7 @@ class _AttributeViewState extends State<AttributeView> {
                 AppTextButton(
                     buttonText: 'confirm',
                     color: user.color,
-                    onTap: (user.player!.attributes == 0)
+                    onTap: (user.player!.attributes.availablePoints == 0)
                         ? () {
                             showDialog(
                                 context: context,

@@ -3,7 +3,6 @@ import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
-import 'package:dsix/shared/app_widgets/layout/app_separator_shortest.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +42,7 @@ class _InventoryViewState extends State<InventoryView> {
                       size: 0.075),
                   const AppSeparatorHorizontal(value: 0.025),
                   AppText(
-                      text: '${user.player!.attack}',
+                      text: user.player!.equipment.damage.pDamage.toString(),
                       fontSize: 0.04,
                       letterSpacing: 0.002,
                       color: Colors.white),
@@ -59,7 +58,7 @@ class _InventoryViewState extends State<InventoryView> {
                       size: 0.075),
                   const AppSeparatorHorizontal(value: 0.025),
                   AppText(
-                      text: '${user.player!.attack}',
+                      text: user.player!.equipment.armor.pArmor.toString(),
                       fontSize: 0.04,
                       letterSpacing: 0.002,
                       color: Colors.white),
@@ -75,7 +74,7 @@ class _InventoryViewState extends State<InventoryView> {
                       size: 0.075),
                   const AppSeparatorHorizontal(value: 0.025),
                   AppText(
-                      text: '${user.player!.attack}',
+                      text: user.player!.equipment.damage.mDamage.toString(),
                       fontSize: 0.04,
                       letterSpacing: 0.002,
                       color: Colors.white),
@@ -91,7 +90,7 @@ class _InventoryViewState extends State<InventoryView> {
                       size: 0.075),
                   const AppSeparatorHorizontal(value: 0.025),
                   AppText(
-                      text: '${user.player!.attack}',
+                      text: user.player!.equipment.armor.mArmor.toString(),
                       fontSize: 0.04,
                       letterSpacing: 0.002,
                       color: Colors.white),
