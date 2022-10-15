@@ -24,13 +24,13 @@ class PlayerAttackRange {
   }
 
   void increase(Item item) {
-    max = max + item.maxWeaponRange;
-    min = min + item.minWeaponRange;
+    max = max + item.maxRange;
+    min = min + item.minRange;
   }
 
   void decrease(Item item) {
-    max = max - item.maxWeaponRange;
-    min = min - item.minWeaponRange;
+    max = max - item.maxRange;
+    min = min - item.minRange;
   }
 
   // bool cantAttack(PlayerLocation targetLocation, PlayerLocation playerLocation,

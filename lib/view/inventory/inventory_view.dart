@@ -114,16 +114,16 @@ class _InventoryViewState extends State<InventoryView> {
               Column(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.25,
-                    height: MediaQuery.of(context).size.shortestSide * 0.5,
+                    width: MediaQuery.of(context).size.shortestSide * 0.2,
+                    height: MediaQuery.of(context).size.shortestSide * 0.3,
                     color: user.color,
                   ),
                   const AppSeparatorVertical(
                     value: 0.02,
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.25,
-                    height: MediaQuery.of(context).size.shortestSide * 0.25,
+                    width: MediaQuery.of(context).size.shortestSide * 0.2,
+                    height: MediaQuery.of(context).size.shortestSide * 0.2,
                     color: user.color,
                   ),
                 ],
@@ -131,16 +131,16 @@ class _InventoryViewState extends State<InventoryView> {
               Column(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.25,
-                    height: MediaQuery.of(context).size.shortestSide * 0.25,
+                    width: MediaQuery.of(context).size.shortestSide * 0.2,
+                    height: MediaQuery.of(context).size.shortestSide * 0.2,
                     color: user.color,
                   ),
                   const AppSeparatorVertical(
                     value: 0.02,
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.25,
-                    height: MediaQuery.of(context).size.shortestSide * 0.5,
+                    width: MediaQuery.of(context).size.shortestSide * 0.2,
+                    height: MediaQuery.of(context).size.shortestSide * 0.3,
                     color: user.color,
                   ),
                 ],
@@ -148,16 +148,16 @@ class _InventoryViewState extends State<InventoryView> {
               Column(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.25,
-                    height: MediaQuery.of(context).size.shortestSide * 0.5,
+                    width: MediaQuery.of(context).size.shortestSide * 0.2,
+                    height: MediaQuery.of(context).size.shortestSide * 0.3,
                     color: user.color,
                   ),
                   const AppSeparatorVertical(
                     value: 0.02,
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.25,
-                    height: MediaQuery.of(context).size.shortestSide * 0.25,
+                    width: MediaQuery.of(context).size.shortestSide * 0.2,
+                    height: MediaQuery.of(context).size.shortestSide * 0.2,
                     color: user.color,
                   ),
                 ],

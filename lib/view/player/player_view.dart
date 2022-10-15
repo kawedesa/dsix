@@ -22,6 +22,10 @@ class PlayerView extends StatefulWidget {
 class _PlayerViewState extends State<PlayerView> {
   final PlayerVM _playerVM = PlayerVM();
 
+  void refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -31,7 +35,7 @@ class _PlayerViewState extends State<PlayerView> {
       appBar: AppBar(
         toolbarHeight: MediaQuery.of(context).size.height * 0.06,
         backgroundColor: user.color,
-        centerTitle: true,
+        centerTitle: false,
         title: AppBarTitle(
           title: _playerVM.pageTitle,
           color: user.darkColor,
@@ -92,6 +96,24 @@ class _PlayerViewState extends State<PlayerView> {
                 color: user.darkColor,
               ),
               const AppSeparatorHorizontal(
+                value: 0.025,
+              ),
+              AppCircularButton(
+                  icon: AppImages.money,
+                  iconColor: user.darkColor,
+                  color: Colors.transparent,
+                  borderColor: user.darkColor,
+                  size: 0.05),
+              const AppSeparatorHorizontal(
+                value: 0.01,
+              ),
+              AppText(
+                text: '${user.player!.equipment.money}',
+                fontSize: 0.03,
+                letterSpacing: 0.002,
+                color: user.darkColor,
+              ),
+              const AppSeparatorHorizontal(
                 value: 0.05,
               ),
             ],
@@ -101,10 +123,12 @@ class _PlayerViewState extends State<PlayerView> {
       body: SafeArea(
         child: PageView(
           controller: _playerVM.pageController,
-          children: const [
-            ProfileView(),
-            InventoryView(),
-            ShopView(),
+          children: [
+            const ProfileView(),
+            const InventoryView(),
+            ShopView(
+              refresh: () => refresh(),
+            ),
           ],
         ),
       ),

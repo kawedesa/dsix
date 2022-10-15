@@ -17,6 +17,7 @@ class PlayerEquipment {
   List<Item> bag;
   int maxWeight;
   int currentWeight;
+  int money;
   PlayerEquipment({
     required this.armor,
     required this.damage,
@@ -30,6 +31,7 @@ class PlayerEquipment {
     required this.bag,
     required this.maxWeight,
     required this.currentWeight,
+    required this.money,
   });
 
   factory PlayerEquipment.empty() {
@@ -46,6 +48,7 @@ class PlayerEquipment {
       bag: [],
       maxWeight: 0,
       currentWeight: 0,
+      money: 300,
     );
   }
 
@@ -70,6 +73,7 @@ class PlayerEquipment {
       bag: bag,
       maxWeight: data?['maxWeight'],
       currentWeight: data?['currentWeight'],
+      money: data?['money'],
     );
   }
 
@@ -88,6 +92,7 @@ class PlayerEquipment {
       'bag': bag,
       'maxWeight': maxWeight,
       'currentWeight': currentWeight,
+      'money': money,
     };
   }
 
@@ -96,6 +101,27 @@ class PlayerEquipment {
       maxWeight = 20;
     } else {
       maxWeight = 15;
+    }
+  }
+
+  void getItem(Item item) {
+    currentWeight += item.weight;
+    bag.add(item);
+  }
+
+  bool notEnoughMoney(int itemValue) {
+    if (itemValue > money) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool cantCarry(int itemWeight) {
+    if (itemWeight > maxWeight - currentWeight) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

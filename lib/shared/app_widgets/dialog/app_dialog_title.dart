@@ -1,25 +1,48 @@
+import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:flutter/material.dart';
 
+import '../text/app_text.dart';
+
 class AppDialogTitle extends StatelessWidget {
-  final String title;
   final Color color;
-  const AppDialogTitle({Key? key, required this.color, required this.title})
+  final String title;
+  final String? subTitle;
+
+  const AppDialogTitle(
+      {Key? key, required this.color, required this.title, this.subTitle})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.shortestSide * 0.08,
       color: color,
-      child: Center(
-        child: Text(title.toUpperCase(),
-            style: TextStyle(
-              fontSize: MediaQuery.of(context).size.shortestSide * 0.035,
-              fontWeight: FontWeight.bold,
-              letterSpacing: MediaQuery.of(context).size.shortestSide * 0.005,
-              fontFamily: 'Poppins',
-              color: Colors.black,
-            )),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const AppSeparatorVertical(value: 0.01),
+          Text(title.toUpperCase(),
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.shortestSide * 0.035,
+                fontWeight: FontWeight.bold,
+                letterSpacing: MediaQuery.of(context).size.shortestSide * 0.005,
+                fontFamily: 'Poppins',
+                color: Colors.black,
+              )),
+          (subTitle == null)
+              ? const SizedBox()
+              : Column(
+                  children: [
+                    const AppSeparatorVertical(value: 0.0025),
+                    AppText(
+                      text: subTitle!.toUpperCase(),
+                      fontSize: 0.02,
+                      letterSpacing: 0.002,
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
+          const AppSeparatorVertical(value: 0.01),
+        ],
       ),
     );
   }

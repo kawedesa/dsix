@@ -10,8 +10,8 @@ class Player {
   PlayerLife life;
   PlayerAttribute attributes;
   PlayerEquipment equipment;
-
   bool finished;
+
   Player(
       {required this.id,
       required this.name,

@@ -16,6 +16,9 @@ class AppImages {
   static const mArmor = 'assets/images/ui/mArmor.svg';
   static const health = 'assets/images/ui/health.svg';
   static const weight = 'assets/images/ui/weight.svg';
+  static const money = 'assets/images/ui/money.svg';
+  static const minRange = 'assets/images/ui/minRange.svg';
+  static const maxRange = 'assets/images/ui/maxRange.svg';
 
   static const minus = 'assets/images/ui/minus.svg';
   static const plus = 'assets/images/ui/plus.svg';
@@ -25,7 +28,8 @@ class AppImages {
   static const profile = 'assets/images/ui/profile.svg';
   static const inventory = 'assets/images/ui/inventory.svg';
   static const shop = 'assets/images/ui/shop.svg';
-  static const weaponMenu = 'assets/images/ui/weaponMenu.svg';
+  static const meleeWeaponMenu = 'assets/images/ui/meleeWeaponMenu.svg';
+  static const rangedWeaponMenu = 'assets/images/ui/rangedWeaponMenu.svg';
   static const armorMenu = 'assets/images/ui/armorMenu.svg';
   static const consumableMenu = 'assets/images/ui/consumableMenu.svg';
 

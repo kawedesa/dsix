@@ -3,7 +3,7 @@ import 'package:dsix/shared/app_widgets/dialog/app_dialog_title.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 
-class AppTextDialog extends StatefulWidget {
+class AppTextDialog extends StatelessWidget {
   final Color color;
   final String title;
   final String dialogText;
@@ -16,20 +16,15 @@ class AppTextDialog extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<AppTextDialog> createState() => _AppTextDialogState();
-}
-
-class _AppTextDialogState extends State<AppTextDialog> {
-  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
         width: MediaQuery.of(context).size.shortestSide * 0.6,
         decoration: BoxDecoration(
-          color: widget.color,
+          color: color,
           border: Border.all(
-            color: widget.color,
+            color: color,
             width: MediaQuery.of(context).size.shortestSide * 0.005,
           ),
         ),
@@ -38,8 +33,8 @@ class _AppTextDialogState extends State<AppTextDialog> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             AppDialogTitle(
-              color: widget.color,
-              title: widget.title,
+              color: color,
+              title: title,
             ),
             Container(
               color: Colors.black,
@@ -50,7 +45,7 @@ class _AppTextDialogState extends State<AppTextDialog> {
                     padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width * 0.02),
                     child: AppText(
-                      text: widget.dialogText.toUpperCase(),
+                      text: dialogText.toUpperCase(),
                       fontSize: 0.025,
                       letterSpacing: 0.008,
                       color: Colors.white,

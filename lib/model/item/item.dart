@@ -10,8 +10,8 @@ class Item {
   int mArmor;
   int weight;
   int value;
-  double maxWeaponRange;
-  double minWeaponRange;
+  double maxRange;
+  double minRange;
   Item({
     required this.icon,
     required this.name,
@@ -24,8 +24,8 @@ class Item {
     required this.mArmor,
     required this.weight,
     required this.value,
-    required this.maxWeaponRange,
-    required this.minWeaponRange,
+    required this.maxRange,
+    required this.minRange,
   });
 
   factory Item.fromMap(Map<String, dynamic>? data) {
@@ -41,8 +41,8 @@ class Item {
       mArmor: data?['mArmor'],
       weight: data?['weight'],
       value: data?['value'],
-      maxWeaponRange: data?['maxWeaponRange'] * 1.0,
-      minWeaponRange: data?['minWeaponRange'] * 1.0,
+      maxRange: data?['maxRange'] * 1.0,
+      minRange: data?['minRange'] * 1.0,
     );
   }
 
@@ -59,8 +59,8 @@ class Item {
       'mArmor': mArmor,
       'weight': weight,
       'value': value,
-      'maxWeaponRange': maxWeaponRange,
-      'minWeaponRange': minWeaponRange,
+      'maxRange': maxRange,
+      'minRange': minRange,
     };
   }
 
@@ -77,8 +77,8 @@ class Item {
       mArmor: 0,
       weight: 0,
       value: 0,
-      maxWeaponRange: 0,
-      minWeaponRange: 0,
+      maxRange: 0,
+      minRange: 0,
     );
   }
 }
