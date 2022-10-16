@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/item/shop.dart';
+import 'package:dsix/shared/app_exceptions.dart';
 
 import '../../model/player/player.dart';
 
@@ -60,18 +61,16 @@ class ShopVM {
 
   void buyItem(Item item, Player player) {
     if (player.equipment.notEnoughMoney(item.value)) {
-      //Add SnackBar
-      print('no money');
-      return;
+      throw NotEnoughMoneyException();
     }
-    if (player.equipment.cantCarry(item.weight)) {
-      //Add SnackBar
-      print('cant carry');
-      return;
+    if (player.equipment.tooHeavy(item.weight)) {
+      throw TooHeavyException();
     }
     player.equipment.money -= item.value;
     player.equipment.getItem(item);
     updatePlayer(player);
+
+    throw ItemBoughtException('- \$${item.value}');
   }
 
   void updatePlayer(Player player) async {

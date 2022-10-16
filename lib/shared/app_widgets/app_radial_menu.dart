@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'button/app_circular_button.dart';
@@ -18,7 +19,7 @@ class _AppRadialMenuState extends State<AppRadialMenu> {
   List<Widget> createMenu() {
     List<Widget> menu = [];
 
-    double buttonSize = MediaQuery.of(context).size.shortestSide * 0.2;
+    double buttonSize = AppLayout.shortest(context) * 0.2;
 
     for (int i = 0; i < widget.buttonInfo.length; i++) {
       Offset buttonPosition =
@@ -51,8 +52,8 @@ class _AppRadialMenuState extends State<AppRadialMenu> {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: MediaQuery.of(context).size.shortestSide * 0.6,
-        height: MediaQuery.of(context).size.shortestSide * 0.6,
+        width: AppLayout.shortest(context) * 0.6,
+        height: AppLayout.shortest(context) * 0.6,
         child: Stack(
           children: createMenu(),
         ),

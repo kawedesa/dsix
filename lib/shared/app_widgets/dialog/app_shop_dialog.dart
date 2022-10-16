@@ -1,4 +1,5 @@
 import 'package:dsix/model/item/item.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_dialog_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_dialog_title.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
@@ -29,12 +30,12 @@ class AppShopDialog extends StatelessWidget {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: MediaQuery.of(context).size.shortestSide * 0.6,
+        width: AppLayout.shortest(context) * 0.6,
         decoration: BoxDecoration(
           color: color,
           border: Border.all(
             color: color,
-            width: MediaQuery.of(context).size.shortestSide * 0.005,
+            width: AppLayout.shortest(context) * 0.005,
           ),
         ),
         child: Column(
@@ -56,8 +57,8 @@ class AppShopDialog extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         item.icon,
-                        width: MediaQuery.of(context).size.shortestSide * 0.4,
-                        height: MediaQuery.of(context).size.shortestSide * 0.4,
+                        width: AppLayout.shortest(context) * 0.4,
+                        height: AppLayout.shortest(context) * 0.4,
                         color: Colors.white,
                       ),
                     ],
@@ -72,8 +73,7 @@ class AppShopDialog extends StatelessWidget {
                       const AppSeparatorVertical(value: 0.01),
                       (item.description != '')
                           ? SizedBox(
-                              width: MediaQuery.of(context).size.shortestSide *
-                                  0.8,
+                              width: AppLayout.shortest(context) * 0.8,
                               child: AppText(
                                 text: item.description,
                                 fontSize: 0.025,
@@ -82,8 +82,7 @@ class AppShopDialog extends StatelessWidget {
                               ),
                             )
                           : SizedBox(
-                              width: MediaQuery.of(context).size.shortestSide *
-                                  0.8,
+                              width: AppLayout.shortest(context) * 0.8,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

@@ -1,4 +1,5 @@
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -78,7 +79,7 @@ class _PlayerSpriteHeadState extends State<PlayerSpriteHead>
       ),
       child: SvgPicture.asset(
         headImage(),
-        width: MediaQuery.of(context).size.shortestSide * 0.5,
+        width: AppLayout.shortest(context) * 0.5,
       ),
     );
   }

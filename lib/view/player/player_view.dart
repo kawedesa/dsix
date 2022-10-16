@@ -1,5 +1,6 @@
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
@@ -26,6 +27,22 @@ class _PlayerViewState extends State<PlayerView> {
     setState(() {});
   }
 
+  void displaySnackBar(String text, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: SizedBox(
+          height: AppLayout.height(context) * 0.05,
+          child: Center(
+            child: AppText(
+              text: text,
+              fontSize: 0.05,
+              letterSpacing: 0.005,
+              color: Colors.white,
+            ),
+          )),
+      backgroundColor: color,
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -33,7 +50,7 @@ class _PlayerViewState extends State<PlayerView> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        toolbarHeight: MediaQuery.of(context).size.height * 0.06,
+        toolbarHeight: AppLayout.height(context) * 0.06,
         backgroundColor: user.color,
         centerTitle: false,
         title: AppBarTitle(
@@ -43,7 +60,7 @@ class _PlayerViewState extends State<PlayerView> {
         leading: Row(
           children: [
             const AppSeparatorHorizontal(
-              value: 0.01,
+              value: 0.005,
             ),
             GestureDetector(
               onTap: () {
@@ -52,7 +69,7 @@ class _PlayerViewState extends State<PlayerView> {
               child: Icon(
                 Icons.exit_to_app,
                 color: user.darkColor,
-                size: MediaQuery.of(context).size.height * 0.035,
+                size: AppLayout.height(context) * 0.035,
               ),
             ),
           ],
@@ -66,7 +83,7 @@ class _PlayerViewState extends State<PlayerView> {
                   iconColor: user.darkColor,
                   color: Colors.transparent,
                   borderColor: user.darkColor,
-                  size: 0.05),
+                  size: 0.04),
               const AppSeparatorHorizontal(
                 value: 0.01,
               ),
@@ -84,7 +101,7 @@ class _PlayerViewState extends State<PlayerView> {
                   iconColor: user.darkColor,
                   color: Colors.transparent,
                   borderColor: user.darkColor,
-                  size: 0.05),
+                  size: 0.04),
               const AppSeparatorHorizontal(
                 value: 0.01,
               ),
@@ -103,7 +120,7 @@ class _PlayerViewState extends State<PlayerView> {
                   iconColor: user.darkColor,
                   color: Colors.transparent,
                   borderColor: user.darkColor,
-                  size: 0.05),
+                  size: 0.04),
               const AppSeparatorHorizontal(
                 value: 0.01,
               ),
@@ -128,12 +145,13 @@ class _PlayerViewState extends State<PlayerView> {
             const InventoryView(),
             ShopView(
               refresh: () => refresh(),
+              displaySnackbar: (text, color) => displaySnackBar(text, color),
             ),
           ],
         ),
       ),
       bottomNavigationBar: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.09,
+        height: AppLayout.height(context) * 0.09,
         child: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
@@ -152,8 +170,8 @@ class _PlayerViewState extends State<PlayerView> {
                   color: (_playerVM.selectedPage == 0)
                       ? user.lightColor
                       : user.darkColor,
-                  width: MediaQuery.of(context).size.height * 0.04,
-                  height: MediaQuery.of(context).size.height * 0.04,
+                  width: AppLayout.height(context) * 0.04,
+                  height: AppLayout.height(context) * 0.04,
                 )),
             BottomNavigationBarItem(
                 label: 'inventory',
@@ -162,8 +180,8 @@ class _PlayerViewState extends State<PlayerView> {
                   color: (_playerVM.selectedPage == 1)
                       ? user.lightColor
                       : user.darkColor,
-                  width: MediaQuery.of(context).size.height * 0.04,
-                  height: MediaQuery.of(context).size.height * 0.04,
+                  width: AppLayout.height(context) * 0.04,
+                  height: AppLayout.height(context) * 0.04,
                 )),
             BottomNavigationBarItem(
                 label: 'shop',
@@ -172,8 +190,8 @@ class _PlayerViewState extends State<PlayerView> {
                   color: (_playerVM.selectedPage == 2)
                       ? user.lightColor
                       : user.darkColor,
-                  width: MediaQuery.of(context).size.height * 0.04,
-                  height: MediaQuery.of(context).size.height * 0.04,
+                  width: AppLayout.height(context) * 0.04,
+                  height: AppLayout.height(context) * 0.04,
                 )),
           ],
         ),

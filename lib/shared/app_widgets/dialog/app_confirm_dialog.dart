@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_dialog_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_dialog_title.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +20,12 @@ class AppConfirmDialog extends StatelessWidget {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: MediaQuery.of(context).size.shortestSide * 0.5,
+        width: AppLayout.shortest(context) * 0.5,
         decoration: BoxDecoration(
           color: color,
           border: Border.all(
             color: color,
-            width: MediaQuery.of(context).size.shortestSide * 0.005,
+            width: AppLayout.shortest(context) * 0.005,
           ),
         ),
         child: Column(

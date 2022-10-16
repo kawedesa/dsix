@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 
 class AppSeparatorHorizontal extends StatelessWidget {
@@ -10,7 +11,7 @@ class AppSeparatorHorizontal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * value,
+      width: AppLayout.width(context) * value,
     );
   }
 }

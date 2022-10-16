@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
@@ -27,13 +28,13 @@ class _AppTextButtonState extends State<AppTextButton> {
         tween: Tween(begin: 0, end: 255),
         builder: (_, double aplhaValue, __) {
           return Container(
-            width: MediaQuery.of(context).size.shortestSide * 0.5,
-            height: MediaQuery.of(context).size.shortestSide * 0.125,
+            width: AppLayout.shortest(context) * 0.5,
+            height: AppLayout.shortest(context) * 0.125,
             decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(
                 color: widget.color,
-                width: MediaQuery.of(context).size.shortestSide * 0.005,
+                width: AppLayout.shortest(context) * 0.005,
               ),
             ),
             child: Stack(

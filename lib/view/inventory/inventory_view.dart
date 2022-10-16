@@ -1,11 +1,13 @@
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class InventoryView extends StatefulWidget {
@@ -27,8 +29,8 @@ class _InventoryViewState extends State<InventoryView> {
           value: 0.02,
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.shortestSide * 0.8,
-          height: MediaQuery.of(context).size.shortestSide * 0.075,
+          width: AppLayout.shortest(context) * 0.8,
+          height: AppLayout.height(context) * 0.06,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -114,16 +116,16 @@ class _InventoryViewState extends State<InventoryView> {
               Column(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.2,
-                    height: MediaQuery.of(context).size.shortestSide * 0.3,
+                    width: AppLayout.shortest(context) * 0.2,
+                    height: AppLayout.shortest(context) * 0.3,
                     color: user.color,
                   ),
                   const AppSeparatorVertical(
                     value: 0.02,
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.2,
-                    height: MediaQuery.of(context).size.shortestSide * 0.2,
+                    width: AppLayout.shortest(context) * 0.2,
+                    height: AppLayout.shortest(context) * 0.2,
                     color: user.color,
                   ),
                 ],
@@ -131,16 +133,16 @@ class _InventoryViewState extends State<InventoryView> {
               Column(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.2,
-                    height: MediaQuery.of(context).size.shortestSide * 0.2,
+                    width: AppLayout.shortest(context) * 0.2,
+                    height: AppLayout.shortest(context) * 0.2,
                     color: user.color,
                   ),
                   const AppSeparatorVertical(
                     value: 0.02,
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.2,
-                    height: MediaQuery.of(context).size.shortestSide * 0.3,
+                    width: AppLayout.shortest(context) * 0.2,
+                    height: AppLayout.shortest(context) * 0.3,
                     color: user.color,
                   ),
                 ],
@@ -148,16 +150,16 @@ class _InventoryViewState extends State<InventoryView> {
               Column(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.2,
-                    height: MediaQuery.of(context).size.shortestSide * 0.3,
+                    width: AppLayout.shortest(context) * 0.2,
+                    height: AppLayout.shortest(context) * 0.3,
                     color: user.color,
                   ),
                   const AppSeparatorVertical(
                     value: 0.02,
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.shortestSide * 0.2,
-                    height: MediaQuery.of(context).size.shortestSide * 0.2,
+                    width: AppLayout.shortest(context) * 0.2,
+                    height: AppLayout.shortest(context) * 0.2,
                     color: user.color,
                   ),
                 ],
@@ -170,6 +172,37 @@ class _InventoryViewState extends State<InventoryView> {
           value: 0.025,
         ),
         AppLineDividerHorizontal(color: user.color, value: 2),
+        SizedBox(
+          width: AppLayout.width(context) * 0.9,
+          height: AppLayout.height(context) * 0.1,
+          child: GridView.count(
+            physics: const ScrollPhysics(),
+            crossAxisCount: (AppLayout.width(context) * 0.01).toInt(),
+            mainAxisSpacing: AppLayout.height(context) * 0.025,
+            crossAxisSpacing: AppLayout.width(context) * 0.001,
+            children: List.generate(user.player!.equipment.bag.length, (index) {
+              return GestureDetector(
+                onTap: () {},
+                child: SizedBox(
+                  width: AppLayout.shortest(context) * 0.005,
+                  height: AppLayout.shortest(context) * 0.1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: SvgPicture.asset(
+                          user.player!.equipment.bag[index].icon,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          ),
+        ),
       ],
     );
   }

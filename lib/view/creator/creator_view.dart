@@ -1,5 +1,6 @@
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/view/creator/creator_vm.dart';
 import 'package:dsix/view/creator_map/creator_map_view.dart';
@@ -29,11 +30,11 @@ class _CreatorViewState extends State<CreatorView> {
           color: Colors.black,
         ),
         centerTitle: true,
-        toolbarHeight: MediaQuery.of(context).size.height * 0.06,
+        toolbarHeight: AppLayout.height(context) * 0.06,
         leading: Row(
           children: [
             const AppSeparatorHorizontal(
-              value: 0.01,
+              value: 0.005,
             ),
             GestureDetector(
               onTap: () {
@@ -41,7 +42,7 @@ class _CreatorViewState extends State<CreatorView> {
               },
               child: Icon(
                 Icons.exit_to_app,
-                size: MediaQuery.of(context).size.height * 0.035,
+                size: AppLayout.height(context) * 0.035,
               ),
             ),
           ],
@@ -57,38 +58,41 @@ class _CreatorViewState extends State<CreatorView> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        backgroundColor: AppColors.uiColor,
-        currentIndex: _creatorVM.selectedPage,
-        onTap: (pageIndex) {
-          setState(() {
-            _creatorVM.changePage(pageIndex);
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-              label: 'settings',
-              icon: SvgPicture.asset(
-                AppImages.settings,
-                color: (_creatorVM.selectedPage == 0)
-                    ? Colors.white
-                    : Colors.black,
-                width: MediaQuery.of(context).size.shortestSide * 0.08,
-                height: MediaQuery.of(context).size.shortestSide * 0.08,
-              )),
-          BottomNavigationBarItem(
-              label: 'map',
-              icon: SvgPicture.asset(
-                AppImages.map,
-                color: (_creatorVM.selectedPage == 1)
-                    ? Colors.white
-                    : Colors.black,
-                width: MediaQuery.of(context).size.shortestSide * 0.08,
-                height: MediaQuery.of(context).size.shortestSide * 0.08,
-              )),
-        ],
+      bottomNavigationBar: SizedBox(
+        height: AppLayout.height(context) * 0.09,
+        child: BottomNavigationBar(
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          backgroundColor: AppColors.uiColor,
+          currentIndex: _creatorVM.selectedPage,
+          onTap: (pageIndex) {
+            setState(() {
+              _creatorVM.changePage(pageIndex);
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+                label: 'settings',
+                icon: SvgPicture.asset(
+                  AppImages.settings,
+                  color: (_creatorVM.selectedPage == 0)
+                      ? Colors.white
+                      : Colors.black,
+                  width: AppLayout.height(context) * 0.04,
+                  height: AppLayout.height(context) * 0.04,
+                )),
+            BottomNavigationBarItem(
+                label: 'map',
+                icon: SvgPicture.asset(
+                  AppImages.map,
+                  color: (_creatorVM.selectedPage == 1)
+                      ? Colors.white
+                      : Colors.black,
+                  width: AppLayout.height(context) * 0.04,
+                  height: AppLayout.height(context) * 0.04,
+                )),
+          ],
+        ),
       ),
     );
   }

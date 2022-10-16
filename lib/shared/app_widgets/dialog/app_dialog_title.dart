@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:flutter/material.dart';
 
@@ -22,9 +23,9 @@ class AppDialogTitle extends StatelessWidget {
           const AppSeparatorVertical(value: 0.01),
           Text(title.toUpperCase(),
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.shortestSide * 0.035,
+                fontSize: AppLayout.shortest(context) * 0.035,
                 fontWeight: FontWeight.bold,
-                letterSpacing: MediaQuery.of(context).size.shortestSide * 0.005,
+                letterSpacing: AppLayout.shortest(context) * 0.005,
                 fontFamily: 'Poppins',
                 color: Colors.black,
               )),

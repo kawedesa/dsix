@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 
 class AppText extends StatelessWidget {
@@ -18,8 +19,8 @@ class AppText extends StatelessWidget {
       text,
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: MediaQuery.of(context).size.shortestSide * fontSize,
-        letterSpacing: MediaQuery.of(context).size.shortestSide * letterSpacing,
+        fontSize: AppLayout.shortest(context) * fontSize,
+        letterSpacing: AppLayout.shortest(context) * letterSpacing,
         fontWeight: FontWeight.normal,
         fontFamily: 'Poppins',
         color: color,

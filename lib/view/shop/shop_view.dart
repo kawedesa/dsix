@@ -1,5 +1,7 @@
 import 'package:dsix/model/user.dart';
+import 'package:dsix/shared/app_exceptions.dart';
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
@@ -14,8 +16,10 @@ import '../../shared/app_widgets/dialog/app_shop_dialog.dart';
 
 class ShopView extends StatefulWidget {
   final Function() refresh;
-
-  const ShopView({Key? key, required this.refresh}) : super(key: key);
+  final Function(String, Color) displaySnackbar;
+  const ShopView(
+      {Key? key, required this.refresh, required this.displaySnackbar})
+      : super(key: key);
 
   @override
   State<ShopView> createState() => _ShopViewState();
@@ -35,8 +39,8 @@ class _ShopViewState extends State<ShopView> {
           value: 0.02,
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.shortestSide * 0.8,
-          height: MediaQuery.of(context).size.shortestSide * 0.075,
+          width: AppLayout.shortest(context) * 0.8,
+          height: AppLayout.height(context) * 0.06,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -107,13 +111,13 @@ class _ShopViewState extends State<ShopView> {
           value: 0.02,
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: MediaQuery.of(context).size.height * 0.6,
+          width: AppLayout.width(context) * 0.8,
+          height: AppLayout.height(context) * 0.55,
           child: GridView.count(
             physics: const ScrollPhysics(),
-            crossAxisCount: (MediaQuery.of(context).size.width * 0.01).toInt(),
-            mainAxisSpacing: MediaQuery.of(context).size.height * 0.025,
-            crossAxisSpacing: MediaQuery.of(context).size.width * 0.001,
+            crossAxisCount: (AppLayout.avarage(context) * 0.006).toInt(),
+            mainAxisSpacing: AppLayout.height(context) * 0.04,
+            crossAxisSpacing: AppLayout.width(context) * 0.01,
             children: List.generate(_shopVM.itemList.length, (index) {
               return GestureDetector(
                 onTap: () {
@@ -125,35 +129,48 @@ class _ShopViewState extends State<ShopView> {
                         color: user.color,
                         darkColor: user.darkColor,
                         buy: () {
-                          _shopVM.buyItem(
-                              _shopVM.itemList[index], user.player!);
+                          try {
+                            Navigator.pop(context);
+                            _shopVM.buyItem(
+                                _shopVM.itemList[index], user.player!);
+                          } on NotEnoughMoneyException catch (e) {
+                            widget.displaySnackbar(
+                                e.message.toUpperCase(), user.color);
+                          } on TooHeavyException catch (e) {
+                            widget.displaySnackbar(
+                                e.message.toUpperCase(), user.color);
+                          } on ItemBoughtException catch (e) {
+                            widget.displaySnackbar(
+                                e.itemValue.toUpperCase(), user.color);
+                          }
                           widget.refresh();
-                          Navigator.pop(context);
                         },
                       );
                     },
                   );
                 },
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.shortestSide * 0.005,
-                  height: MediaQuery.of(context).size.shortestSide * 0.1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: SvgPicture.asset(
-                          _shopVM.itemList[index].icon,
-                          color: Colors.white,
-                        ),
-                      ),
-                      AppText(
-                          text: _shopVM.itemList[index].value.toString(),
-                          fontSize: 0.025,
-                          letterSpacing: 0.004,
-                          color: user.color),
-                    ],
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SvgPicture.asset(
+                      _shopVM.itemList[index].icon,
+                      width: (AppLayout.width(context) +
+                              AppLayout.height(context)) *
+                          0.5 *
+                          0.05,
+                      height: (AppLayout.width(context) +
+                              AppLayout.height(context)) *
+                          0.5 *
+                          0.05,
+                      color: Colors.white,
+                    ),
+                    AppText(
+                        text: _shopVM.itemList[index].value.toString(),
+                        fontSize: 0.025,
+                        letterSpacing: 0.004,
+                        color: user.color),
+                  ],
                 ),
               );
             }),

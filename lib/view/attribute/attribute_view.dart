@@ -1,5 +1,6 @@
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_attribute_slider.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_text_dialog.dart';
@@ -34,11 +35,11 @@ class _AttributeViewState extends State<AttributeView> {
           color: user.darkColor,
         ),
         centerTitle: true,
-        toolbarHeight: MediaQuery.of(context).size.height * 0.06,
+        toolbarHeight: AppLayout.height(context) * 0.06,
         leading: Row(
           children: [
             const AppSeparatorHorizontal(
-              value: 0.01,
+              value: 0.005,
             ),
             GestureDetector(
               onTap: () {
@@ -47,7 +48,7 @@ class _AttributeViewState extends State<AttributeView> {
               child: Icon(
                 Icons.exit_to_app,
                 color: user.darkColor,
-                size: MediaQuery.of(context).size.height * 0.035,
+                size: AppLayout.height(context) * 0.035,
               ),
             ),
           ],
@@ -57,8 +58,8 @@ class _AttributeViewState extends State<AttributeView> {
       body: SafeArea(
         child: Center(
           child: SizedBox(
-            width: MediaQuery.of(context).size.shortestSide * 0.9,
-            height: MediaQuery.of(context).size.height * 0.85,
+            width: AppLayout.shortest(context) * 0.9,
+            height: AppLayout.height(context) * 0.85,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,

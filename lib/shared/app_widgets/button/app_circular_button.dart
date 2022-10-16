@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
@@ -32,7 +33,7 @@ class _AppCircularButtonState extends State<AppCircularButton> {
       duration: const Duration(milliseconds: 400),
       tween: Tween<double>(
         begin: 0.0,
-        end: MediaQuery.of(context).size.shortestSide * widget.size,
+        end: AppLayout.shortest(context) * widget.size,
       ),
       curve: Curves.easeOutCubic,
       builder: (_, double tweenValue, __) {
@@ -47,7 +48,7 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                     color: widget.color,
                     border: Border.all(
                       color: widget.borderColor,
-                      width: MediaQuery.of(context).size.shortestSide * 0.005,
+                      width: AppLayout.shortest(context) * 0.005,
                     ),
                   ),
                   child: GestureDetector(
@@ -73,7 +74,7 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                         child: ClipOval(
                           child: RiveAnimation.asset(
                             'assets/animations/ui/buttonAnimation.riv',
-                            fit: BoxFit.fill,
+                            fit: BoxFit.fitHeight,
                           ),
                         ),
                       )

@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
@@ -28,12 +29,12 @@ class _AppDialogButtonState extends State<AppDialogButton> {
         builder: (_, double aplhaValue, __) {
           return Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.shortestSide * 0.125,
+            height: AppLayout.shortest(context) * 0.125,
             decoration: BoxDecoration(
               color: Colors.black,
               border: Border.all(
                 color: widget.color,
-                width: MediaQuery.of(context).size.shortestSide * 0.004,
+                width: AppLayout.shortest(context) * 0.004,
               ),
             ),
             child: Stack(

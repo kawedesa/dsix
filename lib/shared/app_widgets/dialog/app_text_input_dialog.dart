@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_dialog_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_dialog_title.dart';
@@ -27,12 +28,12 @@ class _AppTextInputDialogState extends State<AppTextInputDialog> {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: MediaQuery.of(context).size.shortestSide * 0.6,
+        width: AppLayout.shortest(context) * 0.6,
         decoration: BoxDecoration(
           color: widget.color,
           border: Border.all(
             color: widget.color,
-            width: MediaQuery.of(context).size.shortestSide * 0.005,
+            width: AppLayout.shortest(context) * 0.005,
           ),
         ),
         child: Column(
@@ -62,11 +63,9 @@ class _AppTextInputDialogState extends State<AppTextInputDialog> {
                           widget.onConfirm(value);
                         },
                         style: TextStyle(
-                          fontSize:
-                              MediaQuery.of(context).size.shortestSide * 0.03,
+                          fontSize: AppLayout.shortest(context) * 0.03,
                           fontWeight: FontWeight.w500,
-                          letterSpacing:
-                              MediaQuery.of(context).size.shortestSide * 0.008,
+                          letterSpacing: AppLayout.shortest(context) * 0.008,
                           fontFamily: 'Poppins',
                           color: Colors.white,
                         ),

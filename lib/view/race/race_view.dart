@@ -1,6 +1,7 @@
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/text/app_bar_title.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
@@ -35,11 +36,11 @@ class _RaceViewState extends State<RaceView> {
           color: user.darkColor,
         ),
         centerTitle: true,
-        toolbarHeight: MediaQuery.of(context).size.height * 0.06,
+        toolbarHeight: AppLayout.height(context) * 0.06,
         leading: Row(
           children: [
             const AppSeparatorHorizontal(
-              value: 0.01,
+              value: 0.005,
             ),
             GestureDetector(
               onTap: () {
@@ -48,7 +49,7 @@ class _RaceViewState extends State<RaceView> {
               child: Icon(
                 Icons.exit_to_app,
                 color: user.darkColor,
-                size: MediaQuery.of(context).size.height * 0.035,
+                size: AppLayout.height(context) * 0.035,
               ),
             ),
           ],
@@ -58,8 +59,8 @@ class _RaceViewState extends State<RaceView> {
       body: SafeArea(
         child: Center(
           child: SizedBox(
-            width: MediaQuery.of(context).size.shortestSide * 0.9,
-            height: MediaQuery.of(context).size.height * 0.85,
+            width: AppLayout.shortest(context) * 0.9,
+            height: AppLayout.height(context) * 0.85,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -80,8 +81,8 @@ class _RaceViewState extends State<RaceView> {
                         },
                         size: 0.125),
                     SizedBox(
-                      width: MediaQuery.of(context).size.shortestSide * 0.5,
-                      height: MediaQuery.of(context).size.shortestSide * 0.55,
+                      width: AppLayout.shortest(context) * 0.5,
+                      height: AppLayout.shortest(context) * 0.55,
                       child: Stack(
                         children: [
                           Align(
@@ -113,7 +114,7 @@ class _RaceViewState extends State<RaceView> {
                 ),
                 const AppSeparatorVertical(value: 0.025),
                 SizedBox(
-                    width: MediaQuery.of(context).size.shortestSide * 0.4,
+                    width: AppLayout.shortest(context) * 0.4,
                     child: _raceVM.raceBonusIcons(context, user)),
                 const AppSeparatorVertical(value: 0.025),
                 AppTextButton(

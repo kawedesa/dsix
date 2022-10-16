@@ -117,7 +117,7 @@ class PlayerEquipment {
     }
   }
 
-  bool cantCarry(int itemWeight) {
+  bool tooHeavy(int itemWeight) {
     if (itemWeight > maxWeight - currentWeight) {
       return true;
     } else {

@@ -1,4 +1,5 @@
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_text_dialog.dart';
 import 'package:flutter/material.dart';
@@ -43,78 +44,58 @@ class _AppAttributeSliderState extends State<AppAttributeSlider> {
           onTap: () => widget.remove(),
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.shortestSide * 0.5,
-          height: MediaQuery.of(context).size.shortestSide * 0.05,
+          width: AppLayout.shortest(context) * 0.5,
+          height: AppLayout.shortest(context) * 0.05,
           child: Stack(
             children: [
               Align(
                 alignment: Alignment.center,
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.shortestSide * 0.01,
+                  height: AppLayout.shortest(context) * 0.01,
                   child: Stack(
                     children: [
                       Align(
                         alignment: Alignment.center,
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.shortestSide * 0.4,
+                          width: AppLayout.shortest(context) * 0.4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.shortestSide *
-                                        0.01,
-                                height:
-                                    MediaQuery.of(context).size.shortestSide *
-                                        0.01,
+                                width: AppLayout.shortest(context) * 0.01,
+                                height: AppLayout.shortest(context) * 0.01,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: widget.color,
                                 ),
                               ),
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.shortestSide *
-                                        0.01,
-                                height:
-                                    MediaQuery.of(context).size.shortestSide *
-                                        0.01,
+                                width: AppLayout.shortest(context) * 0.01,
+                                height: AppLayout.shortest(context) * 0.01,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: widget.color,
                                 ),
                               ),
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.shortestSide *
-                                        0.01,
-                                height:
-                                    MediaQuery.of(context).size.shortestSide *
-                                        0.01,
+                                width: AppLayout.shortest(context) * 0.01,
+                                height: AppLayout.shortest(context) * 0.01,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: widget.color,
                                 ),
                               ),
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.shortestSide *
-                                        0.01,
-                                height:
-                                    MediaQuery.of(context).size.shortestSide *
-                                        0.01,
+                                width: AppLayout.shortest(context) * 0.01,
+                                height: AppLayout.shortest(context) * 0.01,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: widget.color,
                                 ),
                               ),
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.shortestSide *
-                                        0.01,
-                                height:
-                                    MediaQuery.of(context).size.shortestSide *
-                                        0.01,
+                                width: AppLayout.shortest(context) * 0.01,
+                                height: AppLayout.shortest(context) * 0.01,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: widget.color,
@@ -127,8 +108,7 @@ class _AppAttributeSliderState extends State<AppAttributeSlider> {
                       Align(
                         alignment: Alignment.center,
                         child: Container(
-                          height:
-                              MediaQuery.of(context).size.shortestSide * 0.005,
+                          height: AppLayout.shortest(context) * 0.005,
                           width: double.infinity,
                           color: widget.color,
                         ),
@@ -144,7 +124,7 @@ class _AppAttributeSliderState extends State<AppAttributeSlider> {
                   iconColor: widget.iconColor,
                   color: widget.color,
                   borderColor: widget.color,
-                  size: 0.05,
+                  size: 0.07,
                   onTap: () {
                     showDialog(
                       context: context,

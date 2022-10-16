@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 
 class AppSeparatorShortest extends StatelessWidget {
@@ -9,13 +10,12 @@ class AppSeparatorShortest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (MediaQuery.of(context).size.width <
-            MediaQuery.of(context).size.height)
+    return (AppLayout.width(context) < AppLayout.height(context))
         ? SizedBox(
-            height: MediaQuery.of(context).size.shortestSide * value,
+            height: AppLayout.shortest(context) * value,
           )
         : SizedBox(
-            width: MediaQuery.of(context).size.shortestSide * value,
+            width: AppLayout.shortest(context) * value,
           );
   }
 }

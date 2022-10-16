@@ -1,6 +1,7 @@
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
@@ -41,8 +42,8 @@ class _HomeViewState extends State<HomeView> {
             child: SvgPicture.asset(
               AppImages.logo,
               color: Colors.grey,
-              width: MediaQuery.of(context).size.shortestSide * 0.15,
-              height: MediaQuery.of(context).size.shortestSide * 0.15,
+              width: AppLayout.shortest(context) * 0.15,
+              height: AppLayout.shortest(context) * 0.15,
             ),
           );
         case 1:
@@ -169,8 +170,8 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: Colors.black,
       body: SafeArea(
         child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          width: AppLayout.width(context),
+          height: AppLayout.height(context),
           child: Center(
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),

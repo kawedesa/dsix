@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 
 class AppTitle extends StatelessWidget {
@@ -14,8 +15,8 @@ class AppTitle extends StatelessWidget {
           decoration: TextDecoration.underline,
           decorationColor: color,
           color: Colors.transparent,
-          fontSize: MediaQuery.of(context).size.shortestSide * 0.075,
-          letterSpacing: MediaQuery.of(context).size.shortestSide * 0.01,
+          fontSize: AppLayout.shortest(context) * 0.075,
+          letterSpacing: AppLayout.shortest(context) * 0.01,
           fontFamily: 'Poppins',
         ));
   }

@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 
 class AppBarTitle extends StatelessWidget {
@@ -11,8 +12,8 @@ class AppBarTitle extends StatelessWidget {
     return Text(title.toUpperCase(),
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: MediaQuery.of(context).size.shortestSide * 0.025,
-          letterSpacing: MediaQuery.of(context).size.shortestSide * 0.008,
+          fontSize: AppLayout.shortest(context) * 0.025,
+          letterSpacing: AppLayout.shortest(context) * 0.008,
           fontFamily: 'Poppins',
           color: color,
         ));
