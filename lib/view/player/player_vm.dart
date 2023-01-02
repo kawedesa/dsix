@@ -8,7 +8,7 @@ class PlayerVM {
 
   int selectedPage = 0;
 
-  String pageTitle = 'profile';
+  String pageTitle = 'inventory';
 
   void changePage(int pageIndex) {
     selectedPage = pageIndex;
@@ -20,13 +20,13 @@ class PlayerVM {
   void changePageTitle() {
     switch (selectedPage) {
       case 0:
-        pageTitle = 'profile';
-        break;
-      case 1:
         pageTitle = 'inventory';
         break;
-      case 2:
+      case 1:
         pageTitle = 'shop';
+        break;
+      case 2:
+        pageTitle = 'profile';
         break;
     }
   }

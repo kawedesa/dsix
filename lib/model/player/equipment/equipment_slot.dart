@@ -1,9 +1,9 @@
 import 'package:dsix/model/item/item.dart';
 
-class PlayerEquipmentSlot {
+class EquipmentSlot {
   String name;
   Item item;
-  PlayerEquipmentSlot({required this.name, required this.item});
+  EquipmentSlot({required this.name, required this.item});
 
   Map<String, dynamic> toMap() {
     return {
@@ -12,22 +12,22 @@ class PlayerEquipmentSlot {
     };
   }
 
-  factory PlayerEquipmentSlot.fromMap(Map<String, dynamic>? data) {
-    return PlayerEquipmentSlot(
+  factory EquipmentSlot.fromMap(Map<String, dynamic>? data) {
+    return EquipmentSlot(
       name: data?['name'],
       item: Item.fromMap(data?['item']),
     );
   }
 
-  factory PlayerEquipmentSlot.fromItem(String slotName, Item item) {
-    return PlayerEquipmentSlot(
+  factory EquipmentSlot.fromItem(String slotName, Item item) {
+    return EquipmentSlot(
       name: slotName,
       item: item,
     );
   }
 
-  factory PlayerEquipmentSlot.empty(String slotName) {
-    return PlayerEquipmentSlot(
+  factory EquipmentSlot.empty(String slotName) {
+    return EquipmentSlot(
       name: slotName,
       item: Item.empty(),
     );
@@ -40,7 +40,7 @@ class PlayerEquipmentSlot {
     return false;
   }
 
-  void equip(PlayerEquipmentSlot equipmentSlot) {
+  void equip(EquipmentSlot equipmentSlot) {
     name = equipmentSlot.name;
     item = equipmentSlot.item;
   }

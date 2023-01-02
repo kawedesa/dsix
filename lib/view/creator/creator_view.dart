@@ -34,7 +34,7 @@ class _CreatorViewState extends State<CreatorView> {
         leading: Row(
           children: [
             const AppSeparatorHorizontal(
-              value: 0.005,
+              value: 0.003,
             ),
             GestureDetector(
               onTap: () {

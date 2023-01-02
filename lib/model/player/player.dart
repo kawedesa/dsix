@@ -1,5 +1,5 @@
 import 'package:dsix/model/player/attribute/player_attribute.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/player/equipment/player_equipment.dart';
 import 'package:dsix/model/player/life/player_life.dart';
 
@@ -20,6 +20,8 @@ class Player {
       required this.attributes,
       required this.equipment,
       required this.finished});
+
+  final database = FirebaseFirestore.instance;
 
   factory Player.newPlayer(String id) {
     return Player(
@@ -67,5 +69,14 @@ class Player {
   void finishPlayer(String name) {
     this.name = name;
     finished = true;
+  }
+
+  void updatePlayer() async {
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('players')
+        .doc(id)
+        .update(toMap());
   }
 }

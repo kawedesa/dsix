@@ -1,17 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/view/player/player_view.dart';
 import 'package:flutter/material.dart';
 
 class AttributeVM {
-  final database = FirebaseFirestore.instance;
-
   void addAttribute(Player player, String selectedAttribute) {
     if (player.attributes.availablePoints == 0) {
       return;
     }
     player.attributes.add(selectedAttribute);
-    updatePlayer(player);
+    player.updatePlayer();
   }
 
   void removeAttribute(Player player, String selectedAttribute) {
@@ -19,21 +16,12 @@ class AttributeVM {
       return;
     }
     player.attributes.remove(selectedAttribute, player.race);
-    updatePlayer(player);
+    player.updatePlayer();
   }
 
   void finishPlayer(Player player, String name) {
     player.finishPlayer(name);
-    updatePlayer(player);
-  }
-
-  void updatePlayer(Player player) async {
-    await database
-        .collection('game')
-        .doc('gameID')
-        .collection('players')
-        .doc(player.id)
-        .update(player.toMap());
+    player.updatePlayer();
   }
 
   void goToPlayerView(context) {

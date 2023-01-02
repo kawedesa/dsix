@@ -30,11 +30,11 @@ class _PlayerViewState extends State<PlayerView> {
   void displaySnackBar(String text, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: SizedBox(
-          height: AppLayout.height(context) * 0.05,
+          height: AppLayout.avarage(context) * 0.05,
           child: Center(
             child: AppText(
               text: text,
-              fontSize: 0.05,
+              fontSize: 0.03,
               letterSpacing: 0.005,
               color: Colors.white,
             ),
@@ -60,7 +60,7 @@ class _PlayerViewState extends State<PlayerView> {
         leading: Row(
           children: [
             const AppSeparatorHorizontal(
-              value: 0.005,
+              value: 0.003,
             ),
             GestureDetector(
               onTap: () {
@@ -141,12 +141,14 @@ class _PlayerViewState extends State<PlayerView> {
         child: PageView(
           controller: _playerVM.pageController,
           children: [
-            const ProfileView(),
-            const InventoryView(),
+            InventoryView(
+              refresh: () => refresh(),
+            ),
             ShopView(
               refresh: () => refresh(),
               displaySnackbar: (text, color) => displaySnackBar(text, color),
             ),
+            const ProfileView(),
           ],
         ),
       ),
@@ -164,20 +166,10 @@ class _PlayerViewState extends State<PlayerView> {
           },
           items: [
             BottomNavigationBarItem(
-                label: 'profile',
-                icon: SvgPicture.asset(
-                  AppImages.profile,
-                  color: (_playerVM.selectedPage == 0)
-                      ? user.lightColor
-                      : user.darkColor,
-                  width: AppLayout.height(context) * 0.04,
-                  height: AppLayout.height(context) * 0.04,
-                )),
-            BottomNavigationBarItem(
                 label: 'inventory',
                 icon: SvgPicture.asset(
                   AppImages.inventory,
-                  color: (_playerVM.selectedPage == 1)
+                  color: (_playerVM.selectedPage == 0)
                       ? user.lightColor
                       : user.darkColor,
                   width: AppLayout.height(context) * 0.04,
@@ -187,6 +179,16 @@ class _PlayerViewState extends State<PlayerView> {
                 label: 'shop',
                 icon: SvgPicture.asset(
                   AppImages.shop,
+                  color: (_playerVM.selectedPage == 1)
+                      ? user.lightColor
+                      : user.darkColor,
+                  width: AppLayout.height(context) * 0.04,
+                  height: AppLayout.height(context) * 0.04,
+                )),
+            BottomNavigationBarItem(
+                label: 'profile',
+                icon: SvgPicture.asset(
+                  AppImages.profile,
                   color: (_playerVM.selectedPage == 2)
                       ? user.lightColor
                       : user.darkColor,

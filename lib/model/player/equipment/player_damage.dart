@@ -1,3 +1,5 @@
+import '../../item/item.dart';
+
 class PlayerDamage {
   int pDamage;
   int mDamage;
@@ -32,23 +34,17 @@ class PlayerDamage {
     };
   }
 
-  void increasePDamage(int value) {
-    pDamage = pDamage + value;
+  void increaseDamage(Item item) {
+    pDamage += item.pDamage;
+    mDamage += item.mDamage;
   }
 
-  void decreasePDamage(int value) {
-    pDamage = pDamage - value;
+  void decreaseDamage(Item item) {
+    pDamage -= item.pDamage;
+    mDamage -= item.mDamage;
     if (pDamage < 0) {
       pDamage = 0;
     }
-  }
-
-  void increaseMDamage(int value) {
-    mDamage = mDamage + value;
-  }
-
-  void decreaseMDamage(int value) {
-    mDamage = mDamage - value;
     if (mDamage < 0) {
       mDamage = 0;
     }

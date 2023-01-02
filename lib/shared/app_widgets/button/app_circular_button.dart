@@ -74,7 +74,7 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                         child: ClipOval(
                           child: RiveAnimation.asset(
                             'assets/animations/ui/buttonAnimation.riv',
-                            fit: BoxFit.fitHeight,
+                            fit: BoxFit.fill,
                           ),
                         ),
                       )

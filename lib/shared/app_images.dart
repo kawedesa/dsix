@@ -26,12 +26,22 @@ class AppImages {
   static const settings = 'assets/images/ui/settings.svg';
   static const map = 'assets/images/ui/map.svg';
   static const profile = 'assets/images/ui/profile.svg';
-  static const inventory = 'assets/images/ui/inventory.svg';
+
   static const shop = 'assets/images/ui/shop.svg';
   static const meleeWeaponMenu = 'assets/images/ui/meleeWeaponMenu.svg';
   static const rangedWeaponMenu = 'assets/images/ui/rangedWeaponMenu.svg';
   static const armorMenu = 'assets/images/ui/armorMenu.svg';
   static const consumableMenu = 'assets/images/ui/consumableMenu.svg';
+  static const empty = 'assets/images/ui/empty.svg';
+
+  //Inventory
+  static const inventory = 'assets/images/ui/inventory.svg';
+  static const bodySlot = 'assets/images/ui/bodySlot.svg';
+  static const feetSlot = 'assets/images/ui/feetSlot.svg';
+  static const handSlot = 'assets/images/ui/handSlot.svg';
+  static const headSlot = 'assets/images/ui/headSlot.svg';
+  static const mainHandSlot = 'assets/images/ui/mainHandSlot.svg';
+  static const offHandSlot = 'assets/images/ui/offHandSlot.svg';
 
   //Item
   //Light Weapons

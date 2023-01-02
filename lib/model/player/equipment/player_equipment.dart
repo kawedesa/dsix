@@ -2,18 +2,18 @@ import 'package:dsix/model/item/item.dart';
 import 'player_armor.dart';
 import 'player_damage.dart';
 import 'player_attack_range.dart';
-import 'player_equipment_slot.dart';
+import 'equipment_slot.dart';
 
 class PlayerEquipment {
   PlayerArmor armor;
   PlayerDamage damage;
   PlayerAttackRange attackRange;
-  PlayerEquipmentSlot mainHandSlot;
-  PlayerEquipmentSlot offHandSlot;
-  PlayerEquipmentSlot headSlot;
-  PlayerEquipmentSlot bodySlot;
-  PlayerEquipmentSlot handSlot;
-  PlayerEquipmentSlot feetSlot;
+  EquipmentSlot mainHandSlot;
+  EquipmentSlot offHandSlot;
+  EquipmentSlot headSlot;
+  EquipmentSlot bodySlot;
+  EquipmentSlot handSlot;
+  EquipmentSlot feetSlot;
   List<Item> bag;
   int maxWeight;
   int currentWeight;
@@ -39,12 +39,12 @@ class PlayerEquipment {
       armor: PlayerArmor.empty(),
       damage: PlayerDamage.empty(),
       attackRange: PlayerAttackRange.empty(),
-      mainHandSlot: PlayerEquipmentSlot.empty('mainHandSlot'),
-      offHandSlot: PlayerEquipmentSlot.empty('offHandSlot'),
-      headSlot: PlayerEquipmentSlot.empty('headSlot'),
-      bodySlot: PlayerEquipmentSlot.empty('bodySlot'),
-      handSlot: PlayerEquipmentSlot.empty('handSlot'),
-      feetSlot: PlayerEquipmentSlot.empty('feetSlot'),
+      mainHandSlot: EquipmentSlot.empty('mainHandSlot'),
+      offHandSlot: EquipmentSlot.empty('offHandSlot'),
+      headSlot: EquipmentSlot.empty('headSlot'),
+      bodySlot: EquipmentSlot.empty('bodySlot'),
+      handSlot: EquipmentSlot.empty('handSlot'),
+      feetSlot: EquipmentSlot.empty('feetSlot'),
       bag: [],
       maxWeight: 0,
       currentWeight: 0,
@@ -64,12 +64,12 @@ class PlayerEquipment {
       armor: PlayerArmor.fromMap(data?['armor']),
       damage: PlayerDamage.fromMap(data?['damage']),
       attackRange: PlayerAttackRange.fromMap(data?['attackRange']),
-      mainHandSlot: PlayerEquipmentSlot.fromMap(data?['mainHandSlot']),
-      offHandSlot: PlayerEquipmentSlot.fromMap(data?['offHandSlot']),
-      headSlot: PlayerEquipmentSlot.fromMap(data?['headSlot']),
-      bodySlot: PlayerEquipmentSlot.fromMap(data?['bodySlot']),
-      handSlot: PlayerEquipmentSlot.fromMap(data?['handSlot']),
-      feetSlot: PlayerEquipmentSlot.fromMap(data?['feetSlot']),
+      mainHandSlot: EquipmentSlot.fromMap(data?['mainHandSlot']),
+      offHandSlot: EquipmentSlot.fromMap(data?['offHandSlot']),
+      headSlot: EquipmentSlot.fromMap(data?['headSlot']),
+      bodySlot: EquipmentSlot.fromMap(data?['bodySlot']),
+      handSlot: EquipmentSlot.fromMap(data?['handSlot']),
+      feetSlot: EquipmentSlot.fromMap(data?['feetSlot']),
       bag: bag,
       maxWeight: data?['maxWeight'],
       currentWeight: data?['currentWeight'],
@@ -123,5 +123,57 @@ class PlayerEquipment {
     } else {
       return false;
     }
+  }
+
+  void equip(EquipmentSlot slot, Item item) {
+    increaseDamageAndArmor(item);
+
+    if (item.itemSlot == 'two hands') {
+      unequip(mainHandSlot);
+      unequip(offHandSlot);
+      mainHandSlot.item = item;
+      offHandSlot.item = item;
+    } else {
+      unequip(slot);
+      slot.item = item;
+    }
+  }
+
+  //TODO Arrumar o bug do switch dos equipamentos. Ta multiplicando os itens. E tbm implementar o desequipar do equipamento fazendo o drag para o inventário.
+
+  void unequip(EquipmentSlot slot) {
+    if (slot.isEmpty()) {
+      return;
+    }
+
+    decreaseDamageAndArmor(slot.item);
+    bag.add(slot.item);
+
+    if (slot.item.itemSlot == 'twoHands') {
+      mainHandSlot.unequip();
+      offHandSlot.unequip();
+    } else {
+      slot.unequip();
+    }
+  }
+
+  void increaseDamageAndArmor(Item item) {
+    damage.increaseDamage(item);
+    armor.increaseArmor(item);
+    attackRange.increase(item);
+  }
+
+  void decreaseDamageAndArmor(Item item) {
+    damage.decreaseDamage(item);
+    armor.decreaseArmor(item);
+    attackRange.decrease(item);
+  }
+
+  void removeItemfromBag(Item item) {
+    bag.remove(item);
+  }
+
+  void addItemToBag(Item item) {
+    bag.add(item);
   }
 }

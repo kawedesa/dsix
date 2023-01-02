@@ -1,3 +1,5 @@
+import '../../item/item.dart';
+
 class PlayerArmor {
   int pArmor;
   int mArmor;
@@ -32,23 +34,17 @@ class PlayerArmor {
     };
   }
 
-  void increasePArmor(int value) {
-    pArmor = pArmor + value;
+  void increaseArmor(Item item) {
+    pArmor += item.pArmor;
+    mArmor += item.mArmor;
   }
 
-  void decreasePArmor(int value) {
-    pArmor = pArmor - value;
+  void decreaseArmor(Item item) {
+    pArmor -= item.pArmor;
+    mArmor -= item.mArmor;
     if (pArmor < 0) {
       pArmor = 0;
     }
-  }
-
-  void increaseMArmor(int value) {
-    mArmor = mArmor + value;
-  }
-
-  void decreaseMArmor(int value) {
-    mArmor = mArmor - value;
     if (mArmor < 0) {
       mArmor = 0;
     }

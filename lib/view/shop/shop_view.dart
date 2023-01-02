@@ -102,7 +102,7 @@ class _ShopViewState extends State<ShopView> {
         const AppSeparatorVertical(
           value: 0.02,
         ),
-        AppLineDividerHorizontal(color: user.color, value: 2),
+        AppLineDividerHorizontal(color: user.color, value: 4),
         const AppSeparatorVertical(
           value: 0.02,
         ),
