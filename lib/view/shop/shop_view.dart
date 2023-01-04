@@ -128,7 +128,7 @@ class _ShopViewState extends State<ShopView> {
                         item: _shopVM.itemList[index],
                         color: user.color,
                         darkColor: user.darkColor,
-                        buy: () {
+                        buyItem: () {
                           try {
                             Navigator.pop(context);
                             _shopVM.buyItem(

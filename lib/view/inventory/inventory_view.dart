@@ -9,6 +9,7 @@ import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/player/player_sprite.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
+import 'package:dsix/view/inventory/inventory_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,9 +22,14 @@ class InventoryView extends StatefulWidget {
 }
 
 class _InventoryViewState extends State<InventoryView> {
+  final InventoryVM _inventoryVM = InventoryVM();
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+
+    _inventoryVM.setInventorySlots(user, widget.refresh);
+    _inventoryVM.setBagSlots(user, widget.refresh);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -134,45 +140,15 @@ class _InventoryViewState extends State<InventoryView> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            InventorySlot(
-                                              color: user.color,
-                                              icon: AppImages.mainHandSlot,
-                                              equipmentSlot: user.player!
-                                                  .equipment.mainHandSlot,
-                                              onDragComplete: () {},
-                                              onAccept: (equipment) {},
-                                              onWillAccept: (equipment) {
-                                                return true;
-                                              },
-                                            ),
-                                            InventorySlot(
-                                              color: user.color,
-                                              icon: AppImages.headSlot,
-                                              equipmentSlot: user
-                                                  .player!.equipment.headSlot,
-                                              onDragComplete: () {},
-                                              onAccept: (equipment) {},
-                                              onWillAccept: (equipment) {
-                                                return true;
-                                              },
-                                            ),
+                                            _inventoryVM.mainHandSlot!,
+                                            _inventoryVM.headSlot!,
                                           ],
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            InventorySlot(
-                                              color: user.color,
-                                              icon: AppImages.handSlot,
-                                              equipmentSlot: user
-                                                  .player!.equipment.handSlot,
-                                              onDragComplete: () {},
-                                              onAccept: (equipment) {},
-                                              onWillAccept: (equipment) {
-                                                return true;
-                                              },
-                                            ),
+                                            _inventoryVM.handSlot!,
                                             Container(
                                               width:
                                                   AppLayout.avarage(context) *
@@ -207,28 +183,8 @@ class _InventoryViewState extends State<InventoryView> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            InventorySlot(
-                                              color: user.color,
-                                              icon: AppImages.bodySlot,
-                                              equipmentSlot: user
-                                                  .player!.equipment.bodySlot,
-                                              onDragComplete: () {},
-                                              onAccept: (equipment) {},
-                                              onWillAccept: (equipment) {
-                                                return true;
-                                              },
-                                            ),
-                                            InventorySlot(
-                                              color: user.color,
-                                              icon: AppImages.offHandSlot,
-                                              equipmentSlot: user.player!
-                                                  .equipment.offHandSlot,
-                                              onDragComplete: () {},
-                                              onAccept: (equipment) {},
-                                              onWillAccept: (equipment) {
-                                                return true;
-                                              },
-                                            ),
+                                            _inventoryVM.bodySlot!,
+                                            _inventoryVM.offHandSlot!,
                                           ],
                                         ),
                                         Row(
@@ -252,17 +208,7 @@ class _InventoryViewState extends State<InventoryView> {
                                                 ),
                                               ),
                                             ),
-                                            InventorySlot(
-                                              color: user.color,
-                                              icon: AppImages.feetSlot,
-                                              equipmentSlot: user
-                                                  .player!.equipment.feetSlot,
-                                              onDragComplete: () {},
-                                              onAccept: (equipment) {},
-                                              onWillAccept: (equipment) {
-                                                return true;
-                                              },
-                                            ),
+                                            _inventoryVM.feetSlot!,
                                           ],
                                         ),
                                       ],
@@ -278,39 +224,9 @@ class _InventoryViewState extends State<InventoryView> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      InventorySlot(
-                                        color: user.color,
-                                        icon: AppImages.headSlot,
-                                        equipmentSlot:
-                                            user.player!.equipment.headSlot,
-                                        onDragComplete: () {},
-                                        onAccept: (equipment) {},
-                                        onWillAccept: (equipment) {
-                                          return true;
-                                        },
-                                      ),
-                                      InventorySlot(
-                                        color: user.color,
-                                        icon: AppImages.mainHandSlot,
-                                        equipmentSlot:
-                                            user.player!.equipment.mainHandSlot,
-                                        onDragComplete: () {},
-                                        onAccept: (equipment) {},
-                                        onWillAccept: (equipment) {
-                                          return true;
-                                        },
-                                      ),
-                                      InventorySlot(
-                                        color: user.color,
-                                        icon: AppImages.handSlot,
-                                        equipmentSlot:
-                                            user.player!.equipment.handSlot,
-                                        onDragComplete: () {},
-                                        onAccept: (equipment) {},
-                                        onWillAccept: (equipment) {
-                                          return true;
-                                        },
-                                      ),
+                                      _inventoryVM.headSlot!,
+                                      _inventoryVM.mainHandSlot!,
+                                      _inventoryVM.handSlot!,
                                       Container(
                                         width:
                                             AppLayout.avarage(context) * 0.12,
@@ -332,39 +248,9 @@ class _InventoryViewState extends State<InventoryView> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      InventorySlot(
-                                        color: user.color,
-                                        icon: AppImages.bodySlot,
-                                        equipmentSlot:
-                                            user.player!.equipment.bodySlot,
-                                        onDragComplete: () {},
-                                        onAccept: (equipment) {},
-                                        onWillAccept: (equipment) {
-                                          return true;
-                                        },
-                                      ),
-                                      InventorySlot(
-                                        color: user.color,
-                                        icon: AppImages.offHandSlot,
-                                        equipmentSlot:
-                                            user.player!.equipment.offHandSlot,
-                                        onDragComplete: () {},
-                                        onAccept: (equipment) {},
-                                        onWillAccept: (equipment) {
-                                          return true;
-                                        },
-                                      ),
-                                      InventorySlot(
-                                        color: user.color,
-                                        icon: AppImages.feetSlot,
-                                        equipmentSlot:
-                                            user.player!.equipment.feetSlot,
-                                        onDragComplete: () {},
-                                        onAccept: (equipment) {},
-                                        onWillAccept: (equipment) {
-                                          return true;
-                                        },
-                                      ),
+                                      _inventoryVM.bodySlot!,
+                                      _inventoryVM.offHandSlot!,
+                                      _inventoryVM.feetSlot!,
                                       Container(
                                         width:
                                             AppLayout.avarage(context) * 0.12,
@@ -398,156 +284,17 @@ class _InventoryViewState extends State<InventoryView> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                InventorySlot(
-                                  color: user.color,
-                                  icon: AppImages.mainHandSlot,
-                                  equipmentSlot:
-                                      user.player!.equipment.mainHandSlot,
-                                  onDragComplete: () {
-                                    user.player!.equipment.unequip(
-                                        user.player!.equipment.mainHandSlot);
-                                  },
-                                  onAccept: (equipment) {
-                                    user.player!.equipment.equip(
-                                        user.player!.equipment.mainHandSlot,
-                                        equipment.item);
-                                    user.player!.updatePlayer();
-                                    widget.refresh();
-                                  },
-                                  onWillAccept: (equipment) {
-                                    if (equipment ==
-                                        user.player!.equipment.mainHandSlot) {
-                                      return false;
-                                    }
-                                    if (equipment.item.itemSlot ==
-                                            'two hands' ||
-                                        equipment.item.itemSlot == 'one hand') {
-                                      return true;
-                                    } else {
-                                      return false;
-                                    }
-                                  },
-                                ),
-                                InventorySlot(
-                                  color: user.color,
-                                  icon: AppImages.headSlot,
-                                  equipmentSlot:
-                                      user.player!.equipment.headSlot,
-                                  onDragComplete: () {
-                                    user.player!.equipment.unequip(
-                                        user.player!.equipment.headSlot);
-                                  },
-                                  onAccept: (equipment) {
-                                    user.player!.equipment.equip(
-                                        user.player!.equipment.headSlot,
-                                        equipment.item);
-                                    user.player!.updatePlayer();
-                                    widget.refresh();
-                                  },
-                                  onWillAccept: (equipment) {
-                                    if (equipment ==
-                                        user.player!.equipment.headSlot) {
-                                      return false;
-                                    }
-                                    if (equipment.item.itemSlot == 'head') {
-                                      return true;
-                                    } else {
-                                      return false;
-                                    }
-                                  },
-                                ),
-                                InventorySlot(
-                                  color: user.color,
-                                  icon: AppImages.bodySlot,
-                                  equipmentSlot:
-                                      user.player!.equipment.bodySlot,
-                                  onDragComplete: () {
-                                    user.player!.equipment.unequip(
-                                        user.player!.equipment.bodySlot);
-                                  },
-                                  onAccept: (equipment) {
-                                    user.player!.equipment.equip(
-                                        user.player!.equipment.bodySlot,
-                                        equipment.item);
-                                    user.player!.updatePlayer();
-                                    widget.refresh();
-                                  },
-                                  onWillAccept: (equipment) {
-                                    if (equipment ==
-                                        user.player!.equipment.bodySlot) {
-                                      return false;
-                                    }
-                                    if (equipment.item.itemSlot == 'body') {
-                                      return true;
-                                    } else {
-                                      return false;
-                                    }
-                                  },
-                                ),
-                                InventorySlot(
-                                  color: user.color,
-                                  icon: AppImages.offHandSlot,
-                                  equipmentSlot:
-                                      user.player!.equipment.offHandSlot,
-                                  onDragComplete: () {
-                                    user.player!.equipment.unequip(
-                                        user.player!.equipment.offHandSlot);
-                                  },
-                                  onAccept: (equipment) {
-                                    user.player!.equipment.equip(
-                                        user.player!.equipment.offHandSlot,
-                                        equipment.item);
-                                    user.player!.updatePlayer();
-                                    widget.refresh();
-                                  },
-                                  onWillAccept: (equipment) {
-                                    if (equipment ==
-                                        user.player!.equipment.offHandSlot) {
-                                      return false;
-                                    }
-                                    if (equipment.item.itemSlot ==
-                                            'two hands' ||
-                                        equipment.item.itemSlot == 'one hand') {
-                                      return true;
-                                    } else {
-                                      return false;
-                                    }
-                                  },
-                                ),
+                                _inventoryVM.mainHandSlot!,
+                                _inventoryVM.headSlot!,
+                                _inventoryVM.bodySlot!,
+                                _inventoryVM.offHandSlot!,
                               ],
                             ),
                             PlayerSprite(race: user.player!.race),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                InventorySlot(
-                                  color: user.color,
-                                  icon: AppImages.handSlot,
-                                  equipmentSlot:
-                                      user.player!.equipment.handSlot,
-                                  onDragComplete: () {
-                                    user.player!.equipment.unequip(
-                                        user.player!.equipment.handSlot);
-                                  },
-                                  onAccept: (equipment) {
-                                    user.player!.equipment.equip(
-                                        user.player!.equipment.handSlot,
-                                        equipment.item);
-                                    user.player!.updatePlayer();
-                                    widget.refresh();
-                                  },
-                                  onWillAccept: (equipment) {
-                                    if (equipment ==
-                                        user.player!.equipment.handSlot) {
-                                      return false;
-                                    }
-                                    if (equipment.item.itemSlot == 'hands') {
-                                      return true;
-                                    } else {
-                                      return false;
-                                    }
-                                  },
-                                ),
+                                _inventoryVM.handSlot!,
                                 Container(
                                   width: AppLayout.avarage(context) * 0.12,
                                   height: AppLayout.avarage(context) * 0.12,
@@ -572,34 +319,7 @@ class _InventoryViewState extends State<InventoryView> {
                                     ),
                                   ),
                                 ),
-                                InventorySlot(
-                                  color: user.color,
-                                  icon: AppImages.feetSlot,
-                                  equipmentSlot:
-                                      user.player!.equipment.feetSlot,
-                                  onDragComplete: () {
-                                    user.player!.equipment.unequip(
-                                        user.player!.equipment.feetSlot);
-                                  },
-                                  onAccept: (equipment) {
-                                    user.player!.equipment.equip(
-                                        user.player!.equipment.feetSlot,
-                                        equipment.item);
-                                    user.player!.updatePlayer();
-                                    widget.refresh();
-                                  },
-                                  onWillAccept: (equipment) {
-                                    if (equipment ==
-                                        user.player!.equipment.feetSlot) {
-                                      return false;
-                                    }
-                                    if (equipment.item.itemSlot == 'feet') {
-                                      return true;
-                                    } else {
-                                      return false;
-                                    }
-                                  },
-                                ),
+                                _inventoryVM.feetSlot!,
                               ],
                             ),
                           ],
@@ -608,59 +328,7 @@ class _InventoryViewState extends State<InventoryView> {
                     ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Stack(
-                  children: [
-                    GridView.count(
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      crossAxisCount: (AppLayout.width(context) >
-                              AppLayout.height(context) * 0.8)
-                          ? 14
-                          : 7,
-                      children: List.generate(14, (index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            border: Border.all(
-                              color: user.color,
-                              width: AppLayout.shortest(context) * 0.004,
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                    GridView.count(
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      crossAxisCount: (AppLayout.width(context) >
-                              AppLayout.height(context) * 0.8)
-                          ? 14
-                          : 7,
-                      children: List.generate(user.player!.equipment.bag.length,
-                          (index) {
-                        return InventorySlot(
-                          color: user.color,
-                          icon: user.player!.equipment.bag[index].icon,
-                          equipmentSlot: EquipmentSlot(
-                              name: 'bag',
-                              item: user.player!.equipment.bag[index]),
-                          onDragComplete: () {
-                            user.player!.equipment.removeItemfromBag(
-                                user.player!.equipment.bag[index]);
-                          },
-                          onAccept: (equipment) {
-                            user.player!.equipment.addItemToBag(equipment.item);
-                            user.player!.updatePlayer();
-                            widget.refresh();
-                          },
-                          onWillAccept: (equipment) {
-                            return true;
-                          },
-                        );
-                      }),
-                    ),
-                  ],
-                ),
+                child: _inventoryVM.bagSlot,
               ),
             ],
           ),

@@ -12,17 +12,17 @@ import '../layout/app_separator_horizontal.dart';
 import '../layout/app_separator_vertical.dart';
 import '../text/app_text.dart';
 
-class AppShopDialog extends StatelessWidget {
+class AppItemDialog extends StatelessWidget {
   final Color color;
   final Color darkColor;
   final Item item;
-  final Function() buyItem;
-  const AppShopDialog({
+  final Function() sellItem;
+  const AppItemDialog({
     super.key,
     required this.color,
     required this.darkColor,
     required this.item,
-    required this.buyItem,
+    required this.sellItem,
   });
 
   @override
@@ -261,7 +261,12 @@ class AppShopDialog extends StatelessWidget {
                     ],
                   ),
                   AppDialogButton(
-                      color: color, buttonText: 'buy', onTap: () => buyItem()),
+                      color: color,
+                      buttonText: 'sell',
+                      onTap: () {
+                        sellItem();
+                        Navigator.pop(context);
+                      }),
                 ],
               ),
             ),

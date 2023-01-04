@@ -90,7 +90,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.08),
+                size: 0.09),
             AppCircularButton(
                 color: user.color,
                 borderColor: user.color,
@@ -108,7 +108,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.08),
+                size: 0.09),
             AppCircularButton(
                 color: AppColors.negative,
                 borderColor: AppColors.negative,
@@ -126,7 +126,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.08),
+                size: 0.09),
           ],
         );
 
@@ -152,7 +152,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.08),
+                size: 0.09),
             AppCircularButton(
                 color: user.color,
                 borderColor: user.color,
@@ -170,7 +170,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.08),
+                size: 0.09),
             AppCircularButton(
                 color: AppColors.negative,
                 borderColor: AppColors.negative,
@@ -188,7 +188,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.08),
+                size: 0.09),
           ],
         );
         break;
@@ -213,7 +213,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.08),
+                size: 0.09),
             AppCircularButton(
                 color: user.color,
                 borderColor: user.color,
@@ -231,7 +231,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.08),
+                size: 0.09),
             AppCircularButton(
                 color: AppColors.negative,
                 borderColor: AppColors.negative,
@@ -249,7 +249,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.08),
+                size: 0.09),
           ],
         );
         break;

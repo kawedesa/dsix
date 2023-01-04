@@ -45,7 +45,7 @@ class _AppAttributeSliderState extends State<AppAttributeSlider> {
         ),
         SizedBox(
           width: AppLayout.shortest(context) * 0.5,
-          height: AppLayout.shortest(context) * 0.05,
+          height: AppLayout.shortest(context) * 0.09,
           child: Stack(
             children: [
               Align(
@@ -124,7 +124,7 @@ class _AppAttributeSliderState extends State<AppAttributeSlider> {
                   iconColor: widget.iconColor,
                   color: widget.color,
                   borderColor: widget.color,
-                  size: 0.07,
+                  size: 0.09,
                   onTap: () {
                     showDialog(
                       context: context,

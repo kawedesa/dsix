@@ -48,7 +48,7 @@ class PlayerEquipment {
       bag: [],
       maxWeight: 0,
       currentWeight: 0,
-      money: 300,
+      money: 1000,
     );
   }
 
@@ -139,7 +139,11 @@ class PlayerEquipment {
     }
   }
 
-  //TODO Arrumar o bug do switch dos equipamentos. Ta multiplicando os itens. E tbm implementar o desequipar do equipamento fazendo o drag para o inventário.
+  void switchEquipments() {
+    Item tempItem = mainHandSlot.item;
+    mainHandSlot.item = offHandSlot.item;
+    offHandSlot.item = tempItem;
+  }
 
   void unequip(EquipmentSlot slot) {
     if (slot.isEmpty()) {
@@ -149,7 +153,7 @@ class PlayerEquipment {
     decreaseDamageAndArmor(slot.item);
     bag.add(slot.item);
 
-    if (slot.item.itemSlot == 'twoHands') {
+    if (slot.item.itemSlot == 'two hands') {
       mainHandSlot.unequip();
       offHandSlot.unequip();
     } else {
@@ -176,4 +180,16 @@ class PlayerEquipment {
   void addItemToBag(Item item) {
     bag.add(item);
   }
+
+  void sellItem(EquipmentSlot slot) {
+    Item tempItem = slot.item;
+
+    if (slot.name != 'bag') {
+      unequip(slot);
+    }
+    removeItemfromBag(tempItem);
+    money += tempItem.value ~/ 2;
+  }
+
+  void useItem(EquipmentSlot slot) {}
 }

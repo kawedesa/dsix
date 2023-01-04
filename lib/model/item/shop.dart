@@ -407,7 +407,7 @@ class Shop {
       weight: 0,
       value: 100,
       maxRange: 60,
-      minRange: 60,
+      minRange: 50,
     ),
     Item(
       icon: AppImages.boomerang,
@@ -422,7 +422,7 @@ class Shop {
       weight: 1,
       value: 100,
       maxRange: 40,
-      minRange: 40,
+      minRange: 30,
     ),
     Item(
       icon: AppImages.javelins,
@@ -437,7 +437,7 @@ class Shop {
       weight: 1,
       value: 200,
       maxRange: 40,
-      minRange: 40,
+      minRange: 30,
     ),
     Item(
       icon: AppImages.grenades,
@@ -452,7 +452,7 @@ class Shop {
       weight: 1,
       value: 200,
       maxRange: 40,
-      minRange: 40,
+      minRange: 30,
     ),
     Item(
       icon: AppImages.magicOrb,
@@ -512,7 +512,7 @@ class Shop {
       weight: 1,
       value: 300,
       maxRange: 40,
-      minRange: 40,
+      minRange: 30,
     ),
     Item(
       icon: AppImages.handCrossbow,
@@ -527,7 +527,7 @@ class Shop {
       weight: 2,
       value: 400,
       maxRange: 40,
-      minRange: 40,
+      minRange: 30,
     ),
     Item(
       icon: AppImages.longBow,
@@ -602,7 +602,7 @@ class Shop {
       weight: 0,
       value: 600,
       maxRange: 40,
-      minRange: 40,
+      minRange: 30,
     ),
     Item(
       icon: AppImages.heavyCrossbow,
@@ -647,7 +647,7 @@ class Shop {
       weight: 3,
       value: 700,
       maxRange: 60,
-      minRange: 60,
+      minRange: 50,
     ),
   ];
 
