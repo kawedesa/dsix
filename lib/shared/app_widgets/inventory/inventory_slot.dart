@@ -75,29 +75,32 @@ class _InventorySlotState extends State<InventorySlot> {
                         },
                       );
                     },
-                    child: Draggable<EquipmentSlot>(
-                      data: widget.equipmentSlot,
-                      feedback: SizedBox(
-                        width: AppLayout.shortest(context) * 0.15,
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: AppCircularButton(
-                            size: 0.15,
-                            color: widget.color,
-                            borderColor: widget.color,
-                            icon: widget.equipmentSlot.item.icon,
-                            iconColor: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Draggable<EquipmentSlot>(
+                        data: widget.equipmentSlot,
+                        feedback: SizedBox(
+                          width: AppLayout.shortest(context) * 0.15,
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: AppCircularButton(
+                              size: 0.15,
+                              color: widget.color,
+                              borderColor: widget.color,
+                              icon: widget.equipmentSlot.item.icon,
+                              iconColor: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      onDragCompleted: () => widget.onDragComplete(),
-                      childWhenDragging: SvgPicture.asset(
-                        widget.equipmentSlot.item.icon,
-                        color: widget.color.withAlpha(155),
-                      ),
-                      child: SvgPicture.asset(
-                        widget.equipmentSlot.item.icon,
-                        color: Colors.white,
+                        onDragCompleted: () => widget.onDragComplete(),
+                        childWhenDragging: SvgPicture.asset(
+                          widget.equipmentSlot.item.icon,
+                          color: widget.color.withAlpha(155),
+                        ),
+                        child: SvgPicture.asset(
+                          widget.equipmentSlot.item.icon,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),

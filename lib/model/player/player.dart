@@ -66,12 +66,21 @@ class Player {
     equipment.setWeight(race);
   }
 
-  void finishPlayer(String name) {
+  void finish(String name) {
     this.name = name;
     finished = true;
   }
 
-  void updatePlayer() async {
+  void set() async {
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('players')
+        .doc(id)
+        .set(toMap());
+  }
+
+  void update() async {
     await database
         .collection('game')
         .doc('gameID')

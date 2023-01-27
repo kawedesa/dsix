@@ -143,6 +143,7 @@ class _PlayerViewState extends State<PlayerView> {
           children: [
             InventoryView(
               refresh: () => refresh(),
+              displaySnackbar: (text, color) => displaySnackBar(text, color),
             ),
             ShopView(
               refresh: () => refresh(),

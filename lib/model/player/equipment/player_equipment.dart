@@ -1,4 +1,5 @@
 import 'package:dsix/model/item/item.dart';
+import 'package:dsix/shared/app_exceptions.dart';
 import 'player_armor.dart';
 import 'player_damage.dart';
 import 'player_attack_range.dart';
@@ -104,11 +105,6 @@ class PlayerEquipment {
     }
   }
 
-  void getItem(Item item) {
-    currentWeight += item.weight;
-    bag.add(item);
-  }
-
   bool notEnoughMoney(int itemValue) {
     if (itemValue > money) {
       return true;
@@ -177,18 +173,25 @@ class PlayerEquipment {
     bag.remove(item);
   }
 
-  void addItemToBag(Item item) {
+  void buyItem(Item item) {
+    money -= item.value;
+    currentWeight += item.weight;
     bag.add(item);
   }
 
   void sellItem(EquipmentSlot slot) {
     Item tempItem = slot.item;
+    int itemValue = tempItem.value ~/ 2;
 
     if (slot.name != 'bag') {
       unequip(slot);
     }
+
+    money += itemValue;
+    currentWeight -= tempItem.weight;
     removeItemfromBag(tempItem);
-    money += tempItem.value ~/ 2;
+
+    throw ItemSoldException('+ \$$itemValue');
   }
 
   void useItem(EquipmentSlot slot) {}

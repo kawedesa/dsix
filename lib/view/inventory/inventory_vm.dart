@@ -1,4 +1,5 @@
 import 'package:dsix/model/user.dart';
+import 'package:dsix/shared/app_exceptions.dart';
 import 'package:dsix/shared/app_widgets/inventory/inventory_slot.dart';
 import 'package:flutter/material.dart';
 import '../../model/player/equipment/equipment_slot.dart';
@@ -14,7 +15,8 @@ class InventoryVM {
   InventorySlot? feetSlot;
   DragTarget<EquipmentSlot>? bagSlot;
 
-  void setInventorySlots(User user, Function() refresh) {
+  void setInventorySlots(
+      User user, Function() refresh, Function(String, Color) displaySnackbar) {
     mainHandSlot = InventorySlot(
       color: user.color,
       darkColor: user.darkColor,
@@ -28,7 +30,7 @@ class InventoryVM {
           user.player!.equipment
               .equip(user.player!.equipment.mainHandSlot, equipment.item);
         }
-        user.player!.updatePlayer();
+        user.player!.update();
         refresh();
       },
       onWillAccept: (equipment) {
@@ -43,8 +45,13 @@ class InventoryVM {
         }
       },
       sellItem: () {
-        user.player!.equipment.sellItem(user.player!.equipment.mainHandSlot);
-        user.player!.updatePlayer();
+        try {
+          user.player!.equipment.sellItem(user.player!.equipment.mainHandSlot);
+        } on ItemSoldException catch (e) {
+          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+        }
+
+        user.player!.update();
         refresh();
       },
       useItem: () {},
@@ -59,7 +66,7 @@ class InventoryVM {
       onAccept: (equipment) {
         user.player!.equipment
             .equip(user.player!.equipment.headSlot, equipment.item);
-        user.player!.updatePlayer();
+        user.player!.update();
         refresh();
       },
       onWillAccept: (equipment) {
@@ -73,8 +80,13 @@ class InventoryVM {
         }
       },
       sellItem: () {
-        user.player!.equipment.sellItem(user.player!.equipment.headSlot);
-        user.player!.updatePlayer();
+        try {
+          user.player!.equipment.sellItem(user.player!.equipment.headSlot);
+        } on ItemSoldException catch (e) {
+          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+        }
+
+        user.player!.update();
         refresh();
       },
       useItem: () {},
@@ -89,7 +101,7 @@ class InventoryVM {
       onAccept: (equipment) {
         user.player!.equipment
             .equip(user.player!.equipment.bodySlot, equipment.item);
-        user.player!.updatePlayer();
+        user.player!.update();
         refresh();
       },
       onWillAccept: (equipment) {
@@ -103,8 +115,13 @@ class InventoryVM {
         }
       },
       sellItem: () {
-        user.player!.equipment.sellItem(user.player!.equipment.bodySlot);
-        user.player!.updatePlayer();
+        try {
+          user.player!.equipment.sellItem(user.player!.equipment.bodySlot);
+        } on ItemSoldException catch (e) {
+          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+        }
+
+        user.player!.update();
         refresh();
       },
       useItem: () {},
@@ -123,7 +140,7 @@ class InventoryVM {
           user.player!.equipment
               .equip(user.player!.equipment.offHandSlot, equipment.item);
         }
-        user.player!.updatePlayer();
+        user.player!.update();
         refresh();
       },
       onWillAccept: (equipment) {
@@ -138,8 +155,13 @@ class InventoryVM {
         }
       },
       sellItem: () {
-        user.player!.equipment.sellItem(user.player!.equipment.offHandSlot);
-        user.player!.updatePlayer();
+        try {
+          user.player!.equipment.sellItem(user.player!.equipment.offHandSlot);
+        } on ItemSoldException catch (e) {
+          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+        }
+
+        user.player!.update();
         refresh();
       },
       useItem: () {},
@@ -154,7 +176,7 @@ class InventoryVM {
       onAccept: (equipment) {
         user.player!.equipment
             .equip(user.player!.equipment.handSlot, equipment.item);
-        user.player!.updatePlayer();
+        user.player!.update();
         refresh();
       },
       onWillAccept: (equipment) {
@@ -168,8 +190,13 @@ class InventoryVM {
         }
       },
       sellItem: () {
-        user.player!.equipment.sellItem(user.player!.equipment.handSlot);
-        user.player!.updatePlayer();
+        try {
+          user.player!.equipment.sellItem(user.player!.equipment.handSlot);
+        } on ItemSoldException catch (e) {
+          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+        }
+
+        user.player!.update();
         refresh();
       },
       useItem: () {},
@@ -184,7 +211,7 @@ class InventoryVM {
       onAccept: (equipment) {
         user.player!.equipment
             .equip(user.player!.equipment.feetSlot, equipment.item);
-        user.player!.updatePlayer();
+        user.player!.update();
         refresh();
       },
       onWillAccept: (equipment) {
@@ -198,20 +225,25 @@ class InventoryVM {
         }
       },
       sellItem: () {
-        user.player!.equipment.sellItem(user.player!.equipment.feetSlot);
-        user.player!.updatePlayer();
+        try {
+          user.player!.equipment.sellItem(user.player!.equipment.feetSlot);
+        } on ItemSoldException catch (e) {
+          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+        }
+        user.player!.update();
         refresh();
       },
       useItem: () {},
     );
   }
 
-  void setBagSlots(User user, Function() refresh) {
+  void setBagSlots(
+      User user, Function() refresh, Function(String, Color) displaySnackbar) {
     bagSlot = DragTarget<EquipmentSlot>(onWillAccept: (equipment) {
       return true;
     }, onAccept: (equipment) {
       user.player!.equipment.unequip(equipment);
-      user.player!.updatePlayer();
+      user.player!.update();
       refresh();
     }, builder: (
       BuildContext context,
@@ -262,12 +294,19 @@ class InventoryVM {
                   return false;
                 },
                 sellItem: () {
-                  user.player!.equipment.sellItem(EquipmentSlot(
-                      name: 'bag', item: user.player!.equipment.bag[index]));
-                  user.player!.updatePlayer();
+                  try {
+                    user.player!.equipment.sellItem(EquipmentSlot(
+                        name: 'bag', item: user.player!.equipment.bag[index]));
+                  } on ItemSoldException catch (e) {
+                    displaySnackbar(e.itemValue.toUpperCase(), user.color);
+                  }
+
+                  user.player!.update();
                   refresh();
                 },
                 useItem: () {
+                  //TODO implement use items
+
                   // user.player!.equipment.useItem(EquipmentSlot(
                   //     name: 'bag', item: user.player!.equipment.bag[index]));
                 },

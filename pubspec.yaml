@@ -73,6 +73,7 @@ flutter:
     - 'assets/images/sprites/'
     - 'assets/images/ui/'
     - 'assets/images/items/'
+    - 'assets/images/maps/'
     - 'assets/animations/ui/'
     
   

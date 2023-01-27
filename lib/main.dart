@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 
         //GAME
         StreamProvider<Game>(
-          initialData: Game.newGame(),
+          initialData: Game.newGame(0),
           create: (context) => database
               .collection('game')
               .doc('gameID')

@@ -4,7 +4,7 @@ class AppColors {
 //UI
 
   static const uiColor = Color.fromARGB(255, 158, 158, 158);
-
+  static const uiColorDark = Color.fromARGB(255, 104, 104, 104);
   static const positive = Color.fromARGB(255, 49, 145, 46);
   static const negative = Color.fromARGB(255, 193, 23, 8);
 

@@ -66,8 +66,7 @@ class ShopVM {
     if (player.equipment.tooHeavy(item.weight)) {
       throw TooHeavyException();
     }
-    player.equipment.money -= item.value;
-    player.equipment.getItem(item);
+    player.equipment.buyItem(item);
     updatePlayer(player);
 
     throw ItemBoughtException('- \$${item.value}');

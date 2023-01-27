@@ -8,7 +8,7 @@ class AttributeVM {
       return;
     }
     player.attributes.add(selectedAttribute);
-    player.updatePlayer();
+    player.update();
   }
 
   void removeAttribute(Player player, String selectedAttribute) {
@@ -16,12 +16,12 @@ class AttributeVM {
       return;
     }
     player.attributes.remove(selectedAttribute, player.race);
-    player.updatePlayer();
+    player.update();
   }
 
   void finishPlayer(Player player, String name) {
-    player.finishPlayer(name);
-    player.updatePlayer();
+    player.finish(name);
+    player.update();
   }
 
   void goToPlayerView(context) {

@@ -122,7 +122,7 @@ class AppImages {
   static const food = 'assets/images/items/food.svg';
   static const healingPotion = 'assets/images/items/healingPotion.svg';
 
-  //RACES
+  //Races
   static const dwarfBody = 'assets/images/sprites/dwarfBody.svg';
   static const dwarfHead = 'assets/images/sprites/dwarfHead.svg';
 
@@ -131,4 +131,7 @@ class AppImages {
 
   static const elfBody = 'assets/images/sprites/elfBody.svg';
   static const elfHead = 'assets/images/sprites/elfHead.svg';
+
+  //Map
+  static const oldRuins = 'assets/images/maps/oldRuins.svg';
 }

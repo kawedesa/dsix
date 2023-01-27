@@ -11,6 +11,10 @@ class AppLayout {
     return MediaQuery.of(context).size.shortestSide;
   }
 
+  static double longest(context) {
+    return MediaQuery.of(context).size.longestSide;
+  }
+
   static double height(context) {
     return MediaQuery.of(context).size.height;
   }

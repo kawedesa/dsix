@@ -1,15 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/view/creator/creator_view.dart';
 import 'package:flutter/material.dart';
-
 import '../race/race_view.dart';
 
 class HomeVM {
-  final database = FirebaseFirestore.instance;
-
   int menuIndex = 0;
 
   void goToTheStart() {
@@ -25,25 +21,15 @@ class HomeVM {
   }
 
   void choosePlayer(context, Game game, User user, String color) {
-    newPlayer(user, color);
-    removeAvailablePlayer(game, color);
+    newPlayer(game, user, color);
+    game.removeAvailablePlayer(color);
     goToRaceView(context);
   }
 
-  void newPlayer(User user, String color) async {
+  void newPlayer(Game game, User user, String color) {
     Player newPlayer = Player.newPlayer(color);
     user.selectPlayer(newPlayer);
-    await database
-        .collection('game')
-        .doc('gameID')
-        .collection('players')
-        .doc(color)
-        .set(newPlayer.toMap());
-  }
-
-  void removeAvailablePlayer(Game game, String color) async {
-    game.availablePlayers.remove(color);
-    await database.collection('game').doc('gameID').update(game.toMap());
+    newPlayer.set();
   }
 
   void goToControllerHubView(context) {

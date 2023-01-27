@@ -1,9 +1,7 @@
-import 'package:dsix/model/player/equipment/equipment_slot.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
-import 'package:dsix/shared/app_widgets/inventory/inventory_slot.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
@@ -15,7 +13,10 @@ import 'package:provider/provider.dart';
 
 class InventoryView extends StatefulWidget {
   final Function() refresh;
-  const InventoryView({Key? key, required this.refresh}) : super(key: key);
+  final Function(String, Color) displaySnackbar;
+  const InventoryView(
+      {Key? key, required this.refresh, required this.displaySnackbar})
+      : super(key: key);
 
   @override
   State<InventoryView> createState() => _InventoryViewState();
@@ -28,8 +29,9 @@ class _InventoryViewState extends State<InventoryView> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    _inventoryVM.setInventorySlots(user, widget.refresh);
-    _inventoryVM.setBagSlots(user, widget.refresh);
+    _inventoryVM.setInventorySlots(
+        user, widget.refresh, widget.displaySnackbar);
+    _inventoryVM.setBagSlots(user, widget.refresh, widget.displaySnackbar);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,

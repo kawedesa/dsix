@@ -15,3 +15,9 @@ class ItemBoughtException implements Exception {
 
   ItemBoughtException(this.itemValue);
 }
+
+class ItemSoldException implements Exception {
+  String itemValue;
+
+  ItemSoldException(this.itemValue);
+}

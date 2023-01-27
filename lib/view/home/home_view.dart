@@ -27,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
     final user = Provider.of<User>(context);
-
+//Ajustar isso aqui. Preciso passar pro VM
     Widget homeMenu() {
       Widget menu = const SizedBox();
 
@@ -72,7 +72,7 @@ class _HomeViewState extends State<HomeView> {
             Align(
               alignment: Alignment.center,
               child: AppCircularButton(
-                  color: Colors.transparent,
+                  color: Colors.black,
                   borderColor: AppColors.uiColor,
                   iconColor: AppColors.uiColor,
                   icon: AppImages.cancel,
@@ -102,7 +102,7 @@ class _HomeViewState extends State<HomeView> {
                 AppCircularButton(
                   color: (game.availablePlayers.contains('blue'))
                       ? AppColors.blue
-                      : Colors.transparent,
+                      : AppColors.blue.withAlpha(15),
                   borderColor: AppColors.blueDark,
                   size: 0.2,
                   onTap: (game.availablePlayers.contains('blue'))
@@ -114,7 +114,7 @@ class _HomeViewState extends State<HomeView> {
                 AppCircularButton(
                   color: (game.availablePlayers.contains('yellow'))
                       ? AppColors.yellow
-                      : Colors.transparent,
+                      : AppColors.yellow.withAlpha(15),
                   borderColor: AppColors.yellowDark,
                   size: 0.2,
                   onTap: (game.availablePlayers.contains('yellow'))
@@ -126,7 +126,7 @@ class _HomeViewState extends State<HomeView> {
                 AppCircularButton(
                   color: (game.availablePlayers.contains('green'))
                       ? AppColors.green
-                      : Colors.transparent,
+                      : AppColors.green.withAlpha(15),
                   borderColor: AppColors.greenDark,
                   size: 0.2,
                   onTap: (game.availablePlayers.contains('green'))
@@ -138,7 +138,7 @@ class _HomeViewState extends State<HomeView> {
                 AppCircularButton(
                   color: (game.availablePlayers.contains('purple'))
                       ? AppColors.purple
-                      : Colors.transparent,
+                      : AppColors.purple.withAlpha(15),
                   borderColor: AppColors.purpleDark,
                   size: 0.2,
                   onTap: (game.availablePlayers.contains('purple'))
@@ -150,7 +150,7 @@ class _HomeViewState extends State<HomeView> {
                 AppCircularButton(
                   color: (game.availablePlayers.contains('pink'))
                       ? AppColors.pink
-                      : Colors.transparent,
+                      : AppColors.pink.withAlpha(15),
                   borderColor: AppColors.pinkDark,
                   size: 0.2,
                   onTap: (game.availablePlayers.contains('pink'))

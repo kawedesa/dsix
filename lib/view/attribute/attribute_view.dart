@@ -1,7 +1,7 @@
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/app_attribute_slider.dart';
+import 'package:dsix/shared/app_widgets/app_slider.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_text_dialog.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_text_input_dialog.dart';
@@ -69,9 +69,12 @@ class _AttributeViewState extends State<AttributeView> {
                   color: user.color,
                 ),
                 const AppSeparatorVertical(value: 0.02),
-                AppAttributeSlider(
-                  attributeTitle: 'attack',
-                  attributeDescription:
+                AppSlider(
+                  width: AppLayout.shortest(context) * 0.5,
+                  height: AppLayout.shortest(context) * 0.09,
+                  range: 5,
+                  sliderTitle: 'attack',
+                  sliderDescription:
                       'this represents how well you can attack your enemies.',
                   color: user.color,
                   icon: AppImages.attack,
@@ -89,9 +92,12 @@ class _AttributeViewState extends State<AttributeView> {
                   },
                 ),
                 const AppSeparatorVertical(value: 0.02),
-                AppAttributeSlider(
-                  attributeTitle: 'defend',
-                  attributeDescription:
+                AppSlider(
+                  width: AppLayout.shortest(context) * 0.5,
+                  height: AppLayout.shortest(context) * 0.09,
+                  range: 5,
+                  sliderTitle: 'defend',
+                  sliderDescription:
                       'this represents how well you can protect yourself and others',
                   color: user.color,
                   icon: AppImages.defend,
@@ -109,9 +115,12 @@ class _AttributeViewState extends State<AttributeView> {
                   },
                 ),
                 const AppSeparatorVertical(value: 0.02),
-                AppAttributeSlider(
-                  attributeTitle: 'move',
-                  attributeDescription: 'this represents how far you can move.',
+                AppSlider(
+                  width: AppLayout.shortest(context) * 0.5,
+                  height: AppLayout.shortest(context) * 0.09,
+                  range: 5,
+                  sliderTitle: 'move',
+                  sliderDescription: 'this represents how far you can move.',
                   color: user.color,
                   icon: AppImages.move,
                   iconColor: user.darkColor,
@@ -128,9 +137,12 @@ class _AttributeViewState extends State<AttributeView> {
                   },
                 ),
                 const AppSeparatorVertical(value: 0.02),
-                AppAttributeSlider(
-                  attributeTitle: 'look',
-                  attributeDescription:
+                AppSlider(
+                  width: AppLayout.shortest(context) * 0.5,
+                  height: AppLayout.shortest(context) * 0.09,
+                  range: 5,
+                  sliderTitle: 'look',
+                  sliderDescription:
                       'this represents how far you can see and your ability to find things.',
                   color: user.color,
                   icon: AppImages.look,

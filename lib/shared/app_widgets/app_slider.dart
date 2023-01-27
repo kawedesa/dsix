@@ -4,19 +4,25 @@ import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/app_text_dialog.dart';
 import 'package:flutter/material.dart';
 
-class AppAttributeSlider extends StatefulWidget {
-  final String attributeTitle;
-  final String attributeDescription;
+class AppSlider extends StatefulWidget {
+  final double height;
+  final double width;
+  final int range;
+  final String sliderTitle;
+  final String sliderDescription;
   final Color color;
   final Color iconColor;
   final String icon;
   final int value;
   final Function() add;
   final Function() remove;
-  const AppAttributeSlider({
+  const AppSlider({
     super.key,
-    required this.attributeTitle,
-    required this.attributeDescription,
+    required this.height,
+    required this.width,
+    required this.range,
+    required this.sliderTitle,
+    required this.sliderDescription,
     required this.color,
     required this.iconColor,
     required this.icon,
@@ -26,10 +32,29 @@ class AppAttributeSlider extends StatefulWidget {
   });
 
   @override
-  State<AppAttributeSlider> createState() => _AppAttributeSliderState();
+  State<AppSlider> createState() => _AppSliderState();
 }
 
-class _AppAttributeSliderState extends State<AppAttributeSlider> {
+class _AppSliderState extends State<AppSlider> {
+  List<Widget> sliderDivision(int range) {
+    List<Widget> tempList = [];
+
+    while (tempList.length < range) {
+      tempList.add(
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: widget.color,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return tempList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -44,8 +69,8 @@ class _AppAttributeSliderState extends State<AppAttributeSlider> {
           onTap: () => widget.remove(),
         ),
         SizedBox(
-          width: AppLayout.shortest(context) * 0.5,
-          height: AppLayout.shortest(context) * 0.09,
+          width: widget.width,
+          height: widget.height,
           child: Stack(
             children: [
               Align(
@@ -57,51 +82,11 @@ class _AppAttributeSliderState extends State<AppAttributeSlider> {
                       Align(
                         alignment: Alignment.center,
                         child: SizedBox(
-                          width: AppLayout.shortest(context) * 0.4,
+                          width: widget.width - widget.height * 0.5,
+                          height: AppLayout.shortest(context) * 0.008,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: AppLayout.shortest(context) * 0.01,
-                                height: AppLayout.shortest(context) * 0.01,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: widget.color,
-                                ),
-                              ),
-                              Container(
-                                width: AppLayout.shortest(context) * 0.01,
-                                height: AppLayout.shortest(context) * 0.01,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: widget.color,
-                                ),
-                              ),
-                              Container(
-                                width: AppLayout.shortest(context) * 0.01,
-                                height: AppLayout.shortest(context) * 0.01,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: widget.color,
-                                ),
-                              ),
-                              Container(
-                                width: AppLayout.shortest(context) * 0.01,
-                                height: AppLayout.shortest(context) * 0.01,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: widget.color,
-                                ),
-                              ),
-                              Container(
-                                width: AppLayout.shortest(context) * 0.01,
-                                height: AppLayout.shortest(context) * 0.01,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: widget.color,
-                                ),
-                              ),
-                            ],
+                            children: sliderDivision(widget.range),
                           ),
                         ),
                       ),
@@ -118,7 +103,7 @@ class _AppAttributeSliderState extends State<AppAttributeSlider> {
                 ),
               ),
               Align(
-                alignment: Alignment(widget.value * 0.5 * 0.85, 0),
+                alignment: Alignment((widget.value / widget.range) * 2.25, 0),
                 child: AppCircularButton(
                   icon: widget.icon,
                   iconColor: widget.iconColor,
@@ -130,8 +115,8 @@ class _AppAttributeSliderState extends State<AppAttributeSlider> {
                       context: context,
                       builder: (BuildContext context) {
                         return AppTextDialog(
-                          title: widget.attributeTitle,
-                          dialogText: widget.attributeDescription,
+                          title: widget.sliderTitle,
+                          dialogText: widget.sliderDescription,
                           color: widget.color,
                         );
                       },

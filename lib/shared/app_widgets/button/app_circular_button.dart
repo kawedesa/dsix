@@ -2,7 +2,6 @@ import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
-import 'package:transparent_pointer/transparent_pointer.dart';
 
 class AppCircularButton extends StatefulWidget {
   final Color color;
@@ -51,34 +50,50 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                       width: AppLayout.shortest(context) * 0.005,
                     ),
                   ),
+                ),
+                (widget.onTap != null)
+                    ? const ClipOval(
+                        child: RiveAnimation.asset(
+                          'assets/animations/ui/buttonAnimation.riv',
+                          fit: BoxFit.fill,
+                        ),
+                      )
+                    : const SizedBox(),
+                Padding(
+                  padding: EdgeInsets.all(AppLayout.shortest(context) * 0.005),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: widget.color,
+                    ),
+                  ),
+                ),
+                (widget.icon != null)
+                    ? Align(
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset(
+                          widget.icon!,
+                          width: tweenValue / 2,
+                          height: tweenValue / 2,
+                          color: (widget.iconColor != null)
+                              ? widget.iconColor!
+                              : Colors.transparent,
+                        ))
+                    : const SizedBox(),
+                Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.transparent,
+                    // border: Border.all(
+                    //   color: widget.borderColor,
+                    //   width: AppLayout.shortest(context) * 0.005,
+                    // ),
+                  ),
                   child: GestureDetector(
                     onTap: () =>
                         (widget.onTap != null) ? widget.onTap!() : () {},
                   ),
                 ),
-                (widget.icon != null)
-                    ? TransparentPointer(
-                        child: Align(
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              widget.icon!,
-                              width: tweenValue / 2,
-                              height: tweenValue / 2,
-                              color: (widget.iconColor != null)
-                                  ? widget.iconColor!
-                                  : Colors.transparent,
-                            )))
-                    : const SizedBox(),
-                (widget.onTap != null)
-                    ? const TransparentPointer(
-                        child: ClipOval(
-                          child: RiveAnimation.asset(
-                            'assets/animations/ui/buttonAnimation.riv',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      )
-                    : const SizedBox(),
               ],
             ));
       },
