@@ -47,7 +47,7 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                     color: widget.color,
                     border: Border.all(
                       color: widget.borderColor,
-                      width: AppLayout.shortest(context) * 0.005,
+                      width: AppLayout.shortest(context) * 0.003,
                     ),
                   ),
                 ),

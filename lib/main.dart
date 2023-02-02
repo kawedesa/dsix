@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/game/game.dart';
+import 'package:dsix/model/npc/npc.dart';
+import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/view/home/home_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -36,6 +38,30 @@ class MyApp extends StatelessWidget {
               .snapshots()
               .map((game) => Game.fromMap(game.data())),
         ),
+
+        //SPAWNERS
+        StreamProvider<List<Spawner>>(
+            initialData: const [],
+            create: (context) => database
+                .collection('game')
+                .doc('gameID')
+                .collection('spawners')
+                .snapshots()
+                .map((querySnapshot) => querySnapshot.docs
+                    .map((spawner) => Spawner.fromMap(spawner.data()))
+                    .toList())),
+
+        //NPCS
+        StreamProvider<List<Npc>>(
+            initialData: const [],
+            create: (context) => database
+                .collection('game')
+                .doc('gameID')
+                .collection('npcs')
+                .snapshots()
+                .map((querySnapshot) => querySnapshot.docs
+                    .map((npc) => Npc.fromMap(npc.data()))
+                    .toList())),
       ],
       child: MaterialApp(
         home: FutureBuilder(

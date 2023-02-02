@@ -1,15 +1,15 @@
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_dialog_title.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 
-class AppTextDialog extends StatelessWidget {
+class TextDialog extends StatelessWidget {
   final Color color;
   final String title;
   final String dialogText;
 
-  const AppTextDialog(
+  const TextDialog(
       {Key? key,
       required this.color,
       required this.title,
@@ -33,7 +33,7 @@ class AppTextDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AppDialogTitle(
+            DialogTitle(
               color: color,
               title: title,
             ),

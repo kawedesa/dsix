@@ -1,16 +1,14 @@
-import 'package:dsix/model/item/item.dart';
-
-class PlayerAttackRange {
+class AttackRange {
   double min;
   double max;
-  PlayerAttackRange({required this.min, required this.max});
+  AttackRange({required this.min, required this.max});
 
-  factory PlayerAttackRange.empty() {
-    return PlayerAttackRange(min: 0, max: 30);
+  factory AttackRange.empty() {
+    return AttackRange(min: 0, max: 0);
   }
 
-  factory PlayerAttackRange.fromMap(Map<String, dynamic>? data) {
-    return PlayerAttackRange(
+  factory AttackRange.fromMap(Map<String, dynamic>? data) {
+    return AttackRange(
       min: data?['min'] * 1.0,
       max: data?['max'] * 1.0,
     );
@@ -23,14 +21,14 @@ class PlayerAttackRange {
     };
   }
 
-  void increase(Item item) {
-    max = max + item.maxRange;
-    min = min + item.minRange;
+  void increase(double maxRange, double minRange) {
+    max += maxRange;
+    min += minRange;
   }
 
-  void decrease(Item item) {
-    max = max - item.maxRange;
-    min = min - item.minRange;
+  void decrease(double maxRange, double minRange) {
+    max -= maxRange;
+    min -= minRange;
   }
 
   // bool cantAttack(PlayerLocation targetLocation, PlayerLocation playerLocation,

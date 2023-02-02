@@ -8,6 +8,12 @@ class User {
   Color lightColor = Colors.transparent;
   Color darkColor = Colors.transparent;
 
+  void selectCreator() {
+    color = AppColors.uiColor;
+    lightColor = AppColors.uiColorLight;
+    darkColor = AppColors.uiColorDark;
+  }
+
   void selectPlayer(Player player) {
     this.player = player;
 

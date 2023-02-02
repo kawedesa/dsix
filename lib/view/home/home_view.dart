@@ -27,7 +27,8 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
     final user = Provider.of<User>(context);
-//Ajustar isso aqui. Preciso passar pro VM
+
+//TODO Ajustar isso aqui. Preciso passar pro VM
     Widget homeMenu() {
       Widget menu = const SizedBox();
 
@@ -64,7 +65,7 @@ class _HomeViewState extends State<HomeView> {
               AppTextButton(
                   buttonText: 'creator',
                   color: AppColors.uiColor,
-                  onTap: () => homeVM.goToControllerHubView(context)),
+                  onTap: () => homeVM.chooseCreator(context, user)),
             ],
           );
         case 2:

@@ -1,25 +1,25 @@
-import '../../item/item.dart';
+import '../item/item.dart';
 
-class PlayerDamage {
+class Damage {
   int pDamage;
   int mDamage;
   int tempDamage;
-  PlayerDamage({
+  Damage({
     required this.pDamage,
     required this.mDamage,
     required this.tempDamage,
   });
 
-  factory PlayerDamage.empty() {
-    return PlayerDamage(
+  factory Damage.empty() {
+    return Damage(
       pDamage: 0,
       mDamage: 0,
       tempDamage: 0,
     );
   }
 
-  factory PlayerDamage.fromMap(Map<String, dynamic>? data) {
-    return PlayerDamage(
+  factory Damage.fromMap(Map<String, dynamic>? data) {
+    return Damage(
       pDamage: data?['pDamage'],
       mDamage: data?['mDamage'],
       tempDamage: data?['tempDamage'],

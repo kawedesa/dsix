@@ -32,7 +32,12 @@ class HomeVM {
     newPlayer.set();
   }
 
-  void goToControllerHubView(context) {
+  void chooseCreator(context, User user) {
+    user.selectCreator();
+    goToCreatorView(context);
+  }
+
+  void goToCreatorView(context) {
     Route newRoute = PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
           const CreatorView(),

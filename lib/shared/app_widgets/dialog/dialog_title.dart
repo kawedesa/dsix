@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 import '../text/app_text.dart';
 
-class AppDialogTitle extends StatelessWidget {
+class DialogTitle extends StatelessWidget {
   final Color color;
   final String title;
   final String? subTitle;
 
-  const AppDialogTitle(
+  const DialogTitle(
       {Key? key, required this.color, required this.title, this.subTitle})
       : super(key: key);
 

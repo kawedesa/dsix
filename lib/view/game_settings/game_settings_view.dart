@@ -1,10 +1,12 @@
-import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_confirm_dialog.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_new_game_dialog.dart';
+import 'package:dsix/shared/app_widgets/dialog/confirm_dialog.dart';
+import 'package:dsix/shared/app_widgets/dialog/new_game_dialog.dart';
+import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
+import 'package:dsix/shared/app_widgets/text/app_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../model/game/game.dart';
+import '../../model/user.dart';
 import '../../shared/app_images.dart';
 import '../../shared/app_widgets/button/app_circular_button.dart';
 
@@ -21,18 +23,19 @@ class _GameSettingsState extends State<GameSettings> {
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
+    final user = Provider.of<User>(context);
     return (game.phase == 'empty')
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AppTextButton(
                   buttonText: 'new game',
-                  color: AppColors.uiColor,
+                  color: user.color,
                   onTap: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AppNewGameDialog(
+                        return NewGameDialog(
                           game: game,
                         );
                       },
@@ -42,26 +45,35 @@ class _GameSettingsState extends State<GameSettings> {
           )
         : Align(
             alignment: Alignment.center,
-            child: AppCircularButton(
-                color: Colors.black,
-                borderColor: AppColors.uiColor,
-                iconColor: AppColors.uiColor,
-                icon: AppImages.cancel,
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AppConfirmDialog(
-                        title: 'delete game?',
-                        color: AppColors.uiColor,
-                        confirm: () {
-                          game.deleteGame();
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const AppSeparatorVertical(value: 0.005),
+                AppTitle(title: 'round', color: user.color),
+                AppTitle(title: 'difficulty', color: user.color),
+                AppCircularButton(
+                    color: Colors.black,
+                    borderColor: user.color,
+                    iconColor: user.color,
+                    icon: AppImages.cancel,
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ConfirmDialog(
+                            title: 'delete game?',
+                            color: user.color,
+                            confirm: () {
+                              game.deleteGame();
+                            },
+                          );
                         },
                       );
                     },
-                  );
-                },
-                size: 0.08),
+                    size: 0.08),
+                const AppSeparatorVertical(value: 0.005),
+              ],
+            ),
           );
   }
 }

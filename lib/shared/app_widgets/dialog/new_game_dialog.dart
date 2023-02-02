@@ -2,25 +2,25 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_slider.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_dialog_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_dialog_title.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import '../../app_images.dart';
 import '../layout/app_separator_vertical.dart';
 import '../text/app_title.dart';
 
-class AppNewGameDialog extends StatefulWidget {
+class NewGameDialog extends StatefulWidget {
   final Game game;
-  const AppNewGameDialog({
+  const NewGameDialog({
     required this.game,
     super.key,
   });
 
   @override
-  State<AppNewGameDialog> createState() => _AppNewGameDialogState();
+  State<NewGameDialog> createState() => _NewGameDialogState();
 }
 
-class _AppNewGameDialogState extends State<AppNewGameDialog> {
+class _NewGameDialogState extends State<NewGameDialog> {
   int difficulty = 0;
 
   void changeDifficulty(int value) {
@@ -50,7 +50,7 @@ class _AppNewGameDialogState extends State<AppNewGameDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const AppDialogTitle(
+            const DialogTitle(
               color: AppColors.uiColor,
               title: 'new game?',
             ),
@@ -94,7 +94,7 @@ class _AppNewGameDialogState extends State<AppNewGameDialog> {
                 ],
               ),
             ),
-            AppDialogButton(
+            DialogButton(
                 color: AppColors.uiColor,
                 buttonText: 'confirm',
                 onTap: () {

@@ -3,11 +3,11 @@ import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
-class AppDialogButton extends StatefulWidget {
+class DialogButton extends StatefulWidget {
   final Color color;
   final String buttonText;
   final Function()? onTap;
-  const AppDialogButton(
+  const DialogButton(
       {Key? key,
       required this.color,
       required this.buttonText,
@@ -15,10 +15,10 @@ class AppDialogButton extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<AppDialogButton> createState() => _AppDialogButtonState();
+  State<DialogButton> createState() => _DialogButtonState();
 }
 
-class _AppDialogButtonState extends State<AppDialogButton> {
+class _DialogButtonState extends State<DialogButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

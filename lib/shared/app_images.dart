@@ -2,6 +2,7 @@ class AppImages {
   //UI
   static const logo = 'assets/images/ui/logo.svg';
   static const cancel = 'assets/images/ui/cancel.svg';
+  static const confirm = 'assets/images/ui/confirm.svg';
   static const left = 'assets/images/ui/left.svg';
   static const right = 'assets/images/ui/right.svg';
 
@@ -131,6 +132,40 @@ class AppImages {
 
   static const elfBody = 'assets/images/sprites/elfBody.svg';
   static const elfHead = 'assets/images/sprites/elfHead.svg';
+
+  static const goblin = 'assets/images/sprites/goblin.svg';
+  static const golen = 'assets/images/sprites/golen.svg';
+  static const skeletonMage = 'assets/images/sprites/skeletonMage.svg';
+  static const skeleton = 'assets/images/sprites/skeleton.svg';
+  static const vampire = 'assets/images/sprites/vampire.svg';
+  static const zombie = 'assets/images/sprites/zombie.svg';
+
+  String getRaceIcon(String race) {
+    String raceIcon = '';
+
+    switch (race) {
+      case 'goblin':
+        raceIcon = goblin;
+        break;
+      case 'golen':
+        raceIcon = golen;
+        break;
+      case 'skeleton mage':
+        raceIcon = skeletonMage;
+        break;
+      case 'skeleton':
+        raceIcon = skeleton;
+        break;
+      case 'vampire':
+        raceIcon = vampire;
+        break;
+      case 'zombie':
+        raceIcon = zombie;
+        break;
+    }
+
+    return raceIcon;
+  }
 
   //Map
   static const oldRuins = 'assets/images/maps/oldRuins.svg';

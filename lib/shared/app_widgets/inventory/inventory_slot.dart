@@ -1,7 +1,7 @@
 import 'package:dsix/model/player/equipment/equipment_slot.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_item_dialog.dart';
+import 'package:dsix/shared/app_widgets/dialog/item_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -64,7 +64,7 @@ class _InventorySlotState extends State<InventorySlot> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AppItemDialog(
+                          return ItemDialog(
                             color: widget.color,
                             darkColor: widget.darkColor,
                             item: widget.equipmentSlot.item,

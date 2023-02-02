@@ -1,7 +1,7 @@
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_dialog_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_dialog_title.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,17 +12,17 @@ import '../layout/app_separator_horizontal.dart';
 import '../layout/app_separator_vertical.dart';
 import '../text/app_text.dart';
 
-class AppShopDialog extends StatelessWidget {
+class ItemDialog extends StatelessWidget {
   final Color color;
   final Color darkColor;
   final Item item;
-  final Function() buyItem;
-  const AppShopDialog({
+  final Function() sellItem;
+  const ItemDialog({
     super.key,
     required this.color,
     required this.darkColor,
     required this.item,
-    required this.buyItem,
+    required this.sellItem,
   });
 
   @override
@@ -42,7 +42,7 @@ class AppShopDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AppDialogTitle(
+            DialogTitle(
               color: color,
               title: item.name,
               subTitle: item.itemSlot,
@@ -260,8 +260,13 @@ class AppShopDialog extends StatelessWidget {
                       const AppSeparatorVertical(value: 0.01),
                     ],
                   ),
-                  AppDialogButton(
-                      color: color, buttonText: 'buy', onTap: () => buyItem()),
+                  DialogButton(
+                      color: color,
+                      buttonText: 'sell',
+                      onTap: () {
+                        sellItem();
+                        Navigator.pop(context);
+                      }),
                 ],
               ),
             ),

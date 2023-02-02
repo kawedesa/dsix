@@ -19,8 +19,8 @@ class AttributeVM {
     player.update();
   }
 
-  void finishPlayer(Player player, String name) {
-    player.finish(name);
+  void chooseName(Player player, String name) {
+    player.chooseName(name);
     player.update();
   }
 

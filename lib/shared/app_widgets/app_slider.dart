@@ -1,7 +1,7 @@
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_text_dialog.dart';
+import 'package:dsix/shared/app_widgets/dialog/text_dialog.dart';
 import 'package:flutter/material.dart';
 
 class AppSlider extends StatefulWidget {
@@ -114,7 +114,7 @@ class _AppSliderState extends State<AppSlider> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AppTextDialog(
+                        return TextDialog(
                           title: widget.sliderTitle,
                           dialogText: widget.sliderDescription,
                           color: widget.color,

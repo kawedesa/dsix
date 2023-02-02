@@ -1,13 +1,19 @@
+import 'package:dsix/model/npc/npc_list.dart';
+import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
+import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/view/creator/creator_vm.dart';
 import 'package:dsix/view/creator_map/creator_map_view.dart';
+import 'package:dsix/view/creator_map_selection/creator_map_selection_view.dart';
 import 'package:dsix/view/game_settings/game_settings_view.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import '../../model/game/game.dart';
+import '../../shared/app_widgets/button/app_circular_button.dart';
+import '../../shared/app_widgets/dialog/npc_dialog.dart';
 import '../../shared/app_widgets/text/app_bar_title.dart';
 
 class CreatorView extends StatefulWidget {
@@ -22,12 +28,15 @@ class _CreatorViewState extends State<CreatorView> {
 
   @override
   Widget build(BuildContext context) {
+    final game = Provider.of<Game>(context);
+    final user = Provider.of<User>(context);
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: AppBarTitle(
           title: _creatorVM.pageTitle,
-          color: Colors.black,
+          color: user.darkColor,
         ),
         centerTitle: true,
         toolbarHeight: AppLayout.height(context) * 0.06,
@@ -52,48 +61,78 @@ class _CreatorViewState extends State<CreatorView> {
       body: SafeArea(
         child: PageView(
           controller: _creatorVM.pageController,
-          children: const [
-            GameSettings(),
-            CreatorMap(),
+          children: [
+            const GameSettings(),
+            (game.map.name == '')
+                ? const CreatorMapSelection()
+                : const CreatorMap(),
           ],
         ),
       ),
-      bottomNavigationBar: SizedBox(
-        height: AppLayout.height(context) * 0.09,
-        child: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          backgroundColor: AppColors.uiColor,
-          currentIndex: _creatorVM.selectedPage,
-          onTap: (pageIndex) {
-            setState(() {
-              _creatorVM.changePage(pageIndex);
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-                label: 'settings',
-                icon: SvgPicture.asset(
-                  AppImages.settings,
-                  color: (_creatorVM.selectedPage == 0)
-                      ? Colors.white
-                      : Colors.black,
-                  width: AppLayout.height(context) * 0.04,
-                  height: AppLayout.height(context) * 0.04,
-                )),
-            BottomNavigationBarItem(
-                label: 'map',
-                icon: SvgPicture.asset(
-                  AppImages.map,
-                  color: (_creatorVM.selectedPage == 1)
-                      ? Colors.white
-                      : Colors.black,
-                  width: AppLayout.height(context) * 0.04,
-                  height: AppLayout.height(context) * 0.04,
-                )),
-          ],
+      bottomNavigationBar: Container(
+        color: user.color,
+        height: AppLayout.height(context) * 0.1,
+        child: Align(
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const AppSeparatorHorizontal(value: 0.05),
+              AppCircularButton(
+                  onTap: () {
+                    setState(() {
+                      _creatorVM.changePage(0);
+                    });
+                  },
+                  icon: AppImages.settings,
+                  iconColor: user.darkColor,
+                  color: Colors.transparent,
+                  borderColor: user.darkColor,
+                  size: 0.07),
+              AppCircularButton(
+                  onTap: () {
+                    setState(() {
+                      _creatorVM.changePage(1);
+                    });
+                  },
+                  icon: AppImages.map,
+                  iconColor: user.darkColor,
+                  color: Colors.transparent,
+                  borderColor: user.darkColor,
+                  size: 0.07),
+              const AppSeparatorHorizontal(value: 0.05),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+  // showDialog(
+  //                   context: context,
+  //                   builder: (BuildContext context) {
+  //                     return AppShopDialog(
+  //                       item: _shopVM.itemList[index],
+  //                       color: user.color,
+  //                       darkColor: user.darkColor,
+  //                       buyItem: () {
+  //                         try {
+  //                           Navigator.pop(context);
+  //                           _shopVM.buyItem(
+  //                               _shopVM.itemList[index], user.player!);
+  //                         } on NotEnoughMoneyException catch (e) {
+  //                           widget.displaySnackbar(
+  //                               e.message.toUpperCase(), user.color);
+  //                         } on TooHeavyException catch (e) {
+  //                           widget.displaySnackbar(
+  //                               e.message.toUpperCase(), user.color);
+  //                         } on ItemBoughtException catch (e) {
+  //                           widget.displaySnackbar(
+  //                               e.itemValue.toUpperCase(), user.color);
+  //                         }
+  //                         widget.refresh();
+  //                       },
+  //                     );
+  //                   },
+  //                 );

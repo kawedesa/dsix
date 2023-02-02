@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../shared/app_widgets/dialog/app_shop_dialog.dart';
+import '../../shared/app_widgets/dialog/shop_dialog.dart';
 
 class ShopView extends StatefulWidget {
   final Function() refresh;
@@ -124,7 +124,7 @@ class _ShopViewState extends State<ShopView> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AppShopDialog(
+                      return ShopDialog(
                         item: _shopVM.itemList[index],
                         color: user.color,
                         darkColor: user.darkColor,

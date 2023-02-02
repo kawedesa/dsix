@@ -3,7 +3,7 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/race/available_player_races.dart';
 import 'package:dsix/model/player/race/player_race.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_text_dialog.dart';
+import 'package:dsix/shared/app_widgets/dialog/text_dialog.dart';
 import 'package:dsix/view/attribute/attribute_view.dart';
 import 'package:flutter/material.dart';
 import '../../shared/app_colors.dart';
@@ -82,7 +82,7 @@ class RaceVM {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AppTextDialog(
+                      return TextDialog(
                         title: selectedRace.raceBonus[0].name,
                         dialogText: selectedRace.raceBonus[0].description,
                         color: user.color,
@@ -100,7 +100,7 @@ class RaceVM {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AppTextDialog(
+                      return TextDialog(
                         title: selectedRace.raceBonus[1].name,
                         dialogText: selectedRace.raceBonus[1].description,
                         color: user.color,
@@ -118,7 +118,7 @@ class RaceVM {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AppTextDialog(
+                      return TextDialog(
                         title: selectedRace.raceBonus[2].name,
                         dialogText: selectedRace.raceBonus[2].description,
                         color: AppColors.negative,
@@ -144,7 +144,7 @@ class RaceVM {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AppTextDialog(
+                      return TextDialog(
                         title: selectedRace.raceBonus[0].name,
                         dialogText: selectedRace.raceBonus[0].description,
                         color: user.color,
@@ -162,7 +162,7 @@ class RaceVM {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AppTextDialog(
+                      return TextDialog(
                         title: selectedRace.raceBonus[1].name,
                         dialogText: selectedRace.raceBonus[1].description,
                         color: user.color,
@@ -180,7 +180,7 @@ class RaceVM {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AppTextDialog(
+                      return TextDialog(
                         title: selectedRace.raceBonus[2].name,
                         dialogText: selectedRace.raceBonus[2].description,
                         color: AppColors.negative,
@@ -205,7 +205,7 @@ class RaceVM {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AppTextDialog(
+                      return TextDialog(
                         title: selectedRace.raceBonus[0].name,
                         dialogText: selectedRace.raceBonus[0].description,
                         color: user.color,
@@ -223,7 +223,7 @@ class RaceVM {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AppTextDialog(
+                      return TextDialog(
                         title: selectedRace.raceBonus[1].name,
                         dialogText: selectedRace.raceBonus[1].description,
                         color: user.color,
@@ -241,7 +241,7 @@ class RaceVM {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AppTextDialog(
+                      return TextDialog(
                         title: selectedRace.raceBonus[2].name,
                         dialogText: selectedRace.raceBonus[2].description,
                         color: AppColors.negative,

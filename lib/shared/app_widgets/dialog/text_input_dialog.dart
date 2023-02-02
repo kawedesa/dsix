@@ -1,15 +1,15 @@
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_dialog_button.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_dialog_title.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 
-class AppTextInputDialog extends StatefulWidget {
+class TextInputDialog extends StatefulWidget {
   final Color color;
   final String title;
   final Function(String) onConfirm;
 
-  const AppTextInputDialog({
+  const TextInputDialog({
     Key? key,
     required this.color,
     required this.title,
@@ -17,10 +17,10 @@ class AppTextInputDialog extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AppTextInputDialog> createState() => _AppTextInputDialogState();
+  State<TextInputDialog> createState() => _TextInputDialogState();
 }
 
-class _AppTextInputDialogState extends State<AppTextInputDialog> {
+class _TextInputDialogState extends State<TextInputDialog> {
   final textFieldController = TextEditingController();
 
   @override
@@ -40,7 +40,7 @@ class _AppTextInputDialogState extends State<AppTextInputDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AppDialogTitle(
+            DialogTitle(
               color: widget.color,
               title: widget.title,
             ),
@@ -91,7 +91,7 @@ class _AppTextInputDialogState extends State<AppTextInputDialog> {
                         )),
                   ),
                   const AppSeparatorVertical(value: 0.02),
-                  AppDialogButton(
+                  DialogButton(
                       color: widget.color,
                       buttonText: 'confirm',
                       onTap: () => widget.onConfirm(textFieldController.text)),

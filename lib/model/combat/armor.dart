@@ -1,25 +1,25 @@
-import '../../item/item.dart';
+import '../item/item.dart';
 
-class PlayerArmor {
+class Armor {
   int pArmor;
   int mArmor;
   int tempArmor;
-  PlayerArmor({
+  Armor({
     required this.pArmor,
     required this.mArmor,
     required this.tempArmor,
   });
 
-  factory PlayerArmor.fromMap(Map<String, dynamic>? data) {
-    return PlayerArmor(
+  factory Armor.fromMap(Map<String, dynamic>? data) {
+    return Armor(
       pArmor: data?['pArmor'],
       mArmor: data?['mArmor'],
       tempArmor: data?['tempArmor'],
     );
   }
 
-  factory PlayerArmor.empty() {
-    return PlayerArmor(
+  factory Armor.empty() {
+    return Armor(
       pArmor: 0,
       mArmor: 0,
       tempArmor: 0,

@@ -6,11 +6,10 @@ import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:dsix/view/inventory/inventory_view.dart';
 import 'package:dsix/view/player/player_vm.dart';
-import 'package:dsix/view/profile/profile_view.dart';
 import 'package:dsix/view/shop/shop_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import '../../shared/app_colors.dart';
 import '../../shared/app_widgets/text/app_bar_title.dart';
 
 class PlayerView extends StatefulWidget {
@@ -64,7 +63,11 @@ class _PlayerViewState extends State<PlayerView> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                if (user.player!.finished) {
+                  _playerVM.goToHomeView(context);
+                } else {
+                  Navigator.pop(context);
+                }
               },
               child: Icon(
                 Icons.exit_to_app,
@@ -149,54 +152,57 @@ class _PlayerViewState extends State<PlayerView> {
               refresh: () => refresh(),
               displaySnackbar: (text, color) => displaySnackBar(text, color),
             ),
-            const ProfileView(),
           ],
         ),
       ),
-      bottomNavigationBar: SizedBox(
-        height: AppLayout.height(context) * 0.09,
-        child: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          backgroundColor: user.color,
-          currentIndex: _playerVM.selectedPage,
-          onTap: (pageIndex) {
-            setState(() {
-              _playerVM.changePage(pageIndex);
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-                label: 'inventory',
-                icon: SvgPicture.asset(
-                  AppImages.inventory,
-                  color: (_playerVM.selectedPage == 0)
-                      ? user.lightColor
-                      : user.darkColor,
-                  width: AppLayout.height(context) * 0.04,
-                  height: AppLayout.height(context) * 0.04,
-                )),
-            BottomNavigationBarItem(
-                label: 'shop',
-                icon: SvgPicture.asset(
-                  AppImages.shop,
-                  color: (_playerVM.selectedPage == 1)
-                      ? user.lightColor
-                      : user.darkColor,
-                  width: AppLayout.height(context) * 0.04,
-                  height: AppLayout.height(context) * 0.04,
-                )),
-            BottomNavigationBarItem(
-                label: 'profile',
-                icon: SvgPicture.asset(
-                  AppImages.profile,
-                  color: (_playerVM.selectedPage == 2)
-                      ? user.lightColor
-                      : user.darkColor,
-                  width: AppLayout.height(context) * 0.04,
-                  height: AppLayout.height(context) * 0.04,
-                )),
-          ],
+      bottomNavigationBar: Container(
+        color: user.color,
+        height: AppLayout.height(context) * 0.1,
+        child: Align(
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const AppSeparatorHorizontal(value: 0.05),
+              AppCircularButton(
+                  onTap: () {
+                    _playerVM.changePage(0);
+                  },
+                  icon: AppImages.inventory,
+                  iconColor: user.darkColor,
+                  color: Colors.transparent,
+                  borderColor: user.darkColor,
+                  size: 0.07),
+              AppCircularButton(
+                  onTap: () {
+                    _playerVM.changePage(1);
+                  },
+                  icon: AppImages.shop,
+                  iconColor: user.darkColor,
+                  color: Colors.transparent,
+                  borderColor: user.darkColor,
+                  size: 0.07),
+              (user.player!.finished)
+                  ? AppCircularButton(
+                      icon: AppImages.confirm,
+                      iconColor: user.color,
+                      color: AppColors.selected,
+                      borderColor: AppColors.selected,
+                      size: 0.07)
+                  : AppCircularButton(
+                      onTap: () {
+                        setState(() {
+                          _playerVM.getReady(user.player!);
+                        });
+                      },
+                      icon: AppImages.confirm,
+                      iconColor: user.darkColor,
+                      color: user.color,
+                      borderColor: user.darkColor,
+                      size: 0.07),
+              const AppSeparatorHorizontal(value: 0.05),
+            ],
+          ),
         ),
       ),
     );

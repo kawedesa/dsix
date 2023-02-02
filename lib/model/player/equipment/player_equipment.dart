@@ -1,14 +1,14 @@
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/shared/app_exceptions.dart';
-import 'player_armor.dart';
-import 'player_damage.dart';
-import 'player_attack_range.dart';
+import '../../combat/armor.dart';
+import '../../combat/damage.dart';
+import '../../combat/attack_range.dart';
 import 'equipment_slot.dart';
 
 class PlayerEquipment {
-  PlayerArmor armor;
-  PlayerDamage damage;
-  PlayerAttackRange attackRange;
+  Armor armor;
+  Damage damage;
+  AttackRange attackRange;
   EquipmentSlot mainHandSlot;
   EquipmentSlot offHandSlot;
   EquipmentSlot headSlot;
@@ -37,9 +37,9 @@ class PlayerEquipment {
 
   factory PlayerEquipment.empty() {
     return PlayerEquipment(
-      armor: PlayerArmor.empty(),
-      damage: PlayerDamage.empty(),
-      attackRange: PlayerAttackRange.empty(),
+      armor: Armor.empty(),
+      damage: Damage.empty(),
+      attackRange: AttackRange.empty(),
       mainHandSlot: EquipmentSlot.empty('mainHandSlot'),
       offHandSlot: EquipmentSlot.empty('offHandSlot'),
       headSlot: EquipmentSlot.empty('headSlot'),
@@ -62,9 +62,9 @@ class PlayerEquipment {
     }
 
     return PlayerEquipment(
-      armor: PlayerArmor.fromMap(data?['armor']),
-      damage: PlayerDamage.fromMap(data?['damage']),
-      attackRange: PlayerAttackRange.fromMap(data?['attackRange']),
+      armor: Armor.fromMap(data?['armor']),
+      damage: Damage.fromMap(data?['damage']),
+      attackRange: AttackRange.fromMap(data?['attackRange']),
       mainHandSlot: EquipmentSlot.fromMap(data?['mainHandSlot']),
       offHandSlot: EquipmentSlot.fromMap(data?['offHandSlot']),
       headSlot: EquipmentSlot.fromMap(data?['headSlot']),
@@ -160,13 +160,13 @@ class PlayerEquipment {
   void increaseDamageAndArmor(Item item) {
     damage.increaseDamage(item);
     armor.increaseArmor(item);
-    attackRange.increase(item);
+    attackRange.increase(item.maxRange, item.minRange);
   }
 
   void decreaseDamageAndArmor(Item item) {
     damage.decreaseDamage(item);
     armor.decreaseArmor(item);
-    attackRange.decrease(item);
+    attackRange.decrease(item.maxRange, item.minRange);
   }
 
   void removeItemfromBag(Item item) {

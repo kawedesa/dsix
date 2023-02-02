@@ -4,9 +4,11 @@ class AppColors {
 //UI
 
   static const uiColor = Color.fromARGB(255, 158, 158, 158);
-  static const uiColorDark = Color.fromARGB(255, 104, 104, 104);
+  static const uiColorLight = Color.fromARGB(255, 206, 206, 206);
+  static const uiColorDark = Color.fromARGB(255, 50, 50, 50);
   static const positive = Color.fromARGB(255, 49, 145, 46);
   static const negative = Color.fromARGB(255, 193, 23, 8);
+  static const selected = Color.fromARGB(255, 49, 198, 44);
 
 //PLAYERS
 //Pink

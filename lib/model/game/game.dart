@@ -87,6 +87,8 @@ class Game {
         .doc('gameID')
         .update(Game.emptyGame().toMap());
     deletePlayers();
+    deleteSpawners();
+    deleteNpcs();
   }
 
   void deletePlayers() async {
@@ -104,6 +106,40 @@ class Game {
     });
 
     playerBatch.commit();
+  }
+
+  void deleteSpawners() async {
+    var spawnerBatch = database.batch();
+
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('spawners')
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        spawnerBatch.delete(ds.reference);
+      }
+    });
+
+    spawnerBatch.commit();
+  }
+
+  void deleteNpcs() async {
+    var spawnerBatch = database.batch();
+
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('npcs')
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        spawnerBatch.delete(ds.reference);
+      }
+    });
+
+    spawnerBatch.commit();
   }
 
   void update() async {

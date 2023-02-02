@@ -1,14 +1,14 @@
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_dialog_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_dialog_title.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 
-class AppConfirmDialog extends StatelessWidget {
+class ConfirmDialog extends StatelessWidget {
   final Color color;
   final String title;
   final Function() confirm;
 
-  const AppConfirmDialog({
+  const ConfirmDialog({
     Key? key,
     required this.color,
     required this.title,
@@ -32,11 +32,11 @@ class AppConfirmDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AppDialogTitle(
+            DialogTitle(
               color: color,
               title: title,
             ),
-            AppDialogButton(
+            DialogButton(
               color: color,
               buttonText: 'confirm',
               onTap: () {
@@ -44,7 +44,7 @@ class AppConfirmDialog extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            AppDialogButton(
+            DialogButton(
                 color: color,
                 buttonText: 'cancel',
                 onTap: () {

@@ -1,13 +1,13 @@
 import 'package:dsix/model/player/attribute/player_attribute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/player/equipment/player_equipment.dart';
-import 'package:dsix/model/player/life/player_life.dart';
+import 'package:dsix/model/combat/life.dart';
 
 class Player {
   String id;
   String name;
   String race;
-  PlayerLife life;
+  Life life;
   PlayerAttribute attributes;
   PlayerEquipment equipment;
   bool finished;
@@ -28,7 +28,7 @@ class Player {
       id: id,
       name: '',
       race: '',
-      life: PlayerLife.empty(),
+      life: Life.empty(),
       attributes: PlayerAttribute.empty(),
       equipment: PlayerEquipment.empty(),
       finished: false,
@@ -52,7 +52,7 @@ class Player {
       id: data?['id'],
       name: data?['name'],
       race: data?['race'],
-      life: PlayerLife.fromMap(data?['life']),
+      life: Life.fromMap(data?['life']),
       attributes: PlayerAttribute.fromMap(data?['attributes']),
       equipment: PlayerEquipment.fromMap(data?['equipment']),
       finished: data?['finished'],
@@ -66,8 +66,11 @@ class Player {
     equipment.setWeight(race);
   }
 
-  void finish(String name) {
+  void chooseName(String name) {
     this.name = name;
+  }
+
+  void finishCharacter() {
     finished = true;
   }
 

@@ -3,8 +3,8 @@ import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_slider.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_text_dialog.dart';
-import 'package:dsix/shared/app_widgets/dialog/app_text_input_dialog.dart';
+import 'package:dsix/shared/app_widgets/dialog/text_dialog.dart';
+import 'package:dsix/shared/app_widgets/dialog/text_input_dialog.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/text/app_title.dart';
@@ -168,7 +168,7 @@ class _AttributeViewState extends State<AttributeView> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return AppTextInputDialog(
+                                  return TextInputDialog(
                                     title: 'choose a name',
                                     color: user.color,
                                     onConfirm: (String name) {
@@ -176,7 +176,7 @@ class _AttributeViewState extends State<AttributeView> {
                                         return;
                                       }
                                       Navigator.pop(context);
-                                      _attributeVM.finishPlayer(
+                                      _attributeVM.chooseName(
                                           user.player!, name);
                                       _attributeVM.goToPlayerView(context);
                                     },
@@ -187,7 +187,7 @@ class _AttributeViewState extends State<AttributeView> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return AppTextDialog(
+                                  return TextDialog(
                                     title: 'spend your points',
                                     color: user.color,
                                     dialogText:
