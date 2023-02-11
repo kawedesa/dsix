@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
+import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/view/home/home_view.dart';
@@ -31,13 +32,25 @@ class MyApp extends StatelessWidget {
 
         //GAME
         StreamProvider<Game>(
-          initialData: Game.newGame(0),
+          initialData: Game.newGame(0, 0),
           create: (context) => database
               .collection('game')
               .doc('gameID')
               .snapshots()
               .map((game) => Game.fromMap(game.data())),
         ),
+
+        //PLAYERS
+        StreamProvider<List<Player>>(
+            initialData: const [],
+            create: (context) => database
+                .collection('game')
+                .doc('gameID')
+                .collection('players')
+                .snapshots()
+                .map((querySnapshot) => querySnapshot.docs
+                    .map((player) => Player.fromMap(player.data()))
+                    .toList())),
 
         //SPAWNERS
         StreamProvider<List<Spawner>>(

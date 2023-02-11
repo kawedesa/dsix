@@ -21,3 +21,9 @@ class ItemSoldException implements Exception {
 
   ItemSoldException(this.itemValue);
 }
+
+class PlayerNotReadyException implements Exception {
+  String playerName;
+
+  PlayerNotReadyException(this.playerName);
+}

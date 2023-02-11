@@ -27,6 +27,7 @@ class AppImages {
   static const settings = 'assets/images/ui/settings.svg';
   static const map = 'assets/images/ui/map.svg';
   static const profile = 'assets/images/ui/profile.svg';
+  static const spawner = 'assets/images/ui/spawner.svg';
 
   static const shop = 'assets/images/ui/shop.svg';
   static const meleeWeaponMenu = 'assets/images/ui/meleeWeaponMenu.svg';
@@ -124,12 +125,15 @@ class AppImages {
   static const healingPotion = 'assets/images/items/healingPotion.svg';
 
   //Races
+  static const dwarf = 'assets/images/sprites/dwarf.svg';
   static const dwarfBody = 'assets/images/sprites/dwarfBody.svg';
   static const dwarfHead = 'assets/images/sprites/dwarfHead.svg';
 
+  static const orc = 'assets/images/sprites/orc.svg';
   static const orcBody = 'assets/images/sprites/orcBody.svg';
   static const orcHead = 'assets/images/sprites/orcHead.svg';
 
+  static const elf = 'assets/images/sprites/elf.svg';
   static const elfBody = 'assets/images/sprites/elfBody.svg';
   static const elfHead = 'assets/images/sprites/elfHead.svg';
 
@@ -161,6 +165,9 @@ class AppImages {
         break;
       case 'zombie':
         raceIcon = zombie;
+        break;
+      case 'orc':
+        raceIcon = orc;
         break;
     }
 

@@ -3,6 +3,48 @@ import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+class PlayerSpriteImage extends StatefulWidget {
+  final String race;
+
+  const PlayerSpriteImage({Key? key, required this.race}) : super(key: key);
+
+  @override
+  State<PlayerSpriteImage> createState() => _PlayerSpriteImageState();
+}
+
+class _PlayerSpriteImageState extends State<PlayerSpriteImage> {
+  String bodyImage() {
+    String selectedImage = '';
+
+    switch (widget.race) {
+      case 'dwarf':
+        selectedImage = AppImages.dwarfBody;
+        break;
+      case 'orc':
+        selectedImage = AppImages.orcBody;
+        break;
+      case 'elf':
+        selectedImage = AppImages.elfBody;
+        break;
+    }
+
+    return selectedImage;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        SvgPicture.asset(
+          bodyImage(),
+          width: AppLayout.shortest(context) * 0.5,
+        ),
+        PlayerSpriteHead(race: widget.race),
+      ],
+    );
+  }
+}
+
 class PlayerSpriteHead extends StatefulWidget {
   final Duration duration;
   final double deltaY;

@@ -1,5 +1,6 @@
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/npc/npc_list.dart';
+import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_vertical.dart';
@@ -7,28 +8,24 @@ import 'package:dsix/shared/app_widgets/text/app_bar_title.dart';
 
 import 'package:flutter/material.dart';
 
-import '../../app_layout.dart';
-import '../layout/app_line_divider_horizontal.dart';
-import '../layout/app_separator_vertical.dart';
-import 'dialog_button.dart';
-import 'dialog_title.dart';
+import '../../../shared/app_layout.dart';
+import '../../../shared/app_widgets/layout/app_line_divider_horizontal.dart';
+import '../../../shared/app_widgets/layout/app_separator_vertical.dart';
+import '../../../shared/app_widgets/dialog/dialog_button.dart';
+import '../../../shared/app_widgets/dialog/dialog_title.dart';
 
-class NpcDialog extends StatefulWidget {
-  final Color color;
-  final Color darkColor;
+class NpcCreationDialog extends StatefulWidget {
   final Function(Npc) chooseNpc;
-  const NpcDialog({
+  const NpcCreationDialog({
     super.key,
-    required this.color,
-    required this.darkColor,
     required this.chooseNpc,
   });
 
   @override
-  State<NpcDialog> createState() => _NpcDialogState();
+  State<NpcCreationDialog> createState() => _NpcCreationDialogState();
 }
 
-class _NpcDialogState extends State<NpcDialog> {
+class _NpcCreationDialogState extends State<NpcCreationDialog> {
   Npc? selectedNpc;
 
   @override
@@ -40,9 +37,9 @@ class _NpcDialogState extends State<NpcDialog> {
       content: Container(
         width: AppLayout.shortest(context) * 0.6,
         decoration: BoxDecoration(
-          color: widget.color,
+          color: AppColors.uiColor,
           border: Border.all(
-            color: widget.color,
+            color: AppColors.uiColor,
             width: AppLayout.shortest(context) * 0.005,
           ),
         ),
@@ -50,8 +47,8 @@ class _NpcDialogState extends State<NpcDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            DialogTitle(
-              color: widget.color,
+            const DialogTitle(
+              color: AppColors.uiColor,
               title: 'npc',
             ),
             Container(
@@ -79,9 +76,9 @@ class _NpcDialogState extends State<NpcDialog> {
                           child: (selectedNpc!.race ==
                                   NpcList().getNpcList()[index].race)
                               ? AppCircularButton(
-                                  color: widget.color,
-                                  borderColor: widget.color,
-                                  iconColor: widget.darkColor,
+                                  color: AppColors.uiColor,
+                                  borderColor: AppColors.uiColor,
+                                  iconColor: AppColors.uiColorDark,
                                   icon: AppImages().getRaceIcon(
                                       NpcList().getNpcList()[index].race),
                                   size: 0.07,
@@ -93,9 +90,9 @@ class _NpcDialogState extends State<NpcDialog> {
                                   },
                                 )
                               : AppCircularButton(
-                                  color: widget.darkColor,
-                                  borderColor: widget.color,
-                                  iconColor: widget.color,
+                                  color: AppColors.uiColorDark,
+                                  borderColor: AppColors.uiColor,
+                                  iconColor: AppColors.uiColor,
                                   icon: AppImages().getRaceIcon(
                                       NpcList().getNpcList()[index].race),
                                   size: 0.07,
@@ -111,13 +108,15 @@ class _NpcDialogState extends State<NpcDialog> {
                     ),
                   ),
                   const AppSeparatorVertical(value: 0.025),
-                  AppLineDividerHorizontal(color: widget.color, value: 5),
+                  const AppLineDividerHorizontal(
+                      color: AppColors.uiColor, value: 5),
                   SizedBox(
                     height: AppLayout.height(context) * 0.35,
                     child: Row(
                       children: [
                         const Expanded(flex: 2, child: SizedBox()),
-                        AppLineDividerVertical(color: widget.color, value: 2.5),
+                        const AppLineDividerVertical(
+                            color: AppColors.uiColor, value: 2.5),
                         Expanded(
                             flex: 3,
                             child: SizedBox(
@@ -125,8 +124,9 @@ class _NpcDialogState extends State<NpcDialog> {
                                 children: [
                                   const AppSeparatorVertical(value: 0.025),
                                   AppBarTitle(
-                                      title: selectedNpc!.race,
-                                      color: widget.color),
+                                    title: selectedNpc!.race,
+                                    color: AppColors.uiColor,
+                                  ),
                                 ],
                               ),
                             )),
@@ -137,7 +137,7 @@ class _NpcDialogState extends State<NpcDialog> {
               ),
             ),
             DialogButton(
-                color: widget.color,
+                color: AppColors.uiColor,
                 buttonText: 'choose',
                 onTap: () {
                   widget.chooseNpc(selectedNpc!);

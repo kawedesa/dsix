@@ -1,11 +1,15 @@
+import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
-import 'package:dsix/model/spawner/spawner_sprite.dart';
+import 'package:dsix/shared/app_widgets/sprite/spawner_sprite.dart';
 import 'package:dsix/shared/app_layout.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../model/combat/position.dart';
 import '../../model/npc/npc.dart';
-import '../../model/npc/npc_sprite.dart';
+import '../../shared/app_widgets/sprite/npc_sprite.dart';
+import '../../shared/app_widgets/sprite/player_sprite.dart';
 
 class CreatorMapVM {
   int mapSize = 320;
@@ -26,12 +30,7 @@ class CreatorMapVM {
     minZoom = 2 + AppLayout.longest(context) * 0.0025;
   }
 
-  void createSpawner(int id) {
-    Spawner newSpawner = Spawner.newSpawner(id, 50.0);
-    newSpawner.set();
-  }
-
-  List<SpawnerSprite> createSpawnerSprites(context, List<Spawner> spawners) {
+  List<SpawnerSprite> createSpawnerSprites(List<Spawner> spawners) {
     List<SpawnerSprite> spawnerSprites = [];
 
     for (Spawner spawner in spawners) {
@@ -43,13 +42,7 @@ class CreatorMapVM {
     return spawnerSprites;
   }
 
-  void createNpc(int id, Npc selectedNpc) {
-    Npc newNpc = selectedNpc;
-    newNpc.id = id;
-    newNpc.set();
-  }
-
-  List<NpcSprite> createNpcSprites(context, List<Npc> npcs) {
+  List<NpcSprite> createNpcSprites(List<Npc> npcs) {
     List<NpcSprite> npcSprites = [];
 
     for (Npc npc in npcs) {
@@ -59,5 +52,19 @@ class CreatorMapVM {
     }
 
     return npcSprites;
+  }
+
+  List<PlayerSprite> createPlayerSprites(List<Player> players) {
+    List<PlayerSprite> playerSprites = [];
+
+    for (Player player in players) {
+      if (player.position != Position.empty()) {
+        playerSprites.add(PlayerSprite(
+          player: player,
+        ));
+      }
+    }
+
+    return playerSprites;
   }
 }

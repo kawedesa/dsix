@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/map/app_map.dart';
+import 'package:dsix/model/spawner/spawner.dart';
+import '../player/player.dart';
 
 class Game {
   String phase;
+
   int difficulty;
   int round;
   AppMap map;
   String quest;
+  int numberOfPlayers;
+
   List<String> availablePlayers;
 
   Game({
@@ -15,6 +20,7 @@ class Game {
     required this.round,
     required this.map,
     required this.quest,
+    required this.numberOfPlayers,
     required this.availablePlayers,
   });
   final database = FirebaseFirestore.instance;
@@ -26,6 +32,7 @@ class Game {
       'round': round,
       'map': map.toMap(),
       'quest': quest,
+      'numberOfPlayers': numberOfPlayers,
       'availablePlayers': availablePlayers,
     };
   }
@@ -43,28 +50,31 @@ class Game {
       round: data?['round'],
       map: AppMap.fromMap(data?['map']),
       quest: data?['quest'],
+      numberOfPlayers: data?['numberOfPlayers'],
       availablePlayers: availablePlayers,
     );
   }
 
-  factory Game.emptyGame() {
+  factory Game.empty() {
     return Game(
       phase: 'empty',
       difficulty: 0,
       round: 0,
       map: AppMap.empty(),
       quest: '',
+      numberOfPlayers: 0,
       availablePlayers: ['blue', 'pink', 'green', 'yellow', 'purple'],
     );
   }
 
-  factory Game.newGame(int choosenDifficulty) {
+  factory Game.newGame(int choosenDifficulty, int numberOfPlayers) {
     return Game(
       phase: 'creation',
       difficulty: choosenDifficulty,
       round: 1,
       map: AppMap.empty(),
       quest: '',
+      numberOfPlayers: numberOfPlayers,
       availablePlayers: ['blue', 'pink', 'green', 'yellow', 'purple'],
     );
   }
@@ -74,18 +84,20 @@ class Game {
     update();
   }
 
-  void newGame(int choosenDifficulty) async {
+  void newGame(int choosenDifficulty, int numberOfPlayers) async {
     await database
         .collection('game')
         .doc('gameID')
-        .update(Game.newGame(choosenDifficulty).toMap());
+        .update(Game.newGame(choosenDifficulty, numberOfPlayers).toMap());
+  }
+
+  void startGame(List<Player> players, List<Spawner> spawners) {
+    phase = 'action';
+    update();
   }
 
   void deleteGame() async {
-    await database
-        .collection('game')
-        .doc('gameID')
-        .update(Game.emptyGame().toMap());
+    await database.collection('game').doc('gameID').set(Game.empty().toMap());
     deletePlayers();
     deleteSpawners();
     deleteNpcs();
@@ -126,7 +138,7 @@ class Game {
   }
 
   void deleteNpcs() async {
-    var spawnerBatch = database.batch();
+    var npcBatch = database.batch();
 
     await database
         .collection('game')
@@ -135,11 +147,11 @@ class Game {
         .get()
         .then((snapshot) {
       for (DocumentSnapshot ds in snapshot.docs) {
-        spawnerBatch.delete(ds.reference);
+        npcBatch.delete(ds.reference);
       }
     });
 
-    spawnerBatch.commit();
+    npcBatch.commit();
   }
 
   void update() async {

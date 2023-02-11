@@ -1,10 +1,8 @@
-import 'package:dsix/model/npc/npc_list.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
-import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/view/creator/creator_vm.dart';
 import 'package:dsix/view/creator_map/creator_map_view.dart';
 import 'package:dsix/view/creator_map_selection/creator_map_selection_view.dart';
@@ -13,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../model/game/game.dart';
 import '../../shared/app_widgets/button/app_circular_button.dart';
-import '../../shared/app_widgets/dialog/npc_dialog.dart';
 import '../../shared/app_widgets/text/app_bar_title.dart';
+import '../../shared/app_widgets/text/app_text.dart';
 
 class CreatorView extends StatefulWidget {
   const CreatorView({Key? key}) : super(key: key);
@@ -25,6 +23,26 @@ class CreatorView extends StatefulWidget {
 
 class _CreatorViewState extends State<CreatorView> {
   final CreatorVM _creatorVM = CreatorVM();
+
+  void refresh() {
+    setState(() {});
+  }
+
+  void displaySnackBar(String text, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: SizedBox(
+          height: AppLayout.avarage(context) * 0.05,
+          child: Center(
+            child: AppText(
+              text: text,
+              fontSize: 0.03,
+              letterSpacing: 0.005,
+              color: Colors.white,
+            ),
+          )),
+      backgroundColor: color,
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +83,11 @@ class _CreatorViewState extends State<CreatorView> {
             const GameSettings(),
             (game.map.name == '')
                 ? const CreatorMapSelection()
-                : const CreatorMap(),
+                : CreatorMap(
+                    refresh: () => refresh(),
+                    displaySnackbar: (text, color) =>
+                        displaySnackBar(text, color),
+                  ),
           ],
         ),
       ),

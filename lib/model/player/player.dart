@@ -1,25 +1,31 @@
+import 'dart:math';
 import 'package:dsix/model/player/attribute/player_attribute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/player/equipment/player_equipment.dart';
 import 'package:dsix/model/combat/life.dart';
+import '../combat/position.dart';
 
 class Player {
   String id;
   String name;
   String race;
+  double size;
   Life life;
+  Position position;
   PlayerAttribute attributes;
   PlayerEquipment equipment;
-  bool finished;
+  bool ready;
 
   Player(
       {required this.id,
       required this.name,
       required this.race,
+      required this.size,
       required this.life,
+      required this.position,
       required this.attributes,
       required this.equipment,
-      required this.finished});
+      required this.ready});
 
   final database = FirebaseFirestore.instance;
 
@@ -28,10 +34,12 @@ class Player {
       id: id,
       name: '',
       race: '',
+      size: 30,
       life: Life.empty(),
+      position: Position.empty(),
       attributes: PlayerAttribute.empty(),
       equipment: PlayerEquipment.empty(),
-      finished: false,
+      ready: false,
     );
   }
 
@@ -40,10 +48,12 @@ class Player {
       'id': id,
       'name': name,
       'race': race,
+      'size': size,
       'life': life.toMap(),
+      'position': position.toMap(),
       'attributes': attributes.toMap(),
       'equipment': equipment.toMap(),
-      'finished': finished,
+      'ready': ready,
     };
   }
 
@@ -52,10 +62,12 @@ class Player {
       id: data?['id'],
       name: data?['name'],
       race: data?['race'],
+      size: data?['size'],
       life: Life.fromMap(data?['life']),
+      position: Position.fromMap(data?['position']),
       attributes: PlayerAttribute.fromMap(data?['attributes']),
       equipment: PlayerEquipment.fromMap(data?['equipment']),
-      finished: data?['finished'],
+      ready: data?['ready'],
     );
   }
 
@@ -70,8 +82,31 @@ class Player {
     this.name = name;
   }
 
-  void finishCharacter() {
-    finished = true;
+  void iAmReady() {
+    ready = true;
+    update();
+  }
+
+  void iAmNotReady() {
+    ready = false;
+    update();
+  }
+
+  void spawn(Position spawnerPosition, double spawnerSize) {
+    double dx = spawnerPosition.dx +
+        Random().nextDouble() * spawnerSize -
+        spawnerSize / 2;
+    double dy = spawnerPosition.dy +
+        Random().nextDouble() * spawnerSize -
+        spawnerSize / 2;
+    position.dx = dx;
+    position.dy = dy;
+    update();
+  }
+
+  void changePosition(Position newPosition) {
+    position = newPosition;
+    update();
   }
 
   void set() async {

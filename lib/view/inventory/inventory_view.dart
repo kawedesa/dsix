@@ -5,7 +5,7 @@ import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
-import 'package:dsix/shared/app_widgets/player/player_sprite.dart';
+import 'package:dsix/shared/app_widgets/sprite/player_sprite_image.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:dsix/view/inventory/inventory_vm.dart';
 import 'package:flutter/material.dart';
@@ -173,7 +173,7 @@ class _InventoryViewState extends State<InventoryView> {
                                       ],
                                     ),
                                   ),
-                                  PlayerSprite(race: user.player!.race),
+                                  PlayerSpriteImage(race: user.player!.race),
                                   SizedBox(
                                     width: AppLayout.avarage(context) * 0.25,
                                     height: AppLayout.avarage(context) * 0.25,
@@ -245,7 +245,7 @@ class _InventoryViewState extends State<InventoryView> {
                                       ),
                                     ],
                                   ),
-                                  PlayerSprite(race: user.player!.race),
+                                  PlayerSpriteImage(race: user.player!.race),
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -292,7 +292,7 @@ class _InventoryViewState extends State<InventoryView> {
                                 _inventoryVM.offHandSlot!,
                               ],
                             ),
-                            PlayerSprite(race: user.player!.race),
+                            PlayerSpriteImage(race: user.player!.race),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

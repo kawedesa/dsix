@@ -1,7 +1,7 @@
 import 'package:dsix/model/combat/damage.dart';
 import 'package:dsix/model/combat/life.dart';
-import 'package:flutter/animation.dart';
 import '../combat/Armor.dart';
+import '../combat/position.dart';
 import 'npc.dart';
 
 class NpcList {
@@ -16,7 +16,7 @@ class NpcList {
         tempDamage: 0,
       ),
       armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
-      position: const Offset(0, 0));
+      position: Position.empty());
 
   static Npc skeleton = Npc(
       id: 0,
@@ -29,7 +29,7 @@ class NpcList {
         tempDamage: 0,
       ),
       armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
-      position: const Offset(0, 0));
+      position: Position.empty());
   static Npc skeletonMage = Npc(
       id: 0,
       race: 'skeleton mage',
@@ -41,7 +41,7 @@ class NpcList {
         tempDamage: 0,
       ),
       armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
-      position: const Offset(0, 0));
+      position: Position.empty());
 
   static Npc goblin = Npc(
       id: 0,
@@ -54,7 +54,7 @@ class NpcList {
         tempDamage: 0,
       ),
       armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
-      position: const Offset(0, 0));
+      position: Position.empty());
   static Npc golen = Npc(
       id: 0,
       race: 'golen',
@@ -66,7 +66,7 @@ class NpcList {
         tempDamage: 0,
       ),
       armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
-      position: const Offset(0, 0));
+      position: Position.empty());
   static Npc vampire = Npc(
       id: 0,
       race: 'vampire',
@@ -78,7 +78,7 @@ class NpcList {
         tempDamage: 0,
       ),
       armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
-      position: const Offset(0, 0));
+      position: Position.empty());
 
   List<Npc> getNpcList() {
     return [

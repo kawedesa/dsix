@@ -2,12 +2,13 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_slider.dart';
+import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
+import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 import '../../app_images.dart';
 import '../layout/app_separator_vertical.dart';
-import '../text/app_title.dart';
 
 class NewGameDialog extends StatefulWidget {
   final Game game;
@@ -21,6 +22,18 @@ class NewGameDialog extends StatefulWidget {
 }
 
 class _NewGameDialogState extends State<NewGameDialog> {
+  int numberOfPlayers = 3;
+
+  void changeNumberOfPlayers(int value) {
+    numberOfPlayers += value;
+    if (numberOfPlayers < 1) {
+      numberOfPlayers = 1;
+    }
+    if (numberOfPlayers > 5) {
+      numberOfPlayers = 5;
+    }
+  }
+
   int difficulty = 0;
 
   void changeDifficulty(int value) {
@@ -55,7 +68,6 @@ class _NewGameDialogState extends State<NewGameDialog> {
               title: 'new game?',
             ),
             Container(
-              height: AppLayout.shortest(context) * 0.3,
               color: Colors.black,
               child: Column(
                 children: [
@@ -63,11 +75,60 @@ class _NewGameDialogState extends State<NewGameDialog> {
                     alignment: Alignment.topCenter,
                     child: Column(
                       children: [
-                        const AppSeparatorVertical(value: 0.01),
-                        const AppTitle(
-                          title: 'difficulty',
+                        const AppSeparatorVertical(value: 0.04),
+                        const AppText(
+                          text: 'NUMBER OF PLAYERS',
+                          fontSize: 0.025,
+                          letterSpacing: 0.008,
                           color: AppColors.uiColor,
                         ),
+                        const AppSeparatorVertical(value: 0.02),
+                        SizedBox(
+                          width: AppLayout.shortest(context) * 0.5,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppCircularButton(
+                                icon: AppImages.minus,
+                                iconColor: AppColors.uiColor,
+                                color: Colors.transparent,
+                                borderColor: AppColors.uiColor,
+                                size: 0.1,
+                                onTap: () {
+                                  setState(() {
+                                    changeNumberOfPlayers(-1);
+                                  });
+                                },
+                              ),
+                              AppText(
+                                text: numberOfPlayers.toString(),
+                                fontSize: 0.1,
+                                letterSpacing: 0.01,
+                                color: AppColors.uiColor,
+                              ),
+                              AppCircularButton(
+                                icon: AppImages.plus,
+                                iconColor: AppColors.uiColor,
+                                color: Colors.transparent,
+                                borderColor: AppColors.uiColor,
+                                size: 0.1,
+                                onTap: () {
+                                  setState(() {
+                                    changeNumberOfPlayers(1);
+                                  });
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                        const AppSeparatorVertical(value: 0.04),
+                        const AppText(
+                          text: 'DIFFICULTY',
+                          fontSize: 0.025,
+                          letterSpacing: 0.008,
+                          color: AppColors.uiColor,
+                        ),
+                        const AppSeparatorVertical(value: 0.02),
                         AppSlider(
                             width: AppLayout.shortest(context) * 0.3,
                             height: AppLayout.shortest(context) * 0.09,
@@ -91,6 +152,7 @@ class _NewGameDialogState extends State<NewGameDialog> {
                       ],
                     ),
                   ),
+                  const AppSeparatorVertical(value: 0.04),
                 ],
               ),
             ),
@@ -98,7 +160,7 @@ class _NewGameDialogState extends State<NewGameDialog> {
                 color: AppColors.uiColor,
                 buttonText: 'confirm',
                 onTap: () {
-                  widget.game.newGame(difficulty);
+                  widget.game.newGame(difficulty, numberOfPlayers);
                   Navigator.pop(context);
                 }),
           ],

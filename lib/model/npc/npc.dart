@@ -1,8 +1,6 @@
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/combat/life.dart';
-
+import 'package:dsix/model/combat/position.dart';
 import '../combat/Armor.dart';
 import '../combat/damage.dart';
 
@@ -13,7 +11,7 @@ class Npc {
   Life life;
   Damage damage;
   Armor armor;
-  Offset position;
+  Position position;
   Npc({
     required this.id,
     required this.race,
@@ -26,17 +24,6 @@ class Npc {
 
   final database = FirebaseFirestore.instance;
 
-  factory Npc.newNpc(int id) {
-    return Npc(
-      id: id,
-      race: '',
-      size: 20.0,
-      life: Life.empty(),
-      damage: Damage.empty(),
-      armor: Armor.empty(),
-      position: const Offset(0, 0),
-    );
-  }
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -45,8 +32,7 @@ class Npc {
       'life': life.toMap(),
       'damage': damage.toMap(),
       'armor': armor.toMap(),
-      'positionDx': position.dx,
-      'positionDy': position.dy,
+      'position': position.toMap(),
     };
   }
 
@@ -58,11 +44,11 @@ class Npc {
       life: Life.fromMap(data?['life']),
       damage: Damage.fromMap(data?['damage']),
       armor: Armor.fromMap(data?['armor']),
-      position: Offset(data?['positionDx'] * 1.0, data?['positionDy'] * 1.0),
+      position: Position.fromMap(data?['position']),
     );
   }
 
-  void changePosition(Offset newPosition) {
+  void changePosition(Position newPosition) {
     position = newPosition;
     update();
   }

@@ -1,3 +1,5 @@
+import 'package:dsix/model/game/game.dart';
+import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
@@ -9,6 +11,7 @@ import 'package:dsix/view/player/player_vm.dart';
 import 'package:dsix/view/shop/shop_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../model/player/player.dart';
 import '../../shared/app_colors.dart';
 import '../../shared/app_widgets/text/app_bar_title.dart';
 
@@ -45,6 +48,9 @@ class _PlayerViewState extends State<PlayerView> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    final players = Provider.of<List<Player>>(context);
+    final spawners = Provider.of<List<Spawner>>(context);
+    final game = Provider.of<Game>(context);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -63,7 +69,7 @@ class _PlayerViewState extends State<PlayerView> {
             ),
             GestureDetector(
               onTap: () {
-                if (user.player!.finished) {
+                if (user.player!.ready) {
                   _playerVM.goToHomeView(context);
                 } else {
                   Navigator.pop(context);
@@ -182,8 +188,14 @@ class _PlayerViewState extends State<PlayerView> {
                   color: Colors.transparent,
                   borderColor: user.darkColor,
                   size: 0.07),
-              (user.player!.finished)
+              (user.player!.ready)
                   ? AppCircularButton(
+                      onTap: () {
+                        setState(() {
+                          user.player!.iAmNotReady();
+                          game.startGame(players, spawners);
+                        });
+                      },
                       icon: AppImages.confirm,
                       iconColor: user.color,
                       color: AppColors.selected,
@@ -192,7 +204,7 @@ class _PlayerViewState extends State<PlayerView> {
                   : AppCircularButton(
                       onTap: () {
                         setState(() {
-                          _playerVM.getReady(user.player!);
+                          user.player!.iAmReady();
                         });
                       },
                       icon: AppImages.confirm,

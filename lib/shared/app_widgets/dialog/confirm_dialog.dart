@@ -40,8 +40,8 @@ class ConfirmDialog extends StatelessWidget {
               color: color,
               buttonText: 'confirm',
               onTap: () {
-                confirm();
                 Navigator.pop(context);
+                confirm();
               },
             ),
             DialogButton(

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../model/player/player.dart';
 import '../home/home_view.dart';
 
 class PlayerVM {
@@ -18,11 +16,6 @@ class PlayerVM {
     changePageTitle();
     pageController.animateToPage(selectedPage,
         duration: const Duration(milliseconds: 500), curve: Curves.ease);
-  }
-
-  void getReady(Player player) {
-    player.finishCharacter();
-    player.update();
   }
 
   void changePageTitle() {

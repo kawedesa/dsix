@@ -1,54 +1,49 @@
-import 'dart:ui';
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsix/model/combat/position.dart';
 
 class Spawner {
   int id;
-  String type;
   double size;
-  Offset position;
+  Position position;
 
   Spawner({
     required this.id,
-    required this.type,
     required this.size,
     required this.position,
   });
 
   final database = FirebaseFirestore.instance;
 
-  factory Spawner.newSpawner(int id, double spawnerSize) {
-    double dx = Random().nextDouble() * 320;
-    double dy = Random().nextDouble() * 320;
-
+  factory Spawner.newSpawner(
+      int spawnerId, double spawnerSize, String spawnerType) {
     return Spawner(
-      id: id,
-      type: '',
+      id: spawnerId,
       size: spawnerSize,
-      position: Offset(dx, dy),
+      position: Position(dx: 160, dy: 160),
+    );
+  }
+
+  factory Spawner.empty() {
+    return Spawner(
+      id: 0,
+      size: 0,
+      position: Position.empty(),
     );
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'type': type,
-      'size': size,
-      'positionDx': position.dx,
-      'positionDy': position.dy,
-    };
+    return {'id': id, 'size': size, 'position': position.toMap()};
   }
 
   factory Spawner.fromMap(Map<String, dynamic>? data) {
     return Spawner(
       id: data?['id'],
-      type: data?['type'],
       size: data?['size'] * 1.0,
-      position: Offset(data?['positionDx'] * 1.0, data?['positionDy'] * 1.0),
+      position: Position.fromMap(data?['position']),
     );
   }
 
-  void changePosition(Offset newPosition) {
+  void changePosition(Position newPosition) {
     position = newPosition;
     update();
   }
