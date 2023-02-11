@@ -9,7 +9,8 @@ import '../../app_images.dart';
 
 class NpcSprite extends StatefulWidget {
   final Npc npc;
-  const NpcSprite({super.key, required this.npc});
+  final String viewer;
+  const NpcSprite({super.key, required this.npc, required this.viewer});
 
   @override
   State<NpcSprite> createState() => _NpcSpriteState();
@@ -41,25 +42,32 @@ class _NpcSpriteState extends State<NpcSprite> {
                 width: 1,
               ),
             ),
-            child: GestureDetector(
-              onPanStart: (details) {
-                _tempPosition.initialize(widget.npc.position);
-              },
-              onPanUpdate: (details) {
-                setState(() {
-                  _tempPosition.panUpdate(details.delta);
-                });
-              },
-              onPanEnd: (details) {
-                widget.npc.changePosition(_tempPosition.newPosition!);
-              },
-              child: SvgPicture.asset(
-                AppImages().getRaceIcon(
-                  widget.npc.race,
-                ),
-                color: Colors.black,
-              ),
-            ),
+            child: (widget.viewer == 'creator')
+                ? GestureDetector(
+                    onPanStart: (details) {
+                      _tempPosition.initialize(widget.npc.position);
+                    },
+                    onPanUpdate: (details) {
+                      setState(() {
+                        _tempPosition.panUpdate(details.delta);
+                      });
+                    },
+                    onPanEnd: (details) {
+                      widget.npc.changePosition(_tempPosition.newPosition!);
+                    },
+                    child: SvgPicture.asset(
+                      AppImages().getRaceIcon(
+                        widget.npc.race,
+                      ),
+                      color: Colors.black,
+                    ),
+                  )
+                : SvgPicture.asset(
+                    AppImages().getRaceIcon(
+                      widget.npc.race,
+                    ),
+                    color: Colors.black,
+                  ),
           ),
         ));
   }

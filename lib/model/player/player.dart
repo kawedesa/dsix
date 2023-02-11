@@ -29,6 +29,20 @@ class Player {
 
   final database = FirebaseFirestore.instance;
 
+  factory Player.empty() {
+    return Player(
+      id: '',
+      name: '',
+      race: '',
+      size: 0,
+      life: Life.empty(),
+      position: Position.empty(),
+      attributes: PlayerAttribute.empty(),
+      equipment: PlayerEquipment.empty(),
+      ready: false,
+    );
+  }
+
   factory Player.newPlayer(String id) {
     return Player(
       id: id,

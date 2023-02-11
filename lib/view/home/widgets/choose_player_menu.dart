@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../model/game/game.dart';
 import '../../../model/player/player.dart';
 import '../../../model/user.dart';
 import '../../../shared/app_colors.dart';
@@ -9,7 +7,7 @@ import '../../../shared/app_images.dart';
 import '../../../shared/app_widgets/app_radial_menu.dart';
 import '../../../shared/app_widgets/button/app_circular_button.dart';
 import '../../../shared/app_widgets/text/app_text.dart';
-import '../../race/race_view.dart';
+import '../../player/player_view/player_view.dart';
 
 class ChoosePlayerMenu extends StatefulWidget {
   final Function() goBack;
@@ -20,96 +18,93 @@ class ChoosePlayerMenu extends StatefulWidget {
 }
 
 class _ChoosePlayerMenuState extends State<ChoosePlayerMenu> {
-  AppRadialMenu createPlayerMenu(Game game, User user) {
-    List<AppCircularButton> players = [];
-    List<AppCircularButton> availablePlayers = [
-      AppCircularButton(
-        color: (game.availablePlayers.contains('blue'))
-            ? AppColors.blue
-            : AppColors.blue.withAlpha(15),
-        borderColor: AppColors.blueDark,
-        size: 0.2,
-        onTap: (game.availablePlayers.contains('blue'))
-            ? () {
-                choosePlayer(context, game, user, 'blue');
-              }
-            : null,
-      ),
-      AppCircularButton(
-        color: (game.availablePlayers.contains('yellow'))
-            ? AppColors.yellow
-            : AppColors.yellow.withAlpha(15),
-        borderColor: AppColors.yellowDark,
-        size: 0.2,
-        onTap: (game.availablePlayers.contains('yellow'))
-            ? () {
-                choosePlayer(context, game, user, 'yellow');
-              }
-            : null,
-      ),
-      AppCircularButton(
-        color: (game.availablePlayers.contains('green'))
-            ? AppColors.green
-            : AppColors.green.withAlpha(15),
-        borderColor: AppColors.greenDark,
-        size: 0.2,
-        onTap: (game.availablePlayers.contains('green'))
-            ? () {
-                choosePlayer(context, game, user, 'green');
-              }
-            : null,
-      ),
-      AppCircularButton(
-        color: (game.availablePlayers.contains('purple'))
-            ? AppColors.purple
-            : AppColors.purple.withAlpha(15),
-        borderColor: AppColors.purpleDark,
-        size: 0.2,
-        onTap: (game.availablePlayers.contains('purple'))
-            ? () {
-                choosePlayer(context, game, user, 'purple');
-              }
-            : null,
-      ),
-      AppCircularButton(
-        color: (game.availablePlayers.contains('pink'))
-            ? AppColors.pink
-            : AppColors.pink.withAlpha(15),
-        borderColor: AppColors.pinkDark,
-        size: 0.2,
-        onTap: (game.availablePlayers.contains('pink'))
-            ? () {
-                choosePlayer(context, game, user, 'pink');
-              }
-            : null,
-      ),
-    ];
+  AppRadialMenu createPlayerMenu(
+    context,
+    User user,
+    List<Player> players,
+  ) {
+    List<AppCircularButton> buttons = [];
 
-    for (int i = 0; i < game.numberOfPlayers; i++) {
-      players.add(availablePlayers[i]);
+    for (Player player in players) {
+      switch (player.id) {
+        case 'blue':
+          buttons.add(
+            AppCircularButton(
+              color: AppColors.blue,
+              borderColor: AppColors.blueDark,
+              size: 0.2,
+              onTap: () {
+                user.selectPlayer(player);
+                goToPlayerView(context);
+              },
+            ),
+          );
+
+          break;
+        case 'yellow':
+          buttons.add(
+            AppCircularButton(
+              color: AppColors.yellow,
+              borderColor: AppColors.yellowDark,
+              size: 0.2,
+              onTap: () {
+                user.selectPlayer(player);
+                goToPlayerView(context);
+              },
+            ),
+          );
+          break;
+        case 'green':
+          buttons.add(
+            AppCircularButton(
+              color: AppColors.green,
+              borderColor: AppColors.greenDark,
+              size: 0.2,
+              onTap: () {
+                user.selectPlayer(player);
+                goToPlayerView(context);
+              },
+            ),
+          );
+          break;
+        case 'purple':
+          buttons.add(
+            AppCircularButton(
+              color: AppColors.purple,
+              borderColor: AppColors.purpleDark,
+              size: 0.2,
+              onTap: () {
+                user.selectPlayer(player);
+                goToPlayerView(context);
+              },
+            ),
+          );
+          break;
+        case 'pink':
+          buttons.add(
+            AppCircularButton(
+              color: AppColors.pink,
+              borderColor: AppColors.pinkDark,
+              size: 0.2,
+              onTap: () {
+                user.selectPlayer(player);
+                goToPlayerView(context);
+              },
+            ),
+          );
+          break;
+      }
     }
-
     AppRadialMenu menu = AppRadialMenu(
-      buttonInfo: players,
+      buttonInfo: buttons,
     );
     return menu;
   }
 
-  void choosePlayer(context, Game game, User user, String color) {
-    newPlayer(game, user, color);
-    game.removeAvailablePlayer(color);
-    goToRaceView(context);
-  }
-
-  void newPlayer(Game game, User user, String color) {
-    Player newPlayer = Player.newPlayer(color);
-    user.selectPlayer(newPlayer);
-    newPlayer.set();
-  }
-
-  void goToRaceView(context) {
+  void goToPlayerView(context) {
     Route newRoute = PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const RaceView(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const PlayerView(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = const Offset(1.0, 0.0);
         var end = const Offset(0.0, 0.0);
@@ -129,8 +124,8 @@ class _ChoosePlayerMenuState extends State<ChoosePlayerMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final game = Provider.of<Game>(context);
     final user = Provider.of<User>(context);
+    final players = Provider.of<List<Player>>(context);
 
     return Stack(children: [
       Align(
@@ -159,7 +154,11 @@ class _ChoosePlayerMenuState extends State<ChoosePlayerMenu> {
           },
         ),
       ),
-      createPlayerMenu(game, user),
+      createPlayerMenu(
+        context,
+        user,
+        players,
+      ),
     ]);
   }
 }

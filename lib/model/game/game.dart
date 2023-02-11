@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/map/app_map.dart';
-import 'package:dsix/model/spawner/spawner.dart';
-import '../player/player.dart';
 
 class Game {
   String phase;
@@ -88,10 +86,10 @@ class Game {
     await database
         .collection('game')
         .doc('gameID')
-        .update(Game.newGame(choosenDifficulty, numberOfPlayers).toMap());
+        .set(Game.newGame(choosenDifficulty, numberOfPlayers).toMap());
   }
 
-  void startGame(List<Player> players, List<Spawner> spawners) {
+  void startGame() {
     phase = 'action';
     update();
   }
@@ -101,6 +99,7 @@ class Game {
     deletePlayers();
     deleteSpawners();
     deleteNpcs();
+    // deleteActions();
   }
 
   void deletePlayers() async {
@@ -153,6 +152,23 @@ class Game {
 
     npcBatch.commit();
   }
+
+  // void deleteActions() async {
+  //   var actionBatch = database.batch();
+
+  //   await database
+  //       .collection('game')
+  //       .doc('gameID')
+  //       .collection('actions')
+  //       .get()
+  //       .then((snapshot) {
+  //     for (DocumentSnapshot ds in snapshot.docs) {
+  //       actionBatch.delete(ds.reference);
+  //     }
+  //   });
+
+  //   actionBatch.commit();
+  // }
 
   void update() async {
     await database.collection('game').doc('gameID').update(toMap());

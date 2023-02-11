@@ -10,7 +10,8 @@ import '../../../shared/app_layout.dart';
 import '../../../shared/app_widgets/button/app_text_button.dart';
 import '../../../shared/app_widgets/dialog/new_game_dialog.dart';
 import '../../../shared/app_widgets/layout/app_separator_vertical.dart';
-import '../../creator/creator_view.dart';
+import '../../creator/creator_view/creator_view.dart';
+import 'create_player_menu.dart';
 
 class HomeMenu extends StatefulWidget {
   const HomeMenu({
@@ -86,7 +87,7 @@ class _HomeMenuState extends State<HomeMenu> {
             height: AppLayout.shortest(context) * 0.15,
           ),
         );
-      //TODO continuar o refatoramento. Fazer o botão de new game, etc, etc
+
       case 1:
         return (game.phase == 'empty')
             ? Column(
@@ -128,11 +129,17 @@ class _HomeMenuState extends State<HomeMenu> {
                 ],
               );
       case 2:
-        return ChoosePlayerMenu(
-          goBack: () {
-            goBack();
-          },
-        );
+        return (game.phase == 'creation')
+            ? CreatePlayerMenu(
+                goBack: () {
+                  goBack();
+                },
+              )
+            : ChoosePlayerMenu(
+                goBack: () {
+                  goBack();
+                },
+              );
     }
     return menu;
   }

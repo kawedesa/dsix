@@ -1,9 +1,10 @@
+import 'package:dsix/model/combat/area_effect.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class User {
-  Player? player;
+  Player player = Player.empty();
   Color color = Colors.transparent;
   Color lightColor = Colors.transparent;
   Color darkColor = Colors.transparent;
@@ -45,4 +46,53 @@ class User {
         break;
     }
   }
+
+  void updateUser(List<Player> players) {
+    for (Player player in players) {
+      if (player.id == this.player.id) {
+        this.player = player;
+      }
+    }
+  }
+
+  AreaEffect aoe = AreaEffect();
+
+  void setAttack(
+    double angle,
+    double distance,
+  ) {
+    double distanceScale = distance * 50;
+
+    aoe.setArea(angle, distanceScale, player.position, 'cone');
+  }
+
+  void resetAttack() {
+    aoe.reset();
+  }
+
+  void confirmAttack() {
+    print('attack');
+  }
+
+  //   if (firstAction.time == 0) {
+  //     firstAction.attack(
+  //         player.id, angle, distanceScale, player.location.oldLocation);
+  //     firstAction.aoe.setArea(
+  //       angle,
+  //       distanceScale,
+  //       player.location.oldLocation,
+  //       equipment,
+  //     );
+  //     return;
+  //   }
+
+  //   if (secondAction.time == 0) {
+  //     secondAction.attack(
+  //         player.id, angle, distanceScale, firstAction.location);
+  //     secondAction.aoe
+  //         .setArea(angle, distanceScale, firstAction.location, equipment);
+  //     return;
+  //   }
+  // }
+
 }
