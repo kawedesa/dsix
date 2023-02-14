@@ -41,6 +41,10 @@ class Life {
     }
   }
 
+  void receiveDamage(int damage) {
+    current -= damage;
+  }
+
   // void setLife(String race) {
   //   if (race == 'dwarf') {
   //     max = 25;

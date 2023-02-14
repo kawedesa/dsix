@@ -1,12 +1,25 @@
+import 'package:dsix/model/npc/npc.dart';
+import 'package:dsix/model/player/player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
+import '../../../../model/combat/combat.dart';
+import '../../../../model/item/item.dart';
 import '../../../../model/user.dart';
 
 class GamePad extends StatefulWidget {
   final Function() refresh;
-  const GamePad({Key? key, required this.refresh}) : super(key: key);
+  final Combat combat;
+
+  final Item item;
+
+  const GamePad(
+      {Key? key,
+      required this.refresh,
+      required this.combat,
+      required this.item})
+      : super(key: key);
 
   @override
   State<GamePad> createState() => _GamePadState();
@@ -52,6 +65,8 @@ class _GamePadState extends State<GamePad> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    final npcs = Provider.of<List<Npc>>(context);
+    final players = Provider.of<List<Player>>(context);
 
     innerButtonColor ??= Colors.green;
     innerPosition ??= center;
@@ -65,9 +80,9 @@ class _GamePadState extends State<GamePad> {
           height: gamePadSize,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Color.fromRGBO(125, 125, 125, 0.6),
+            color: user.color.withAlpha(100),
             border: Border.all(
-              color: Color.fromRGBO(125, 125, 125, 0.75),
+              color: user.color,
               width: 2,
             ),
           ),
@@ -83,13 +98,14 @@ class _GamePadState extends State<GamePad> {
               _setDistance(details.localPosition);
               _setAngle(details.localPosition);
               _calculateInnerPossition(details.localPosition);
-              user.setAttack(inputAngle! + 1.5708, inputDistance!);
+              widget.combat.setAttack(inputAngle! + 1.5708, inputDistance!,
+                  user.player.position, widget.item);
 
               widget.refresh();
             },
             onPanEnd: (details) {
-              user.confirmAttack();
-              user.resetAttack();
+              widget.combat.confirmAttack(npcs, players, user.player);
+              widget.combat.resetAttack();
               _resetInput();
 
               widget.refresh();
@@ -99,9 +115,9 @@ class _GamePadState extends State<GamePad> {
               height: innerSize,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color.fromRGBO(72, 72, 72, 0.75),
+                color: user.color.withAlpha(200),
                 border: Border.all(
-                  color: Color.fromRGBO(72, 72, 72, 0.75),
+                  color: user.color.withAlpha(200),
                   width: 2,
                 ),
               ),

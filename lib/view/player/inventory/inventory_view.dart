@@ -116,225 +116,79 @@ class _InventoryViewState extends State<InventoryView> {
           value: 0.02,
         ),
         AppLineDividerHorizontal(color: user.color, value: 4),
-        Expanded(
-          child: Stack(
-            children: [
-              (AppLayout.width(context) > AppLayout.height(context) * 0.55)
-                  ? Align(
-                      alignment: const Alignment(0.0, -0.75),
-                      child: SizedBox(
-                        width: AppLayout.width(context) * 0.9,
-                        height: AppLayout.height(context) * 0.45,
-                        child: (AppLayout.width(context) >
-                                AppLayout.height(context) * 1.25)
-                            ? Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: AppLayout.avarage(context) * 0.25,
-                                    height: AppLayout.avarage(context) * 0.25,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _inventoryVM.mainHandSlot!,
-                                            _inventoryVM.headSlot!,
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _inventoryVM.handSlot!,
-                                            Container(
-                                              width:
-                                                  AppLayout.avarage(context) *
-                                                      0.12,
-                                              height:
-                                                  AppLayout.avarage(context) *
-                                                      0.12,
-                                              decoration: BoxDecoration(
-                                                color: Colors.transparent,
-                                                border: Border.all(
-                                                  color: user.color,
-                                                  width: AppLayout.shortest(
-                                                          context) *
-                                                      0.005,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  PlayerSpriteImage(race: user.player.race),
-                                  SizedBox(
-                                    width: AppLayout.avarage(context) * 0.25,
-                                    height: AppLayout.avarage(context) * 0.25,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _inventoryVM.bodySlot!,
-                                            _inventoryVM.offHandSlot!,
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              width:
-                                                  AppLayout.avarage(context) *
-                                                      0.12,
-                                              height:
-                                                  AppLayout.avarage(context) *
-                                                      0.12,
-                                              decoration: BoxDecoration(
-                                                color: Colors.transparent,
-                                                border: Border.all(
-                                                  color: user.color,
-                                                  width: AppLayout.shortest(
-                                                          context) *
-                                                      0.005,
-                                                ),
-                                              ),
-                                            ),
-                                            _inventoryVM.feetSlot!,
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      _inventoryVM.headSlot!,
-                                      _inventoryVM.mainHandSlot!,
-                                      _inventoryVM.handSlot!,
-                                      Container(
-                                        width:
-                                            AppLayout.avarage(context) * 0.12,
-                                        height:
-                                            AppLayout.avarage(context) * 0.12,
-                                        decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          border: Border.all(
-                                            color: user.color,
-                                            width: AppLayout.shortest(context) *
-                                                0.005,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  PlayerSpriteImage(race: user.player.race),
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      _inventoryVM.bodySlot!,
-                                      _inventoryVM.offHandSlot!,
-                                      _inventoryVM.feetSlot!,
-                                      Container(
-                                        width:
-                                            AppLayout.avarage(context) * 0.12,
-                                        height:
-                                            AppLayout.avarage(context) * 0.12,
-                                        decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          border: Border.all(
-                                            color: user.color,
-                                            width: AppLayout.shortest(context) *
-                                                0.005,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                      ),
-                    )
-                  : Align(
-                      alignment: Alignment(
-                          0.0, -0.5 - (AppLayout.width(context) * 0.0005)),
-                      child: SizedBox(
-                        width: AppLayout.shortest(context) * 0.9,
-                        height: AppLayout.avarage(context) * 0.6,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _inventoryVM.mainHandSlot!,
-                                _inventoryVM.headSlot!,
-                                _inventoryVM.bodySlot!,
-                                _inventoryVM.offHandSlot!,
-                              ],
-                            ),
-                            PlayerSpriteImage(race: user.player.race),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _inventoryVM.handSlot!,
-                                Container(
-                                  width: AppLayout.avarage(context) * 0.12,
-                                  height: AppLayout.avarage(context) * 0.12,
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    border: Border.all(
-                                      color: user.color,
-                                      width:
-                                          AppLayout.shortest(context) * 0.005,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: AppLayout.avarage(context) * 0.12,
-                                  height: AppLayout.avarage(context) * 0.12,
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    border: Border.all(
-                                      color: user.color,
-                                      width:
-                                          AppLayout.shortest(context) * 0.005,
-                                    ),
-                                  ),
-                                ),
-                                _inventoryVM.feetSlot!,
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+        const AppSeparatorVertical(value: 0.025),
+        Column(
+          children: [
+            SizedBox(
+              width: (MediaQuery.of(context).size.width <
+                      MediaQuery.of(context).size.height)
+                  ? AppLayout.avarage(context) * 0.5
+                  : AppLayout.shortest(context) * 0.5,
+              height: (MediaQuery.of(context).size.width <
+                      MediaQuery.of(context).size.height)
+                  ? AppLayout.avarage(context) * 0.45
+                  : AppLayout.shortest(context) * 0.45,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _inventoryVM.mainHandSlot!,
+                        _inventoryVM.headSlot!,
+                        _inventoryVM.bodySlot!,
+                        _inventoryVM.offHandSlot!,
+                      ],
                     ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: _inventoryVM.bagSlot,
+                  ),
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                          height: (MediaQuery.of(context).size.width <
+                                  MediaQuery.of(context).size.height)
+                              ? AppLayout.avarage(context) * 0.35
+                              : AppLayout.shortest(context) * 0.35,
+                          child: PlayerSpriteImage(race: user.player.race))),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _inventoryVM.handSlot!,
+                        const AppSeparatorHorizontal(value: 0.1),
+                        _inventoryVM.feetSlot!,
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+            const AppSeparatorVertical(value: 0.025),
+            SizedBox(
+              width: (MediaQuery.of(context).size.width <
+                      MediaQuery.of(context).size.height)
+                  ? AppLayout.avarage(context) * 0.5
+                  : AppLayout.shortest(context) * 0.5,
+              child: _inventoryVM.bagSlot,
+            ),
+          ],
+        )
+        // Expanded(
+        //   child: Stack(
+        //     children: [
+        //       Align(
+        //         alignment:
+        //             Alignment(0.0, -0.5 - (AppLayout.width(context) * 0.0005)),
+        //         child:
+        //       ),
+        //       Align(
+        //         alignment: Alignment.bottomCenter,
+        //         child: _inventoryVM.bagSlot,
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }

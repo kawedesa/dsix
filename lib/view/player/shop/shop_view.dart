@@ -154,7 +154,7 @@ class _ShopViewState extends State<ShopView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SvgPicture.asset(
-                      _shopVM.itemList[index].icon,
+                      AppImages().getItemIcon(_shopVM.itemList[index].name),
                       width: (AppLayout.width(context) +
                               AppLayout.height(context)) *
                           0.5 *

@@ -1,5 +1,4 @@
 class Item {
-  String icon;
   String name;
   String description;
   String itemSlot;
@@ -12,8 +11,8 @@ class Item {
   int value;
   double maxRange;
   double minRange;
+  String attackType;
   Item({
-    required this.icon,
     required this.name,
     required this.description,
     required this.itemSlot,
@@ -26,11 +25,11 @@ class Item {
     required this.value,
     required this.maxRange,
     required this.minRange,
+    required this.attackType,
   });
 
   factory Item.fromMap(Map<String, dynamic>? data) {
     return Item(
-      icon: data?['icon'],
       name: data?['name'],
       description: data?['description'],
       itemSlot: data?['itemSlot'],
@@ -43,12 +42,12 @@ class Item {
       value: data?['value'],
       maxRange: data?['maxRange'] * 1.0,
       minRange: data?['minRange'] * 1.0,
+      attackType: data?['attackType'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'icon': icon,
       'name': name,
       'description': description,
       'itemSlot': itemSlot,
@@ -61,13 +60,13 @@ class Item {
       'value': value,
       'maxRange': maxRange,
       'minRange': minRange,
+      'attackType': attackType,
     };
   }
 
   factory Item.empty() {
     return Item(
-      icon: '',
-      name: '',
+      name: 'fist',
       description: '',
       itemSlot: '',
       type: '',
@@ -77,8 +76,9 @@ class Item {
       mArmor: 0,
       weight: 0,
       value: 0,
-      maxRange: 0,
+      maxRange: 10,
       minRange: 0,
+      attackType: 'rectangle',
     );
   }
 }

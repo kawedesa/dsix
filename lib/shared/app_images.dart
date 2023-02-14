@@ -124,6 +124,21 @@ class AppImages {
   static const food = 'assets/images/items/food.svg';
   static const healingPotion = 'assets/images/items/healingPotion.svg';
 
+  String getItemIcon(String item) {
+    String itemIcon = '';
+
+    switch (item) {
+      case 'short sword':
+        itemIcon = shortSword;
+        break;
+      case 'short bow':
+        itemIcon = shortBow;
+        break;
+    }
+
+    return itemIcon;
+  }
+
   //Races
   static const dwarf = 'assets/images/sprites/dwarf.svg';
   static const dwarfBody = 'assets/images/sprites/dwarfBody.svg';

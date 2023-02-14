@@ -60,7 +60,7 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                       )
                     : const SizedBox(),
                 Padding(
-                  padding: EdgeInsets.all(AppLayout.shortest(context) * 0.005),
+                  padding: EdgeInsets.all(AppLayout.shortest(context) * 0.003),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,

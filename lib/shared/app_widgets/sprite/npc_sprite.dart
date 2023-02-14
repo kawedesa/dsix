@@ -18,10 +18,11 @@ class NpcSprite extends StatefulWidget {
 
 class _NpcSpriteState extends State<NpcSprite> {
   final AppTempPosition _tempPosition = AppTempPosition();
+  bool drag = false;
 
   @override
   Widget build(BuildContext context) {
-    if (_tempPosition.oldPosition == null) {
+    if (drag == false) {
       _tempPosition.initialize(widget.npc.position);
     }
 
@@ -45,7 +46,7 @@ class _NpcSpriteState extends State<NpcSprite> {
             child: (widget.viewer == 'creator')
                 ? GestureDetector(
                     onPanStart: (details) {
-                      _tempPosition.initialize(widget.npc.position);
+                      drag = true;
                     },
                     onPanUpdate: (details) {
                       setState(() {
@@ -54,6 +55,7 @@ class _NpcSpriteState extends State<NpcSprite> {
                     },
                     onPanEnd: (details) {
                       widget.npc.changePosition(_tempPosition.newPosition!);
+                      drag = false;
                     },
                     child: SvgPicture.asset(
                       AppImages().getRaceIcon(

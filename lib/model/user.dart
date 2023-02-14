@@ -47,31 +47,12 @@ class User {
     }
   }
 
-  void updateUser(List<Player> players) {
+  void updatePlayer(List<Player> players) {
     for (Player player in players) {
       if (player.id == this.player.id) {
         this.player = player;
       }
     }
-  }
-
-  AreaEffect aoe = AreaEffect();
-
-  void setAttack(
-    double angle,
-    double distance,
-  ) {
-    double distanceScale = distance * 50;
-
-    aoe.setArea(angle, distanceScale, player.position, 'cone');
-  }
-
-  void resetAttack() {
-    aoe.reset();
-  }
-
-  void confirmAttack() {
-    print('attack');
   }
 
   //   if (firstAction.time == 0) {

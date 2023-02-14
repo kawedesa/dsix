@@ -61,11 +61,28 @@ class CreatorMapVM {
     for (Player player in players) {
       if (player.position != Position.empty()) {
         playerSprites.add(PlayerSprite(
+          onTap: () {
+            if (popUpMenuIsOpen) {
+              closeMenu();
+            } else {
+              openMenu();
+            }
+          },
           player: player,
         ));
       }
     }
 
     return playerSprites;
+  }
+
+  bool popUpMenuIsOpen = false;
+
+  void openMenu() {
+    popUpMenuIsOpen = true;
+  }
+
+  void closeMenu() {
+    popUpMenuIsOpen = false;
   }
 }

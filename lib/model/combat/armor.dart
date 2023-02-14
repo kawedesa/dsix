@@ -1,4 +1,5 @@
 import '../item/item.dart';
+import 'damage.dart';
 
 class Armor {
   int pArmor;
@@ -65,6 +66,27 @@ class Armor {
     tempArmor = 0;
   }
 
+  int calculateDamage(Damage rawDamage) {
+    int pDamage = rawDamage.pDamage - pArmor;
+    if (pDamage < 0) {
+      pDamage = 0;
+    }
+    int mDamage = rawDamage.mDamage - mArmor;
+    if (mDamage < 0) {
+      mDamage = 0;
+    }
+    int tempDamage = rawDamage.tempDamage - tempArmor;
+    if (tempDamage < 0) {
+      tempDamage = 0;
+    }
+
+    int totalDamage = pDamage + mDamage + tempDamage;
+
+    print(totalDamage);
+
+    return totalDamage;
+  }
+}
   // int calculateArmor(PlayerAttack attack) {
   //   if (this.tempArmor! > 0) {
   //     return calculateTempArmor(attack);
@@ -116,4 +138,4 @@ class Armor {
   //   return totalDamageReceived;
   // }
 
-}
+

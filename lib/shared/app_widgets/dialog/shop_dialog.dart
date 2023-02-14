@@ -56,7 +56,7 @@ class ShopDialog extends StatelessWidget {
                   Stack(
                     children: [
                       SvgPicture.asset(
-                        item.icon,
+                        AppImages().getItemIcon(item.name),
                         width: AppLayout.shortest(context) * 0.4,
                         height: AppLayout.shortest(context) * 0.4,
                         color: Colors.white,

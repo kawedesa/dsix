@@ -1,6 +1,6 @@
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_exceptions.dart';
-import 'package:dsix/shared/app_widgets/inventory/inventory_slot.dart';
+import 'package:dsix/view/player/inventory/widgets/inventory_slot.dart';
 import 'package:flutter/material.dart';
 import '../../../model/player/equipment/equipment_slot.dart';
 import '../../../shared/app_images.dart';
@@ -255,11 +255,10 @@ class InventoryVM {
           GridView.count(
             shrinkWrap: true,
             physics: const ScrollPhysics(),
-            crossAxisCount:
-                (AppLayout.width(context) > AppLayout.height(context) * 0.8)
-                    ? 14
-                    : 7,
-            children: List.generate(14, (index) {
+            crossAxisCount: 6,
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 5,
+            children: List.generate(12, (index) {
               return Container(
                 decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -274,20 +273,21 @@ class InventoryVM {
           GridView.count(
             shrinkWrap: true,
             physics: const ScrollPhysics(),
-            crossAxisCount:
-                (AppLayout.width(context) > AppLayout.height(context) * 0.8)
-                    ? 14
-                    : 7,
+            crossAxisCount: 6,
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 5,
             children: List.generate(user.player.equipment.bag.length, (index) {
               return InventorySlot(
                 color: user.color,
                 darkColor: user.darkColor,
-                icon: user.player.equipment.bag[index].icon,
+                icon: AppImages()
+                    .getItemIcon(user.player.equipment.bag[index].name),
                 equipmentSlot: EquipmentSlot(
                     name: 'bag', item: user.player.equipment.bag[index]),
                 onDragComplete: () {
                   user.player.equipment
                       .removeItemfromBag(user.player.equipment.bag[index]);
+                  user.player.update();
                 },
                 onAccept: (equipment) {},
                 onWillAccept: (equipment) {

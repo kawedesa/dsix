@@ -3,6 +3,7 @@ import 'package:dsix/model/player/attribute/player_attribute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/player/equipment/player_equipment.dart';
 import 'package:dsix/model/combat/life.dart';
+import '../combat/damage.dart';
 import '../combat/position.dart';
 
 class Player {
@@ -120,6 +121,18 @@ class Player {
 
   void changePosition(Position newPosition) {
     position = newPosition;
+    update();
+  }
+
+  void receiveAttack(Damage rawDamage) {
+    int damageAfterArmor = equipment.armor.calculateDamage(rawDamage);
+
+    life.receiveDamage(damageAfterArmor);
+    update();
+  }
+
+  void defend() {
+    equipment.armor.tempArmor += 5;
     update();
   }
 

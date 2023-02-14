@@ -3,6 +3,7 @@ import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
 import 'package:dsix/view/player/player_map/widgets/game_pad.dart';
+import 'package:dsix/view/player/player_map/widgets/pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,11 @@ class PlayerMapView extends StatefulWidget {
 }
 
 class _PlayerMapViewState extends State<PlayerMapView> {
-  final PlayerMapVM _creatorMapVM = PlayerMapVM();
+  final PlayerMapVM _playerMapVM = PlayerMapVM();
+
+  void refresh() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +36,18 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
 
-    user.updateUser(players);
-
     return Center(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Expanded(
           child: Stack(
             children: [
               InteractiveViewer(
-                transformationController: _creatorMapVM.createCanvasController(
+                transformationController: _playerMapVM.createCanvasController(
                     context, user.player.position),
                 constrained: false,
                 panEnabled: true,
-                maxScale: _creatorMapVM.maxZoom,
-                minScale: _creatorMapVM.minZoom,
+                maxScale: _playerMapVM.maxZoom,
+                minScale: _playerMapVM.minZoom,
                 child: SizedBox(
                   width: 320,
                   height: 320,
@@ -56,14 +59,16 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                         height: AppLayout.longest(context),
                       ),
                       Stack(
-                        children: _creatorMapVM.createNpcSprites(npcs),
+                        children: _playerMapVM.createNpcSprites(npcs),
                       ),
                       Stack(
-                        children: _creatorMapVM.createPlayerSprites(players),
+                        children:
+                            _playerMapVM.createPlayerSprites(players, refresh),
                       ),
-                      CustomPaint(
-                        painter: AreaEffectSpritePainter(area: user.aoe.area),
+                      AreaEffectSprite(
+                        area: _playerMapVM.combat.attack.aoe.area,
                       ),
+                      _playerMapVM.popUpMenu()
                     ],
                   ),
                 ),
@@ -71,11 +76,12 @@ class _PlayerMapViewState extends State<PlayerMapView> {
               Align(
                   alignment: const Alignment(0.6, 0.4),
                   child: GamePad(
+                    combat: _playerMapVM.combat,
+                    item: user.player.equipment.offHandSlot.item,
                     refresh: () {
-                      setState(() {});
+                      refresh();
                     },
                   )),
-              // const Align(alignment: Alignment(-0.6, 0.4), child: GamePad()),
             ],
           ),
         ),

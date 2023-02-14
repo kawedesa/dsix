@@ -20,7 +20,7 @@ class AreaEffect {
 
         break;
 
-      case 'rectangular':
+      case 'rectangle':
         area = Path()
           ..addRect(Rect.fromPoints(const Offset(-5, 0), Offset(5, distance)));
 
@@ -53,6 +53,10 @@ class AreaEffect {
     ]);
 
     area = area.transform(addRotation).shift(Offset(position.dx, position.dy));
+  }
+
+  bool insideArea(Position position) {
+    return area.contains(Offset(position.dx, position.dy));
   }
 
   void reset() {

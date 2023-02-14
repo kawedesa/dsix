@@ -1,4 +1,5 @@
 import 'package:dsix/model/player/equipment/equipment_slot.dart';
+import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/item_dialog.dart';
@@ -45,8 +46,14 @@ class _InventorySlotState extends State<InventorySlot> {
           List<dynamic> rejected,
         ) {
           return Container(
-            width: AppLayout.avarage(context) * 0.12,
-            height: AppLayout.avarage(context) * 0.12,
+            width: (MediaQuery.of(context).size.width <
+                    MediaQuery.of(context).size.height)
+                ? AppLayout.avarage(context) * 0.12
+                : AppLayout.shortest(context) * 0.12,
+            height: (MediaQuery.of(context).size.width <
+                    MediaQuery.of(context).size.height)
+                ? AppLayout.avarage(context) * 0.12
+                : AppLayout.shortest(context) * 0.12,
             decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(
@@ -54,7 +61,7 @@ class _InventorySlotState extends State<InventorySlot> {
                 width: AppLayout.shortest(context) * 0.005,
               ),
             ),
-            child: (widget.equipmentSlot.item.name == '')
+            child: (widget.equipmentSlot.item.name == 'fist')
                 ? SvgPicture.asset(
                     widget.icon,
                     color: widget.color,
@@ -87,18 +94,21 @@ class _InventorySlotState extends State<InventorySlot> {
                               size: 0.15,
                               color: widget.color,
                               borderColor: widget.color,
-                              icon: widget.equipmentSlot.item.icon,
+                              icon: AppImages()
+                                  .getItemIcon(widget.equipmentSlot.item.name),
                               iconColor: Colors.white,
                             ),
                           ),
                         ),
                         onDragCompleted: () => widget.onDragComplete(),
                         childWhenDragging: SvgPicture.asset(
-                          widget.equipmentSlot.item.icon,
+                          AppImages()
+                              .getItemIcon(widget.equipmentSlot.item.name),
                           color: widget.color.withAlpha(155),
                         ),
                         child: SvgPicture.asset(
-                          widget.equipmentSlot.item.icon,
+                          AppImages()
+                              .getItemIcon(widget.equipmentSlot.item.name),
                           color: Colors.white,
                         ),
                       ),

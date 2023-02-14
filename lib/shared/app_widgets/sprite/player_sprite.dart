@@ -8,7 +8,8 @@ import '../../../model/player/player.dart';
 
 class PlayerSprite extends StatefulWidget {
   final Player player;
-  const PlayerSprite({super.key, required this.player});
+  final Function() onTap;
+  const PlayerSprite({super.key, required this.player, required this.onTap});
 
   @override
   State<PlayerSprite> createState() => _PlayerSpriteState();
@@ -16,10 +17,11 @@ class PlayerSprite extends StatefulWidget {
 
 class _PlayerSpriteState extends State<PlayerSprite> {
   final AppTempPosition _tempPosition = AppTempPosition();
+  bool drag = false;
 
   @override
   Widget build(BuildContext context) {
-    if (_tempPosition.oldPosition == null) {
+    if (drag == false) {
       _tempPosition.initialize(widget.player.position);
     }
 
@@ -41,8 +43,11 @@ class _PlayerSpriteState extends State<PlayerSprite> {
               ),
             ),
             child: GestureDetector(
+              onTap: () {
+                widget.onTap();
+              },
               onPanStart: (details) {
-                _tempPosition.initialize(widget.player.position);
+                drag = true;
               },
               onPanUpdate: (details) {
                 setState(() {
@@ -51,6 +56,7 @@ class _PlayerSpriteState extends State<PlayerSprite> {
               },
               onPanEnd: (details) {
                 widget.player.changePosition(_tempPosition.newPosition!);
+                drag = false;
               },
               child: SvgPicture.asset(
                 AppImages().getRaceIcon(

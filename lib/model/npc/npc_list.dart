@@ -1,6 +1,6 @@
 import 'package:dsix/model/combat/damage.dart';
 import 'package:dsix/model/combat/life.dart';
-import '../combat/Armor.dart';
+import '../combat/armor.dart';
 import '../combat/position.dart';
 import 'npc.dart';
 

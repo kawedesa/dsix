@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsix/model/combat/armor.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/position.dart';
-import '../combat/Armor.dart';
+
 import '../combat/damage.dart';
 
 class Npc {
@@ -69,5 +70,12 @@ class Npc {
         .collection('npcs')
         .doc(id.toString())
         .set(toMap());
+  }
+
+  void receiveAttack(Damage rawDamage) {
+    int damageAfterArmor = armor.calculateDamage(rawDamage);
+
+    life.receiveDamage(damageAfterArmor);
+    update();
   }
 }

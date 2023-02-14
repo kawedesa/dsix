@@ -9,6 +9,7 @@ import 'package:dsix/view/player/player_view/widgets/bottom_navigation_player.da
 import 'package:dsix/view/player/player_view/widgets/page_view_content_player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../model/player/player.dart';
 import '../../../shared/app_widgets/text/app_bar_title.dart';
 
 class PlayerView extends StatefulWidget {
@@ -44,6 +45,8 @@ class _PlayerViewState extends State<PlayerView> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    final players = Provider.of<List<Player>>(context);
+    user.updatePlayer(players);
 
     return Scaffold(
       backgroundColor: Colors.black,
