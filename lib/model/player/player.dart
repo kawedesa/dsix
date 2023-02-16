@@ -49,7 +49,7 @@ class Player {
       id: id,
       name: '',
       race: '',
-      size: 30,
+      size: 20,
       life: Life.empty(),
       position: Position.empty(),
       attributes: PlayerAttribute.empty(),

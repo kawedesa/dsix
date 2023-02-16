@@ -124,7 +124,7 @@ class _AttributeViewState extends State<AttributeView> {
                   color: user.color,
                   icon: AppImages.move,
                   iconColor: user.darkColor,
-                  value: user.player.attributes.move,
+                  value: user.player.attributes.move.attribute,
                   add: () {
                     setState(() {
                       _attributeVM.addAttribute(user.player, 'move');
@@ -147,15 +147,15 @@ class _AttributeViewState extends State<AttributeView> {
                   color: user.color,
                   icon: AppImages.look,
                   iconColor: user.darkColor,
-                  value: user.player.attributes.look,
+                  value: user.player.attributes.vision.attribute,
                   add: () {
                     setState(() {
-                      _attributeVM.addAttribute(user.player, 'look');
+                      _attributeVM.addAttribute(user.player, 'vision');
                     });
                   },
                   remove: () {
                     setState(() {
-                      _attributeVM.removeAttribute(user.player, 'look');
+                      _attributeVM.removeAttribute(user.player, 'vision');
                     });
                   },
                 ),

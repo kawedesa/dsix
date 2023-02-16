@@ -58,15 +58,15 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                         width: AppLayout.longest(context),
                         height: AppLayout.longest(context),
                       ),
+                      AreaEffectSprite(
+                        area: _playerMapVM.combat.attack.aoe.area,
+                      ),
                       Stack(
                         children: _playerMapVM.createNpcSprites(npcs),
                       ),
                       Stack(
                         children:
                             _playerMapVM.createPlayerSprites(players, refresh),
-                      ),
-                      AreaEffectSprite(
-                        area: _playerMapVM.combat.attack.aoe.area,
                       ),
                       _playerMapVM.popUpMenu()
                     ],
@@ -78,6 +78,15 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                   child: GamePad(
                     combat: _playerMapVM.combat,
                     item: user.player.equipment.offHandSlot.item,
+                    refresh: () {
+                      refresh();
+                    },
+                  )),
+              Align(
+                  alignment: const Alignment(-0.6, 0.4),
+                  child: GamePad(
+                    combat: _playerMapVM.combat,
+                    item: user.player.equipment.mainHandSlot.item,
                     refresh: () {
                       refresh();
                     },

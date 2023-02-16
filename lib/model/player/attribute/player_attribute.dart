@@ -1,19 +1,26 @@
+import 'package:dsix/model/player/attribute/player_move.dart';
+import 'package:dsix/model/player/attribute/player_vision.dart';
+
 class PlayerAttribute {
   int availablePoints;
   int attack;
   int defend;
-  int move;
-  int look;
+  PlayerMove move;
+  PlayerVision vision;
   PlayerAttribute(
       {required this.availablePoints,
       required this.attack,
       required this.defend,
       required this.move,
-      required this.look});
+      required this.vision});
 
   factory PlayerAttribute.empty() {
     return PlayerAttribute(
-        availablePoints: 0, attack: 0, defend: 0, move: 0, look: 0);
+        availablePoints: 0,
+        attack: 0,
+        defend: 0,
+        move: PlayerMove.empty(),
+        vision: PlayerVision.empty());
   }
 
   factory PlayerAttribute.fromMap(Map<String, dynamic>? data) {
@@ -21,8 +28,8 @@ class PlayerAttribute {
       availablePoints: data?['availablePoints'],
       attack: data?['attack'],
       defend: data?['defend'],
-      move: data?['move'],
-      look: data?['look'],
+      move: PlayerMove.fromMap(data?['move']),
+      vision: PlayerVision.fromMap(data?['vision']),
     );
   }
 
@@ -31,8 +38,8 @@ class PlayerAttribute {
       'availablePoints': availablePoints,
       'attack': attack,
       'defend': defend,
-      'move': move,
-      'look': look,
+      'move': move.toMap(),
+      'vision': vision.toMap(),
     };
   }
 
@@ -42,22 +49,22 @@ class PlayerAttribute {
         availablePoints = 2;
         attack = 1;
         defend = 0;
-        move = -1;
-        look = 0;
+        move.setAttribute(-1);
+        vision.setAttribute(0);
         break;
       case 'elf':
         availablePoints = 2;
         attack = 0;
         defend = 0;
-        move = 1;
-        look = 1;
+        move.setAttribute(1);
+        vision.setAttribute(1);
         break;
       case 'dwarf':
         availablePoints = 2;
         attack = 0;
         defend = 1;
-        move = 0;
-        look = -1;
+        move.setAttribute(0);
+        vision.setAttribute(-1);
         break;
     }
   }
@@ -76,15 +83,15 @@ class PlayerAttribute {
           availablePoints--;
         }
         break;
-      case 'look':
-        if (look < 2) {
-          look++;
+      case 'vision':
+        if (vision.attribute < 2) {
+          vision.addAttribute();
           availablePoints--;
         }
         break;
       case 'move':
-        if (move < 2) {
-          move++;
+        if (move.attribute < 2) {
+          move.addAttribute();
           availablePoints--;
         }
         break;
@@ -94,21 +101,15 @@ class PlayerAttribute {
   void remove(String attribute, String race) {
     int baseAttack = 0;
     int baseDefend = 0;
-    int baseLook = 0;
-    int baseMove = 0;
 
     switch (race) {
       case 'orc':
         baseAttack = 1;
-        baseMove = -1;
 
         break;
       case 'elf':
-        baseLook = 1;
-        baseMove = 1;
         break;
       case 'dwarf':
-        baseLook = -1;
         baseDefend = 1;
         break;
     }
@@ -126,15 +127,16 @@ class PlayerAttribute {
           availablePoints++;
         }
         break;
-      case 'look':
-        if (look > baseLook) {
-          look--;
+      case 'vision':
+        if (vision.attribute > vision.raceBaseAttribute) {
+          vision.removeAttribute();
+
           availablePoints++;
         }
         break;
       case 'move':
-        if (move > baseMove) {
-          move--;
+        if (move.attribute > move.raceBaseAttribute) {
+          move.removeAttribute();
           availablePoints++;
         }
         break;

@@ -53,7 +53,7 @@ class PlayerSpriteHead extends StatefulWidget {
   const PlayerSpriteHead({
     super.key,
     this.duration = const Duration(milliseconds: 500),
-    this.deltaY = 2.5,
+    this.deltaY = 0.75,
     required this.race,
   });
 
