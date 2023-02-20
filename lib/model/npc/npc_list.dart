@@ -13,9 +13,11 @@ class NpcList {
       damage: Damage(
         pDamage: 0,
         mDamage: 0,
-        tempDamage: 0,
       ),
-      armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
+      armor: Armor(
+        pArmor: 0,
+        mArmor: 0,
+      ),
       position: Position.empty());
 
   static Npc skeleton = Npc(
@@ -26,9 +28,11 @@ class NpcList {
       damage: Damage(
         pDamage: 0,
         mDamage: 0,
-        tempDamage: 0,
       ),
-      armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
+      armor: Armor(
+        pArmor: 0,
+        mArmor: 0,
+      ),
       position: Position.empty());
   static Npc skeletonMage = Npc(
       id: 0,
@@ -38,9 +42,11 @@ class NpcList {
       damage: Damage(
         pDamage: 0,
         mDamage: 0,
-        tempDamage: 0,
       ),
-      armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
+      armor: Armor(
+        pArmor: 0,
+        mArmor: 0,
+      ),
       position: Position.empty());
 
   static Npc goblin = Npc(
@@ -51,9 +57,11 @@ class NpcList {
       damage: Damage(
         pDamage: 0,
         mDamage: 0,
-        tempDamage: 0,
       ),
-      armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
+      armor: Armor(
+        pArmor: 0,
+        mArmor: 0,
+      ),
       position: Position.empty());
   static Npc golen = Npc(
       id: 0,
@@ -63,9 +71,11 @@ class NpcList {
       damage: Damage(
         pDamage: 0,
         mDamage: 0,
-        tempDamage: 0,
       ),
-      armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
+      armor: Armor(
+        pArmor: 0,
+        mArmor: 0,
+      ),
       position: Position.empty());
   static Npc vampire = Npc(
       id: 0,
@@ -75,9 +85,11 @@ class NpcList {
       damage: Damage(
         pDamage: 0,
         mDamage: 0,
-        tempDamage: 0,
       ),
-      armor: Armor(pArmor: 0, mArmor: 0, tempArmor: 0),
+      armor: Armor(
+        pArmor: 0,
+        mArmor: 0,
+      ),
       position: Position.empty());
 
   List<Npc> getNpcList() {

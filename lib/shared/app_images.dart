@@ -139,7 +139,10 @@ class AppImages {
     return itemIcon;
   }
 
-  //Races
+  //Sprites
+
+  static const grave = 'assets/images/sprites/grave.svg';
+
   static const dwarf = 'assets/images/sprites/dwarf.svg';
   static const dwarfBody = 'assets/images/sprites/dwarfBody.svg';
   static const dwarfHead = 'assets/images/sprites/dwarfHead.svg';

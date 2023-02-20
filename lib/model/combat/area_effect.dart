@@ -10,19 +10,30 @@ class AreaEffect {
   void setArea(double angle, double distance, Position position, String type) {
     switch (type) {
       case 'cone':
-        area = Path();
-        area.moveTo(0, 0);
-        area.lineTo(math.sqrt(2) / 4 * distance, math.sqrt(2) / 4 * distance);
-        area.arcToPoint(
+        Path attack = Path();
+        attack = Path();
+        attack.moveTo(0, 0);
+        attack.lineTo(math.sqrt(2) / 4 * distance, math.sqrt(2) / 4 * distance);
+        attack.arcToPoint(
             Offset(-math.sqrt(2) / 4 * distance, math.sqrt(2) / 4 * distance),
             radius: Radius.circular(distance / 2));
-        area.close();
+        attack.close();
+
+        Path minDistance = Path()
+          ..addOval(Rect.fromCircle(center: const Offset(0, 0), radius: 5));
+
+        area = Path.combine(PathOperation.difference, attack, minDistance);
 
         break;
 
       case 'rectangle':
-        area = Path()
+        Path attack = Path()
           ..addRect(Rect.fromPoints(const Offset(-5, 0), Offset(5, distance)));
+
+        Path minDistance = Path()
+          ..addOval(Rect.fromCircle(center: const Offset(0, 0), radius: 5));
+
+        area = Path.combine(PathOperation.difference, attack, minDistance);
 
         break;
       case 'circle':

@@ -1,15 +1,10 @@
 import 'package:dsix/model/combat/position.dart';
 import 'package:flutter/material.dart';
 
-class AppTempPosition extends ChangeNotifier {
-  Position? newPosition;
-  Position? oldPosition;
+class TempPosition extends ChangeNotifier {
+  Position newPosition = Position.empty();
+  Position oldPosition = Position.empty();
   double distanceMoved = 0;
-
-  AppTempPosition({
-    this.newPosition,
-    this.oldPosition,
-  });
 
   void initialize(Position originalPosition) {
     oldPosition = originalPosition;
@@ -19,8 +14,8 @@ class AppTempPosition extends ChangeNotifier {
 
   void panUpdate(Offset dragPosition) {
     newPosition = Position(
-        dx: newPosition!.dx + dragPosition.dx,
-        dy: newPosition!.dy + dragPosition.dy);
+        dx: newPosition.dx + dragPosition.dx,
+        dy: newPosition.dy + dragPosition.dy);
     calculateDistance();
 
     notifyListeners();
@@ -31,9 +26,9 @@ class AppTempPosition extends ChangeNotifier {
   }
 
   void calculateDistance() {
-    distanceMoved = Offset(oldPosition!.dx - newPosition!.dx,
-                oldPosition!.dy - newPosition!.dy)
-            .distance *
-        2;
+    distanceMoved =
+        Offset(oldPosition.dx - newPosition.dx, oldPosition.dy - newPosition.dy)
+                .distance *
+            2;
   }
 }

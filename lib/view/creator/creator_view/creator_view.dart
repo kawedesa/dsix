@@ -47,14 +47,13 @@ class _CreatorViewState extends State<CreatorView> {
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
-    final user = Provider.of<User>(context);
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: AppBarTitle(
           title: _creatorVM.pageTitle,
-          color: user.darkColor,
+          color: AppColors.uiColorDark,
         ),
         centerTitle: true,
         toolbarHeight: AppLayout.height(context) * 0.06,
@@ -92,7 +91,7 @@ class _CreatorViewState extends State<CreatorView> {
         ),
       ),
       bottomNavigationBar: Container(
-        color: user.color,
+        color: AppColors.uiColor,
         height: AppLayout.height(context) * 0.1,
         child: Align(
           alignment: Alignment.center,
@@ -107,9 +106,9 @@ class _CreatorViewState extends State<CreatorView> {
                     });
                   },
                   icon: AppImages.settings,
-                  iconColor: user.darkColor,
+                  iconColor: AppColors.uiColorDark,
                   color: Colors.transparent,
-                  borderColor: user.darkColor,
+                  borderColor: AppColors.uiColorDark,
                   size: 0.07),
               AppCircularButton(
                   onTap: () {
@@ -118,9 +117,9 @@ class _CreatorViewState extends State<CreatorView> {
                     });
                   },
                   icon: AppImages.map,
-                  iconColor: user.darkColor,
+                  iconColor: AppColors.uiColorDark,
                   color: Colors.transparent,
-                  borderColor: user.darkColor,
+                  borderColor: AppColors.uiColorDark,
                   size: 0.07),
               const AppSeparatorHorizontal(value: 0.05),
             ],

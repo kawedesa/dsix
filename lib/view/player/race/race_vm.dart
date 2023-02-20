@@ -252,22 +252,7 @@ class RaceVM {
   }
 
   void goBackToPlayerSelection(context, Game game, String color) {
-    removePlayer(color);
-    addAvailablePlayer(game, color);
+    game.deletePlayer(color);
     Navigator.pop(context);
-  }
-
-  void removePlayer(String color) async {
-    await database
-        .collection('game')
-        .doc('gameID')
-        .collection('players')
-        .doc(color)
-        .delete();
-  }
-
-  void addAvailablePlayer(Game game, String color) async {
-    game.availablePlayers.add(color);
-    await database.collection('game').doc('gameID').update(game.toMap());
   }
 }

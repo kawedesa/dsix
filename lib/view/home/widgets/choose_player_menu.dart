@@ -26,75 +26,19 @@ class _ChoosePlayerMenuState extends State<ChoosePlayerMenu> {
     List<AppCircularButton> buttons = [];
 
     for (Player player in players) {
-      switch (player.id) {
-        case 'blue':
-          buttons.add(
-            AppCircularButton(
-              color: AppColors.blue,
-              borderColor: AppColors.blueDark,
-              size: 0.2,
-              onTap: () {
-                user.selectPlayer(player);
-                goToPlayerView(context);
-              },
-            ),
-          );
-
-          break;
-        case 'yellow':
-          buttons.add(
-            AppCircularButton(
-              color: AppColors.yellow,
-              borderColor: AppColors.yellowDark,
-              size: 0.2,
-              onTap: () {
-                user.selectPlayer(player);
-                goToPlayerView(context);
-              },
-            ),
-          );
-          break;
-        case 'green':
-          buttons.add(
-            AppCircularButton(
-              color: AppColors.green,
-              borderColor: AppColors.greenDark,
-              size: 0.2,
-              onTap: () {
-                user.selectPlayer(player);
-                goToPlayerView(context);
-              },
-            ),
-          );
-          break;
-        case 'purple':
-          buttons.add(
-            AppCircularButton(
-              color: AppColors.purple,
-              borderColor: AppColors.purpleDark,
-              size: 0.2,
-              onTap: () {
-                user.selectPlayer(player);
-                goToPlayerView(context);
-              },
-            ),
-          );
-          break;
-        case 'pink':
-          buttons.add(
-            AppCircularButton(
-              color: AppColors.pink,
-              borderColor: AppColors.pinkDark,
-              size: 0.2,
-              onTap: () {
-                user.selectPlayer(player);
-                goToPlayerView(context);
-              },
-            ),
-          );
-          break;
-      }
+      buttons.add(
+        AppCircularButton(
+          color: AppColors().getPlayerColor(player.id),
+          borderColor: AppColors().getPlayerDarkColor(player.id),
+          size: 0.2,
+          onTap: () {
+            user.selectPlayer(player);
+            goToPlayerView(context);
+          },
+        ),
+      );
     }
+
     AppRadialMenu menu = AppRadialMenu(
       buttonInfo: buttons,
     );

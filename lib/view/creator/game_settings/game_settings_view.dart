@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/dialog/confirm_dialog.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/text/app_title.dart';
@@ -7,6 +8,7 @@ import '../../../model/game/game.dart';
 import '../../../model/user.dart';
 import '../../../shared/app_images.dart';
 import '../../../shared/app_widgets/button/app_circular_button.dart';
+import '../../../shared/app_widgets/button/app_text_button.dart';
 import '../../home/home_view.dart';
 
 class GameSettings extends StatefulWidget {
@@ -40,28 +42,55 @@ class _GameSettingsState extends State<GameSettings> {
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
-    final user = Provider.of<User>(context);
 
     return Align(
       alignment: Alignment.center,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const AppSeparatorVertical(value: 0.005),
-          AppTitle(title: 'round', color: user.color),
-          AppTitle(title: 'difficulty', color: user.color),
-          AppCircularButton(
-              color: Colors.black,
-              borderColor: user.color,
-              iconColor: user.color,
-              icon: AppImages.cancel,
+          AppTextButton(
+              buttonText: 'add player',
+              color: AppColors.uiColor,
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmDialog(
+                      title: 'add player?',
+                      color: AppColors.uiColor,
+                      confirm: () {},
+                    );
+                  },
+                );
+              }),
+          const AppSeparatorVertical(value: 0.005),
+          AppTextButton(
+              buttonText: 'remove player',
+              color: AppColors.uiColor,
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmDialog(
+                      title: 'remove player?',
+                      color: AppColors.uiColor,
+                      confirm: () {},
+                    );
+                  },
+                );
+              }),
+          const AppSeparatorVertical(value: 0.005),
+          AppTextButton(
+              buttonText: 'delete game',
+              color: AppColors.uiColor,
               onTap: () {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return ConfirmDialog(
                       title: 'delete game?',
-                      color: user.color,
+                      color: AppColors.uiColor,
                       confirm: () {
                         game.deleteGame();
                         goToHomeView(context);
@@ -69,8 +98,7 @@ class _GameSettingsState extends State<GameSettings> {
                     );
                   },
                 );
-              },
-              size: 0.08),
+              }),
           const AppSeparatorVertical(value: 0.005),
         ],
       ),

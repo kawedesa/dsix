@@ -1,21 +1,17 @@
-import '../item/item.dart';
 import 'damage.dart';
 
 class Armor {
   int pArmor;
   int mArmor;
-  int tempArmor;
   Armor({
     required this.pArmor,
     required this.mArmor,
-    required this.tempArmor,
   });
 
   factory Armor.fromMap(Map<String, dynamic>? data) {
     return Armor(
       pArmor: data?['pArmor'],
       mArmor: data?['mArmor'],
-      tempArmor: data?['tempArmor'],
     );
   }
 
@@ -23,7 +19,6 @@ class Armor {
     return Armor(
       pArmor: 0,
       mArmor: 0,
-      tempArmor: 0,
     );
   }
 
@@ -31,60 +26,23 @@ class Armor {
     return {
       'pArmor': pArmor,
       'mArmor': mArmor,
-      'tempArmor': tempArmor,
     };
   }
 
-  void increaseArmor(Item item) {
-    pArmor += item.pArmor;
-    mArmor += item.mArmor;
+  void increaseArmor(Armor armor) {
+    pArmor += armor.pArmor;
+    mArmor += armor.mArmor;
   }
 
-  void decreaseArmor(Item item) {
-    pArmor -= item.pArmor;
-    mArmor -= item.mArmor;
+  void decreaseArmor(Armor armor) {
+    pArmor -= armor.pArmor;
+    mArmor -= armor.mArmor;
     if (pArmor < 0) {
       pArmor = 0;
     }
     if (mArmor < 0) {
       mArmor = 0;
     }
-  }
-
-  void increaseTempArmor(int value) {
-    tempArmor = tempArmor + value;
-  }
-
-  void decreaseTempArmor(int value) {
-    tempArmor = tempArmor - value;
-    if (tempArmor < 0) {
-      tempArmor = 0;
-    }
-  }
-
-  void resetTempArmor() {
-    tempArmor = 0;
-  }
-
-  int calculateDamage(Damage rawDamage) {
-    int pDamage = rawDamage.pDamage - pArmor;
-    if (pDamage < 0) {
-      pDamage = 0;
-    }
-    int mDamage = rawDamage.mDamage - mArmor;
-    if (mDamage < 0) {
-      mDamage = 0;
-    }
-    int tempDamage = rawDamage.tempDamage - tempArmor;
-    if (tempDamage < 0) {
-      tempDamage = 0;
-    }
-
-    int totalDamage = pDamage + mDamage + tempDamage;
-
-    print(totalDamage);
-
-    return totalDamage;
   }
 }
   // int calculateArmor(PlayerAttack attack) {

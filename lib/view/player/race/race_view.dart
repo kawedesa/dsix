@@ -95,6 +95,7 @@ class _RaceViewState extends State<RaceView> {
                           Align(
                               alignment: Alignment.bottomCenter,
                               child: PlayerSpriteImage(
+                                  isDead: false,
                                   race: _raceVM.selectedRace.name)),
                         ],
                       ),

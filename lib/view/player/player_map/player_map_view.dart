@@ -65,8 +65,8 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                         children: _playerMapVM.createNpcSprites(npcs),
                       ),
                       Stack(
-                        children:
-                            _playerMapVM.createPlayerSprites(players, refresh),
+                        children: _playerMapVM.createPlayerSprites(
+                            players, user.player, refresh),
                       ),
                       _playerMapVM.popUpMenu()
                     ],

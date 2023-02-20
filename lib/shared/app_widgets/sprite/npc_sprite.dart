@@ -17,7 +17,7 @@ class NpcSprite extends StatefulWidget {
 }
 
 class _NpcSpriteState extends State<NpcSprite> {
-  final AppTempPosition _tempPosition = AppTempPosition();
+  final TempPosition _tempPosition = TempPosition();
   bool drag = false;
 
   @override
@@ -26,12 +26,12 @@ class _NpcSpriteState extends State<NpcSprite> {
       _tempPosition.initialize(widget.npc.position);
     }
 
-    return ChangeNotifierProxyProvider<Spawner, AppTempPosition>(
+    return ChangeNotifierProxyProvider<Spawner, TempPosition>(
         create: (context) => _tempPosition,
         update: (context, _, tempPosition) => tempPosition!..panEnd(),
         child: Positioned(
-          left: _tempPosition.newPosition!.dx - (widget.npc.size / 2),
-          top: _tempPosition.newPosition!.dy - (widget.npc.size / 2),
+          left: _tempPosition.newPosition.dx - (widget.npc.size / 2),
+          top: _tempPosition.newPosition.dy - (widget.npc.size / 2),
           child: Container(
             width: widget.npc.size,
             height: widget.npc.size,
@@ -43,33 +43,26 @@ class _NpcSpriteState extends State<NpcSprite> {
                 width: 1,
               ),
             ),
-            child: (widget.viewer == 'creator')
-                ? GestureDetector(
-                    onPanStart: (details) {
-                      drag = true;
-                    },
-                    onPanUpdate: (details) {
-                      setState(() {
-                        _tempPosition.panUpdate(details.delta);
-                      });
-                    },
-                    onPanEnd: (details) {
-                      widget.npc.changePosition(_tempPosition.newPosition!);
-                      drag = false;
-                    },
-                    child: SvgPicture.asset(
-                      AppImages().getRaceIcon(
-                        widget.npc.race,
-                      ),
-                      color: Colors.black,
-                    ),
-                  )
-                : SvgPicture.asset(
-                    AppImages().getRaceIcon(
-                      widget.npc.race,
-                    ),
-                    color: Colors.black,
-                  ),
+            child: GestureDetector(
+              onPanStart: (details) {
+                drag = true;
+              },
+              onPanUpdate: (details) {
+                setState(() {
+                  _tempPosition.panUpdate(details.delta);
+                });
+              },
+              onPanEnd: (details) {
+                widget.npc.changePosition(_tempPosition.newPosition);
+                drag = false;
+              },
+              child: SvgPicture.asset(
+                AppImages().getRaceIcon(
+                  widget.npc.race,
+                ),
+                color: Colors.black,
+              ),
+            ),
           ),
         ));
   }

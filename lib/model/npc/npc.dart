@@ -73,9 +73,26 @@ class Npc {
   }
 
   void receiveAttack(Damage rawDamage) {
-    int damageAfterArmor = armor.calculateDamage(rawDamage);
+    int damageAfterArmor = calculateDamage(rawDamage);
 
     life.receiveDamage(damageAfterArmor);
     update();
+  }
+
+  int calculateDamage(Damage rawDamage) {
+    int pDamage = rawDamage.pDamage - armor.pArmor;
+    if (pDamage < 0) {
+      pDamage = 0;
+    }
+    int mDamage = rawDamage.mDamage - armor.mArmor;
+    if (mDamage < 0) {
+      mDamage = 0;
+    }
+
+    int totalDamage = pDamage + mDamage;
+
+    print(totalDamage);
+
+    return totalDamage;
   }
 }

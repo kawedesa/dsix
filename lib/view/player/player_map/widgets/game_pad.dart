@@ -104,7 +104,7 @@ class _GamePadState extends State<GamePad> {
               widget.refresh();
             },
             onPanEnd: (details) {
-              widget.combat.confirmAttack(npcs, players, user.player);
+              widget.combat.confirmAttack(npcs, players);
               widget.combat.resetAttack();
               _resetInput();
 

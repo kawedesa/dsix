@@ -1,30 +1,29 @@
+import 'package:dsix/model/combat/range.dart';
+
+import '../combat/armor.dart';
+import '../combat/damage.dart';
+
 class Item {
   String name;
   String description;
   String itemSlot;
   String type;
-  int pDamage;
-  int mDamage;
-  int pArmor;
-  int mArmor;
+  Damage damage;
+  Armor armor;
   int weight;
   int value;
-  double maxRange;
-  double minRange;
+  Range range;
   String attackType;
   Item({
     required this.name,
     required this.description,
     required this.itemSlot,
     required this.type,
-    required this.pDamage,
-    required this.mDamage,
-    required this.pArmor,
-    required this.mArmor,
+    required this.damage,
+    required this.armor,
     required this.weight,
     required this.value,
-    required this.maxRange,
-    required this.minRange,
+    required this.range,
     required this.attackType,
   });
 
@@ -34,14 +33,11 @@ class Item {
       description: data?['description'],
       itemSlot: data?['itemSlot'],
       type: data?['type'],
-      pDamage: data?['pDamage'],
-      mDamage: data?['mDamage'],
-      pArmor: data?['pArmor'],
-      mArmor: data?['mArmor'],
+      damage: Damage.fromMap(data?['damage']),
+      armor: Armor.fromMap(data?['armor']),
       weight: data?['weight'],
       value: data?['value'],
-      maxRange: data?['maxRange'] * 1.0,
-      minRange: data?['minRange'] * 1.0,
+      range: Range.fromMap(data?['range']),
       attackType: data?['attackType'],
     );
   }
@@ -52,14 +48,11 @@ class Item {
       'description': description,
       'itemSlot': itemSlot,
       'type': type,
-      'pDamage': pDamage,
-      'mDamage': mDamage,
-      'pArmor': pArmor,
-      'mArmor': mArmor,
+      'damage': damage.toMap(),
+      'armor': armor.toMap(),
       'weight': weight,
       'value': value,
-      'maxRange': maxRange,
-      'minRange': minRange,
+      'range': range.toMap(),
       'attackType': attackType,
     };
   }
@@ -70,14 +63,11 @@ class Item {
       description: '',
       itemSlot: '',
       type: '',
-      pDamage: 0,
-      mDamage: 0,
-      pArmor: 0,
-      mArmor: 0,
+      damage: Damage.empty(),
+      armor: Armor.empty(),
       weight: 0,
       value: 0,
-      maxRange: 10,
-      minRange: 0,
+      range: Range.empty(),
       attackType: 'rectangle',
     );
   }

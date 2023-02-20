@@ -6,6 +6,7 @@ import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/sprite/player_sprite_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:transparent_pointer/transparent_pointer.dart';
 import '../../../model/player/player.dart';
 
 class PlayerSprite extends StatefulWidget {
@@ -18,7 +19,8 @@ class PlayerSprite extends StatefulWidget {
 }
 
 class _PlayerSpriteState extends State<PlayerSprite> {
-  final AppTempPosition _tempPosition = AppTempPosition();
+  final PlayerSpriteController _controller = PlayerSpriteController();
+  final TempPosition _tempPosition = TempPosition();
   bool drag = false;
 
   @override
@@ -29,28 +31,35 @@ class _PlayerSpriteState extends State<PlayerSprite> {
       _tempPosition.initialize(widget.player.position);
     }
 
-    return ChangeNotifierProxyProvider<Spawner, AppTempPosition>(
+    return ChangeNotifierProxyProvider<Spawner, TempPosition>(
       create: (context) => _tempPosition,
       update: (context, _, tempPosition) => tempPosition!..panEnd(),
       child: Positioned(
-        left: _tempPosition.newPosition!.dx -
-            (widget.player.attributes.vision.getRange() / 2),
-        top: _tempPosition.newPosition!.dy -
-            (widget.player.attributes.vision.getRange() / 2),
+        left: _controller.getPosition(_tempPosition, widget.player).dx,
+        top: _controller.getPosition(_tempPosition, widget.player).dy,
         child: SizedBox(
           width: widget.player.attributes.vision.getRange(),
           height: widget.player.attributes.vision.getRange(),
           child: Stack(
             children: [
-              PlayerSpriteVisionRange(
-                  range: widget.player.attributes.vision.getRange(),
-                  color: user.color),
               Align(
                 alignment: Alignment.center,
-                child: PlayerSpriteMoveRange(
-                    maxRange: widget.player.attributes.move.maxRange(),
-                    distanceMoved: _tempPosition.distanceMoved,
-                    color: user.color),
+                child: TransparentPointer(
+                  transparent: true,
+                  child: PlayerSpriteVisionRange(
+                      range: widget.player.attributes.vision.getRange(),
+                      color: user.color),
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: TransparentPointer(
+                  transparent: true,
+                  child: PlayerSpriteMoveRange(
+                      maxRange: widget.player.attributes.move.maxRange(),
+                      distanceMoved: _tempPosition.distanceMoved,
+                      color: user.color),
+                ),
               ),
               Align(
                 alignment: const Alignment(0.0, -0.15),
@@ -68,12 +77,7 @@ class _PlayerSpriteState extends State<PlayerSprite> {
                   },
                   onPanEnd: (details) {
                     setState(() {
-                      if (_tempPosition.distanceMoved <
-                              widget.player.attributes.move.maxRange() &&
-                          _tempPosition.distanceMoved > 3) {
-                        widget.player
-                            .changePosition(_tempPosition.newPosition!);
-                      }
+                      _controller.endMove(_tempPosition, widget.player);
 
                       drag = false;
                     });
@@ -81,7 +85,9 @@ class _PlayerSpriteState extends State<PlayerSprite> {
                   child: SizedBox(
                       width: widget.player.size,
                       height: widget.player.size,
-                      child: PlayerSpriteImage(race: widget.player.race)),
+                      child: PlayerSpriteImage(
+                          isDead: widget.player.life.isDead(),
+                          race: widget.player.race)),
                 ),
               ),
             ],
@@ -89,6 +95,21 @@ class _PlayerSpriteState extends State<PlayerSprite> {
         ),
       ),
     );
+  }
+}
+
+class PlayerSpriteController {
+  Offset getPosition(TempPosition tempPosition, Player player) {
+    return Offset(
+        tempPosition.newPosition.dx - player.attributes.vision.getRange() / 2,
+        tempPosition.newPosition.dy - player.attributes.vision.getRange() / 2);
+  }
+
+  void endMove(TempPosition tempPosition, Player player) {
+    if (tempPosition.distanceMoved < player.attributes.move.maxRange() &&
+        tempPosition.distanceMoved > 4) {
+      player.changePosition(tempPosition.newPosition);
+    }
   }
 }
 
@@ -112,10 +133,10 @@ class PlayerSpriteMoveRange extends StatelessWidget {
       if (distanceMoved == 0) {
         rangeColor = color;
       }
-      if (distanceMoved > 0 && distanceMoved < 3) {
+      if (distanceMoved > 0 && distanceMoved < 4) {
         rangeColor = AppColors.negative;
       }
-      if (distanceMoved > 3 && distanceMoved < maxRange) {
+      if (distanceMoved > 4 && distanceMoved < maxRange) {
         rangeColor = rangeColor;
       }
       if (distanceMoved > maxRange) {
@@ -127,8 +148,8 @@ class PlayerSpriteMoveRange extends StatelessWidget {
     return AnimatedContainer(
       curve: Curves.fastLinearToSlowEaseIn,
       duration: const Duration(milliseconds: 700),
-      width: (maxRange - distanceMoved < 3) ? 3 : maxRange - distanceMoved,
-      height: (maxRange - distanceMoved < 3) ? 3 : maxRange - distanceMoved,
+      width: (maxRange - distanceMoved < 10) ? 10 : maxRange - distanceMoved,
+      height: (maxRange - distanceMoved < 10) ? 10 : maxRange - distanceMoved,
       decoration: BoxDecoration(
         color: getColor().withAlpha(25),
         shape: BoxShape.circle,

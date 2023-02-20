@@ -104,7 +104,8 @@ class ItemDialog extends StatelessWidget {
                                           const AppSeparatorHorizontal(
                                               value: 0.01),
                                           AppText(
-                                              text: item.pDamage.toString(),
+                                              text: item.damage.pDamage
+                                                  .toString(),
                                               fontSize: 0.03,
                                               letterSpacing: 0.0015,
                                               color: Colors.white),
@@ -122,7 +123,8 @@ class ItemDialog extends StatelessWidget {
                                           const AppSeparatorHorizontal(
                                               value: 0.01),
                                           AppText(
-                                              text: item.mDamage.toString(),
+                                              text: item.damage.mDamage
+                                                  .toString(),
                                               fontSize: 0.03,
                                               letterSpacing: 0.0015,
                                               color: Colors.white),
@@ -145,7 +147,8 @@ class ItemDialog extends StatelessWidget {
                                           const AppSeparatorHorizontal(
                                               value: 0.01),
                                           AppText(
-                                              text: item.pArmor.toString(),
+                                              text:
+                                                  item.armor.pArmor.toString(),
                                               fontSize: 0.03,
                                               letterSpacing: 0.0015,
                                               color: Colors.white),
@@ -163,7 +166,8 @@ class ItemDialog extends StatelessWidget {
                                           const AppSeparatorHorizontal(
                                               value: 0.01),
                                           AppText(
-                                              text: item.mArmor.toString(),
+                                              text:
+                                                  item.armor.mArmor.toString(),
                                               fontSize: 0.03,
                                               letterSpacing: 0.0015,
                                               color: Colors.white),
@@ -171,47 +175,47 @@ class ItemDialog extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          AppCircularButton(
-                                              icon: AppImages.maxRange,
-                                              iconColor: darkColor,
-                                              color: color,
-                                              borderColor: color,
-                                              size: 0.055),
-                                          const AppSeparatorHorizontal(
-                                              value: 0.01),
-                                          AppText(
-                                              text: item.maxRange.toString(),
-                                              fontSize: 0.03,
-                                              letterSpacing: 0.0015,
-                                              color: Colors.white),
-                                        ],
-                                      ),
-                                      const AppSeparatorVertical(value: 0.01),
-                                      Row(
-                                        children: [
-                                          AppCircularButton(
-                                              icon: AppImages.minRange,
-                                              iconColor: darkColor,
-                                              color: color,
-                                              borderColor: color,
-                                              size: 0.055),
-                                          const AppSeparatorHorizontal(
-                                              value: 0.01),
-                                          AppText(
-                                              text: item.minRange.toString(),
-                                              fontSize: 0.03,
-                                              letterSpacing: 0.0015,
-                                              color: Colors.white),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                  // Column(
+                                  //   crossAxisAlignment:
+                                  //       CrossAxisAlignment.start,
+                                  //   children: [
+                                  //     Row(
+                                  //       children: [
+                                  //         AppCircularButton(
+                                  //             icon: AppImages.maxRange,
+                                  //             iconColor: darkColor,
+                                  //             color: color,
+                                  //             borderColor: color,
+                                  //             size: 0.055),
+                                  //         const AppSeparatorHorizontal(
+                                  //             value: 0.01),
+                                  //         AppText(
+                                  //             text: item.maxRange.toString(),
+                                  //             fontSize: 0.03,
+                                  //             letterSpacing: 0.0015,
+                                  //             color: Colors.white),
+                                  //       ],
+                                  //     ),
+                                  //     const AppSeparatorVertical(value: 0.01),
+                                  //     Row(
+                                  //       children: [
+                                  //         AppCircularButton(
+                                  //             icon: AppImages.minRange,
+                                  //             iconColor: darkColor,
+                                  //             color: color,
+                                  //             borderColor: color,
+                                  //             size: 0.055),
+                                  //         const AppSeparatorHorizontal(
+                                  //             value: 0.01),
+                                  //         AppText(
+                                  //             text: item.minRange.toString(),
+                                  //             fontSize: 0.03,
+                                  //             letterSpacing: 0.0015,
+                                  //             color: Colors.white),
+                                  //       ],
+                                  //     ),
+                                  //   ],
+                                  // ),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,

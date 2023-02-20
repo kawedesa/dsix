@@ -36,7 +36,6 @@ class PopUpMenu extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: AppCircularButton(
                     onTap: () {
-                      user.player.defend();
                       closeMenu();
                     },
                     color: user.color.withAlpha(100),

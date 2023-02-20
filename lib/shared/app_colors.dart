@@ -50,4 +50,73 @@ class AppColors {
   static const purpleDark = Color.fromARGB(255, 90, 9, 102);
 
   static const purpleSpriteShadow = Color.fromRGBO(118, 53, 144, 1);
+
+  Color getPlayerColor(String id) {
+    Color color = uiColor;
+
+    switch (id) {
+      case 'blue':
+        color = blue;
+        break;
+      case 'pink':
+        color = pink;
+        break;
+      case 'green':
+        color = green;
+        break;
+      case 'yellow':
+        color = yellow;
+        break;
+      case 'purple':
+        color = purple;
+        break;
+    }
+    return color;
+  }
+
+  Color getPlayerDarkColor(String id) {
+    Color color = uiColorDark;
+
+    switch (id) {
+      case 'blue':
+        color = blueDark;
+        break;
+      case 'pink':
+        color = pinkDark;
+        break;
+      case 'green':
+        color = greenDark;
+        break;
+      case 'yellow':
+        color = yellowDark;
+        break;
+      case 'purple':
+        color = purpleDark;
+        break;
+    }
+    return color;
+  }
+
+  Color getPlayerLightColor(String id) {
+    Color color = uiColorLight;
+
+    switch (id) {
+      case 'blue':
+        color = blueLight;
+        break;
+      case 'pink':
+        color = pinkLight;
+        break;
+      case 'green':
+        color = greenLight;
+        break;
+      case 'yellow':
+        color = yellowLight;
+        break;
+      case 'purple':
+        color = purpleLight;
+        break;
+    }
+    return color;
+  }
 }

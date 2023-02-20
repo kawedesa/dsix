@@ -1,12 +1,13 @@
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
+import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_widgets/sprite/dead_player_sprite.dart';
+import 'package:dsix/shared/app_widgets/sprite/other_player_sprite.dart';
 import 'package:dsix/shared/app_widgets/sprite/spawner_sprite.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/view/player/player_map/widgets/pop_up_menu.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import '../../../model/combat/combat.dart';
 import '../../../model/combat/position.dart';
 import '../../../model/npc/npc.dart';
@@ -78,26 +79,38 @@ class PlayerMapVM {
     return npcSprites;
   }
 
-  List<PlayerSprite> createPlayerSprites(
-      List<Player> players, Function() refresh) {
-    List<PlayerSprite> playerSprites = [];
+  List<Widget> createPlayerSprites(
+      List<Player> players, Player player, Function() refresh) {
+    List<Widget> playerSprites = [];
 
-    for (Player player in players) {
-      if (player.position != Position.empty()) {
-        playerSprites.add(PlayerSprite(
-          onTap: () {
-            if (popUpMenuIsOpen) {
-              closeMenu();
-              refresh();
-            } else {
-              openMenu();
-              refresh();
-            }
-          },
-          player: player,
-        ));
+    for (Player otherPlayer in players) {
+      if (otherPlayer != player) {
+        if (otherPlayer.life.isDead()) {
+          playerSprites.add(DeadPlayerSprite(
+            player: otherPlayer,
+            color: AppColors().getPlayerColor(otherPlayer.id),
+          ));
+        } else {
+          playerSprites.add(OtherPlayerSprite(
+              player: otherPlayer,
+              color: AppColors().getPlayerColor(otherPlayer.id),
+              onTap: () {}));
+        }
       }
     }
+
+    playerSprites.add(PlayerSprite(
+      onTap: () {
+        if (popUpMenuIsOpen) {
+          closeMenu();
+          refresh();
+        } else {
+          openMenu();
+          refresh();
+        }
+      },
+      player: player,
+    ));
 
     return playerSprites;
   }

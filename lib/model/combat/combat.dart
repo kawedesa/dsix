@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dsix/model/combat/damage.dart';
 import 'package:dsix/model/combat/position.dart';
 
@@ -12,15 +14,14 @@ class Combat {
   void setAttack(double angle, double distance, Position position, Item item) {
     double distanceScale = distance * 50;
     attack.aoe.setArea(angle, distanceScale, position, item.attackType);
-    attack.damage.pDamage = item.pDamage;
-    attack.damage.mDamage = item.mDamage;
+    attack.damage = item.damage;
   }
 
   void resetAttack() {
     attack.aoe.reset();
   }
 
-  void confirmAttack(List<Npc> npcs, List<Player> players, Player player) {
+  void confirmAttack(List<Npc> npcs, List<Player> players) {
     for (Npc npc in npcs) {
       if (attack.aoe.insideArea(npc.position)) {
         npc.receiveAttack(attack.damage);

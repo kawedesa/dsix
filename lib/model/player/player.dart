@@ -49,7 +49,7 @@ class Player {
       id: id,
       name: '',
       race: '',
-      size: 20,
+      size: 15,
       life: Life.empty(),
       position: Position.empty(),
       attributes: PlayerAttribute.empty(),
@@ -125,14 +125,9 @@ class Player {
   }
 
   void receiveAttack(Damage rawDamage) {
-    int damageAfterArmor = equipment.armor.calculateDamage(rawDamage);
+    int damageAfterArmor = equipment.calculateDamage(rawDamage);
 
     life.receiveDamage(damageAfterArmor);
-    update();
-  }
-
-  void defend() {
-    equipment.armor.tempArmor += 5;
     update();
   }
 

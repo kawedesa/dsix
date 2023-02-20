@@ -1,14 +1,12 @@
+import 'package:dsix/model/combat/armor.dart';
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/shared/app_exceptions.dart';
-import '../../combat/armor.dart';
+
+import '../../combat/range.dart';
 import '../../combat/damage.dart';
-import '../../combat/attack_range.dart';
 import 'equipment_slot.dart';
 
 class PlayerEquipment {
-  Armor armor;
-  Damage damage;
-  AttackRange attackRange;
   EquipmentSlot mainHandSlot;
   EquipmentSlot offHandSlot;
   EquipmentSlot headSlot;
@@ -20,9 +18,6 @@ class PlayerEquipment {
   int currentWeight;
   int money;
   PlayerEquipment({
-    required this.armor,
-    required this.damage,
-    required this.attackRange,
     required this.mainHandSlot,
     required this.offHandSlot,
     required this.headSlot,
@@ -37,9 +32,6 @@ class PlayerEquipment {
 
   factory PlayerEquipment.empty() {
     return PlayerEquipment(
-      armor: Armor.empty(),
-      damage: Damage.empty(),
-      attackRange: AttackRange.empty(),
       mainHandSlot: EquipmentSlot.empty('mainHandSlot'),
       offHandSlot: EquipmentSlot.empty('offHandSlot'),
       headSlot: EquipmentSlot.empty('headSlot'),
@@ -62,9 +54,6 @@ class PlayerEquipment {
     }
 
     return PlayerEquipment(
-      armor: Armor.fromMap(data?['armor']),
-      damage: Damage.fromMap(data?['damage']),
-      attackRange: AttackRange.fromMap(data?['attackRange']),
       mainHandSlot: EquipmentSlot.fromMap(data?['mainHandSlot']),
       offHandSlot: EquipmentSlot.fromMap(data?['offHandSlot']),
       headSlot: EquipmentSlot.fromMap(data?['headSlot']),
@@ -81,9 +70,6 @@ class PlayerEquipment {
   Map<String, dynamic> toMap() {
     var bag = this.bag.map((item) => item.toMap()).toList();
     return {
-      'armor': armor.toMap(),
-      'damage': damage.toMap(),
-      'attackRange': attackRange.toMap(),
       'mainHandSlot': mainHandSlot.toMap(),
       'offHandSlot': offHandSlot.toMap(),
       'headSlot': headSlot.toMap(),
@@ -122,8 +108,6 @@ class PlayerEquipment {
   }
 
   void equip(EquipmentSlot slot, Item item) {
-    increaseDamageAndArmor(item);
-
     if (item.itemSlot == 'two hands') {
       unequip(mainHandSlot);
       unequip(offHandSlot);
@@ -146,7 +130,6 @@ class PlayerEquipment {
       return;
     }
 
-    decreaseDamageAndArmor(slot.item);
     bag.add(slot.item);
 
     if (slot.item.itemSlot == 'two hands') {
@@ -155,18 +138,6 @@ class PlayerEquipment {
     } else {
       slot.unequip();
     }
-  }
-
-  void increaseDamageAndArmor(Item item) {
-    damage.increaseDamage(item);
-    armor.increaseArmor(item);
-    attackRange.increase(item.maxRange, item.minRange);
-  }
-
-  void decreaseDamageAndArmor(Item item) {
-    damage.decreaseDamage(item);
-    armor.decreaseArmor(item);
-    attackRange.decrease(item.maxRange, item.minRange);
   }
 
   void removeItemfromBag(Item item) {
@@ -195,4 +166,41 @@ class PlayerEquipment {
   }
 
   void useItem(EquipmentSlot slot) {}
+
+  int calculateDamage(Damage rawDamage) {
+    int pDamage = rawDamage.pDamage - getTotalArmor().pArmor;
+    if (pDamage < 0) {
+      pDamage = 0;
+    }
+    int mDamage = rawDamage.mDamage - getTotalArmor().mArmor;
+    if (mDamage < 0) {
+      mDamage = 0;
+    }
+
+    int totalDamage = pDamage + mDamage;
+
+    print(totalDamage);
+
+    return totalDamage;
+  }
+
+  Armor getTotalArmor() {
+    int pArmor = 0;
+    int mArmor = 0;
+
+    pArmor = mainHandSlot.item.armor.pArmor +
+        offHandSlot.item.armor.pArmor +
+        headSlot.item.armor.pArmor +
+        bodySlot.item.armor.pArmor +
+        handSlot.item.armor.pArmor +
+        feetSlot.item.armor.pArmor;
+    mArmor = mainHandSlot.item.armor.mArmor +
+        offHandSlot.item.armor.mArmor +
+        headSlot.item.armor.mArmor +
+        bodySlot.item.armor.mArmor +
+        handSlot.item.armor.mArmor +
+        feetSlot.item.armor.mArmor;
+
+    return Armor(pArmor: pArmor, mArmor: mArmor);
+  }
 }

@@ -45,12 +45,11 @@ class Life {
     current -= damage;
   }
 
-  // void setLife(String race) {
-  //   if (race == 'dwarf') {
-  //     max = 25;
-  //   } else {
-  //     max = 20;
-  //   }
-  // }
-
+  bool isDead() {
+    if (current < 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

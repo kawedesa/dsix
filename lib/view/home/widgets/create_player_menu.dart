@@ -22,71 +22,24 @@ class CreatePlayerMenu extends StatefulWidget {
 class _CreatePlayerMenuState extends State<CreatePlayerMenu> {
   AppRadialMenu createPlayerMenu(Game game, User user) {
     List<AppCircularButton> players = [];
-    List<AppCircularButton> availablePlayers = [
-      AppCircularButton(
-        color: (game.availablePlayers.contains('blue'))
-            ? AppColors.blue
-            : AppColors.blue.withAlpha(15),
-        borderColor: AppColors.blueDark,
-        size: 0.2,
-        onTap: (game.availablePlayers.contains('blue'))
-            ? () {
-                choosePlayer(context, game, user, 'blue');
-              }
-            : null,
-      ),
-      AppCircularButton(
-        color: (game.availablePlayers.contains('yellow'))
-            ? AppColors.yellow
-            : AppColors.yellow.withAlpha(15),
-        borderColor: AppColors.yellowDark,
-        size: 0.2,
-        onTap: (game.availablePlayers.contains('yellow'))
-            ? () {
-                choosePlayer(context, game, user, 'yellow');
-              }
-            : null,
-      ),
-      AppCircularButton(
-        color: (game.availablePlayers.contains('green'))
-            ? AppColors.green
-            : AppColors.green.withAlpha(15),
-        borderColor: AppColors.greenDark,
-        size: 0.2,
-        onTap: (game.availablePlayers.contains('green'))
-            ? () {
-                choosePlayer(context, game, user, 'green');
-              }
-            : null,
-      ),
-      AppCircularButton(
-        color: (game.availablePlayers.contains('purple'))
-            ? AppColors.purple
-            : AppColors.purple.withAlpha(15),
-        borderColor: AppColors.purpleDark,
-        size: 0.2,
-        onTap: (game.availablePlayers.contains('purple'))
-            ? () {
-                choosePlayer(context, game, user, 'purple');
-              }
-            : null,
-      ),
-      AppCircularButton(
-        color: (game.availablePlayers.contains('pink'))
-            ? AppColors.pink
-            : AppColors.pink.withAlpha(15),
-        borderColor: AppColors.pinkDark,
-        size: 0.2,
-        onTap: (game.availablePlayers.contains('pink'))
-            ? () {
-                choosePlayer(context, game, user, 'pink');
-              }
-            : null,
-      ),
-    ];
 
     for (int i = 0; i < game.numberOfPlayers; i++) {
-      players.add(availablePlayers[i]);
+      String id = game.availablePlayers[i];
+
+      players.add(
+        AppCircularButton(
+          color: (game.choosenPlayers.contains(id))
+              ? AppColors().getPlayerColor(id).withAlpha(15)
+              : AppColors().getPlayerColor(id),
+          borderColor: AppColors().getPlayerDarkColor(id),
+          size: 0.2,
+          onTap: (game.choosenPlayers.contains(id))
+              ? null
+              : () {
+                  choosePlayer(context, game, user, id);
+                },
+        ),
+      );
     }
 
     AppRadialMenu menu = AppRadialMenu(
@@ -97,7 +50,7 @@ class _CreatePlayerMenuState extends State<CreatePlayerMenu> {
 
   void choosePlayer(context, Game game, User user, String color) {
     newPlayer(game, user, color);
-    game.removeAvailablePlayer(color);
+    game.choosePlayer(color);
     goToRaceView(context);
   }
 

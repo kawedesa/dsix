@@ -45,70 +45,70 @@ class _InventoryViewState extends State<InventoryView> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  AppCircularButton(
-                      icon: AppImages.pDamage,
-                      iconColor: user.darkColor,
-                      color: user.color,
-                      borderColor: user.color,
-                      size: 0.075),
-                  const AppSeparatorHorizontal(value: 0.025),
-                  AppText(
-                      text: user.player.equipment.damage.pDamage.toString(),
-                      fontSize: 0.04,
-                      letterSpacing: 0.002,
-                      color: Colors.white),
-                ],
-              ),
-              Row(
-                children: [
-                  AppCircularButton(
-                      icon: AppImages.pArmor,
-                      iconColor: user.darkColor,
-                      color: user.color,
-                      borderColor: user.color,
-                      size: 0.075),
-                  const AppSeparatorHorizontal(value: 0.025),
-                  AppText(
-                      text: user.player.equipment.armor.pArmor.toString(),
-                      fontSize: 0.04,
-                      letterSpacing: 0.002,
-                      color: Colors.white),
-                ],
-              ),
-              Row(
-                children: [
-                  AppCircularButton(
-                      icon: AppImages.mDamage,
-                      iconColor: user.darkColor,
-                      color: user.color,
-                      borderColor: user.color,
-                      size: 0.075),
-                  const AppSeparatorHorizontal(value: 0.025),
-                  AppText(
-                      text: user.player.equipment.damage.mDamage.toString(),
-                      fontSize: 0.04,
-                      letterSpacing: 0.002,
-                      color: Colors.white),
-                ],
-              ),
-              Row(
-                children: [
-                  AppCircularButton(
-                      icon: AppImages.mArmor,
-                      iconColor: user.darkColor,
-                      color: user.color,
-                      borderColor: user.color,
-                      size: 0.075),
-                  const AppSeparatorHorizontal(value: 0.025),
-                  AppText(
-                      text: user.player.equipment.armor.mArmor.toString(),
-                      fontSize: 0.04,
-                      letterSpacing: 0.002,
-                      color: Colors.white),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     AppCircularButton(
+              //         icon: AppImages.pDamage,
+              //         iconColor: user.darkColor,
+              //         color: user.color,
+              //         borderColor: user.color,
+              //         size: 0.075),
+              //     const AppSeparatorHorizontal(value: 0.025),
+              //     AppText(
+              //         text: user.player.equipment.damage.pDamage.toString(),
+              //         fontSize: 0.04,
+              //         letterSpacing: 0.002,
+              //         color: Colors.white),
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     AppCircularButton(
+              //         icon: AppImages.pArmor,
+              //         iconColor: user.darkColor,
+              //         color: user.color,
+              //         borderColor: user.color,
+              //         size: 0.075),
+              //     const AppSeparatorHorizontal(value: 0.025),
+              //     AppText(
+              //         text: user.player.equipment.armor.pArmor.toString(),
+              //         fontSize: 0.04,
+              //         letterSpacing: 0.002,
+              //         color: Colors.white),
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     AppCircularButton(
+              //         icon: AppImages.mDamage,
+              //         iconColor: user.darkColor,
+              //         color: user.color,
+              //         borderColor: user.color,
+              //         size: 0.075),
+              //     const AppSeparatorHorizontal(value: 0.025),
+              //     AppText(
+              //         text: user.player.equipment.damage.mDamage.toString(),
+              //         fontSize: 0.04,
+              //         letterSpacing: 0.002,
+              //         color: Colors.white),
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     AppCircularButton(
+              //         icon: AppImages.mArmor,
+              //         iconColor: user.darkColor,
+              //         color: user.color,
+              //         borderColor: user.color,
+              //         size: 0.075),
+              //     const AppSeparatorHorizontal(value: 0.025),
+              //     AppText(
+              //         text: user.player.equipment.armor.mArmor.toString(),
+              //         fontSize: 0.04,
+              //         letterSpacing: 0.002,
+              //         color: Colors.white),
+              //   ],
+              // ),
             ],
           ),
         ),
@@ -149,7 +149,9 @@ class _InventoryViewState extends State<InventoryView> {
                                   MediaQuery.of(context).size.height)
                               ? AppLayout.avarage(context) * 0.35
                               : AppLayout.shortest(context) * 0.35,
-                          child: PlayerSpriteImage(race: user.player.race))),
+                          child: PlayerSpriteImage(
+                              isDead: user.player.life.isDead(),
+                              race: user.player.race))),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Row(

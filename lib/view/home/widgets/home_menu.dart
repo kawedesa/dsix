@@ -40,7 +40,6 @@ class _HomeMenuState extends State<HomeMenu> {
   }
 
   void chooseCreator(context, User user) {
-    user.selectCreator();
     goToCreatorView(context);
   }
 
@@ -90,24 +89,19 @@ class _HomeMenuState extends State<HomeMenu> {
 
       case 1:
         return (game.phase == 'empty')
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppTextButton(
-                      buttonText: 'new game',
-                      color: AppColors.uiColor,
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return NewGameDialog(
-                              game: game,
-                            );
-                          },
-                        );
-                      }),
-                ],
-              )
+            ? AppTextButton(
+                buttonText: 'new game',
+                color: AppColors.uiColor,
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return NewGameDialog(
+                        game: game,
+                      );
+                    },
+                  );
+                })
             : menu = Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

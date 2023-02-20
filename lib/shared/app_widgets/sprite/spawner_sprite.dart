@@ -12,20 +12,20 @@ class SpawnerSprite extends StatefulWidget {
 }
 
 class _SpawnerSpriteState extends State<SpawnerSprite> {
-  final AppTempPosition _tempPosition = AppTempPosition();
-
+  final TempPosition _tempPosition = TempPosition();
+  bool drag = false;
   @override
   Widget build(BuildContext context) {
-    if (_tempPosition.oldPosition == null) {
+    if (drag == false) {
       _tempPosition.initialize(widget.spawner.position);
     }
 
-    return ChangeNotifierProxyProvider<Spawner, AppTempPosition>(
+    return ChangeNotifierProxyProvider<Spawner, TempPosition>(
         create: (context) => _tempPosition,
         update: (context, _, tempPosition) => tempPosition!..panEnd(),
         child: Positioned(
-          left: _tempPosition.newPosition!.dx - (widget.spawner.size / 2),
-          top: _tempPosition.newPosition!.dy - (widget.spawner.size / 2),
+          left: _tempPosition.newPosition.dx - (widget.spawner.size / 2),
+          top: _tempPosition.newPosition.dy - (widget.spawner.size / 2),
           child: Container(
             width: widget.spawner.size,
             height: widget.spawner.size,
@@ -39,7 +39,7 @@ class _SpawnerSpriteState extends State<SpawnerSprite> {
             ),
             child: GestureDetector(
               onPanStart: (details) {
-                _tempPosition.initialize(widget.spawner.position);
+                drag = true;
               },
               onPanUpdate: (details) {
                 setState(() {
@@ -47,7 +47,8 @@ class _SpawnerSpriteState extends State<SpawnerSprite> {
                 });
               },
               onPanEnd: (details) {
-                widget.spawner.changePosition(_tempPosition.newPosition!);
+                widget.spawner.changePosition(_tempPosition.newPosition);
+                drag = false;
               },
             ),
           ),

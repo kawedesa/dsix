@@ -9,8 +9,8 @@ class Game {
   AppMap map;
   String quest;
   int numberOfPlayers;
-
   List<String> availablePlayers;
+  List<String> choosenPlayers;
 
   Game({
     required this.phase,
@@ -20,6 +20,7 @@ class Game {
     required this.quest,
     required this.numberOfPlayers,
     required this.availablePlayers,
+    required this.choosenPlayers,
   });
   final database = FirebaseFirestore.instance;
 
@@ -32,6 +33,7 @@ class Game {
       'quest': quest,
       'numberOfPlayers': numberOfPlayers,
       'availablePlayers': availablePlayers,
+      'choosenPlayers': choosenPlayers,
     };
   }
 
@@ -42,6 +44,12 @@ class Game {
       availablePlayers.add(playerID);
     }
 
+    List<String> choosenPlayers = [];
+    List<dynamic> choosenPlayersMap = data?['choosenPlayers'];
+    for (var playerID in choosenPlayersMap) {
+      choosenPlayers.add(playerID);
+    }
+
     return Game(
       phase: data?['phase'],
       difficulty: data?['difficulty'],
@@ -50,6 +58,7 @@ class Game {
       quest: data?['quest'],
       numberOfPlayers: data?['numberOfPlayers'],
       availablePlayers: availablePlayers,
+      choosenPlayers: choosenPlayers,
     );
   }
 
@@ -62,6 +71,7 @@ class Game {
       quest: '',
       numberOfPlayers: 0,
       availablePlayers: ['blue', 'pink', 'green', 'yellow', 'purple'],
+      choosenPlayers: [],
     );
   }
 
@@ -74,12 +84,26 @@ class Game {
       quest: '',
       numberOfPlayers: numberOfPlayers,
       availablePlayers: ['blue', 'pink', 'green', 'yellow', 'purple'],
+      choosenPlayers: [],
     );
   }
 
-  void removeAvailablePlayer(String color) async {
-    availablePlayers.remove(color);
+  void choosePlayer(String color) async {
+    choosenPlayers.add(color);
     update();
+  }
+
+  void deletePlayer(String color) async {
+    choosenPlayers.remove(color);
+
+    update();
+
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('players')
+        .doc(color)
+        .delete();
   }
 
   void newGame(int choosenDifficulty, int numberOfPlayers) async {
@@ -96,13 +120,12 @@ class Game {
 
   void deleteGame() async {
     await database.collection('game').doc('gameID').set(Game.empty().toMap());
-    deletePlayers();
+    deleteAllPlayers();
     deleteSpawners();
     deleteNpcs();
-    // deleteActions();
   }
 
-  void deletePlayers() async {
+  void deleteAllPlayers() async {
     var playerBatch = database.batch();
 
     await database
@@ -152,23 +175,6 @@ class Game {
 
     npcBatch.commit();
   }
-
-  // void deleteActions() async {
-  //   var actionBatch = database.batch();
-
-  //   await database
-  //       .collection('game')
-  //       .doc('gameID')
-  //       .collection('actions')
-  //       .get()
-  //       .then((snapshot) {
-  //     for (DocumentSnapshot ds in snapshot.docs) {
-  //       actionBatch.delete(ds.reference);
-  //     }
-  //   });
-
-  //   actionBatch.commit();
-  // }
 
   void update() async {
     await database.collection('game').doc('gameID').update(toMap());
