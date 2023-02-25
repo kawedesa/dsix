@@ -20,7 +20,7 @@ class CreatePlayerMenu extends StatefulWidget {
 }
 
 class _CreatePlayerMenuState extends State<CreatePlayerMenu> {
-  AppRadialMenu createPlayerMenu(Game game, User user) {
+  Widget createPlayerMenu(Game game, User user) {
     List<AppCircularButton> players = [];
 
     for (int i = 0; i < game.numberOfPlayers; i++) {
@@ -42,8 +42,12 @@ class _CreatePlayerMenuState extends State<CreatePlayerMenu> {
       );
     }
 
-    AppRadialMenu menu = AppRadialMenu(
-      buttonInfo: players,
+    Widget menu = Center(
+      child: AppRadialMenu(
+        maxAngle: 360,
+        buttonInfo: players,
+        menuSize: 0.6,
+      ),
     );
     return menu;
   }

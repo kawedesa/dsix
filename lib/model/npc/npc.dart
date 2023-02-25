@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/combat/armor.dart';
+import 'package:dsix/model/combat/attribute/movement.dart';
+import 'package:dsix/model/combat/attribute/vision.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/position.dart';
 
+import '../combat/ability/ability.dart';
 import '../combat/damage.dart';
 
 class Npc {
@@ -12,7 +15,11 @@ class Npc {
   Life life;
   Damage damage;
   Armor armor;
+  Movement movement;
+  Vision vision;
   Position position;
+  List<Ability> abilities;
+
   Npc({
     required this.id,
     required this.race,
@@ -20,12 +27,17 @@ class Npc {
     required this.life,
     required this.damage,
     required this.armor,
+    required this.movement,
+    required this.vision,
     required this.position,
+    required this.abilities,
   });
 
   final database = FirebaseFirestore.instance;
 
   Map<String, dynamic> toMap() {
+    var abilityToMap = abilities.map((ability) => ability.toMap()).toList();
+
     return {
       'id': id,
       'race': race,
@@ -33,11 +45,21 @@ class Npc {
       'life': life.toMap(),
       'damage': damage.toMap(),
       'armor': armor.toMap(),
+      'movement': movement.toMap(),
+      'vision': vision.toMap(),
       'position': position.toMap(),
+      'abilities': abilityToMap,
     };
   }
 
   factory Npc.fromMap(Map<String, dynamic>? data) {
+    List<Ability> getAbilities = [];
+    List<dynamic> abilitiesMap = data?['abilities'];
+
+    for (var ability in abilitiesMap) {
+      getAbilities.add(Ability.fromMap(ability));
+    }
+
     return Npc(
       id: data?['id'],
       race: data?['race'],
@@ -45,7 +67,10 @@ class Npc {
       life: Life.fromMap(data?['life']),
       damage: Damage.fromMap(data?['damage']),
       armor: Armor.fromMap(data?['armor']),
+      movement: Movement.fromMap(data?['movement']),
+      vision: Vision.fromMap(data?['vision']),
       position: Position.fromMap(data?['position']),
+      abilities: getAbilities,
     );
   }
 

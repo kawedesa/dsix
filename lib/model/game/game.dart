@@ -118,6 +118,11 @@ class Game {
     update();
   }
 
+  void endGame() {
+    phase = 'end';
+    update();
+  }
+
   void deleteGame() async {
     await database.collection('game').doc('gameID').set(Game.empty().toMap());
     deleteAllPlayers();

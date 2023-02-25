@@ -1,14 +1,17 @@
 import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'button/app_circular_button.dart';
 
 class AppRadialMenu extends StatefulWidget {
-  final List<AppCircularButton> buttonInfo;
+  final List<Widget> buttonInfo;
+  final double maxAngle;
+  final double menuSize;
 
   const AppRadialMenu({
     Key? key,
     required this.buttonInfo,
+    required this.maxAngle,
+    required this.menuSize,
   }) : super(key: key);
 
   @override
@@ -19,11 +22,9 @@ class _AppRadialMenuState extends State<AppRadialMenu> {
   List<Widget> createMenu() {
     List<Widget> menu = [];
 
-    double buttonSize = AppLayout.shortest(context) * 0.2;
-
     for (int i = 0; i < widget.buttonInfo.length; i++) {
       Offset buttonPosition =
-          calculateButtonPosition(i, widget.buttonInfo.length, buttonSize);
+          calculateButtonPosition(i, widget.buttonInfo.length);
 
       Widget newButton = Align(
         alignment: Alignment(buttonPosition.dx, buttonPosition.dy),
@@ -35,28 +36,36 @@ class _AppRadialMenuState extends State<AppRadialMenu> {
     return menu;
   }
 
-  Offset calculateButtonPosition(
-      int buttonIndex, int numberOfButtons, double buttonSize) {
-    double numberOfAngles = 6.28319 / numberOfButtons;
+  Offset calculateButtonPosition(int buttonIndex, int numberOfButtons) {
+    double maxAngleInRadians = (widget.maxAngle * pi) / 180;
 
-    double angle = (buttonIndex + 1) * numberOfAngles;
+    double angleValue = maxAngleInRadians / numberOfButtons;
 
-    double x = sin(angle);
+    double adjustToCenter = 0;
 
-    double y = cos(angle);
+    if (numberOfButtons.isOdd) {
+      adjustToCenter = (numberOfButtons / 2).floor() * angleValue;
+    } else {
+      adjustToCenter =
+          ((numberOfButtons / 2).floor() * angleValue) - angleValue / 2;
+    }
+
+    double currentAngle = buttonIndex * angleValue - adjustToCenter;
+
+    double x = sin(currentAngle);
+
+    double y = cos(currentAngle);
 
     return Offset(x, y);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: AppLayout.shortest(context) * 0.6,
-        height: AppLayout.shortest(context) * 0.6,
-        child: Stack(
-          children: createMenu(),
-        ),
+    return SizedBox(
+      width: AppLayout.shortest(context) * widget.menuSize,
+      height: AppLayout.shortest(context) * widget.menuSize,
+      child: Stack(
+        children: createMenu(),
       ),
     );
   }

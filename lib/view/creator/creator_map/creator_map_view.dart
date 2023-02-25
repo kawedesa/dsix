@@ -1,6 +1,8 @@
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
+import 'package:dsix/shared/app_widgets/map/map_input_controller.dart';
+import 'package:dsix/shared/app_widgets/map/sprite/area_effect_sprite.dart';
 import 'package:dsix/view/creator/creator_map/creator_map_vm.dart';
 import 'package:dsix/view/creator/creator_map/widgets/game_creation_menu.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +25,19 @@ class CreatorMap extends StatefulWidget {
 class _CreatorMapState extends State<CreatorMap> {
   final CreatorMapVM _creatorMapVM = CreatorMapVM();
 
+  void refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
     final spawners = Provider.of<List<Spawner>>(context);
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
+
+    _creatorMapVM.checkForEndGame(game, npcs, players);
+    _creatorMapVM.updateSelectedNpc(npcs);
 
     return Center(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -52,11 +61,15 @@ class _CreatorMapState extends State<CreatorMap> {
                         width: AppLayout.longest(context),
                         height: AppLayout.longest(context),
                       ),
+                      _creatorMapVM.mapInputController(refresh),
                       Stack(
                         children: _creatorMapVM.createSpawnerSprites(spawners),
                       ),
+                      AreaEffectSprite(
+                        area: _creatorMapVM.combat.attack.aoe.area,
+                      ),
                       Stack(
-                        children: _creatorMapVM.createNpcSprites(npcs),
+                        children: _creatorMapVM.createNpcSprites(npcs, refresh),
                       ),
                       Stack(
                         children: _creatorMapVM.createPlayerSprites(players),
@@ -65,6 +78,8 @@ class _CreatorMapState extends State<CreatorMap> {
                   ),
                 ),
               ),
+              _creatorMapVM.selectedNpcUi(),
+              _creatorMapVM.abilityButtons(npcs, players, refresh),
               (game.phase == 'creation')
                   ? GameCreationMenu(
                       displaySnackbar: (text, color) {
@@ -72,6 +87,7 @@ class _CreatorMapState extends State<CreatorMap> {
                       },
                     )
                   : const SizedBox(),
+              _creatorMapVM.endGameButton(context, game),
             ],
           ),
         ),

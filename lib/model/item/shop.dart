@@ -1,7 +1,6 @@
 import 'package:dsix/model/combat/armor.dart';
 import 'package:dsix/model/combat/damage.dart';
 import 'package:dsix/model/combat/range.dart';
-import 'package:dsix/shared/app_images.dart';
 import 'dart:math';
 import 'item.dart';
 
@@ -136,8 +135,12 @@ class Shop {
       armor: Armor(pArmor: 1, mArmor: 0),
       weight: 1,
       value: 300,
-      range: Range.empty(),
-      attackType: 'cone',
+      range: Range(
+        min: 5,
+        max: 20,
+        width: 20,
+        type: 'cone',
+      ),
     ),
     // Item(
     //   icon: AppImages.ritualDagger,
@@ -492,12 +495,14 @@ class Shop {
       description: '',
       itemSlot: 'two hands',
       type: 'ranged',
-      damage: Damage.empty(),
+      damage: Damage(
+        pDamage: 3,
+        mDamage: 0,
+      ),
       armor: Armor.empty(),
       weight: 3,
       value: 300,
-      range: Range.empty(),
-      attackType: 'rectangle',
+      range: Range(min: 20, max: 70, width: 10, type: 'rectangle'),
     ),
     // Item(
     //   icon: AppImages.kunai,

@@ -18,7 +18,7 @@ class ChoosePlayerMenu extends StatefulWidget {
 }
 
 class _ChoosePlayerMenuState extends State<ChoosePlayerMenu> {
-  AppRadialMenu createPlayerMenu(
+  Widget createPlayerMenu(
     context,
     User user,
     List<Player> players,
@@ -39,8 +39,12 @@ class _ChoosePlayerMenuState extends State<ChoosePlayerMenu> {
       );
     }
 
-    AppRadialMenu menu = AppRadialMenu(
-      buttonInfo: buttons,
+    Widget menu = Center(
+      child: AppRadialMenu(
+        maxAngle: 360,
+        buttonInfo: buttons,
+        menuSize: 0.6,
+      ),
     );
     return menu;
   }

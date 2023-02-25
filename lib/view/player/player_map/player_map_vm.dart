@@ -1,18 +1,19 @@
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_widgets/sprite/dead_player_sprite.dart';
-import 'package:dsix/shared/app_widgets/sprite/other_player_sprite.dart';
-import 'package:dsix/shared/app_widgets/sprite/spawner_sprite.dart';
+import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_dead_npc_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_dead_player_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_npc_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_other_player_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_player_sprite.dart';
+import 'package:dsix/view/home/home_view.dart';
 import 'package:dsix/view/player/player_map/widgets/pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../../model/combat/combat.dart';
 import '../../../model/combat/position.dart';
 import '../../../model/npc/npc.dart';
-import '../../../shared/app_widgets/sprite/npc_sprite.dart';
-import '../../../shared/app_widgets/sprite/player_sprite.dart';
 
 class PlayerMapVM {
   int mapSize = 320;
@@ -54,26 +55,20 @@ class PlayerMapVM {
     minZoom = 2 + AppLayout.longest(context) * 0.0025;
   }
 
-  List<SpawnerSprite> createSpawnerSprites(List<Spawner> spawners) {
-    List<SpawnerSprite> spawnerSprites = [];
-
-    for (Spawner spawner in spawners) {
-      spawnerSprites.add(SpawnerSprite(
-        spawner: spawner,
-      ));
-    }
-
-    return spawnerSprites;
-  }
-
-  List<NpcSprite> createNpcSprites(List<Npc> npcs) {
-    List<NpcSprite> npcSprites = [];
+  List<Widget> createNpcSprites(List<Npc> npcs) {
+    List<Widget> npcSprites = [];
 
     for (Npc npc in npcs) {
-      npcSprites.add(NpcSprite(
-        npc: npc,
-        viewer: 'player',
-      ));
+      if (npc.life.isDead()) {
+        npcSprites.add(PlayerViewDeadNpcSprite(
+          npc: npc,
+        ));
+      } else {
+        npcSprites.add(PlayerViewNpcSprite(
+          npc: npc,
+          onTap: () {},
+        ));
+      }
     }
 
     return npcSprites;
@@ -83,15 +78,16 @@ class PlayerMapVM {
       List<Player> players, Player player, Function() refresh) {
     List<Widget> playerSprites = [];
 
+//OTHER PLAYERS
     for (Player otherPlayer in players) {
       if (otherPlayer != player) {
         if (otherPlayer.life.isDead()) {
-          playerSprites.add(DeadPlayerSprite(
+          playerSprites.add(PlayerViewDeadPlayerSprite(
             player: otherPlayer,
             color: AppColors().getPlayerColor(otherPlayer.id),
           ));
         } else {
-          playerSprites.add(OtherPlayerSprite(
+          playerSprites.add(PlayerViewOtherPlayerSprite(
               player: otherPlayer,
               color: AppColors().getPlayerColor(otherPlayer.id),
               onTap: () {}));
@@ -99,33 +95,97 @@ class PlayerMapVM {
       }
     }
 
-    playerSprites.add(PlayerSprite(
-      onTap: () {
-        if (popUpMenuIsOpen) {
-          closeMenu();
-          refresh();
-        } else {
-          openMenu();
-          refresh();
-        }
-      },
-      player: player,
-    ));
+//PLAYER
+    if (player.life.isDead()) {
+      playerSprites.add(PlayerViewDeadPlayerSprite(
+        player: player,
+        color: AppColors().getPlayerColor(player.id),
+      ));
+    } else {
+      playerSprites.add(PlayerViewPlayerSprite(
+        player: player,
+        color: AppColors().getPlayerColor(player.id),
+        playerMode: playerMode,
+        onTap: () {
+          if (playerMode == 'menu') {
+            closeMenu();
+            refresh();
+          } else {
+            openMenu();
+            refresh();
+          }
+        },
+      ));
+    }
 
     return playerSprites;
   }
 
-  bool popUpMenuIsOpen = false;
+  String playerMode = 'stand';
 
   Widget popUpMenu() {
-    return PopUpMenu(popUpMenuIsOpen: popUpMenuIsOpen, closeMenu: closeMenu);
+    return (playerMode == 'menu')
+        ? PopUpMenu(playerMode: playerMode, closeMenu: closeMenu)
+        : const SizedBox();
   }
 
   void openMenu() {
-    popUpMenuIsOpen = true;
+    playerMode = 'menu';
   }
 
   void closeMenu() {
-    popUpMenuIsOpen = false;
+    playerMode = 'stand';
+  }
+
+  Widget endGameButton(context, String gamePhase, Player player) {
+    Widget button = const SizedBox();
+
+    switch (gamePhase) {
+      case 'end':
+        button = Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: AppColors().getPlayerDarkColor(player.id).withAlpha(100),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: AppTextButton(
+                  color: AppColors().getPlayerColor(player.id),
+                  buttonText: 'end',
+                  onTap: () {
+                    goToHomeView(context);
+                  }),
+            ),
+          ],
+        );
+
+        playerMode = 'end';
+
+        break;
+    }
+
+    return button;
+  }
+
+  void goToHomeView(context) {
+    Route newRoute = PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const HomeView(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = const Offset(-1.0, 0.0);
+        var end = const Offset(0.0, 0.0);
+        var curve = Curves.ease;
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+
+    Navigator.of(context).push(newRoute);
   }
 }

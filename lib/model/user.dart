@@ -1,4 +1,3 @@
-import 'package:dsix/model/combat/area_effect.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -75,5 +74,4 @@ class User {
   //     return;
   //   }
   // }
-
 }

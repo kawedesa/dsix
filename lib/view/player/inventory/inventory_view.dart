@@ -1,12 +1,9 @@
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
-import 'package:dsix/shared/app_widgets/sprite/player_sprite_image.dart';
-import 'package:dsix/shared/app_widgets/text/app_text.dart';
+import 'package:dsix/shared/app_widgets/map/sprite/player_sprite_image.dart';
 import 'package:dsix/view/player/inventory/inventory_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +41,7 @@ class _InventoryViewState extends State<InventoryView> {
           height: AppLayout.height(context) * 0.06,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: const [
               // Row(
               //   children: [
               //     AppCircularButton(
@@ -151,6 +148,7 @@ class _InventoryViewState extends State<InventoryView> {
                               : AppLayout.shortest(context) * 0.35,
                           child: PlayerSpriteImage(
                               isDead: user.player.life.isDead(),
+                              color: user.color,
                               race: user.player.race))),
                   Align(
                     alignment: Alignment.bottomCenter,

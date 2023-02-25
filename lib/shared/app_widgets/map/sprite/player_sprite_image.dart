@@ -5,9 +5,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class PlayerSpriteImage extends StatefulWidget {
   final bool isDead;
+  final Color color;
   final String race;
 
-  const PlayerSpriteImage({Key? key, required this.isDead, required this.race})
+  const PlayerSpriteImage(
+      {Key? key, required this.isDead, required this.color, required this.race})
       : super(key: key);
 
   @override
@@ -36,9 +38,18 @@ class _PlayerSpriteImageState extends State<PlayerSpriteImage> {
   @override
   Widget build(BuildContext context) {
     return (widget.isDead)
-        ? SvgPicture.asset(
-            AppImages.grave,
-            width: AppLayout.shortest(context) * 0.5,
+        ? Stack(
+            children: [
+              SvgPicture.asset(
+                AppImages.grave,
+                width: AppLayout.shortest(context) * 0.5,
+              ),
+              SvgPicture.asset(
+                AppImages.graveColor,
+                color: widget.color,
+                width: AppLayout.shortest(context) * 0.5,
+              ),
+            ],
           )
         : Stack(
             children: [

@@ -31,7 +31,7 @@ class _AppTextButtonState extends State<AppTextButton> {
             width: AppLayout.shortest(context) * 0.5,
             height: AppLayout.shortest(context) * 0.125,
             decoration: BoxDecoration(
-              color: Colors.transparent,
+              color: Colors.black,
               border: Border.all(
                 color: widget.color,
                 width: AppLayout.shortest(context) * 0.005,

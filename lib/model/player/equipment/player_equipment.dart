@@ -1,8 +1,6 @@
 import 'package:dsix/model/combat/armor.dart';
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/shared/app_exceptions.dart';
-
-import '../../combat/range.dart';
 import '../../combat/damage.dart';
 import 'equipment_slot.dart';
 

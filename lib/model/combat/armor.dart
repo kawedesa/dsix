@@ -1,5 +1,3 @@
-import 'damage.dart';
-
 class Armor {
   int pArmor;
   int mArmor;

@@ -27,3 +27,7 @@ class PlayerNotReadyException implements Exception {
 
   PlayerNotReadyException(this.playerName);
 }
+
+class EndGameException implements Exception {
+  EndGameException();
+}

@@ -1,35 +1,29 @@
-class PlayerVision {
-  int raceBaseAttribute;
+class Vision {
   int attribute;
 
-  PlayerVision({
+  Vision({
     required this.attribute,
-    required this.raceBaseAttribute,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'attribute': attribute,
-      'raceBaseAttribute': raceBaseAttribute,
     };
   }
 
-  factory PlayerVision.fromMap(Map<String, dynamic>? data) {
-    return PlayerVision(
+  factory Vision.fromMap(Map<String, dynamic>? data) {
+    return Vision(
       attribute: data?['attribute'],
-      raceBaseAttribute: data?['raceBaseAttribute'],
     );
   }
 
-  factory PlayerVision.empty() {
-    return PlayerVision(
-      raceBaseAttribute: 0,
+  factory Vision.empty() {
+    return Vision(
       attribute: 0,
     );
   }
 
   void setAttribute(int value) {
-    raceBaseAttribute = value;
     attribute = value;
   }
 
@@ -42,7 +36,7 @@ class PlayerVision {
   }
 
   double getRange() {
-    double range = attribute * 20 + 100;
+    double range = attribute * 40 + 100;
 
     return range;
   }

@@ -9,6 +9,7 @@ class AppCircularButton extends StatefulWidget {
   final Color? iconColor;
   final Function()? onTap;
   final double size;
+  final double? borderSize;
   final String? icon;
 
   const AppCircularButton({
@@ -18,6 +19,7 @@ class AppCircularButton extends StatefulWidget {
     this.iconColor,
     this.onTap,
     required this.size,
+    this.borderSize,
     this.icon,
   }) : super(key: key);
 
@@ -47,7 +49,9 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                     color: widget.color,
                     border: Border.all(
                       color: widget.borderColor,
-                      width: AppLayout.shortest(context) * 0.003,
+                      width: (widget.borderSize == null)
+                          ? AppLayout.shortest(context) * 0.003
+                          : widget.borderSize!,
                     ),
                   ),
                 ),
@@ -60,7 +64,9 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                       )
                     : const SizedBox(),
                 Padding(
-                  padding: EdgeInsets.all(AppLayout.shortest(context) * 0.003),
+                  padding: EdgeInsets.all((widget.borderSize == null)
+                      ? AppLayout.shortest(context) * 0.003
+                      : widget.borderSize!),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -84,10 +90,6 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.transparent,
-                    // border: Border.all(
-                    //   color: widget.borderColor,
-                    //   width: AppLayout.shortest(context) * 0.005,
-                    // ),
                   ),
                   child: GestureDetector(
                     onTap: () =>

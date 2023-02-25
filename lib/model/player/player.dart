@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:dsix/model/player/attribute/player_attribute.dart';
+import 'package:dsix/model/combat/attribute/attribute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/player/equipment/player_equipment.dart';
 import 'package:dsix/model/combat/life.dart';
@@ -13,7 +13,7 @@ class Player {
   double size;
   Life life;
   Position position;
-  PlayerAttribute attributes;
+  Attribute attributes;
   PlayerEquipment equipment;
   bool ready;
 
@@ -38,7 +38,7 @@ class Player {
       size: 0,
       life: Life.empty(),
       position: Position.empty(),
-      attributes: PlayerAttribute.empty(),
+      attributes: Attribute.empty(),
       equipment: PlayerEquipment.empty(),
       ready: false,
     );
@@ -52,7 +52,7 @@ class Player {
       size: 15,
       life: Life.empty(),
       position: Position.empty(),
-      attributes: PlayerAttribute.empty(),
+      attributes: Attribute.empty(),
       equipment: PlayerEquipment.empty(),
       ready: false,
     );
@@ -80,7 +80,7 @@ class Player {
       size: data?['size'],
       life: Life.fromMap(data?['life']),
       position: Position.fromMap(data?['position']),
-      attributes: PlayerAttribute.fromMap(data?['attributes']),
+      attributes: Attribute.fromMap(data?['attributes']),
       equipment: PlayerEquipment.fromMap(data?['equipment']),
       ready: data?['ready'],
     );

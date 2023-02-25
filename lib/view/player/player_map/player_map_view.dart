@@ -2,14 +2,13 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
-import 'package:dsix/view/player/player_map/widgets/game_pad.dart';
-import 'package:dsix/view/player/player_map/widgets/pop_up_menu.dart';
+import 'package:dsix/shared/app_widgets/map/game_pad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../model/npc/npc.dart';
 import '../../../shared/app_layout.dart';
-import '../../../shared/app_widgets/sprite/area_effect_sprite.dart';
+import '../../../shared/app_widgets/map/sprite/area_effect_sprite.dart';
 
 class PlayerMapView extends StatefulWidget {
   final Function() refresh;
@@ -68,29 +67,98 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                         children: _playerMapVM.createPlayerSprites(
                             players, user.player, refresh),
                       ),
-                      _playerMapVM.popUpMenu()
+                      _playerMapVM.popUpMenu(),
                     ],
                   ),
                 ),
               ),
               Align(
-                  alignment: const Alignment(0.6, 0.4),
-                  child: GamePad(
-                    combat: _playerMapVM.combat,
-                    item: user.player.equipment.offHandSlot.item,
-                    refresh: () {
-                      refresh();
-                    },
-                  )),
+                alignment: const Alignment(0.6, 0.4),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 400),
+                  switchInCurve: Curves.easeOutCubic,
+                  switchOutCurve: Curves.easeOutCubic,
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                    return ScaleTransition(scale: animation, child: child);
+                  },
+                  child: (_playerMapVM.playerMode == 'wait' ||
+                          game.phase == 'end')
+                      ? const SizedBox()
+                      : GamePad(
+                          color: user.color,
+                          darkColor: user.darkColor,
+                          onPanStart: () {
+                            _playerMapVM.playerMode = 'attack';
+                            refresh();
+                          },
+                          onPanUpdate: (angle, distance) {
+                            _playerMapVM.combat.setAttack(
+                              angle,
+                              distance,
+                              user.player.position,
+                              user.player.equipment.offHandSlot.item.range,
+                              user.player.equipment.offHandSlot.item.damage,
+                            );
+                            refresh();
+                          },
+                          onPanEnd: () {
+                            _playerMapVM.playerMode = 'stand';
+                            _playerMapVM.combat.confirmAttack(npcs, players);
+                            _playerMapVM.combat.resetAttack();
+                            refresh();
+                          },
+                          cancel: () {
+                            _playerMapVM.combat.resetAttack();
+                            refresh();
+                          },
+                        ),
+                ),
+              ),
               Align(
-                  alignment: const Alignment(-0.6, 0.4),
-                  child: GamePad(
-                    combat: _playerMapVM.combat,
-                    item: user.player.equipment.mainHandSlot.item,
-                    refresh: () {
-                      refresh();
-                    },
-                  )),
+                alignment: const Alignment(-0.6, 0.4),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 400),
+                  switchInCurve: Curves.easeOutCubic,
+                  switchOutCurve: Curves.easeOutCubic,
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                    return ScaleTransition(scale: animation, child: child);
+                  },
+                  child: (_playerMapVM.playerMode == 'wait' ||
+                          game.phase == 'end')
+                      ? const SizedBox()
+                      : GamePad(
+                          color: user.color,
+                          darkColor: user.darkColor,
+                          onPanStart: () {
+                            _playerMapVM.playerMode = 'attack';
+                            refresh();
+                          },
+                          onPanUpdate: (angle, distance) {
+                            _playerMapVM.combat.setAttack(
+                              angle,
+                              distance,
+                              user.player.position,
+                              user.player.equipment.mainHandSlot.item.range,
+                              user.player.equipment.mainHandSlot.item.damage,
+                            );
+                            refresh();
+                          },
+                          onPanEnd: () {
+                            _playerMapVM.playerMode = 'stand';
+                            _playerMapVM.combat.confirmAttack(npcs, players);
+                            _playerMapVM.combat.resetAttack();
+                            refresh();
+                          },
+                          cancel: () {
+                            _playerMapVM.combat.resetAttack();
+                            refresh();
+                          },
+                        ),
+                ),
+              ),
+              _playerMapVM.endGameButton(context, game.phase, user.player),
             ],
           ),
         ),

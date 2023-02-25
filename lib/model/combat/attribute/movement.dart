@@ -1,39 +1,29 @@
-import 'package:flutter/animation.dart';
-
-import '../../combat/position.dart';
-
-class PlayerMove {
-  int raceBaseAttribute;
+class Movement {
   int attribute;
 
-  PlayerMove({
+  Movement({
     required this.attribute,
-    required this.raceBaseAttribute,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'attribute': attribute,
-      'raceBaseAttribute': raceBaseAttribute,
     };
   }
 
-  factory PlayerMove.fromMap(Map<String, dynamic>? data) {
-    return PlayerMove(
+  factory Movement.fromMap(Map<String, dynamic>? data) {
+    return Movement(
       attribute: data?['attribute'],
-      raceBaseAttribute: data?['raceBaseAttribute'],
     );
   }
 
-  factory PlayerMove.empty() {
-    return PlayerMove(
-      raceBaseAttribute: 0,
+  factory Movement.empty() {
+    return Movement(
       attribute: 0,
     );
   }
 
   void setAttribute(int value) {
-    raceBaseAttribute = value;
     attribute = value;
   }
 

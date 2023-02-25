@@ -1,0 +1,220 @@
+import 'package:dotted_border/dotted_border.dart';
+import 'package:dsix/model/npc/npc.dart';
+import 'package:dsix/model/spawner/spawner.dart';
+import 'package:dsix/model/combat/temp_position.dart';
+import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_images.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:transparent_pointer/transparent_pointer.dart';
+
+class CreatorViewNpcSprite extends StatefulWidget {
+  final Npc npc;
+  final bool selected;
+  final Function() selectNpc;
+
+  const CreatorViewNpcSprite({
+    super.key,
+    required this.npc,
+    required this.selected,
+    required this.selectNpc,
+  });
+
+  @override
+  State<CreatorViewNpcSprite> createState() => _CreatorViewNpcSpriteState();
+}
+
+class _CreatorViewNpcSpriteState extends State<CreatorViewNpcSprite> {
+  final NpcSpriteController _controller = NpcSpriteController();
+  final TempPosition _tempPosition = TempPosition();
+  bool drag = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (drag == false) {
+      _tempPosition.initialize(widget.npc.position);
+    }
+
+    return ChangeNotifierProxyProvider<Spawner, TempPosition>(
+        create: (context) => _tempPosition,
+        update: (context, _, tempPosition) => tempPosition!..panEnd(),
+        child: Positioned(
+          left:
+              _tempPosition.newPosition.dx - (widget.npc.vision.getRange() / 2),
+          top:
+              _tempPosition.newPosition.dy - (widget.npc.vision.getRange() / 2),
+          child: SizedBox(
+            width: widget.npc.vision.getRange(),
+            height: widget.npc.vision.getRange(),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: TransparentPointer(
+                    transparent: true,
+                    child: NpcSpriteVisionRange(
+                      selected: widget.selected,
+                      range: widget.npc.vision.getRange(),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: TransparentPointer(
+                    transparent: true,
+                    child: NpcSpriteMoveRange(
+                      selected: widget.selected,
+                      maxRange: widget.npc.movement.maxRange(),
+                      distanceMoved: _tempPosition.distanceMoved,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: GestureDetector(
+                    onTap: () {
+                      widget.selectNpc();
+                    },
+                    onPanStart: (details) {
+                      drag = true;
+                      widget.selectNpc();
+                    },
+                    onPanUpdate: (details) {
+                      setState(() {
+                        _tempPosition.panUpdate(details.delta);
+                      });
+                    },
+                    onPanEnd: (details) {
+                      setState(() {
+                        _controller.endMove(_tempPosition, widget.npc);
+                        drag = false;
+                      });
+                    },
+                    child: SizedBox(
+                      width: widget.npc.size,
+                      height: widget.npc.size,
+                      child: Padding(
+                        padding: const EdgeInsets.all(1.0),
+                        child: SvgPicture.asset(
+                          AppImages().getRaceIcon(
+                            widget.npc.race,
+                          ),
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
+  }
+}
+
+class NpcSpriteController {
+  Offset getPosition(TempPosition tempPosition, Npc npc) {
+    return Offset(tempPosition.newPosition.dx - npc.vision.getRange() / 2,
+        tempPosition.newPosition.dy - npc.vision.getRange() / 2);
+  }
+
+  void endMove(TempPosition tempPosition, Npc npc) {
+    if (tempPosition.distanceMoved < npc.movement.maxRange() &&
+        tempPosition.distanceMoved > 4) {
+      npc.changePosition(tempPosition.newPosition);
+    }
+  }
+}
+
+// ignore: must_be_immutable
+class NpcSpriteMoveRange extends StatelessWidget {
+  final bool selected;
+  final double maxRange;
+  final double distanceMoved;
+
+  const NpcSpriteMoveRange({
+    Key? key,
+    required this.selected,
+    required this.maxRange,
+    required this.distanceMoved,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Color getColor() {
+      Color rangeColor = AppColors.uiColorDark;
+
+      if (distanceMoved == 0) {
+        rangeColor = AppColors.uiColorDark;
+      }
+      if (distanceMoved > 0 && distanceMoved < 4) {
+        rangeColor = AppColors.negative;
+      }
+      if (distanceMoved > 4 && distanceMoved < maxRange) {
+        rangeColor = rangeColor;
+      }
+      if (distanceMoved > maxRange) {
+        rangeColor = AppColors.negative;
+      }
+      return rangeColor;
+    }
+
+    double getRange() {
+      double range = 0;
+
+      switch (selected) {
+        case true:
+          range = (maxRange - distanceMoved < 7) ? 7 : maxRange - distanceMoved;
+          break;
+        case false:
+          range = 7;
+          break;
+      }
+
+      return range;
+    }
+
+    return AnimatedContainer(
+      curve: Curves.fastLinearToSlowEaseIn,
+      duration: const Duration(milliseconds: 700),
+      width: getRange(),
+      height: getRange(),
+      decoration: BoxDecoration(
+        color: getColor().withAlpha(25),
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: getColor(),
+          width: 0.3,
+        ),
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class NpcSpriteVisionRange extends StatelessWidget {
+  final double range;
+  final bool selected;
+  const NpcSpriteVisionRange({
+    Key? key,
+    required this.range,
+    required this.selected,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DottedBorder(
+      borderType: BorderType.Circle,
+      dashPattern: const [3, 6],
+      color: AppColors.uiColorDark,
+      strokeWidth: 0.3,
+      child: AnimatedContainer(
+        curve: Curves.fastLinearToSlowEaseIn,
+        duration: const Duration(milliseconds: 700),
+        width: (selected) ? range : 0,
+        height: (selected) ? range : 0,
+      ),
+    );
+  }
+}

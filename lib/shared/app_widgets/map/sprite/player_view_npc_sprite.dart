@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../app_images.dart';
+import '../../../app_images.dart';
 
 class NpcSprite extends StatefulWidget {
   final Npc npc;
-  final String viewer;
-  const NpcSprite({super.key, required this.npc, required this.viewer});
+
+  const NpcSprite({
+    super.key,
+    required this.npc,
+  });
 
   @override
   State<NpcSprite> createState() => _NpcSpriteState();

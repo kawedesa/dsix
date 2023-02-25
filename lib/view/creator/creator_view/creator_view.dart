@@ -1,4 +1,3 @@
-import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';

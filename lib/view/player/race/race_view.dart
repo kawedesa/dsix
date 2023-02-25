@@ -8,7 +8,7 @@ import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
 import 'package:dsix/shared/app_widgets/text/app_title.dart';
-import 'package:dsix/shared/app_widgets/sprite/player_sprite_image.dart';
+import 'package:dsix/shared/app_widgets/map/sprite/player_sprite_image.dart';
 import 'package:dsix/view/player/race/race_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -96,6 +96,7 @@ class _RaceViewState extends State<RaceView> {
                               alignment: Alignment.bottomCenter,
                               child: PlayerSpriteImage(
                                   isDead: false,
+                                  color: user.color,
                                   race: _raceVM.selectedRace.name)),
                         ],
                       ),

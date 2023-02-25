@@ -79,15 +79,15 @@ class _AttributeViewState extends State<AttributeView> {
                   color: user.color,
                   icon: AppImages.attack,
                   iconColor: user.darkColor,
-                  value: user.player.attributes.attack,
+                  value: user.player.attributes.power.attribute,
                   add: () {
                     setState(() {
-                      _attributeVM.addAttribute(user.player, 'attack');
+                      _attributeVM.addAttribute(user.player, 'power');
                     });
                   },
                   remove: () {
                     setState(() {
-                      _attributeVM.removeAttribute(user.player, 'attack');
+                      _attributeVM.removeAttribute(user.player, 'power');
                     });
                   },
                 ),
@@ -102,15 +102,15 @@ class _AttributeViewState extends State<AttributeView> {
                   color: user.color,
                   icon: AppImages.defend,
                   iconColor: user.darkColor,
-                  value: user.player.attributes.defend,
+                  value: user.player.attributes.defense.attribute,
                   add: () {
                     setState(() {
-                      _attributeVM.addAttribute(user.player, 'defend');
+                      _attributeVM.addAttribute(user.player, 'defense');
                     });
                   },
                   remove: () {
                     setState(() {
-                      _attributeVM.removeAttribute(user.player, 'defend');
+                      _attributeVM.removeAttribute(user.player, 'defense');
                     });
                   },
                 ),
@@ -124,15 +124,15 @@ class _AttributeViewState extends State<AttributeView> {
                   color: user.color,
                   icon: AppImages.move,
                   iconColor: user.darkColor,
-                  value: user.player.attributes.move.attribute,
+                  value: user.player.attributes.movement.attribute,
                   add: () {
                     setState(() {
-                      _attributeVM.addAttribute(user.player, 'move');
+                      _attributeVM.addAttribute(user.player, 'movement');
                     });
                   },
                   remove: () {
                     setState(() {
-                      _attributeVM.removeAttribute(user.player, 'move');
+                      _attributeVM.removeAttribute(user.player, 'movement');
                     });
                   },
                 ),

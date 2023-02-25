@@ -3,15 +3,16 @@ import 'package:dsix/model/combat/temp_position.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SpawnerSprite extends StatefulWidget {
+class CreatorViewSpawnerSprite extends StatefulWidget {
   final Spawner spawner;
-  const SpawnerSprite({super.key, required this.spawner});
+  const CreatorViewSpawnerSprite({super.key, required this.spawner});
 
   @override
-  State<SpawnerSprite> createState() => _SpawnerSpriteState();
+  State<CreatorViewSpawnerSprite> createState() =>
+      _CreatorViewSpawnerSpriteState();
 }
 
-class _SpawnerSpriteState extends State<SpawnerSprite> {
+class _CreatorViewSpawnerSpriteState extends State<CreatorViewSpawnerSprite> {
   final TempPosition _tempPosition = TempPosition();
   bool drag = false;
   @override

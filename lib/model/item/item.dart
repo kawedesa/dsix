@@ -13,7 +13,6 @@ class Item {
   int weight;
   int value;
   Range range;
-  String attackType;
   Item({
     required this.name,
     required this.description,
@@ -24,7 +23,6 @@ class Item {
     required this.weight,
     required this.value,
     required this.range,
-    required this.attackType,
   });
 
   factory Item.fromMap(Map<String, dynamic>? data) {
@@ -38,7 +36,6 @@ class Item {
       weight: data?['weight'],
       value: data?['value'],
       range: Range.fromMap(data?['range']),
-      attackType: data?['attackType'],
     );
   }
 
@@ -53,7 +50,6 @@ class Item {
       'weight': weight,
       'value': value,
       'range': range.toMap(),
-      'attackType': attackType,
     };
   }
 
@@ -67,8 +63,7 @@ class Item {
       armor: Armor.empty(),
       weight: 0,
       value: 0,
-      range: Range.empty(),
-      attackType: 'rectangle',
+      range: Range(min: 5, max: 15, width: 10, type: 'rectangle'),
     );
   }
 }

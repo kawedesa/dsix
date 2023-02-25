@@ -1,20 +1,17 @@
-import 'dart:math';
-
-import 'package:dsix/model/combat/damage.dart';
 import 'package:dsix/model/combat/position.dart';
-
-import '../item/item.dart';
+import 'package:dsix/model/combat/range.dart';
 import '../npc/npc.dart';
 import '../player/player.dart';
-import 'area_effect.dart';
+import 'attack.dart';
+import 'damage.dart';
 
 class Combat {
   Attack attack = Attack.empty();
 
-  void setAttack(double angle, double distance, Position position, Item item) {
-    double distanceScale = distance * 50;
-    attack.aoe.setArea(angle, distanceScale, position, item.attackType);
-    attack.damage = item.damage;
+  void setAttack(double angle, double distance, Position position, Range range,
+      Damage damage) {
+    attack.aoe.setArea(angle, distance, position, range);
+    attack.damage = damage;
   }
 
   void resetAttack() {
@@ -33,24 +30,5 @@ class Combat {
         player.receiveAttack(attack.damage);
       }
     }
-  }
-}
-
-class Attack {
-  Damage damage;
-  AreaEffect aoe;
-
-  Attack({required this.damage, required this.aoe});
-
-  factory Attack.empty() {
-    return Attack(
-      damage: Damage.empty(),
-      aoe: AreaEffect(),
-    );
-  }
-
-  void reset() {
-    damage = Damage.empty();
-    aoe.reset();
   }
 }

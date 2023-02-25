@@ -142,6 +142,10 @@ class AppImages {
   //Sprites
 
   static const grave = 'assets/images/sprites/grave.svg';
+  static const graveColor = 'assets/images/sprites/graveColor.svg';
+
+  static const chestClosed = 'assets/images/sprites/chestClosed.svg';
+  static const chestOpen = 'assets/images/sprites/chestOpen.svg';
 
   static const dwarf = 'assets/images/sprites/dwarf.svg';
   static const dwarfBody = 'assets/images/sprites/dwarfBody.svg';
