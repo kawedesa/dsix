@@ -16,7 +16,6 @@ import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/view/creator/creator_map/widgets/selected_npc_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../../model/combat/position.dart';
 import '../../../model/game/game.dart';
 import '../../../model/npc/npc.dart';
 import '../../../shared/app_widgets/button/app_text_button.dart';
@@ -42,7 +41,11 @@ class CreatorMapVM {
     minZoom = 2 + AppLayout.longest(context) * 0.0025;
   }
 
-  List<Widget> createSpawnerSprites(List<Spawner> spawners) {
+  List<Widget> createSpawnerSprites(String gamePhase, List<Spawner> spawners) {
+    if (gamePhase == 'action') {
+      return [];
+    }
+
     List<Widget> spawnerSprites = [];
 
     for (Spawner spawner in spawners) {
@@ -194,11 +197,13 @@ class CreatorMapVM {
     return npcSprites;
   }
 
-  List<Widget> createPlayerSprites(List<Player> players) {
+  List<Widget> createPlayerSprites(List<Player> players, List<Npc> npcs) {
     List<Widget> playerSprites = [];
 
+    Path npcVisibleArea = getNpcsVisibleArea(npcs);
+
     for (Player player in players) {
-      if (player.position != Position.empty()) {
+      if (npcVisibleArea.contains(player.position.getOffset())) {
         if (player.life.isDead()) {
           playerSprites.add(CreatorViewDeadPlayerSprite(
             player: player,
@@ -215,6 +220,19 @@ class CreatorMapVM {
     }
 
     return playerSprites;
+  }
+
+  Path getNpcsVisibleArea(List<Npc> npcs) {
+    Path visibleArea = Path();
+
+    for (Npc npc in npcs) {
+      if (npc.life.isDead() == false) {
+        visibleArea.addOval(Rect.fromCircle(
+            center: Offset(npc.position.dx, npc.position.dy),
+            radius: npc.vision.getRange() / 2));
+      }
+    }
+    return visibleArea;
   }
 
   Widget gameCreationMenu(

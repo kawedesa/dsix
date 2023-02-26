@@ -138,14 +138,30 @@ class Player {
       mDamage = 0;
     }
 
-    int totalDamage = pDamage + mDamage + rawDamage - leftOverArmor;
+    int leftOverRawDamage = rawDamage - leftOverArmor;
+
+    if (leftOverRawDamage < 1) {
+      leftOverRawDamage = 0;
+    }
+
+    int totalDamage = pDamage + mDamage + leftOverRawDamage;
 
     if (totalDamage < 1) {
-      return;
+      totalDamage = 0;
     }
 
     life.receiveDamage(totalDamage);
     update();
+  }
+
+  bool canSee(Position position) {
+    double distance = this.position.getDistanceFromPosition(position);
+
+    if (distance > attributes.vision.getRange() / 2) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   void set() async {

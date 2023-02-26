@@ -1,4 +1,5 @@
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/shared/app_widgets/animation/damage_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 import '../player_sprite_image.dart';
@@ -20,6 +21,30 @@ class PlayerViewOtherPlayerSprite extends StatefulWidget {
 
 class _PlayerViewOtherPlayerSpriteState
     extends State<PlayerViewOtherPlayerSprite> {
+  int? lifeChecker;
+  List<Widget> animations = [];
+
+  Widget lifeAnimation() {
+    lifeChecker ??= widget.player.life.current;
+
+    if (lifeChecker != widget.player.life.current) {
+      int damage = widget.player.life.current - lifeChecker!;
+
+      animations.add(DamageAnimation(damage: damage));
+    }
+    lifeChecker = widget.player.life.current;
+
+    return Align(
+      alignment: Alignment.center,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: widget.player.size * 2),
+        child: Stack(
+          children: animations,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -85,6 +110,7 @@ class _PlayerViewOtherPlayerSpriteState
                   ),
                 ),
               ),
+              lifeAnimation(),
             ],
           ),
         ),

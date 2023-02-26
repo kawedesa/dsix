@@ -3,6 +3,7 @@ import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_widgets/animation/damage_animation.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/player_sprite_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,21 +27,17 @@ class PlayerViewPlayerSprite extends StatefulWidget {
 
 class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
   final PlayerSpriteController _controller = PlayerSpriteController();
-  final TempPosition _tempPosition = TempPosition();
-  bool drag = false;
 
   @override
   Widget build(BuildContext context) {
-    if (drag == false) {
-      _tempPosition.initialize(widget.player.position);
-    }
+    _controller.initializePosition(widget.player);
 
     return ChangeNotifierProxyProvider<Spawner, TempPosition>(
-      create: (context) => _tempPosition,
+      create: (context) => _controller.tempPosition,
       update: (context, _, tempPosition) => tempPosition!..panEnd(),
       child: Positioned(
-        left: _controller.getPosition(_tempPosition, widget.player).dx,
-        top: _controller.getPosition(_tempPosition, widget.player).dy,
+        left: _controller.getPosition(widget.player).dx,
+        top: _controller.getPosition(widget.player).dy,
         child: TransparentPointer(
           transparent: true,
           child: SizedBox(
@@ -59,7 +56,7 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                   child: PlayerSpriteMoveRange(
                       playerMode: widget.playerMode,
                       maxRange: widget.player.attributes.movement.maxRange(),
-                      distanceMoved: _tempPosition.distanceMoved,
+                      distanceMoved: _controller.tempPosition.distanceMoved,
                       color: widget.color),
                 ),
                 Align(
@@ -84,18 +81,18 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                         widget.onTap();
                       },
                       onPanStart: (details) {
-                        drag = true;
+                        _controller.drag = true;
                       },
                       onPanUpdate: (details) {
                         setState(() {
-                          _tempPosition.panUpdate(details.delta);
+                          _controller.tempPosition.panUpdate(details.delta);
                         });
                       },
                       onPanEnd: (details) {
                         setState(() {
-                          _controller.endMove(_tempPosition, widget.player);
+                          _controller.endMove(widget.player);
 
-                          drag = false;
+                          _controller.drag = false;
                         });
                       },
                       child: Padding(
@@ -110,6 +107,7 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                     ),
                   ),
                 ),
+                _controller.lifeAnimation(widget.player),
               ],
             ),
           ),
@@ -120,17 +118,50 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
 }
 
 class PlayerSpriteController {
-  Offset getPosition(TempPosition tempPosition, Player player) {
+  final TempPosition tempPosition = TempPosition();
+  bool drag = false;
+
+  void initializePosition(Player player) {
+    if (drag == false) {
+      tempPosition.initialize(player.position);
+    }
+  }
+
+  Offset getPosition(Player player) {
     return Offset(
         tempPosition.newPosition.dx - player.attributes.vision.getRange() / 2,
         tempPosition.newPosition.dy - player.attributes.vision.getRange() / 2);
   }
 
-  void endMove(TempPosition tempPosition, Player player) {
+  void endMove(Player player) {
     if (tempPosition.distanceMoved < player.attributes.movement.maxRange() &&
         tempPosition.distanceMoved > 4) {
       player.changePosition(tempPosition.newPosition);
     }
+  }
+
+  int? lifeChecker;
+  List<Widget> animations = [];
+
+  Widget lifeAnimation(Player player) {
+    lifeChecker ??= player.life.current;
+
+    if (lifeChecker != player.life.current) {
+      int damage = player.life.current - lifeChecker!;
+
+      animations.add(DamageAnimation(damage: damage));
+    }
+    lifeChecker = player.life.current;
+
+    return Align(
+      alignment: Alignment.center,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: player.size * 2),
+        child: Stack(
+          children: animations,
+        ),
+      ),
+    );
   }
 }
 

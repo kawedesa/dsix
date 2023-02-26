@@ -40,6 +40,7 @@ class Vision {
 
     return range;
   }
+
   // factory PlayerVision.set(String race) {
   //   double vision;
   //   if (race == 'elf') {

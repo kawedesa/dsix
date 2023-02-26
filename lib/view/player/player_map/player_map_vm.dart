@@ -55,19 +55,21 @@ class PlayerMapVM {
     minZoom = 2 + AppLayout.longest(context) * 0.0025;
   }
 
-  List<Widget> createNpcSprites(List<Npc> npcs) {
+  List<Widget> createNpcSprites(List<Npc> npcs, Player player) {
     List<Widget> npcSprites = [];
 
     for (Npc npc in npcs) {
-      if (npc.life.isDead()) {
-        npcSprites.add(PlayerViewDeadNpcSprite(
-          npc: npc,
-        ));
-      } else {
-        npcSprites.add(PlayerViewNpcSprite(
-          npc: npc,
-          onTap: () {},
-        ));
+      if (player.canSee(npc.position)) {
+        if (npc.life.isDead()) {
+          npcSprites.add(PlayerViewDeadNpcSprite(
+            npc: npc,
+          ));
+        } else {
+          npcSprites.add(PlayerViewNpcSprite(
+            npc: npc,
+            onTap: () {},
+          ));
+        }
       }
     }
 

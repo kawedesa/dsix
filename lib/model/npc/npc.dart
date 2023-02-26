@@ -111,7 +111,17 @@ class Npc {
       mDamage = 0;
     }
 
-    int totalDamage = pDamage + mDamage + rawDamage - leftOverArmor;
+    int leftOverRawDamage = rawDamage - leftOverArmor;
+
+    if (leftOverRawDamage < 1) {
+      leftOverRawDamage = 0;
+    }
+
+    int totalDamage = pDamage + mDamage + leftOverRawDamage;
+
+    if (totalDamage < 1) {
+      totalDamage = 0;
+    }
 
     life.receiveDamage(totalDamage);
     update();

@@ -27,7 +27,7 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
     lifeChecker ??= widget.player.life.current;
 
     if (lifeChecker != widget.player.life.current) {
-      int damage = (lifeChecker! - widget.player.life.current).abs();
+      int damage = widget.player.life.current - lifeChecker!;
 
       animations.add(DamageAnimation(damage: damage));
     }
@@ -109,7 +109,7 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
                   ),
                 ),
               ),
-              Align(alignment: Alignment.center, child: lifeAnimation()),
+              lifeAnimation(),
             ],
           ),
         ),

@@ -96,9 +96,12 @@ class _GamePadState extends State<GamePad> {
               widget.onPanStart();
             },
             onPanUpdate: (details) {
-              _setDistance(details.localPosition);
-              _setAngle(details.localPosition);
-              _calculateInnerPossition(details.localPosition);
+              Offset adjustPosition = Offset(
+                  details.localPosition.dx + 15, details.localPosition.dy + 15);
+
+              _setDistance(adjustPosition);
+              _setAngle(adjustPosition);
+              _calculateInnerPossition(adjustPosition);
 
               if (inputDistance < 0.2) {
                 widget.cancel();

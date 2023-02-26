@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 class Position {
   double dx;
   double dy;
@@ -25,5 +27,13 @@ class Position {
       dx: data?['dx'] * 1.0,
       dy: data?['dy'] * 1.0,
     );
+  }
+
+  double getDistanceFromPosition(Position position) {
+    return Offset(dx - position.dx, dy - position.dy).distance;
+  }
+
+  Offset getOffset() {
+    return Offset(dx, dy);
   }
 }

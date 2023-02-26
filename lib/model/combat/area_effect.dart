@@ -79,7 +79,8 @@ class AreaEffect {
       case 'blast':
         area = Path()
           ..addOval(Rect.fromCircle(
-              center: Offset(0, maxRange), radius: attack.range.width));
+              center: Offset(0, maxRange + attack.range.min),
+              radius: attack.range.width));
 
         break;
     }

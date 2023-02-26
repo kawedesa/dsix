@@ -61,7 +61,8 @@ class _CreatorMapState extends State<CreatorMap> {
                       ),
                       _creatorMapVM.mapInputController(refresh),
                       Stack(
-                        children: _creatorMapVM.createSpawnerSprites(spawners),
+                        children: _creatorMapVM.createSpawnerSprites(
+                            game.phase, spawners),
                       ),
                       AreaEffectSprite(
                         area: _creatorMapVM.combat.areaEffect.area,
@@ -71,7 +72,8 @@ class _CreatorMapState extends State<CreatorMap> {
                             game.phase, npcs, refresh),
                       ),
                       Stack(
-                        children: _creatorMapVM.createPlayerSprites(players),
+                        children:
+                            _creatorMapVM.createPlayerSprites(players, npcs),
                       ),
                     ],
                   ),

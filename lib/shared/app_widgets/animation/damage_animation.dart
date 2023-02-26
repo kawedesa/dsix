@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +43,7 @@ class _DamageAnimationState extends State<DamageAnimation>
           text: widget.damage.toString(),
           fontSize: 0.005,
           letterSpacing: 0.0001,
-          color: Colors.white,
+          color: (widget.damage < 0) ? AppColors.negative : AppColors.positive,
         ),
       ),
     );
