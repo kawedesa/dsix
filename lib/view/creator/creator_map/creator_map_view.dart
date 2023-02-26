@@ -1,10 +1,8 @@
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
-import 'package:dsix/shared/app_widgets/map/map_input_controller.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/area_effect_sprite.dart';
 import 'package:dsix/view/creator/creator_map/creator_map_vm.dart';
-import 'package:dsix/view/creator/creator_map/widgets/game_creation_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -66,10 +64,11 @@ class _CreatorMapState extends State<CreatorMap> {
                         children: _creatorMapVM.createSpawnerSprites(spawners),
                       ),
                       AreaEffectSprite(
-                        area: _creatorMapVM.combat.attack.aoe.area,
+                        area: _creatorMapVM.combat.areaEffect.area,
                       ),
                       Stack(
-                        children: _creatorMapVM.createNpcSprites(npcs, refresh),
+                        children: _creatorMapVM.createNpcSprites(
+                            game.phase, npcs, refresh),
                       ),
                       Stack(
                         children: _creatorMapVM.createPlayerSprites(players),
@@ -79,14 +78,9 @@ class _CreatorMapState extends State<CreatorMap> {
                 ),
               ),
               _creatorMapVM.selectedNpcUi(),
-              _creatorMapVM.abilityButtons(npcs, players, refresh),
-              (game.phase == 'creation')
-                  ? GameCreationMenu(
-                      displaySnackbar: (text, color) {
-                        widget.displaySnackbar(text, color);
-                      },
-                    )
-                  : const SizedBox(),
+              _creatorMapVM.actionButtons(game.phase, npcs, players, refresh),
+              _creatorMapVM.gameCreationMenu(
+                  game.phase, widget.displaySnackbar),
               _creatorMapVM.endGameButton(context, game),
             ],
           ),

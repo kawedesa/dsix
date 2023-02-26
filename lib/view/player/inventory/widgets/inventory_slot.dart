@@ -61,7 +61,7 @@ class _InventorySlotState extends State<InventorySlot> {
                 width: AppLayout.shortest(context) * 0.005,
               ),
             ),
-            child: (widget.equipmentSlot.item.name == 'fist')
+            child: (widget.equipmentSlot.item.name == 'empty')
                 ? SvgPicture.asset(
                     widget.icon,
                     color: widget.color,

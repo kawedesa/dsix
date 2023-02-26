@@ -3,7 +3,7 @@ import 'dart:math' as math;
 
 class GamePad extends StatefulWidget {
   final Color color;
-  final Color darkColor;
+  final Color cancelColor;
   final Function() onPanStart;
   final Function(double, double) onPanUpdate;
   final Function() onPanEnd;
@@ -12,7 +12,7 @@ class GamePad extends StatefulWidget {
   const GamePad({
     Key? key,
     required this.color,
-    required this.darkColor,
+    required this.cancelColor,
     required this.onPanStart,
     required this.onPanUpdate,
     required this.onPanEnd,
@@ -63,7 +63,7 @@ class _GamePadState extends State<GamePad> {
     if (innerPosition == center || inputDistance > 0.2) {
       return widget.color;
     } else {
-      return widget.darkColor;
+      return widget.cancelColor;
     }
   }
 

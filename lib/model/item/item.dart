@@ -1,28 +1,26 @@
-import 'package:dsix/model/combat/range.dart';
-
+import 'package:dsix/model/combat/attack.dart';
 import '../combat/armor.dart';
-import '../combat/damage.dart';
 
 class Item {
   String name;
   String description;
   String itemSlot;
   String type;
-  Damage damage;
+  Attack attack;
+  // Damage damage;
   Armor armor;
   int weight;
   int value;
-  Range range;
+  // Range range;
   Item({
     required this.name,
     required this.description,
     required this.itemSlot,
     required this.type,
-    required this.damage,
+    required this.attack,
     required this.armor,
     required this.weight,
     required this.value,
-    required this.range,
   });
 
   factory Item.fromMap(Map<String, dynamic>? data) {
@@ -31,11 +29,10 @@ class Item {
       description: data?['description'],
       itemSlot: data?['itemSlot'],
       type: data?['type'],
-      damage: Damage.fromMap(data?['damage']),
+      attack: Attack.fromMap(data?['attack']),
       armor: Armor.fromMap(data?['armor']),
       weight: data?['weight'],
       value: data?['value'],
-      range: Range.fromMap(data?['range']),
     );
   }
 
@@ -45,25 +42,23 @@ class Item {
       'description': description,
       'itemSlot': itemSlot,
       'type': type,
-      'damage': damage.toMap(),
+      'attack': attack.toMap(),
       'armor': armor.toMap(),
       'weight': weight,
       'value': value,
-      'range': range.toMap(),
     };
   }
 
   factory Item.empty() {
     return Item(
-      name: 'fist',
+      name: 'empty',
       description: '',
       itemSlot: '',
       type: '',
-      damage: Damage.empty(),
+      attack: Attack.empty(),
       armor: Armor.empty(),
       weight: 0,
       value: 0,
-      range: Range(min: 5, max: 15, width: 10, type: 'rectangle'),
     );
   }
 }

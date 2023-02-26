@@ -34,7 +34,7 @@ class EquipmentSlot {
   }
 
   bool isEmpty() {
-    if (item.name == 'fist') {
+    if (item.name == 'empty') {
       return true;
     }
     return false;

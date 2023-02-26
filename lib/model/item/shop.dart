@@ -1,4 +1,5 @@
 import 'package:dsix/model/combat/armor.dart';
+import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/damage.dart';
 import 'package:dsix/model/combat/range.dart';
 import 'dart:math';
@@ -128,19 +129,21 @@ class Shop {
       description: '',
       itemSlot: 'one hand',
       type: 'melee',
-      damage: Damage(
-        pDamage: 1,
-        mDamage: 0,
+      attack: Attack(
+        name: 'slash',
+        damage: Damage(
+          pDamage: 1,
+          mDamage: 0,
+        ),
+        range: Range(
+          min: 5,
+          max: 20,
+          width: 20,
+        ),
       ),
       armor: Armor(pArmor: 1, mArmor: 0),
       weight: 1,
       value: 300,
-      range: Range(
-        min: 5,
-        max: 20,
-        width: 20,
-        type: 'cone',
-      ),
     ),
     // Item(
     //   icon: AppImages.ritualDagger,
@@ -495,14 +498,20 @@ class Shop {
       description: '',
       itemSlot: 'two hands',
       type: 'ranged',
-      damage: Damage(
-        pDamage: 3,
-        mDamage: 0,
-      ),
+      attack: Attack(
+          name: 'shot',
+          damage: Damage(
+            pDamage: 3,
+            mDamage: 0,
+          ),
+          range: Range(
+            min: 20,
+            max: 70,
+            width: 10,
+          )),
       armor: Armor.empty(),
       weight: 3,
       value: 300,
-      range: Range(min: 20, max: 70, width: 10, type: 'rectangle'),
     ),
     // Item(
     //   icon: AppImages.kunai,

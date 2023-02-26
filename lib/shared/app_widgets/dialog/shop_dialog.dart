@@ -89,49 +89,49 @@ class ShopDialog extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   const AppSeparatorHorizontal(value: 0.01),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          AppCircularButton(
-                                              icon: AppImages.pDamage,
-                                              iconColor: darkColor,
-                                              color: color,
-                                              borderColor: color,
-                                              size: 0.055),
-                                          const AppSeparatorHorizontal(
-                                              value: 0.01),
-                                          AppText(
-                                              text: item.damage.pDamage
-                                                  .toString(),
-                                              fontSize: 0.03,
-                                              letterSpacing: 0.0015,
-                                              color: Colors.white),
-                                        ],
-                                      ),
-                                      const AppSeparatorVertical(value: 0.01),
-                                      Row(
-                                        children: [
-                                          AppCircularButton(
-                                              icon: AppImages.mDamage,
-                                              iconColor: darkColor,
-                                              color: color,
-                                              borderColor: color,
-                                              size: 0.055),
-                                          const AppSeparatorHorizontal(
-                                              value: 0.01),
-                                          AppText(
-                                              text: item.damage.mDamage
-                                                  .toString(),
-                                              fontSize: 0.03,
-                                              letterSpacing: 0.0015,
-                                              color: Colors.white),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                  // Column(
+                                  //   crossAxisAlignment:
+                                  //       CrossAxisAlignment.start,
+                                  //   children: [
+                                  //     Row(
+                                  //       children: [
+                                  //         AppCircularButton(
+                                  //             icon: AppImages.pDamage,
+                                  //             iconColor: darkColor,
+                                  //             color: color,
+                                  //             borderColor: color,
+                                  //             size: 0.055),
+                                  //         const AppSeparatorHorizontal(
+                                  //             value: 0.01),
+                                  //         AppText(
+                                  //             text: item.damage.pDamage
+                                  //                 .toString(),
+                                  //             fontSize: 0.03,
+                                  //             letterSpacing: 0.0015,
+                                  //             color: Colors.white),
+                                  //       ],
+                                  //     ),
+                                  //     const AppSeparatorVertical(value: 0.01),
+                                  //     Row(
+                                  //       children: [
+                                  //         AppCircularButton(
+                                  //             icon: AppImages.mDamage,
+                                  //             iconColor: darkColor,
+                                  //             color: color,
+                                  //             borderColor: color,
+                                  //             size: 0.055),
+                                  //         const AppSeparatorHorizontal(
+                                  //             value: 0.01),
+                                  //         AppText(
+                                  //             text: item.damage.mDamage
+                                  //                 .toString(),
+                                  //             fontSize: 0.03,
+                                  //             letterSpacing: 0.0015,
+                                  //             color: Colors.white),
+                                  //       ],
+                                  //     ),
+                                  //   ],
+                                  // ),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,

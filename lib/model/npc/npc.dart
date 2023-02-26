@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/combat/armor.dart';
+import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/attribute/movement.dart';
+import 'package:dsix/model/combat/attribute/power.dart';
 import 'package:dsix/model/combat/attribute/vision.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/position.dart';
-
-import '../combat/ability/ability.dart';
 import '../combat/damage.dart';
 
 class Npc {
@@ -13,51 +13,51 @@ class Npc {
   String race;
   double size;
   Life life;
-  Damage damage;
   Armor armor;
+  Power power;
   Movement movement;
   Vision vision;
   Position position;
-  List<Ability> abilities;
+  List<Attack> attacks;
 
   Npc({
     required this.id,
     required this.race,
     required this.size,
     required this.life,
-    required this.damage,
     required this.armor,
+    required this.power,
     required this.movement,
     required this.vision,
     required this.position,
-    required this.abilities,
+    required this.attacks,
   });
 
   final database = FirebaseFirestore.instance;
 
   Map<String, dynamic> toMap() {
-    var abilityToMap = abilities.map((ability) => ability.toMap()).toList();
+    var attacksToMap = attacks.map((attacks) => attacks.toMap()).toList();
 
     return {
       'id': id,
       'race': race,
       'size': size,
       'life': life.toMap(),
-      'damage': damage.toMap(),
       'armor': armor.toMap(),
+      'power': power.toMap(),
       'movement': movement.toMap(),
       'vision': vision.toMap(),
       'position': position.toMap(),
-      'abilities': abilityToMap,
+      'attacks': attacksToMap,
     };
   }
 
   factory Npc.fromMap(Map<String, dynamic>? data) {
-    List<Ability> getAbilities = [];
-    List<dynamic> abilitiesMap = data?['abilities'];
+    List<Attack> getAttacks = [];
+    List<dynamic> attacksMap = data?['attacks'];
 
-    for (var ability in abilitiesMap) {
-      getAbilities.add(Ability.fromMap(ability));
+    for (var attack in attacksMap) {
+      getAttacks.add(Attack.fromMap(attack));
     }
 
     return Npc(
@@ -65,12 +65,12 @@ class Npc {
       race: data?['race'],
       size: data?['size'] * 1.0,
       life: Life.fromMap(data?['life']),
-      damage: Damage.fromMap(data?['damage']),
       armor: Armor.fromMap(data?['armor']),
+      power: Power.fromMap(data?['power']),
       movement: Movement.fromMap(data?['movement']),
       vision: Vision.fromMap(data?['vision']),
       position: Position.fromMap(data?['position']),
-      abilities: getAbilities,
+      attacks: getAttacks,
     );
   }
 
@@ -97,27 +97,23 @@ class Npc {
         .set(toMap());
   }
 
-  void receiveAttack(Damage rawDamage) {
-    int damageAfterArmor = calculateDamage(rawDamage);
+  void receiveAttack(Damage attackDamage, int rawDamage) {
+    int leftOverArmor = 0;
 
-    life.receiveDamage(damageAfterArmor);
-    update();
-  }
-
-  int calculateDamage(Damage rawDamage) {
-    int pDamage = rawDamage.pDamage - armor.pArmor;
+    int pDamage = attackDamage.pDamage - armor.pArmor;
     if (pDamage < 0) {
+      leftOverArmor += pDamage.abs();
       pDamage = 0;
     }
-    int mDamage = rawDamage.mDamage - armor.mArmor;
+    int mDamage = attackDamage.mDamage - armor.mArmor;
     if (mDamage < 0) {
+      leftOverArmor += mDamage.abs();
       mDamage = 0;
     }
 
-    int totalDamage = pDamage + mDamage;
+    int totalDamage = pDamage + mDamage + rawDamage - leftOverArmor;
 
-    print(totalDamage);
-
-    return totalDamage;
+    life.receiveDamage(totalDamage);
+    update();
   }
 }

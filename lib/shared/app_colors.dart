@@ -9,6 +9,7 @@ class AppColors {
   static const positive = Color.fromARGB(255, 49, 145, 46);
   static const negative = Color.fromARGB(255, 193, 23, 8);
   static const selected = Color.fromARGB(255, 49, 198, 44);
+  static const cancel = Color.fromARGB(255, 193, 23, 8);
 
 //PLAYERS
 //Pink

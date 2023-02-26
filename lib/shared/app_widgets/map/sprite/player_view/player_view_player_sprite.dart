@@ -41,52 +41,29 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
       child: Positioned(
         left: _controller.getPosition(_tempPosition, widget.player).dx,
         top: _controller.getPosition(_tempPosition, widget.player).dy,
-        child: SizedBox(
-          width: widget.player.attributes.vision.getRange(),
-          height: widget.player.attributes.vision.getRange(),
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: TransparentPointer(
-                  transparent: true,
+        child: TransparentPointer(
+          transparent: true,
+          child: SizedBox(
+            width: widget.player.attributes.vision.getRange(),
+            height: widget.player.attributes.vision.getRange(),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
                   child: PlayerSpriteVisionRange(
                       range: widget.player.attributes.vision.getRange(),
                       color: widget.color),
                 ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: TransparentPointer(
-                  transparent: true,
+                Align(
+                  alignment: Alignment.center,
                   child: PlayerSpriteMoveRange(
                       playerMode: widget.playerMode,
                       maxRange: widget.player.attributes.movement.maxRange(),
                       distanceMoved: _tempPosition.distanceMoved,
                       color: widget.color),
                 ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: GestureDetector(
-                  onTap: () {
-                    widget.onTap();
-                  },
-                  onPanStart: (details) {
-                    drag = true;
-                  },
-                  onPanUpdate: (details) {
-                    setState(() {
-                      _tempPosition.panUpdate(details.delta);
-                    });
-                  },
-                  onPanEnd: (details) {
-                    setState(() {
-                      _controller.endMove(_tempPosition, widget.player);
-
-                      drag = false;
-                    });
-                  },
+                Align(
+                  alignment: Alignment.center,
                   child: Padding(
                     padding: EdgeInsets.only(bottom: widget.player.size),
                     child: SizedBox(
@@ -98,8 +75,43 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                             race: widget.player.race)),
                   ),
                 ),
-              ),
-            ],
+                Align(
+                  alignment: Alignment.center,
+                  child: TransparentPointer(
+                    transparent: false,
+                    child: GestureDetector(
+                      onTap: () {
+                        widget.onTap();
+                      },
+                      onPanStart: (details) {
+                        drag = true;
+                      },
+                      onPanUpdate: (details) {
+                        setState(() {
+                          _tempPosition.panUpdate(details.delta);
+                        });
+                      },
+                      onPanEnd: (details) {
+                        setState(() {
+                          _controller.endMove(_tempPosition, widget.player);
+
+                          drag = false;
+                        });
+                      },
+                      child: Padding(
+                        padding:
+                            EdgeInsets.only(bottom: widget.player.size / 1.2),
+                        child: Container(
+                          width: widget.player.size / 4,
+                          height: widget.player.size / 2,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

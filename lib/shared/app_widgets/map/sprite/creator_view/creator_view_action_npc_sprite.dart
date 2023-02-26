@@ -9,12 +9,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
-class CreatorViewNpcSprite extends StatefulWidget {
+class CreatorViewActionNpcSprite extends StatefulWidget {
   final Npc npc;
   final bool selected;
   final Function() selectNpc;
 
-  const CreatorViewNpcSprite({
+  const CreatorViewActionNpcSprite({
     super.key,
     required this.npc,
     required this.selected,
@@ -22,10 +22,12 @@ class CreatorViewNpcSprite extends StatefulWidget {
   });
 
   @override
-  State<CreatorViewNpcSprite> createState() => _CreatorViewNpcSpriteState();
+  State<CreatorViewActionNpcSprite> createState() =>
+      _CreatorViewActionNpcSpriteState();
 }
 
-class _CreatorViewNpcSpriteState extends State<CreatorViewNpcSprite> {
+class _CreatorViewActionNpcSpriteState
+    extends State<CreatorViewActionNpcSprite> {
   final NpcSpriteController _controller = NpcSpriteController();
   final TempPosition _tempPosition = TempPosition();
   bool drag = false;
@@ -184,7 +186,7 @@ class NpcSpriteMoveRange extends StatelessWidget {
         color: getColor().withAlpha(25),
         shape: BoxShape.circle,
         border: Border.all(
-          color: getColor(),
+          color: getColor().withAlpha(150),
           width: 0.3,
         ),
       ),
@@ -207,7 +209,7 @@ class NpcSpriteVisionRange extends StatelessWidget {
     return DottedBorder(
       borderType: BorderType.Circle,
       dashPattern: const [3, 6],
-      color: AppColors.uiColorDark,
+      color: AppColors.uiColorDark.withAlpha(150),
       strokeWidth: 0.3,
       child: AnimatedContainer(
         curve: Curves.fastLinearToSlowEaseIn,

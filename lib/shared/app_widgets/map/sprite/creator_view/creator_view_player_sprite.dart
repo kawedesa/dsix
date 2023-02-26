@@ -1,7 +1,8 @@
+import 'package:dsix/model/player/player.dart';
+import 'package:dsix/shared/app_widgets/animation/damage_animation.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/player_sprite_image.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../../model/player/player.dart';
+import 'package:transparent_pointer/transparent_pointer.dart';
 
 class CreatorViewPlayerSprite extends StatefulWidget {
   final Player player;
@@ -19,6 +20,30 @@ class CreatorViewPlayerSprite extends StatefulWidget {
 }
 
 class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
+  int? lifeChecker;
+  List<Widget> animations = [];
+
+  Widget lifeAnimation() {
+    lifeChecker ??= widget.player.life.current;
+
+    if (lifeChecker != widget.player.life.current) {
+      int damage = (lifeChecker! - widget.player.life.current).abs();
+
+      animations.add(DamageAnimation(damage: damage));
+    }
+    lifeChecker = widget.player.life.current;
+
+    return Align(
+      alignment: Alignment.center,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: widget.player.size * 2),
+        child: Stack(
+          children: animations,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -26,35 +51,30 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
           widget.player.attributes.vision.getRange() / 2,
       top: widget.player.position.dy -
           widget.player.attributes.vision.getRange() / 2,
-      child: SizedBox(
-        width: widget.player.attributes.vision.getRange(),
-        height: widget.player.attributes.vision.getRange(),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                width: 7,
-                height: 7,
-                decoration: BoxDecoration(
-                  color: widget.color.withAlpha(25),
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: widget.color,
-                    width: 0.3,
+      child: TransparentPointer(
+        transparent: true,
+        child: SizedBox(
+          width: widget.player.attributes.vision.getRange(),
+          height: widget.player.attributes.vision.getRange(),
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: 7,
+                  height: 7,
+                  decoration: BoxDecoration(
+                    color: widget.color.withAlpha(25),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: widget.color,
+                      width: 0.3,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: GestureDetector(
-                onTap: () {
-                  widget.onTap();
-                },
-                onPanStart: (details) {},
-                onPanUpdate: (details) {},
-                onPanEnd: (details) {},
+              Align(
+                alignment: Alignment.center,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: widget.player.size),
                   child: SizedBox(
@@ -66,8 +86,32 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
                           race: widget.player.race)),
                 ),
               ),
-            ),
-          ],
+              Align(
+                alignment: Alignment.center,
+                child: TransparentPointer(
+                  transparent: false,
+                  child: GestureDetector(
+                    onTap: () {
+                      widget.onTap();
+                    },
+                    onPanStart: (details) {},
+                    onPanUpdate: (details) {},
+                    onPanEnd: (details) {},
+                    child: Padding(
+                      padding:
+                          EdgeInsets.only(bottom: widget.player.size / 1.2),
+                      child: Container(
+                        width: widget.player.size / 4,
+                        height: widget.player.size / 2,
+                        color: Colors.transparent,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Align(alignment: Alignment.center, child: lifeAnimation()),
+            ],
+          ),
         ),
       ),
     );

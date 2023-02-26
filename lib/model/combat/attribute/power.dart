@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class Power {
   int attribute;
 
@@ -33,5 +35,30 @@ class Power {
 
   void removeAttribute() {
     attribute--;
+  }
+
+  int getRawDamage() {
+    int rawDamage = 0;
+
+    int roll1 = Random().nextInt(6) + 1;
+    int roll2 = Random().nextInt(6) + 1;
+
+    int result = roll1 + roll2 + attribute;
+
+    if (result > 12) {
+      rawDamage = 6;
+    }
+
+    if (result > 9 && result < 12) {
+      rawDamage = 4;
+    }
+    if (result > 6 && result < 10) {
+      rawDamage = 2;
+    }
+    if (result < 7) {
+      rawDamage = 0;
+    }
+
+    return rawDamage;
   }
 }

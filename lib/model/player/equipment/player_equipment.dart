@@ -1,10 +1,10 @@
 import 'package:dsix/model/combat/armor.dart';
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/shared/app_exceptions.dart';
-import '../../combat/damage.dart';
 import 'equipment_slot.dart';
 
 class PlayerEquipment {
+  int tempArmor;
   EquipmentSlot mainHandSlot;
   EquipmentSlot offHandSlot;
   EquipmentSlot headSlot;
@@ -16,6 +16,7 @@ class PlayerEquipment {
   int currentWeight;
   int money;
   PlayerEquipment({
+    required this.tempArmor,
     required this.mainHandSlot,
     required this.offHandSlot,
     required this.headSlot,
@@ -30,6 +31,7 @@ class PlayerEquipment {
 
   factory PlayerEquipment.empty() {
     return PlayerEquipment(
+      tempArmor: 0,
       mainHandSlot: EquipmentSlot.empty('mainHandSlot'),
       offHandSlot: EquipmentSlot.empty('offHandSlot'),
       headSlot: EquipmentSlot.empty('headSlot'),
@@ -52,6 +54,7 @@ class PlayerEquipment {
     }
 
     return PlayerEquipment(
+      tempArmor: data?['tempArmor'],
       mainHandSlot: EquipmentSlot.fromMap(data?['mainHandSlot']),
       offHandSlot: EquipmentSlot.fromMap(data?['offHandSlot']),
       headSlot: EquipmentSlot.fromMap(data?['headSlot']),
@@ -68,6 +71,7 @@ class PlayerEquipment {
   Map<String, dynamic> toMap() {
     var bag = this.bag.map((item) => item.toMap()).toList();
     return {
+      'tempArmor': tempArmor,
       'mainHandSlot': mainHandSlot.toMap(),
       'offHandSlot': offHandSlot.toMap(),
       'headSlot': headSlot.toMap(),
@@ -164,23 +168,6 @@ class PlayerEquipment {
   }
 
   void useItem(EquipmentSlot slot) {}
-
-  int calculateDamage(Damage rawDamage) {
-    int pDamage = rawDamage.pDamage - getTotalArmor().pArmor;
-    if (pDamage < 0) {
-      pDamage = 0;
-    }
-    int mDamage = rawDamage.mDamage - getTotalArmor().mArmor;
-    if (mDamage < 0) {
-      mDamage = 0;
-    }
-
-    int totalDamage = pDamage + mDamage;
-
-    print(totalDamage);
-
-    return totalDamage;
-  }
 
   Armor getTotalArmor() {
     int pArmor = 0;

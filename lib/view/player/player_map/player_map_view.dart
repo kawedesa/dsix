@@ -1,6 +1,7 @@
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
+import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
 import 'package:dsix/shared/app_widgets/map/game_pad.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                         height: AppLayout.longest(context),
                       ),
                       AreaEffectSprite(
-                        area: _playerMapVM.combat.attack.aoe.area,
+                        area: _playerMapVM.combat.areaEffect.area,
                       ),
                       Stack(
                         children: _playerMapVM.createNpcSprites(npcs),
@@ -87,24 +88,28 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                       ? const SizedBox()
                       : GamePad(
                           color: user.color,
-                          darkColor: user.darkColor,
+                          cancelColor: AppColors.cancel,
                           onPanStart: () {
                             _playerMapVM.playerMode = 'attack';
                             refresh();
                           },
                           onPanUpdate: (angle, distance) {
                             _playerMapVM.combat.setAttack(
-                              angle,
-                              distance,
-                              user.player.position,
-                              user.player.equipment.offHandSlot.item.range,
-                              user.player.equipment.offHandSlot.item.damage,
-                            );
+                                angle,
+                                distance,
+                                user.player.position,
+                                user.player.equipment.offHandSlot.item.attack);
+
                             refresh();
                           },
                           onPanEnd: () {
                             _playerMapVM.playerMode = 'stand';
-                            _playerMapVM.combat.confirmAttack(npcs, players);
+
+                            _playerMapVM.combat.confirmPlayerAttack(
+                                npcs,
+                                players,
+                                user.player,
+                                user.player.equipment.offHandSlot.item.attack);
                             _playerMapVM.combat.resetAttack();
                             refresh();
                           },
@@ -130,24 +135,28 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                       ? const SizedBox()
                       : GamePad(
                           color: user.color,
-                          darkColor: user.darkColor,
+                          cancelColor: AppColors.cancel,
                           onPanStart: () {
                             _playerMapVM.playerMode = 'attack';
                             refresh();
                           },
                           onPanUpdate: (angle, distance) {
                             _playerMapVM.combat.setAttack(
-                              angle,
-                              distance,
-                              user.player.position,
-                              user.player.equipment.mainHandSlot.item.range,
-                              user.player.equipment.mainHandSlot.item.damage,
-                            );
+                                angle,
+                                distance,
+                                user.player.position,
+                                user.player.equipment.mainHandSlot.item.attack);
+
                             refresh();
                           },
                           onPanEnd: () {
                             _playerMapVM.playerMode = 'stand';
-                            _playerMapVM.combat.confirmAttack(npcs, players);
+
+                            _playerMapVM.combat.confirmPlayerAttack(
+                                npcs,
+                                players,
+                                user.player,
+                                user.player.equipment.mainHandSlot.item.attack);
                             _playerMapVM.combat.resetAttack();
                             refresh();
                           },

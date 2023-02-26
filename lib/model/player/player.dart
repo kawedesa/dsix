@@ -124,10 +124,27 @@ class Player {
     update();
   }
 
-  void receiveAttack(Damage rawDamage) {
-    int damageAfterArmor = equipment.calculateDamage(rawDamage);
+  void receiveAttack(Damage attackDamage, int rawDamage) {
+    int leftOverArmor = 0;
 
-    life.receiveDamage(damageAfterArmor);
+    int pDamage = attackDamage.pDamage - equipment.getTotalArmor().pArmor;
+    if (pDamage < 0) {
+      leftOverArmor += pDamage.abs();
+      pDamage = 0;
+    }
+    int mDamage = attackDamage.mDamage - equipment.getTotalArmor().mArmor;
+    if (mDamage < 0) {
+      leftOverArmor += mDamage.abs();
+      mDamage = 0;
+    }
+
+    int totalDamage = pDamage + mDamage + rawDamage - leftOverArmor;
+
+    if (totalDamage < 1) {
+      return;
+    }
+
+    life.receiveDamage(totalDamage);
     update();
   }
 

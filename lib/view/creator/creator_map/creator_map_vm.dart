@@ -1,4 +1,4 @@
-import 'package:dsix/model/combat/ability/ability.dart';
+import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/combat.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
@@ -8,20 +8,20 @@ import 'package:dsix/shared/app_widgets/map/game_pad.dart';
 import 'package:dsix/shared/app_widgets/map/map_input_controller.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/creator_view/creator_view_dead_npc_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/creator_view/creator_view_dead_player_sprite.dart';
-import 'package:dsix/shared/app_widgets/map/sprite/creator_view/creator_view_npc_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/sprite/creator_view/creator_view_action_npc_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/sprite/creator_view/creator_view_edit_npc_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/creator_view/creator_view_player_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/creator_view/creator_view_spawner_sprite.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/view/creator/creator_map/widgets/selected_npc_ui.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import '../../../model/combat/position.dart';
 import '../../../model/game/game.dart';
 import '../../../model/npc/npc.dart';
 import '../../../shared/app_widgets/button/app_text_button.dart';
 import '../../home/home_view.dart';
+import 'widgets/game_creation_menu.dart';
 
 class CreatorMapVM {
   int mapSize = 320;
@@ -80,6 +80,11 @@ class CreatorMapVM {
   }
 
   void selectNpc(Npc npc, Function refresh) {
+    if (npc.life.isDead()) {
+      selectedNpc = null;
+      refresh();
+      return;
+    }
     selectedNpc = npc;
     refresh();
   }
@@ -101,26 +106,34 @@ class CreatorMapVM {
     }
   }
 
-  Widget abilityButtons(
-      List<Npc> npcs, List<Player> players, Function refresh) {
+  Widget actionButtons(String gamePhase, List<Npc> npcs, List<Player> players,
+      Function refresh) {
     if (selectedNpc == null) {
+      return const SizedBox();
+    }
+
+    if (gamePhase == 'creation') {
       return const SizedBox();
     }
 
     List<Widget> abilityButtons = [];
 
-    for (Ability ability in selectedNpc!.abilities) {
+    for (Attack attack in selectedNpc!.attacks) {
       abilityButtons.add(GamePad(
         color: AppColors.uiColor,
-        darkColor: AppColors.uiColorDark,
+        cancelColor: AppColors.cancel,
         onPanStart: () {},
         onPanUpdate: (angle, distance) {
-          combat.setAttack(angle, distance, selectedNpc!.position,
-              ability.range, selectedNpc!.damage);
+          combat.setAttack(
+            angle,
+            distance,
+            selectedNpc!.position,
+            attack,
+          );
           refresh();
         },
         onPanEnd: () {
-          combat.confirmAttack(npcs, players);
+          combat.confirmNpcAttack(npcs, players, selectedNpc!, attack);
           combat.resetAttack();
           refresh();
         },
@@ -141,23 +154,41 @@ class CreatorMapVM {
     );
   }
 
-  List<Widget> createNpcSprites(List<Npc> npcs, Function() refresh) {
+  List<Widget> createNpcSprites(
+      String gamePhase, List<Npc> npcs, Function() refresh) {
     List<Widget> npcSprites = [];
 
-    for (Npc npc in npcs) {
-      if (npc.life.isDead()) {
-        npcSprites.add(CreatorViewDeadNpcSprite(
-          npc: npc,
-        ));
-      } else {
-        npcSprites.add(CreatorViewNpcSprite(
-          npc: npc,
-          selected: (npc == selectedNpc) ? true : false,
-          selectNpc: () {
-            selectNpc(npc, refresh);
-          },
-        ));
-      }
+    switch (gamePhase) {
+      case 'creation':
+        for (Npc npc in npcs) {
+          npcSprites.add(CreatorViewEditNpcSprite(
+            npc: npc,
+            selected: (npc == selectedNpc) ? true : false,
+            selectNpc: () {
+              selectNpc(npc, refresh);
+            },
+          ));
+        }
+
+        break;
+      case 'action':
+        for (Npc npc in npcs) {
+          if (npc.life.isDead()) {
+            npcSprites.add(CreatorViewDeadNpcSprite(
+              npc: npc,
+            ));
+          } else {
+            npcSprites.add(CreatorViewActionNpcSprite(
+              npc: npc,
+              selected: (npc == selectedNpc) ? true : false,
+              selectNpc: () {
+                selectNpc(npc, refresh);
+              },
+            ));
+          }
+        }
+
+        break;
     }
 
     return npcSprites;
@@ -184,6 +215,24 @@ class CreatorMapVM {
     }
 
     return playerSprites;
+  }
+
+  Widget gameCreationMenu(
+      String gamePhase,
+      Function(
+    String,
+    Color,
+  )
+          displaySnackbar) {
+    if (gamePhase == 'creation') {
+      return GameCreationMenu(
+        displaySnackbar: (text, color) {
+          displaySnackbar(text, color);
+        },
+      );
+    } else {
+      return const SizedBox();
+    }
   }
 
   bool popUpMenuIsOpen = false;

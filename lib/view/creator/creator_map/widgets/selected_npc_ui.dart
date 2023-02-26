@@ -1,7 +1,7 @@
 import 'package:dsix/model/npc/npc.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
-
 import 'life_bar.dart';
 
 class SelectedNpcUi extends StatelessWidget {
@@ -17,8 +17,8 @@ class SelectedNpcUi extends StatelessWidget {
         -0.9,
       ),
       child: SizedBox(
-        width: 200,
-        height: 50,
+        width: AppLayout.shortest(context) * 0.3,
+        height: AppLayout.shortest(context) * 0.05,
         child: Stack(
           children: [
             Align(
@@ -31,8 +31,13 @@ class SelectedNpcUi extends StatelessWidget {
               ),
             ),
             Align(
-                alignment: Alignment.bottomCenter,
-                child: LifeBar(life: npc.life)),
+              alignment: Alignment.bottomCenter,
+              child: LifeBar(
+                life: npc.life,
+                width: AppLayout.shortest(context) * 0.3,
+                height: AppLayout.shortest(context) * 0.015,
+              ),
+            ),
           ],
         ),
       ),

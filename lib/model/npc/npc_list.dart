@@ -1,8 +1,10 @@
-import 'package:dsix/model/combat/ability/ability_list.dart';
+import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/attribute/movement.dart';
+import 'package:dsix/model/combat/attribute/power.dart';
 import 'package:dsix/model/combat/attribute/vision.dart';
 import 'package:dsix/model/combat/damage.dart';
 import 'package:dsix/model/combat/life.dart';
+import 'package:dsix/model/combat/range.dart';
 import '../combat/armor.dart';
 import '../combat/position.dart';
 import 'npc.dart';
@@ -12,22 +14,32 @@ class NpcList {
     id: 0,
     race: 'zombie',
     size: 10,
-    life: Life(current: 10, max: 10),
-    damage: Damage(
-      pDamage: 0,
-      mDamage: 0,
-    ),
+    life: Life(current: 15, max: 15),
     armor: Armor(
       pArmor: 0,
       mArmor: 0,
     ),
+    power: Power(attribute: 0),
     movement: Movement(attribute: -1),
     vision: Vision(attribute: -1),
     position: Position.empty(),
-    abilities: [
-      AbilityList.bite,
-      AbilityList.slash,
-      AbilityList.shot,
+    attacks: [
+      Attack(
+          name: 'bite',
+          damage: Damage(pDamage: 2, mDamage: 0),
+          range: Range(
+            min: 5,
+            max: 15,
+            width: 10,
+          )),
+      Attack(
+          name: 'slash',
+          damage: Damage(pDamage: 1, mDamage: 0),
+          range: Range(
+            min: 5,
+            max: 15,
+            width: 10,
+          )),
     ],
   );
 
@@ -36,18 +48,32 @@ class NpcList {
     race: 'skeleton mage',
     size: 10,
     life: Life(current: 8, max: 8),
-    damage: Damage(
-      pDamage: 0,
-      mDamage: 0,
-    ),
     armor: Armor(
-      pArmor: 0,
-      mArmor: 0,
+      pArmor: 1,
+      mArmor: 1,
     ),
+    power: Power(attribute: 1),
     movement: Movement(attribute: 0),
     vision: Vision(attribute: 1),
     position: Position.empty(),
-    abilities: [],
+    attacks: [
+      Attack(
+          name: 'blast',
+          damage: Damage(pDamage: 0, mDamage: 1),
+          range: Range(
+            min: 10,
+            max: 40,
+            width: 12,
+          )),
+      Attack(
+          name: 'shot',
+          damage: Damage(pDamage: 0, mDamage: 2),
+          range: Range(
+            min: 10,
+            max: 70,
+            width: 10,
+          )),
+    ],
   );
   // static Npc skeleton = Npc(
   //   id: 0,
