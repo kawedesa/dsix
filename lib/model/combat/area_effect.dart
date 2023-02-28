@@ -2,85 +2,48 @@ import 'package:dsix/model/combat/position.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'dart:typed_data';
-
-import 'attack.dart';
+import 'range.dart';
 
 class AreaEffect {
   Path area = Path();
   AreaEffect();
 
-  void setArea(
-      double angle, double distance, Position position, Attack attack) {
-    double maxRange = distance * attack.range.max;
+  void setArea(double angle, double distance, Position center, Range range) {
+    double maxRange = distance * range.max;
 
-    switch (attack.name) {
-      case 'bite':
-        Path attackShape = Path()
-          ..addRect(Rect.fromPoints(Offset(-attack.range.width / 2, 0),
-              Offset(attack.range.width / 2, maxRange)));
-
-        Path minDistanceShape = Path()
-          ..addRect(Rect.fromPoints(Offset(-attack.range.width / 2, 0),
-              Offset(attack.range.width / 2, attack.range.min)));
-
-        area = Path.combine(
-            PathOperation.difference, attackShape, minDistanceShape);
+    switch (range.shape) {
+      case 'rectangle':
+        area = Path()
+          ..addRect(Rect.fromPoints(Offset(-range.width / 2, range.min),
+              Offset(range.width / 2, range.min + maxRange)));
 
         break;
 
-      case 'punch':
-        Path attackShape = Path()
-          ..addRect(Rect.fromPoints(Offset(-attack.range.width / 2, 0),
-              Offset(attack.range.width / 2, maxRange)));
-
-        Path minDistanceShape = Path()
-          ..addRect(Rect.fromPoints(Offset(-attack.range.width / 2, 0),
-              Offset(attack.range.width / 2, attack.range.min)));
-
-        area = Path.combine(
-            PathOperation.difference, attackShape, minDistanceShape);
-
-        break;
-
-      case 'slash':
+      case 'cone':
         Path attackShape = Path();
         attackShape = Path();
         attackShape.moveTo(0, 0);
-        attackShape.lineTo(
-            math.sqrt(2) / 2 * maxRange, math.sqrt(2) / 2 * maxRange);
+        attackShape.lineTo(math.sqrt(2) / 2 * (maxRange + range.min),
+            math.sqrt(2) / 2 * (maxRange + range.min));
         attackShape.arcToPoint(
-            Offset(-math.sqrt(2) / 2 * maxRange, math.sqrt(2) / 2 * maxRange),
-            radius: Radius.circular(maxRange));
+            Offset(-math.sqrt(2) / 2 * (maxRange + range.min),
+                math.sqrt(2) / 2 * (maxRange + range.min)),
+            radius: Radius.circular(maxRange + range.min));
         attackShape.close();
 
         Path minDistanceShape = Path()
-          ..addOval(Rect.fromCircle(
-              center: const Offset(0, 0), radius: attack.range.min));
+          ..addOval(
+              Rect.fromCircle(center: const Offset(0, 0), radius: range.min));
 
         area = Path.combine(
             PathOperation.difference, attackShape, minDistanceShape);
 
         break;
 
-      case 'shot':
-        Path attackShape = Path()
-          ..addRect(Rect.fromPoints(Offset(-attack.range.width / 2, 0),
-              Offset(attack.range.width / 2, maxRange)));
-
-        Path minDistanceShape = Path()
-          ..addRect(Rect.fromPoints(Offset(-attack.range.width / 2, 0),
-              Offset(attack.range.width / 2, attack.range.min)));
-
-        area = Path.combine(
-            PathOperation.difference, attackShape, minDistanceShape);
-
-        break;
-
-      case 'blast':
+      case 'circle':
         area = Path()
           ..addOval(Rect.fromCircle(
-              center: Offset(0, maxRange + attack.range.min),
-              radius: attack.range.width));
+              center: Offset(0, maxRange + range.min), radius: range.width));
 
         break;
     }
@@ -104,7 +67,7 @@ class AreaEffect {
       1
     ]);
 
-    area = area.transform(addRotation).shift(Offset(position.dx, position.dy));
+    area = area.transform(addRotation).shift(Offset(center.dx, center.dy));
   }
 
   bool insideArea(Position position) {

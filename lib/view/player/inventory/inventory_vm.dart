@@ -240,7 +240,11 @@ class InventoryVM {
   void setBagSlots(
       User user, Function() refresh, Function(String, Color) displaySnackbar) {
     bagSlot = DragTarget<EquipmentSlot>(onWillAccept: (equipment) {
-      return true;
+      if (equipment!.name == 'bag') {
+        return false;
+      } else {
+        return true;
+      }
     }, onAccept: (equipment) {
       user.player.equipment.unequip(equipment);
       user.player.update();

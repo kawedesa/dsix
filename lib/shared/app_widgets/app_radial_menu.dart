@@ -1,17 +1,14 @@
-import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
 class AppRadialMenu extends StatefulWidget {
   final List<Widget> buttonInfo;
   final double maxAngle;
-  final double menuSize;
 
   const AppRadialMenu({
     Key? key,
     required this.buttonInfo,
     required this.maxAngle,
-    required this.menuSize,
   }) : super(key: key);
 
   @override
@@ -61,12 +58,8 @@ class _AppRadialMenuState extends State<AppRadialMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: AppLayout.shortest(context) * widget.menuSize,
-      height: AppLayout.shortest(context) * widget.menuSize,
-      child: Stack(
-        children: createMenu(),
-      ),
+    return Stack(
+      children: createMenu(),
     );
   }
 }

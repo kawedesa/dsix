@@ -25,13 +25,10 @@ class NpcList {
     position: Position.empty(),
     attacks: [
       Attack(
-          name: 'bite',
-          damage: Damage(pDamage: 3, mDamage: 0),
-          range: Range(
-            min: 2.5,
-            max: 10,
-            width: 7.5,
-          )),
+        name: 'bite',
+        damage: Damage(pDamage: 3, mDamage: 0),
+        range: Range(min: 10, max: 0, width: 5, shape: 'circle'),
+      ),
       Attack(
           name: 'slash',
           damage: Damage(pDamage: 1, mDamage: 0),
@@ -39,6 +36,7 @@ class NpcList {
             min: 5,
             max: 12.5,
             width: 12.5,
+            shape: 'cone',
           )),
     ],
   );
@@ -64,6 +62,7 @@ class NpcList {
             min: 30,
             max: 20,
             width: 15,
+            shape: 'circle',
           )),
       Attack(
           name: 'shot',
@@ -72,6 +71,7 @@ class NpcList {
             min: 10,
             max: 70,
             width: 7.5,
+            shape: 'rectangle',
           )),
     ],
   );

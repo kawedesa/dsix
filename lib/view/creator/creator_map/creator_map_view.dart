@@ -80,7 +80,7 @@ class _CreatorMapState extends State<CreatorMap> {
                 ),
               ),
               _creatorMapVM.selectedNpcUi(),
-              _creatorMapVM.actionButtons(game.phase, npcs, players, refresh),
+              // _creatorMapVM.actionButtons(game.phase, npcs, players, refresh),
               _creatorMapVM.gameCreationMenu(
                   game.phase, widget.displaySnackbar),
               _creatorMapVM.endGameButton(context, game),

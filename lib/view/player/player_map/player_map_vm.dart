@@ -1,7 +1,9 @@
+import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_dead_npc_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_dead_player_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_npc_sprite.dart';
@@ -20,6 +22,7 @@ class PlayerMapVM {
   double minZoom = 8;
   double maxZoom = 16;
   TransformationController? canvasController;
+
   Combat combat = Combat();
 
   TransformationController createCanvasController(
@@ -108,15 +111,7 @@ class PlayerMapVM {
         player: player,
         color: AppColors().getPlayerColor(player.id),
         playerMode: playerMode,
-        onTap: () {
-          if (playerMode == 'menu') {
-            closeMenu();
-            refresh();
-          } else {
-            openMenu();
-            refresh();
-          }
-        },
+        onTap: () {},
       ));
     }
 
@@ -125,19 +120,72 @@ class PlayerMapVM {
 
   String playerMode = 'stand';
 
-  Widget popUpMenu() {
-    return (playerMode == 'menu')
-        ? PopUpMenu(playerMode: playerMode, closeMenu: closeMenu)
-        : const SizedBox();
+  Widget getMouseInput(List<Npc> npcs, List<Player> players,
+      Player selectedPlayer, Function refresh) {
+    Widget mouseInputWidget = const SizedBox();
+
+    if (playerMode == 'attack') {
+      mouseInputWidget = MouseInput(
+        getMousePosition: (mousePosition) {
+          combat.setMousePosition(mousePosition);
+          combat.setActionArea();
+          refresh();
+        },
+        onTap: () {
+          confirmAttack(npcs, players, selectedPlayer);
+          cancelAction();
+          refresh();
+        },
+      );
+
+      return mouseInputWidget;
+    }
+
+    return mouseInputWidget;
   }
 
-  void openMenu() {
-    playerMode = 'menu';
+  void startAttack(Position inputCenter, Position actionCenter, Attack attack) {
+    playerMode = 'attack';
+    combat.setInputCenterPosition(inputCenter);
+    combat.setActionCenterPosition(actionCenter);
+    combat.setAttack(attack);
   }
 
-  void closeMenu() {
+  void cancelAction() {
     playerMode = 'stand';
+    combat.cancelAction();
   }
+
+  void confirmAttack(
+      List<Npc> npcs, List<Player> players, Player selectedPlayer) {
+    int rawDamage = selectedPlayer.attributes.power.getRawDamage();
+
+    for (Npc npc in npcs) {
+      if (combat.areaEffect.insideArea(npc.position)) {
+        npc.receiveAttack(combat.attack.damage, rawDamage);
+      }
+    }
+
+    for (Player player in players) {
+      if (combat.areaEffect.insideArea(player.position)) {
+        player.receiveAttack(combat.attack.damage, rawDamage);
+      }
+    }
+  }
+
+  // Widget popUpMenu() {
+  //   return (playerMode == 'menu')
+  //       ? PopUpMenu(playerMode: playerMode, closeMenu: closeMenu)
+  //       : const SizedBox();
+  // }
+
+  // void openMenu() {
+  //   playerMode = 'menu';
+  // }
+
+  // void closeMenu() {
+  //   playerMode = 'stand';
+  // }
 
   Widget endGameButton(context, String gamePhase, Player player) {
     Widget button = const SizedBox();

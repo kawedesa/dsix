@@ -137,8 +137,9 @@ class Shop {
         ),
         range: Range(
           min: 5,
-          max: 20,
+          max: 15,
           width: 20,
+          shape: 'cone',
         ),
       ),
       armor: Armor(pArmor: 1, mArmor: 0),
@@ -504,11 +505,7 @@ class Shop {
             pDamage: 3,
             mDamage: 0,
           ),
-          range: Range(
-            min: 20,
-            max: 70,
-            width: 10,
-          )),
+          range: Range(min: 20, max: 50, width: 10, shape: 'rectangle')),
       armor: Armor.empty(),
       weight: 3,
       value: 300,

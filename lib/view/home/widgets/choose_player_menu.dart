@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../model/player/player.dart';
@@ -40,10 +41,13 @@ class _ChoosePlayerMenuState extends State<ChoosePlayerMenu> {
     }
 
     Widget menu = Center(
-      child: AppRadialMenu(
-        maxAngle: 360,
-        buttonInfo: buttons,
-        menuSize: 0.6,
+      child: SizedBox(
+        width: AppLayout.shortest(context) * 0.6,
+        height: AppLayout.shortest(context) * 0.6,
+        child: AppRadialMenu(
+          maxAngle: 360,
+          buttonInfo: buttons,
+        ),
       ),
     );
     return menu;

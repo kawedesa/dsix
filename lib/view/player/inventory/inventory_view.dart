@@ -132,10 +132,10 @@ class _InventoryViewState extends State<InventoryView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _inventoryVM.mainHandSlot!,
                         _inventoryVM.headSlot!,
                         _inventoryVM.bodySlot!,
-                        _inventoryVM.offHandSlot!,
+                        _inventoryVM.handSlot!,
+                        _inventoryVM.feetSlot!,
                       ],
                     ),
                   ),
@@ -155,9 +155,9 @@ class _InventoryViewState extends State<InventoryView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _inventoryVM.handSlot!,
+                        _inventoryVM.mainHandSlot!,
                         const AppSeparatorHorizontal(value: 0.1),
-                        _inventoryVM.feetSlot!,
+                        _inventoryVM.offHandSlot!,
                       ],
                     ),
                   ),

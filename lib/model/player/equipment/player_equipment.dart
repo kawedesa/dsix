@@ -132,14 +132,14 @@ class PlayerEquipment {
       return;
     }
 
-    bag.add(slot.item);
-
     if (slot.item.itemSlot == 'two hands') {
+      bag.add(mainHandSlot.item);
       mainHandSlot.unequip();
       offHandSlot.unequip();
-    } else {
-      slot.unequip();
+      return;
     }
+    bag.add(slot.item);
+    slot.unequip();
   }
 
   void removeItemfromBag(Item item) {
