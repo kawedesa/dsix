@@ -28,12 +28,12 @@ class _TextInputDialogState extends State<TextInputDialog> {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: AppLayout.shortest(context) * 0.6,
+        width: AppLayout.avarage(context) * 0.4,
         decoration: BoxDecoration(
           color: widget.color,
           border: Border.all(
             color: widget.color,
-            width: AppLayout.shortest(context) * 0.005,
+            width: AppLayout.avarage(context) * 0.0025,
           ),
         ),
         child: Column(

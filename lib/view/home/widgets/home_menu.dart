@@ -82,8 +82,8 @@ class _HomeMenuState extends State<HomeMenu> {
           child: SvgPicture.asset(
             AppImages.logo,
             color: Colors.grey,
-            width: AppLayout.shortest(context) * 0.15,
-            height: AppLayout.shortest(context) * 0.15,
+            width: AppLayout.avarage(context) * 0.15,
+            height: AppLayout.avarage(context) * 0.15,
           ),
         );
 

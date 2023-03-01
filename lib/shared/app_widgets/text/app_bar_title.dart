@@ -12,8 +12,8 @@ class AppBarTitle extends StatelessWidget {
     return Text(title.toUpperCase(),
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: AppLayout.shortest(context) * 0.025,
-          letterSpacing: AppLayout.shortest(context) * 0.008,
+          fontSize: AppLayout.height(context) * 0.015,
+          letterSpacing: AppLayout.height(context) * 0.002,
           fontFamily: 'Poppins',
           color: color,
         ));

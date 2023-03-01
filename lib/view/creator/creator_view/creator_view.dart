@@ -1,6 +1,7 @@
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/app_widgets/button/app_bar_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/view/creator/creator_view/creator_vm.dart';
 import 'package:dsix/view/creator/creator_map/creator_map_view.dart';
@@ -55,7 +56,7 @@ class _CreatorViewState extends State<CreatorView> {
           color: AppColors.uiColorDark,
         ),
         centerTitle: true,
-        toolbarHeight: AppLayout.height(context) * 0.06,
+        toolbarHeight: AppLayout.height(context) * 0.04,
         leading: Row(
           children: [
             const AppSeparatorHorizontal(
@@ -67,7 +68,7 @@ class _CreatorViewState extends State<CreatorView> {
               },
               child: Icon(
                 Icons.exit_to_app,
-                size: AppLayout.height(context) * 0.035,
+                size: AppLayout.height(context) * 0.03,
               ),
             ),
           ],
@@ -91,14 +92,14 @@ class _CreatorViewState extends State<CreatorView> {
       ),
       bottomNavigationBar: Container(
         color: AppColors.uiColor,
-        height: AppLayout.height(context) * 0.1,
+        height: AppLayout.height(context) * 0.06,
         child: Align(
           alignment: Alignment.center,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const AppSeparatorHorizontal(value: 0.05),
-              AppCircularButton(
+              AppBarCircularButton(
                   onTap: () {
                     setState(() {
                       _creatorVM.changePage(0);
@@ -108,8 +109,8 @@ class _CreatorViewState extends State<CreatorView> {
                   iconColor: AppColors.uiColorDark,
                   color: Colors.transparent,
                   borderColor: AppColors.uiColorDark,
-                  size: 0.07),
-              AppCircularButton(
+                  size: 0.05),
+              AppBarCircularButton(
                   onTap: () {
                     setState(() {
                       _creatorVM.changePage(1);
@@ -119,7 +120,7 @@ class _CreatorViewState extends State<CreatorView> {
                   iconColor: AppColors.uiColorDark,
                   color: Colors.transparent,
                   borderColor: AppColors.uiColorDark,
-                  size: 0.07),
+                  size: 0.05),
               const AppSeparatorHorizontal(value: 0.05),
             ],
           ),
@@ -128,31 +129,3 @@ class _CreatorViewState extends State<CreatorView> {
     );
   }
 }
-
-  // showDialog(
-  //                   context: context,
-  //                   builder: (BuildContext context) {
-  //                     return AppShopDialog(
-  //                       item: _shopVM.itemList[index],
-  //                       color: user.color,
-  //                       darkColor: user.darkColor,
-  //                       buyItem: () {
-  //                         try {
-  //                           Navigator.pop(context);
-  //                           _shopVM.buyItem(
-  //                               _shopVM.itemList[index], user.player!);
-  //                         } on NotEnoughMoneyException catch (e) {
-  //                           widget.displaySnackbar(
-  //                               e.message.toUpperCase(), user.color);
-  //                         } on TooHeavyException catch (e) {
-  //                           widget.displaySnackbar(
-  //                               e.message.toUpperCase(), user.color);
-  //                         } on ItemBoughtException catch (e) {
-  //                           widget.displaySnackbar(
-  //                               e.itemValue.toUpperCase(), user.color);
-  //                         }
-  //                         widget.refresh();
-  //                       },
-  //                     );
-  //                   },
-  //                 );

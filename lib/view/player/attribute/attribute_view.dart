@@ -35,7 +35,7 @@ class _AttributeViewState extends State<AttributeView> {
           color: user.darkColor,
         ),
         centerTitle: true,
-        toolbarHeight: AppLayout.height(context) * 0.06,
+        toolbarHeight: AppLayout.height(context) * 0.04,
         leading: Row(
           children: [
             const AppSeparatorHorizontal(
@@ -48,7 +48,7 @@ class _AttributeViewState extends State<AttributeView> {
               child: Icon(
                 Icons.exit_to_app,
                 color: user.darkColor,
-                size: AppLayout.height(context) * 0.035,
+                size: AppLayout.height(context) * 0.03,
               ),
             ),
           ],
@@ -58,8 +58,8 @@ class _AttributeViewState extends State<AttributeView> {
       body: SafeArea(
         child: Center(
           child: SizedBox(
-            width: AppLayout.shortest(context) * 0.9,
-            height: AppLayout.height(context) * 0.85,
+            width: AppLayout.avarage(context) * 0.9,
+            height: AppLayout.avarage(context) * 0.85,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -68,16 +68,16 @@ class _AttributeViewState extends State<AttributeView> {
                   title: 'points:${user.player.attributes.availablePoints}',
                   color: user.color,
                 ),
-                const AppSeparatorVertical(value: 0.02),
+                const AppSeparatorVertical(value: 0.035),
                 AppSlider(
-                  width: AppLayout.shortest(context) * 0.5,
-                  height: AppLayout.shortest(context) * 0.09,
+                  width: AppLayout.avarage(context) * 0.25,
+                  height: AppLayout.avarage(context) * 0.075,
                   range: 5,
-                  sliderTitle: 'attack',
+                  sliderTitle: 'power',
                   sliderDescription:
-                      'this represents how well you can attack your enemies.',
+                      'this represents the power of your attacks.',
                   color: user.color,
-                  icon: AppImages.attack,
+                  icon: AppImages.power,
                   iconColor: user.darkColor,
                   value: user.player.attributes.power.attribute,
                   add: () {
@@ -91,16 +91,16 @@ class _AttributeViewState extends State<AttributeView> {
                     });
                   },
                 ),
-                const AppSeparatorVertical(value: 0.02),
+                const AppSeparatorVertical(value: 0.025),
                 AppSlider(
-                  width: AppLayout.shortest(context) * 0.5,
-                  height: AppLayout.shortest(context) * 0.09,
+                  width: AppLayout.avarage(context) * 0.25,
+                  height: AppLayout.avarage(context) * 0.075,
                   range: 5,
-                  sliderTitle: 'defend',
+                  sliderTitle: 'defense',
                   sliderDescription:
                       'this represents how well you can protect yourself and others',
                   color: user.color,
-                  icon: AppImages.defend,
+                  icon: AppImages.defense,
                   iconColor: user.darkColor,
                   value: user.player.attributes.defense.attribute,
                   add: () {
@@ -114,15 +114,15 @@ class _AttributeViewState extends State<AttributeView> {
                     });
                   },
                 ),
-                const AppSeparatorVertical(value: 0.02),
+                const AppSeparatorVertical(value: 0.025),
                 AppSlider(
-                  width: AppLayout.shortest(context) * 0.5,
-                  height: AppLayout.shortest(context) * 0.09,
+                  width: AppLayout.avarage(context) * 0.25,
+                  height: AppLayout.avarage(context) * 0.075,
                   range: 5,
-                  sliderTitle: 'move',
+                  sliderTitle: 'movement',
                   sliderDescription: 'this represents how far you can move.',
                   color: user.color,
-                  icon: AppImages.move,
+                  icon: AppImages.movement,
                   iconColor: user.darkColor,
                   value: user.player.attributes.movement.attribute,
                   add: () {
@@ -136,16 +136,16 @@ class _AttributeViewState extends State<AttributeView> {
                     });
                   },
                 ),
-                const AppSeparatorVertical(value: 0.02),
+                const AppSeparatorVertical(value: 0.025),
                 AppSlider(
-                  width: AppLayout.shortest(context) * 0.5,
-                  height: AppLayout.shortest(context) * 0.09,
+                  width: AppLayout.avarage(context) * 0.25,
+                  height: AppLayout.avarage(context) * 0.075,
                   range: 5,
-                  sliderTitle: 'look',
+                  sliderTitle: 'vision',
                   sliderDescription:
-                      'this represents how far you can see and your ability to find things.',
+                      'this represents how far you can see things.',
                   color: user.color,
-                  icon: AppImages.look,
+                  icon: AppImages.vision,
                   iconColor: user.darkColor,
                   value: user.player.attributes.vision.attribute,
                   add: () {
@@ -159,7 +159,7 @@ class _AttributeViewState extends State<AttributeView> {
                     });
                   },
                 ),
-                const AppSeparatorVertical(value: 0.025),
+                const AppSeparatorVertical(value: 0.035),
                 AppTextButton(
                     buttonText: 'confirm',
                     color: user.color,

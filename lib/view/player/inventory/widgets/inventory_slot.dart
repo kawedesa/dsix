@@ -46,14 +46,8 @@ class _InventorySlotState extends State<InventorySlot> {
           List<dynamic> rejected,
         ) {
           return Container(
-            width: (MediaQuery.of(context).size.width <
-                    MediaQuery.of(context).size.height)
-                ? AppLayout.avarage(context) * 0.12
-                : AppLayout.shortest(context) * 0.12,
-            height: (MediaQuery.of(context).size.width <
-                    MediaQuery.of(context).size.height)
-                ? AppLayout.avarage(context) * 0.12
-                : AppLayout.shortest(context) * 0.12,
+            width: AppLayout.avarage(context) * 0.1,
+            height: AppLayout.avarage(context) * 0.1,
             decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(
@@ -87,7 +81,7 @@ class _InventorySlotState extends State<InventorySlot> {
                       child: Draggable<EquipmentSlot>(
                         data: widget.equipmentSlot,
                         feedback: SizedBox(
-                          width: AppLayout.shortest(context) * 0.15,
+                          width: AppLayout.avarage(context) * 0.1,
                           child: Align(
                             alignment: Alignment.bottomRight,
                             child: AppCircularButton(

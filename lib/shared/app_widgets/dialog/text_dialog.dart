@@ -26,7 +26,7 @@ class TextDialog extends StatelessWidget {
           color: color,
           border: Border.all(
             color: color,
-            width: AppLayout.shortest(context) * 0.005,
+            width: AppLayout.avarage(context) * 0.0025,
           ),
         ),
         child: Column(
@@ -47,8 +47,8 @@ class TextDialog extends StatelessWidget {
                         horizontal: AppLayout.width(context) * 0.02),
                     child: AppText(
                       text: dialogText.toUpperCase(),
-                      fontSize: 0.025,
-                      letterSpacing: 0.008,
+                      fontSize: 0.02,
+                      letterSpacing: 0.004,
                       color: Colors.white,
                     ),
                   ),

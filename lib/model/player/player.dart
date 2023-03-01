@@ -154,6 +154,16 @@ class Player {
     update();
   }
 
+  void defend() {
+    attributes.defense.defend();
+    update();
+  }
+
+  void look() {
+    attributes.vision.look();
+    update();
+  }
+
   bool canSee(Position position) {
     double distance = this.position.getDistanceFromPosition(position);
 

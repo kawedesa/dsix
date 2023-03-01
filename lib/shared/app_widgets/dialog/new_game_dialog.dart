@@ -51,12 +51,12 @@ class _NewGameDialogState extends State<NewGameDialog> {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: AppLayout.shortest(context) * 0.6,
+        width: AppLayout.avarage(context) * 0.6,
         decoration: BoxDecoration(
           color: AppColors.uiColor,
           border: Border.all(
             color: AppColors.uiColor,
-            width: AppLayout.shortest(context) * 0.005,
+            width: AppLayout.avarage(context) * 0.0025,
           ),
         ),
         child: Column(
@@ -84,7 +84,7 @@ class _NewGameDialogState extends State<NewGameDialog> {
                         ),
                         const AppSeparatorVertical(value: 0.02),
                         SizedBox(
-                          width: AppLayout.shortest(context) * 0.5,
+                          width: AppLayout.avarage(context) * 0.4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -93,7 +93,7 @@ class _NewGameDialogState extends State<NewGameDialog> {
                                 iconColor: AppColors.uiColor,
                                 color: Colors.transparent,
                                 borderColor: AppColors.uiColor,
-                                size: 0.1,
+                                size: 0.075,
                                 onTap: () {
                                   setState(() {
                                     changeNumberOfPlayers(-1);
@@ -102,7 +102,7 @@ class _NewGameDialogState extends State<NewGameDialog> {
                               ),
                               AppText(
                                 text: numberOfPlayers.toString(),
-                                fontSize: 0.1,
+                                fontSize: 0.05,
                                 letterSpacing: 0.01,
                                 color: AppColors.uiColor,
                               ),
@@ -111,7 +111,7 @@ class _NewGameDialogState extends State<NewGameDialog> {
                                 iconColor: AppColors.uiColor,
                                 color: Colors.transparent,
                                 borderColor: AppColors.uiColor,
-                                size: 0.1,
+                                size: 0.075,
                                 onTap: () {
                                   setState(() {
                                     changeNumberOfPlayers(1);
@@ -130,8 +130,8 @@ class _NewGameDialogState extends State<NewGameDialog> {
                         ),
                         const AppSeparatorVertical(value: 0.02),
                         AppSlider(
-                            width: AppLayout.shortest(context) * 0.3,
-                            height: AppLayout.shortest(context) * 0.09,
+                            width: AppLayout.avarage(context) * 0.25,
+                            height: AppLayout.avarage(context) * 0.075,
                             range: 3,
                             sliderTitle: 'difficulty',
                             sliderDescription: 'normal',

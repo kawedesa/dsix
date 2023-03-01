@@ -12,7 +12,7 @@ class Attack {
     return Attack(
       name: 'punch',
       damage: Damage.empty(),
-      range: Range(min: 10, max: 0, width: 5, shape: 'circle'),
+      range: Range(min: 6, max: 0, width: 4, shape: 'circle'),
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
 
-class AppCircularButton extends StatefulWidget {
+class AppBarCircularButton extends StatefulWidget {
   final Color color;
   final Color borderColor;
   final Color? iconColor;
@@ -12,7 +12,7 @@ class AppCircularButton extends StatefulWidget {
   final double? borderSize;
   final String? icon;
 
-  const AppCircularButton({
+  const AppBarCircularButton({
     Key? key,
     required this.color,
     required this.borderColor,
@@ -24,17 +24,17 @@ class AppCircularButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AppCircularButton> createState() => _AppCircularButtonState();
+  State<AppBarCircularButton> createState() => _AppBarCircularButtonState();
 }
 
-class _AppCircularButtonState extends State<AppCircularButton> {
+class _AppBarCircularButtonState extends State<AppBarCircularButton> {
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
       duration: const Duration(milliseconds: 400),
       tween: Tween<double>(
         begin: 0.0,
-        end: AppLayout.avarage(context) * widget.size,
+        end: AppLayout.height(context) * widget.size,
       ),
       curve: Curves.easeOutCubic,
       builder: (_, double tweenValue, __) {

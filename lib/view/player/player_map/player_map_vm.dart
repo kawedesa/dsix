@@ -1,8 +1,12 @@
 import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
+import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/app_widgets/map/action_button.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_dead_npc_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_dead_player_sprite.dart';
@@ -10,7 +14,6 @@ import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_npc_s
 import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_other_player_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_player_sprite.dart';
 import 'package:dsix/view/home/home_view.dart';
-import 'package:dsix/view/player/player_map/widgets/pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../../model/combat/combat.dart';
@@ -119,6 +122,80 @@ class PlayerMapVM {
   }
 
   String playerMode = 'stand';
+
+  Widget actionButtons(User user, Function refresh) {
+    return AppRadialMenu(
+      maxAngle: 60,
+      buttonInfo: [
+        ActionButton(
+          active: (playerMode == 'attack') ? true : false,
+          color: user.color,
+          darkColor: user.darkColor,
+          resetAction: () {
+            combat.resetActionArea();
+            refresh();
+          },
+          startAction: (position) {
+            startAttack(
+              position,
+              user.player.position,
+              user.player.equipment.mainHandSlot.item.attack,
+            );
+
+            refresh();
+          },
+          cancelAction: () {
+            cancelAction();
+            refresh();
+          },
+        ),
+        ActionButton(
+          active: false,
+          color: user.color,
+          darkColor: user.darkColor,
+          resetAction: () {},
+          startAction: (position) {
+            user.player.defend();
+            refresh();
+          },
+          cancelAction: () {},
+        ),
+        ActionButton(
+          active: false,
+          color: user.color,
+          darkColor: user.darkColor,
+          resetAction: () {},
+          startAction: (position) {
+            user.player.look();
+            refresh();
+          },
+          cancelAction: () {},
+        ),
+        ActionButton(
+          active: (playerMode == 'attack') ? true : false,
+          color: user.color,
+          darkColor: user.darkColor,
+          resetAction: () {
+            combat.resetActionArea();
+            refresh();
+          },
+          startAction: (position) {
+            startAttack(
+              position,
+              user.player.position,
+              user.player.equipment.offHandSlot.item.attack,
+            );
+
+            refresh();
+          },
+          cancelAction: () {
+            cancelAction();
+            refresh();
+          },
+        ),
+      ],
+    );
+  }
 
   Widget getMouseInput(List<Npc> npcs, List<Player> players,
       Player selectedPlayer, Function refresh) {

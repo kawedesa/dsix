@@ -33,7 +33,7 @@ class _CreatePlayerMenuState extends State<CreatePlayerMenu> {
               ? AppColors().getPlayerColor(id).withAlpha(15)
               : AppColors().getPlayerColor(id),
           borderColor: AppColors().getPlayerDarkColor(id),
-          size: 0.2,
+          size: 0.13,
           onTap: (game.choosenPlayers.contains(id))
               ? null
               : () {
@@ -45,8 +45,8 @@ class _CreatePlayerMenuState extends State<CreatePlayerMenu> {
 
     Widget menu = Center(
       child: SizedBox(
-        width: AppLayout.shortest(context) * 0.6,
-        height: AppLayout.shortest(context) * 0.6,
+        width: AppLayout.avarage(context) * 0.4,
+        height: AppLayout.avarage(context) * 0.4,
         child: AppRadialMenu(
           maxAngle: 360,
           buttonInfo: players,
@@ -104,7 +104,7 @@ class _CreatePlayerMenuState extends State<CreatePlayerMenu> {
             onTap: () {
               widget.goBack();
             },
-            size: 0.08),
+            size: 0.06),
       ),
       Align(
         alignment: const Alignment(0, -0.75),

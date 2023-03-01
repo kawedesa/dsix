@@ -37,57 +37,53 @@ class _CreatorMapState extends State<CreatorMap> {
     _creatorMapVM.checkForEndGame(game, npcs, players);
     _creatorMapVM.updateSelectedNpc(npcs);
 
-    return Center(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Expanded(
-          child: Stack(
-            children: [
-              InteractiveViewer(
-                transformationController:
-                    _creatorMapVM.createCanvasController(context),
-                constrained: false,
-                panEnabled: true,
-                maxScale: _creatorMapVM.maxZoom,
-                minScale: _creatorMapVM.minZoom,
-                child: SizedBox(
-                  width: 320,
-                  height: 320,
-                  child: Stack(
-                    children: [
-                      SvgPicture.asset(
-                        game.map.map,
-                        width: AppLayout.longest(context),
-                        height: AppLayout.longest(context),
-                      ),
-                      _creatorMapVM.mapInputController(refresh),
-                      Stack(
-                        children: _creatorMapVM.createSpawnerSprites(
-                            game.phase, spawners),
-                      ),
-                      AreaEffectSprite(
-                        area: _creatorMapVM.combat.areaEffect.area,
-                      ),
-                      Stack(
-                        children: _creatorMapVM.createNpcSprites(
-                            game.phase, npcs, refresh),
-                      ),
-                      Stack(
-                        children:
-                            _creatorMapVM.createPlayerSprites(players, npcs),
-                      ),
-                    ],
+    return Expanded(
+      child: Stack(
+        children: [
+          InteractiveViewer(
+            transformationController:
+                _creatorMapVM.createCanvasController(context),
+            constrained: false,
+            panEnabled: true,
+            maxScale: _creatorMapVM.maxZoom,
+            minScale: _creatorMapVM.minZoom,
+            child: SizedBox(
+              width: 320,
+              height: 320,
+              child: Stack(
+                children: [
+                  SvgPicture.asset(
+                    game.map.map,
+                    width: AppLayout.longest(context),
+                    height: AppLayout.longest(context),
                   ),
-                ),
+                  _creatorMapVM.npcDeselector(refresh),
+                  Stack(
+                    children: _creatorMapVM.createSpawnerSprites(
+                        game.phase, spawners),
+                  ),
+                  AreaEffectSprite(
+                    area: _creatorMapVM.combat.areaEffect.area,
+                  ),
+                  Stack(
+                    children: _creatorMapVM.createNpcSprites(
+                        game.phase, npcs, refresh),
+                  ),
+                  Stack(
+                    children: _creatorMapVM.createPlayerSprites(players, npcs),
+                  ),
+                ],
               ),
-              _creatorMapVM.selectedNpcUi(),
-              // _creatorMapVM.actionButtons(game.phase, npcs, players, refresh),
-              _creatorMapVM.gameCreationMenu(
-                  game.phase, widget.displaySnackbar),
-              _creatorMapVM.endGameButton(context, game),
-            ],
+            ),
           ),
-        ),
-      ]),
+          _creatorMapVM.selectedNpcUi(),
+          _creatorMapVM.getMouseInput(npcs, players, refresh),
+          _creatorMapVM.actionButtons(
+              context, game.phase, npcs, players, refresh),
+          _creatorMapVM.gameCreationMenu(game.phase, widget.displaySnackbar),
+          _creatorMapVM.endGameButton(context, game),
+        ],
+      ),
     );
   }
 }

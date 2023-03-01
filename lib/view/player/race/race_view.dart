@@ -36,7 +36,7 @@ class _RaceViewState extends State<RaceView> {
           color: user.darkColor,
         ),
         centerTitle: true,
-        toolbarHeight: AppLayout.height(context) * 0.06,
+        toolbarHeight: AppLayout.height(context) * 0.04,
         leading: Row(
           children: [
             const AppSeparatorHorizontal(
@@ -49,7 +49,7 @@ class _RaceViewState extends State<RaceView> {
               child: Icon(
                 Icons.exit_to_app,
                 color: user.darkColor,
-                size: AppLayout.height(context) * 0.035,
+                size: AppLayout.height(context) * 0.03,
               ),
             ),
           ],
@@ -59,8 +59,7 @@ class _RaceViewState extends State<RaceView> {
       body: SafeArea(
         child: Center(
           child: SizedBox(
-            width: AppLayout.shortest(context) * 0.9,
-            height: AppLayout.height(context) * 0.85,
+            width: AppLayout.shortest(context) * 0.8,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -79,7 +78,7 @@ class _RaceViewState extends State<RaceView> {
                             _raceVM.changeRace(-1);
                           });
                         },
-                        size: 0.125),
+                        size: 0.075),
                     SizedBox(
                       width: AppLayout.shortest(context) * 0.5,
                       height: AppLayout.shortest(context) * 0.55,
@@ -111,12 +110,12 @@ class _RaceViewState extends State<RaceView> {
                             _raceVM.changeRace(1);
                           });
                         },
-                        size: 0.125),
+                        size: 0.075),
                   ],
                 ),
                 const AppSeparatorVertical(value: 0.025),
                 SizedBox(
-                    width: AppLayout.shortest(context) * 0.4,
+                    width: AppLayout.avarage(context) * 0.25,
                     child: _raceVM.raceBonusIcons(context, user)),
                 const AppSeparatorVertical(value: 0.025),
                 AppTextButton(

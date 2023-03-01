@@ -65,7 +65,7 @@ class _AppSliderState extends State<AppSlider> {
           iconColor: widget.color,
           color: Colors.transparent,
           borderColor: widget.color,
-          size: 0.1,
+          size: 0.075,
           onTap: () => widget.remove(),
         ),
         SizedBox(
@@ -83,7 +83,7 @@ class _AppSliderState extends State<AppSlider> {
                         alignment: Alignment.center,
                         child: SizedBox(
                           width: widget.width - widget.height * 0.5,
-                          height: AppLayout.shortest(context) * 0.008,
+                          height: AppLayout.avarage(context) * 0.004,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: sliderDivision(widget.range),
@@ -93,7 +93,7 @@ class _AppSliderState extends State<AppSlider> {
                       Align(
                         alignment: Alignment.center,
                         child: Container(
-                          height: AppLayout.shortest(context) * 0.005,
+                          height: AppLayout.avarage(context) * 0.002,
                           width: double.infinity,
                           color: widget.color,
                         ),
@@ -109,7 +109,7 @@ class _AppSliderState extends State<AppSlider> {
                   iconColor: widget.iconColor,
                   color: widget.color,
                   borderColor: widget.color,
-                  size: 0.09,
+                  size: 0.05,
                   onTap: () {
                     showDialog(
                       context: context,
@@ -132,7 +132,7 @@ class _AppSliderState extends State<AppSlider> {
           iconColor: widget.color,
           color: Colors.transparent,
           borderColor: widget.color,
-          size: 0.1,
+          size: 0.075,
           onTap: () => widget.add(),
         ),
       ],

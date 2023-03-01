@@ -6,10 +6,10 @@ class AppImages {
   static const left = 'assets/images/ui/left.svg';
   static const right = 'assets/images/ui/right.svg';
 
-  static const attack = 'assets/images/ui/attack.svg';
-  static const defend = 'assets/images/ui/defend.svg';
-  static const look = 'assets/images/ui/look.svg';
-  static const move = 'assets/images/ui/move.svg';
+  static const power = 'assets/images/ui/power.svg';
+  static const defense = 'assets/images/ui/defense.svg';
+  static const vision = 'assets/images/ui/vision.svg';
+  static const movement = 'assets/images/ui/movement.svg';
 
   static const pDamage = 'assets/images/ui/pDamage.svg';
   static const mDamage = 'assets/images/ui/mDamage.svg';
@@ -133,6 +133,24 @@ class AppImages {
         break;
       case 'short bow':
         itemIcon = shortBow;
+        break;
+      case 'mace':
+        itemIcon = mace;
+        break;
+      case 'short spear':
+        itemIcon = shortSpear;
+        break;
+      case 'magic sword':
+        itemIcon = magicSword;
+        break;
+      case 'morning star':
+        itemIcon = morningStar;
+        break;
+      case 'gloves':
+        itemIcon = gloves;
+        break;
+      case 'boots':
+        itemIcon = boots;
         break;
     }
 

@@ -20,12 +20,12 @@ class DialogTitle extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const AppSeparatorVertical(value: 0.01),
+          const AppSeparatorVertical(value: 0.005),
           Text(title.toUpperCase(),
               style: TextStyle(
-                fontSize: AppLayout.shortest(context) * 0.035,
+                fontSize: AppLayout.height(context) * 0.02,
                 fontWeight: FontWeight.bold,
-                letterSpacing: AppLayout.shortest(context) * 0.005,
+                letterSpacing: AppLayout.avarage(context) * 0.005,
                 fontFamily: 'Poppins',
                 color: Colors.black,
               )),
@@ -42,7 +42,7 @@ class DialogTitle extends StatelessWidget {
                     ),
                   ],
                 ),
-          const AppSeparatorVertical(value: 0.01),
+          const AppSeparatorVertical(value: 0.005),
         ],
       ),
     );

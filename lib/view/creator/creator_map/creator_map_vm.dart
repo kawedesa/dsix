@@ -1,11 +1,11 @@
 import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/combat.dart';
+import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
-import 'package:dsix/shared/app_widgets/map/game_pad.dart';
-import 'package:dsix/shared/app_widgets/map/map_input_controller.dart';
+import 'package:dsix/shared/app_widgets/map/action_button.dart';
+
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/creator_view/creator_view_dead_npc_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/creator_view/creator_view_dead_player_sprite.dart';
@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../../model/game/game.dart';
 import '../../../model/npc/npc.dart';
+import '../../../shared/app_widgets/app_radial_menu.dart';
 import '../../../shared/app_widgets/button/app_text_button.dart';
 import '../../home/home_view.dart';
 import 'widgets/game_creation_menu.dart';
@@ -73,7 +74,7 @@ class CreatorMapVM {
     }
   }
 
-  Widget mapInputController(Function refresh) {
+  Widget npcDeselector(Function refresh) {
     if (selectedNpc == null) {
       return const SizedBox();
     } else {
@@ -108,56 +109,122 @@ class CreatorMapVM {
     if (selectedNpc == null) {
       return const SizedBox();
     } else {
-      return SelectedNpcUi(npc: selectedNpc!);
+      return Align(
+          alignment: const Alignment(
+            0.0,
+            -0.9,
+          ),
+          child: SelectedNpcUi(npc: selectedNpc!));
     }
   }
 
-  // Widget actionButtons(String gamePhase, List<Npc> npcs, List<Player> players,
-  //     Function refresh) {
-  //   if (selectedNpc == null) {
-  //     return const SizedBox();
-  //   }
+  bool takingAction = false;
 
-  //   if (gamePhase == 'creation') {
-  //     return const SizedBox();
-  //   }
+  Widget actionButtons(context, String gamePhase, List<Npc> npcs,
+      List<Player> players, Function refresh) {
+    if (selectedNpc == null) {
+      return const SizedBox();
+    }
 
-  //   List<Widget> abilityButtons = [];
+    if (gamePhase == 'creation') {
+      return const SizedBox();
+    }
 
-  //   for (Attack attack in selectedNpc!.attacks) {
-  //     abilityButtons.add(GamePad(
-  //       color: AppColors.uiColor,
-  //       cancelColor: AppColors.cancel,
-  //       onPanStart: () {},
-  //       onPanUpdate: (angle, distance) {
-  //         combat.setAttack(
-  //           angle,
-  //           distance,
-  //           selectedNpc!.position,
-  //           attack,
-  //         );
-  //         refresh();
-  //       },
-  //       onPanEnd: () {
-  //         combat.confirmNpcAttack(npcs, players, selectedNpc!, attack);
-  //         combat.resetAttack();
-  //         refresh();
-  //       },
-  //       cancel: () {
-  //         combat.resetAttack();
-  //         refresh();
-  //       },
-  //     ));
-  //   }
+    List<Widget> abilityButtons = [];
 
-  //   return Align(
-  //     alignment: const Alignment(0.0, -2.0),
-  //     child: AppRadialMenu(
-  //       maxAngle: 120,
-  //       buttonInfo: abilityButtons,
-  //     ),
-  //   );
-  // }
+    for (Attack attack in selectedNpc!.attacks) {
+      abilityButtons.add(
+        ActionButton(
+            color: AppColors.uiColor,
+            darkColor: AppColors.uiColorDark,
+            active: takingAction,
+            startAction: (buttonPosition) {
+              startAttack(
+                buttonPosition,
+                selectedNpc!.position,
+                attack,
+              );
+              refresh();
+            },
+            cancelAction: () {
+              cancelAction();
+            },
+            resetAction: () {
+              combat.resetActionArea();
+              refresh();
+            }),
+      );
+    }
+
+    return Align(
+      alignment: const Alignment(
+        0.0,
+        0.5,
+      ),
+      child: SizedBox(
+        height: AppLayout.avarage(context) * 0.1,
+        width: AppLayout.avarage(context) * 0.75,
+        child: AppRadialMenu(
+          maxAngle: 60,
+          buttonInfo: abilityButtons,
+        ),
+      ),
+    );
+  }
+
+  void startAttack(Position inputCenter, Position actionCenter, Attack attack) {
+    combat.setInputCenterPosition(inputCenter);
+    combat.setActionCenterPosition(actionCenter);
+    combat.setAttack(attack);
+    takingAction = true;
+  }
+
+  void cancelAction() {
+    combat.cancelAction();
+    takingAction = false;
+  }
+
+  Widget getMouseInput(List<Npc> npcs, List<Player> players, Function refresh) {
+    Widget mouseInputWidget = const SizedBox();
+
+    if (takingAction) {
+      mouseInputWidget = MouseInput(
+        getMousePosition: (mousePosition) {
+          combat.setMousePosition(mousePosition);
+          combat.setActionArea();
+          refresh();
+        },
+        onTap: () {
+          confirmAttack(npcs, players);
+          cancelAction();
+          refresh();
+        },
+      );
+
+      return mouseInputWidget;
+    }
+
+    return mouseInputWidget;
+  }
+
+  void confirmAttack(
+    List<Npc> npcs,
+    List<Player> players,
+  ) {
+    int rawDamage = selectedNpc!.power.getRawDamage();
+
+    for (Npc npc in npcs) {
+      if (combat.areaEffect.insideArea(npc.position)) {
+        npc.receiveAttack(combat.attack.damage, rawDamage);
+      }
+    }
+
+    for (Player player in players) {
+      if (combat.areaEffect.insideArea(player.position)) {
+        player.receiveAttack(combat.attack.damage, rawDamage);
+      }
+    }
+  }
 
   List<Widget> createNpcSprites(
       String gamePhase, List<Npc> npcs, Function() refresh) {

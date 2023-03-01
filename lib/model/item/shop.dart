@@ -79,21 +79,30 @@ class Shop {
     //   maxRange: 5,
     //   minRange: 0,
     // ),
-    // Item(
-    //   icon: AppImages.mace,
-    //   name: 'mace',
-    //   description: '',
-    //   itemSlot: 'one hand',
-    //   type: 'melee',
-    //   pDamage: 2,
-    //   pArmor: 0,
-    //   mDamage: 0,
-    //   mArmor: 0,
-    //   weight: 3,
-    //   value: 100,
-    //   maxRange: 10,
-    //   minRange: 0,
-    // ),
+
+    Item(
+      name: 'mace',
+      description: '',
+      itemSlot: 'one hand',
+      type: 'melee',
+      attack: Attack(
+        name: 'crush',
+        damage: Damage(
+          pDamage: 2,
+          mDamage: 0,
+        ),
+        range: Range(
+          min: 8,
+          max: 0,
+          width: 5,
+          shape: 'circle',
+        ),
+      ),
+      armor: Armor(pArmor: 0, mArmor: 0),
+      weight: 3,
+      value: 100,
+    ),
+
     // Item(
     //   icon: AppImages.claw,
     //   name: 'claw',
@@ -137,7 +146,7 @@ class Shop {
         ),
         range: Range(
           min: 5,
-          max: 15,
+          max: 12.5,
           width: 20,
           shape: 'cone',
         ),
@@ -161,21 +170,30 @@ class Shop {
     //   maxRange: 10,
     //   minRange: 0,
     // ),
-    // Item(
-    //   icon: AppImages.shortSpear,
-    //   name: 'short spear',
-    //   description: '',
-    //   itemSlot: 'one hand',
-    //   type: 'melee',
-    //   pDamage: 2,
-    //   pArmor: 0,
-    //   mDamage: 0,
-    //   mArmor: 0,
-    //   weight: 1,
-    //   value: 300,
-    //   maxRange: 15,
-    //   minRange: 0,
-    // ),
+
+    Item(
+      name: 'short spear',
+      description: '',
+      itemSlot: 'one hand',
+      type: 'melee',
+      attack: Attack(
+        name: 'thrust',
+        damage: Damage(
+          pDamage: 2,
+          mDamage: 0,
+        ),
+        range: Range(
+          min: 5,
+          max: 17.5,
+          width: 5,
+          shape: 'rectangle',
+        ),
+      ),
+      armor: Armor(pArmor: 0, mArmor: 0),
+      weight: 1,
+      value: 300,
+    ),
+
     // Item(
     //   icon: AppImages.longSpear,
     //   name: 'long spear',
@@ -221,6 +239,7 @@ class Shop {
     //   maxRange: 10,
     //   minRange: 0,
     // ),
+
     // Item(
     //   icon: AppImages.sword,
     //   name: 'sword',
@@ -236,21 +255,30 @@ class Shop {
     //   maxRange: 10,
     //   minRange: 0,
     // ),
-    // Item(
-    //   icon: AppImages.magicSword,
-    //   name: 'magic sword',
-    //   description: '',
-    //   itemSlot: 'one hand',
-    //   type: 'melee',
-    //   pDamage: 1,
-    //   pArmor: 1,
-    //   mDamage: 1,
-    //   mArmor: 0,
-    //   weight: 3,
-    //   value: 400,
-    //   maxRange: 15,
-    //   minRange: 0,
-    // ),
+
+    Item(
+      name: 'magic sword',
+      description: '',
+      itemSlot: 'one hand',
+      type: 'melee',
+      attack: Attack(
+        name: 'slash',
+        damage: Damage(
+          pDamage: 1,
+          mDamage: 1,
+        ),
+        range: Range(
+          min: 5,
+          max: 15,
+          width: 20,
+          shape: 'cone',
+        ),
+      ),
+      armor: Armor(pArmor: 1, mArmor: 0),
+      weight: 3,
+      value: 400,
+    ),
+
     // Item(
     //   icon: AppImages.doubleSword,
     //   name: 'double sword',
@@ -281,21 +309,30 @@ class Shop {
     //   maxRange: 30,
     //   minRange: 40,
     // ),
-    // Item(
-    //   icon: AppImages.morningStar,
-    //   name: 'morningStar',
-    //   description: '',
-    //   itemSlot: 'one hand',
-    //   type: 'melee',
-    //   pDamage: 5,
-    //   pArmor: 0,
-    //   mDamage: 0,
-    //   mArmor: 0,
-    //   weight: 6,
-    //   value: 400,
-    //   maxRange: 10,
-    //   minRange: 0,
-    // ),
+
+    Item(
+      name: 'morning star',
+      description: '',
+      itemSlot: 'one hand',
+      type: 'melee',
+      attack: Attack(
+        name: 'crush',
+        damage: Damage(
+          pDamage: 5,
+          mDamage: 0,
+        ),
+        range: Range(
+          min: 10,
+          max: 0,
+          width: 6,
+          shape: 'circle',
+        ),
+      ),
+      armor: Armor(pArmor: 0, mArmor: 0),
+      weight: 6,
+      value: 400,
+    ),
+
     // Item(
     //   icon: AppImages.saber,
     //   name: 'saber',
@@ -663,36 +700,28 @@ class Shop {
   ];
 
   List<Item> armor = [
-    // Item(
-    //   icon: AppImages.boots,
-    //   name: 'boots',
-    //   description: '',
-    //   itemSlot: 'feet',
-    //   type: 'armor',
-    //   pDamage: 0,
-    //   pArmor: 1,
-    //   mDamage: 0,
-    //   mArmor: 0,
-    //   weight: 1,
-    //   value: 100,
-    //   maxRange: 0,
-    //   minRange: 0,
-    // ),
-    // Item(
-    //   icon: AppImages.gloves,
-    //   name: 'gloves',
-    //   description: '',
-    //   itemSlot: 'hands',
-    //   type: 'armor',
-    //   pDamage: 0,
-    //   pArmor: 1,
-    //   mDamage: 0,
-    //   mArmor: 0,
-    //   weight: 1,
-    //   value: 100,
-    //   maxRange: 0,
-    //   minRange: 0,
-    // ),
+    Item(
+      name: 'boots',
+      description: '',
+      itemSlot: 'feet',
+      type: 'armor',
+      attack: Attack.empty(),
+      armor: Armor(pArmor: 1, mArmor: 0),
+      weight: 1,
+      value: 100,
+    ),
+
+    Item(
+      name: 'gloves',
+      description: '',
+      itemSlot: 'hands',
+      type: 'armor',
+      attack: Attack.empty(),
+      armor: Armor(pArmor: 1, mArmor: 0),
+      weight: 1,
+      value: 100,
+    ),
+
     // Item(
     //   icon: AppImages.buckler,
     //   name: 'buckler',

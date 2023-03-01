@@ -40,7 +40,7 @@ class _ShopViewState extends State<ShopView> {
         ),
         SizedBox(
           width: AppLayout.shortest(context) * 0.8,
-          height: AppLayout.height(context) * 0.06,
+          height: AppLayout.avarage(context) * 0.05,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -50,7 +50,7 @@ class _ShopViewState extends State<ShopView> {
                 borderColor:
                     (_shopVM.selectedMenu == 0) ? user.lightColor : user.color,
                 color: user.color,
-                size: 0.075,
+                size: 0.05,
                 onTap: () {
                   setState(() {
                     _shopVM.changeMenu(0);
@@ -63,7 +63,7 @@ class _ShopViewState extends State<ShopView> {
                 borderColor:
                     (_shopVM.selectedMenu == 1) ? user.lightColor : user.color,
                 color: user.color,
-                size: 0.075,
+                size: 0.05,
                 onTap: () {
                   setState(() {
                     _shopVM.changeMenu(1);
@@ -76,7 +76,7 @@ class _ShopViewState extends State<ShopView> {
                 borderColor:
                     (_shopVM.selectedMenu == 2) ? user.lightColor : user.color,
                 color: user.color,
-                size: 0.075,
+                size: 0.05,
                 onTap: () {
                   setState(() {
                     _shopVM.changeMenu(2);
@@ -89,7 +89,7 @@ class _ShopViewState extends State<ShopView> {
                 borderColor:
                     (_shopVM.selectedMenu == 3) ? user.lightColor : user.color,
                 color: user.color,
-                size: 0.075,
+                size: 0.05,
                 onTap: () {
                   setState(() {
                     _shopVM.changeMenu(3);
@@ -106,74 +106,73 @@ class _ShopViewState extends State<ShopView> {
         const AppSeparatorVertical(
           value: 0.02,
         ),
-        AppTitle(title: _shopVM.menuTitle, color: user.color),
+        AppTitle(
+          title: _shopVM.menuTitle,
+          color: user.color,
+        ),
         const AppSeparatorVertical(
-          value: 0.02,
+          value: 0.07,
         ),
         SizedBox(
-          width: AppLayout.width(context) * 0.8,
-          height: AppLayout.height(context) * 0.55,
-          child: GridView.count(
-            physics: const ScrollPhysics(),
-            crossAxisCount: (AppLayout.avarage(context) * 0.006).toInt(),
-            mainAxisSpacing: AppLayout.height(context) * 0.04,
-            crossAxisSpacing: AppLayout.width(context) * 0.01,
-            children: List.generate(_shopVM.itemList.length, (index) {
-              return GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return ShopDialog(
-                        item: _shopVM.itemList[index],
-                        color: user.color,
-                        darkColor: user.darkColor,
-                        buyItem: () {
-                          try {
-                            Navigator.pop(context);
-                            _shopVM.buyItem(
-                                _shopVM.itemList[index], user.player);
-                          } on NotEnoughMoneyException catch (e) {
-                            widget.displaySnackbar(
-                                e.message.toUpperCase(), user.color);
-                          } on TooHeavyException catch (e) {
-                            widget.displaySnackbar(
-                                e.message.toUpperCase(), user.color);
-                          } on ItemBoughtException catch (e) {
-                            widget.displaySnackbar(
-                                e.itemValue.toUpperCase(), user.color);
-                          }
-                          widget.refresh();
-                        },
-                      );
-                    },
-                  );
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SvgPicture.asset(
-                      AppImages().getItemIcon(_shopVM.itemList[index].name),
-                      width: (AppLayout.width(context) +
-                              AppLayout.height(context)) *
-                          0.5 *
-                          0.05,
-                      height: (AppLayout.width(context) +
-                              AppLayout.height(context)) *
-                          0.5 *
-                          0.05,
-                      color: Colors.white,
-                    ),
-                    AppText(
-                        text: _shopVM.itemList[index].value.toString(),
-                        fontSize: 0.025,
-                        letterSpacing: 0.004,
-                        color: user.color),
-                  ],
-                ),
-              );
-            }),
+          width: double.infinity,
+          child: Center(
+            child: GridView.count(
+              physics: const ScrollPhysics(),
+              shrinkWrap: true,
+              crossAxisCount: (AppLayout.shortest(context) * 0.005).toInt(),
+              children: List.generate(_shopVM.itemList.length, (index) {
+                return GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ShopDialog(
+                          item: _shopVM.itemList[index],
+                          color: user.color,
+                          darkColor: user.darkColor,
+                          buyItem: () {
+                            try {
+                              Navigator.pop(context);
+                              _shopVM.buyItem(
+                                  _shopVM.itemList[index], user.player);
+                            } on NotEnoughMoneyException catch (e) {
+                              widget.displaySnackbar(
+                                  e.message.toUpperCase(), user.color);
+                            } on TooHeavyException catch (e) {
+                              widget.displaySnackbar(
+                                  e.message.toUpperCase(), user.color);
+                            } on ItemBoughtException catch (e) {
+                              widget.displaySnackbar(
+                                  e.itemValue.toUpperCase(), user.color);
+                            }
+                            widget.refresh();
+                          },
+                        );
+                      },
+                    );
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset(
+                        AppImages().getItemIcon(
+                          _shopVM.itemList[index].name,
+                        ),
+                        color: Colors.white,
+                        width: AppLayout.avarage(context) * 0.1,
+                        height: AppLayout.avarage(context) * 0.1,
+                      ),
+                      const AppSeparatorVertical(value: 0.01),
+                      AppText(
+                          text: _shopVM.itemList[index].value.toString(),
+                          fontSize: 0.03,
+                          letterSpacing: 0.003,
+                          color: user.color),
+                    ],
+                  ),
+                );
+              }),
+            ),
           ),
         ),
       ],

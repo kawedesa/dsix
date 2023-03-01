@@ -1,4 +1,5 @@
 import 'package:dsix/model/game/game.dart';
+import 'package:dsix/shared/app_widgets/button/app_bar_circular_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,7 @@ class BottomNavigationPlayer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const AppSeparatorHorizontal(value: 0.05),
-              AppCircularButton(
+              AppBarCircularButton(
                   onTap: () {
                     changePage(0);
                     refresh();
@@ -34,8 +35,8 @@ class BottomNavigationPlayer extends StatelessWidget {
                   iconColor: user.darkColor,
                   color: Colors.transparent,
                   borderColor: user.darkColor,
-                  size: 0.07),
-              AppCircularButton(
+                  size: 0.05),
+              AppBarCircularButton(
                   onTap: () {
                     changePage(1);
                     refresh();
@@ -44,9 +45,9 @@ class BottomNavigationPlayer extends StatelessWidget {
                   iconColor: user.darkColor,
                   color: Colors.transparent,
                   borderColor: user.darkColor,
-                  size: 0.07),
+                  size: 0.05),
               (user.player.ready)
-                  ? AppCircularButton(
+                  ? AppBarCircularButton(
                       onTap: () {
                         user.player.iAmNotReady();
                         refresh();
@@ -55,8 +56,8 @@ class BottomNavigationPlayer extends StatelessWidget {
                       iconColor: user.color,
                       color: AppColors.selected,
                       borderColor: AppColors.selected,
-                      size: 0.07)
-                  : AppCircularButton(
+                      size: 0.05)
+                  : AppBarCircularButton(
                       onTap: () {
                         user.player.iAmReady();
                         refresh();
@@ -65,7 +66,7 @@ class BottomNavigationPlayer extends StatelessWidget {
                       iconColor: user.darkColor,
                       color: user.color,
                       borderColor: user.darkColor,
-                      size: 0.07),
+                      size: 0.05),
               const AppSeparatorHorizontal(value: 0.05),
             ],
           )
@@ -73,7 +74,7 @@ class BottomNavigationPlayer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const AppSeparatorHorizontal(value: 0.05),
-              AppCircularButton(
+              AppBarCircularButton(
                   onTap: () {
                     changePage(0);
                     refresh();
@@ -82,8 +83,8 @@ class BottomNavigationPlayer extends StatelessWidget {
                   iconColor: user.darkColor,
                   color: Colors.transparent,
                   borderColor: user.darkColor,
-                  size: 0.07),
-              AppCircularButton(
+                  size: 0.05),
+              AppBarCircularButton(
                   onTap: () {
                     changePage(1);
                     refresh();
@@ -92,7 +93,7 @@ class BottomNavigationPlayer extends StatelessWidget {
                   iconColor: user.darkColor,
                   color: Colors.transparent,
                   borderColor: user.darkColor,
-                  size: 0.07),
+                  size: 0.05),
               const AppSeparatorHorizontal(value: 0.05),
             ],
           );

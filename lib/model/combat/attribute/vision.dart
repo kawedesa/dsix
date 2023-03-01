@@ -1,25 +1,30 @@
 class Vision {
   int attribute;
+  int tempVision;
 
   Vision({
     required this.attribute,
+    required this.tempVision,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'attribute': attribute,
+      'tempVision': tempVision,
     };
   }
 
   factory Vision.fromMap(Map<String, dynamic>? data) {
     return Vision(
       attribute: data?['attribute'],
+      tempVision: data?['tempVision'],
     );
   }
 
   factory Vision.empty() {
     return Vision(
       attribute: 0,
+      tempVision: 0,
     );
   }
 
@@ -36,9 +41,17 @@ class Vision {
   }
 
   double getRange() {
-    double range = attribute * 40 + 100;
+    double range = (attribute * 40) + tempVision + 100;
 
     return range;
+  }
+
+  void look() {
+    tempVision = 40;
+  }
+
+  void resetTempVision() {
+    tempVision = 0;
   }
 
   // factory PlayerVision.set(String race) {

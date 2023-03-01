@@ -1,8 +1,10 @@
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/app_widgets/button/app_bar_circular_button.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
+import 'package:dsix/shared/app_widgets/text/app_bar_text.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:dsix/view/player/player_view/player_vm.dart';
 import 'package:dsix/view/player/player_view/widgets/bottom_navigation_player.dart';
@@ -31,7 +33,7 @@ class _PlayerViewState extends State<PlayerView> {
       content: SizedBox(
           height: AppLayout.avarage(context) * 0.05,
           child: Center(
-            child: AppText(
+            child: AppBarText(
               text: text,
               fontSize: 0.03,
               letterSpacing: 0.005,
@@ -51,7 +53,7 @@ class _PlayerViewState extends State<PlayerView> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        toolbarHeight: AppLayout.height(context) * 0.06,
+        toolbarHeight: AppLayout.height(context) * 0.04,
         backgroundColor: user.color,
         centerTitle: false,
         title: AppBarTitle(
@@ -74,7 +76,7 @@ class _PlayerViewState extends State<PlayerView> {
               child: Icon(
                 Icons.exit_to_app,
                 color: user.darkColor,
-                size: AppLayout.height(context) * 0.035,
+                size: AppLayout.height(context) * 0.03,
               ),
             ),
           ],
@@ -83,55 +85,55 @@ class _PlayerViewState extends State<PlayerView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AppCircularButton(
+              AppBarCircularButton(
                   icon: AppImages.health,
                   iconColor: user.darkColor,
                   color: Colors.transparent,
                   borderColor: user.darkColor,
-                  size: 0.04),
+                  size: 0.03),
               const AppSeparatorHorizontal(
                 value: 0.01,
               ),
-              AppText(
+              AppBarText(
                 text: '${user.player.life.current}/${user.player.life.max}',
-                fontSize: 0.03,
+                fontSize: 0.02,
                 letterSpacing: 0.002,
                 color: user.darkColor,
               ),
               const AppSeparatorHorizontal(
                 value: 0.025,
               ),
-              AppCircularButton(
+              AppBarCircularButton(
                   icon: AppImages.weight,
                   iconColor: user.darkColor,
                   color: Colors.transparent,
                   borderColor: user.darkColor,
-                  size: 0.04),
+                  size: 0.03),
               const AppSeparatorHorizontal(
                 value: 0.01,
               ),
-              AppText(
+              AppBarText(
                 text:
                     '${user.player.equipment.currentWeight}/${user.player.equipment.maxWeight}',
-                fontSize: 0.03,
+                fontSize: 0.02,
                 letterSpacing: 0.002,
                 color: user.darkColor,
               ),
               const AppSeparatorHorizontal(
                 value: 0.025,
               ),
-              AppCircularButton(
+              AppBarCircularButton(
                   icon: AppImages.money,
                   iconColor: user.darkColor,
                   color: Colors.transparent,
                   borderColor: user.darkColor,
-                  size: 0.04),
+                  size: 0.03),
               const AppSeparatorHorizontal(
                 value: 0.01,
               ),
-              AppText(
+              AppBarText(
                 text: '${user.player.equipment.money}',
-                fontSize: 0.03,
+                fontSize: 0.02,
                 letterSpacing: 0.002,
                 color: user.darkColor,
               ),
@@ -151,7 +153,7 @@ class _PlayerViewState extends State<PlayerView> {
       ),
       bottomNavigationBar: Container(
         color: user.color,
-        height: AppLayout.height(context) * 0.1,
+        height: AppLayout.height(context) * 0.06,
         child: Align(
           alignment: Alignment.center,
           child: BottomNavigationPlayer(changePage: (number) {

@@ -1,13 +1,13 @@
-import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_colors.dart';
+
 import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
+import 'package:dsix/shared/app_widgets/map/action_button.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
-import 'package:dsix/shared/app_widgets/map/game_pad.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -80,135 +80,16 @@ class _PlayerMapViewState extends State<PlayerMapView> {
               ),
               _playerMapVM.getMouseInput(npcs, players, user.player, refresh),
               Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: AppLayout.shortest(context) * 0.75,
-                  height: AppLayout.shortest(context) * 0.3,
-                  child: AppRadialMenu(
-                    maxAngle: 60,
-                    buttonInfo: [
-                      ActionButton(
-                        active: (_playerMapVM.playerMode == 'attack')
-                            ? true
-                            : false,
-                        color: user.color,
-                        darkColor: user.darkColor,
-                        resetAction: () {
-                          setState(() {
-                            _playerMapVM.combat.resetActionArea();
-                          });
-                        },
-                        startAction: (position) {
-                          setState(() {
-                            _playerMapVM.startAttack(
-                              position,
-                              user.player.position,
-                              user.player.equipment.mainHandSlot.item.attack,
-                            );
-                          });
-                        },
-                        cancelAction: () {
-                          setState(() {
-                            _playerMapVM.cancelAction();
-                          });
-                        },
-                      ),
-                      AppCircularButton(
-                          color: user.darkColor,
-                          borderColor: user.darkColor,
-                          size: 0.05),
-                      AppCircularButton(
-                          color: user.darkColor,
-                          borderColor: user.darkColor,
-                          size: 0.05),
-                      ActionButton(
-                        active: (_playerMapVM.playerMode == 'attack')
-                            ? true
-                            : false,
-                        color: user.color,
-                        darkColor: user.darkColor,
-                        resetAction: () {
-                          setState(() {
-                            _playerMapVM.combat.resetActionArea();
-                          });
-                        },
-                        startAction: (position) {
-                          setState(() {
-                            _playerMapVM.startAttack(
-                              position,
-                              user.player.position,
-                              user.player.equipment.offHandSlot.item.attack,
-                            );
-                          });
-                        },
-                        cancelAction: () {
-                          setState(() {
-                            _playerMapVM.cancelAction();
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                  alignment: const Alignment(0, 0.25),
+                  child: SizedBox(
+                      width: AppLayout.shortest(context) * 0.75,
+                      height: AppLayout.shortest(context) * 0.3,
+                      child: _playerMapVM.actionButtons(user, refresh))),
               _playerMapVM.endGameButton(context, game.phase, user.player),
             ],
           ),
         ),
       ]),
-    );
-  }
-}
-
-class ActionButton extends StatefulWidget {
-  final Color color;
-  final Color darkColor;
-  final bool active;
-  final Function(Position) startAction;
-  final Function() cancelAction;
-  final Function() resetAction;
-
-  const ActionButton({
-    super.key,
-    required this.color,
-    required this.darkColor,
-    required this.active,
-    required this.startAction,
-    required this.cancelAction,
-    required this.resetAction,
-  });
-
-  @override
-  State<ActionButton> createState() => _ActionButtonState();
-}
-
-class _ActionButtonState extends State<ActionButton> {
-  Position buttonPosition = Position.empty();
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      onHover: (details) {
-        buttonPosition =
-            Position(dx: details.position.dx, dy: details.position.dy);
-        if (widget.active) {
-          widget.resetAction();
-        }
-      },
-      child: AppCircularButton(
-        color: widget.color,
-        borderColor: widget.darkColor,
-        size: 0.05,
-        onTap: () {
-          setState(() {
-            if (widget.active) {
-              widget.cancelAction();
-            } else {
-              widget.startAction(buttonPosition);
-            }
-          });
-        },
-      ),
     );
   }
 }

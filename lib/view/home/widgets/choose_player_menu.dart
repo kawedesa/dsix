@@ -31,7 +31,7 @@ class _ChoosePlayerMenuState extends State<ChoosePlayerMenu> {
         AppCircularButton(
           color: AppColors().getPlayerColor(player.id),
           borderColor: AppColors().getPlayerDarkColor(player.id),
-          size: 0.2,
+          size: 0.13,
           onTap: () {
             user.selectPlayer(player);
             goToPlayerView(context);
@@ -42,8 +42,8 @@ class _ChoosePlayerMenuState extends State<ChoosePlayerMenu> {
 
     Widget menu = Center(
       child: SizedBox(
-        width: AppLayout.shortest(context) * 0.6,
-        height: AppLayout.shortest(context) * 0.6,
+        width: AppLayout.avarage(context) * 0.4,
+        height: AppLayout.avarage(context) * 0.4,
         child: AppRadialMenu(
           maxAngle: 360,
           buttonInfo: buttons,
@@ -90,7 +90,7 @@ class _ChoosePlayerMenuState extends State<ChoosePlayerMenu> {
             onTap: () {
               widget.goBack();
             },
-            size: 0.08),
+            size: 0.06),
       ),
       Align(
         alignment: const Alignment(0, -0.75),

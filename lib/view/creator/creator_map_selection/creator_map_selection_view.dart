@@ -34,11 +34,6 @@ class _CreatorMapSelectionState extends State<CreatorMapSelection> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const AppTitle(
-              title: 'MAP',
-              color: AppColors.uiColor,
-            ),
-            const AppSeparatorVertical(value: 0.025),
             SizedBox(
               height: AppLayout.shortest(context) * 0.5,
               child: Row(
@@ -55,7 +50,7 @@ class _CreatorMapSelectionState extends State<CreatorMapSelection> {
                           // _raceVM.changeRace(-1);
                         });
                       },
-                      size: 0.125),
+                      size: 0.075),
                   SvgPicture.asset(
                     width: AppLayout.shortest(context) * 0.5,
                     height: AppLayout.shortest(context) * 0.5,
@@ -71,7 +66,7 @@ class _CreatorMapSelectionState extends State<CreatorMapSelection> {
                           // _raceVM.changeRace(1);
                         });
                       },
-                      size: 0.125),
+                      size: 0.075),
                 ],
               ),
             ),

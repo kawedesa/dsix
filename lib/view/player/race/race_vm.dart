@@ -70,7 +70,7 @@ class RaceVM {
                 color: user.color,
                 borderColor: user.color,
                 iconColor: user.darkColor,
-                icon: AppImages.attack,
+                icon: AppImages.power,
                 onTap: () async {
                   showDialog(
                     context: context,
@@ -83,7 +83,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.09),
+                size: 0.05),
             AppCircularButton(
                 color: user.color,
                 borderColor: user.color,
@@ -101,12 +101,12 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.09),
+                size: 0.05),
             AppCircularButton(
                 color: AppColors.negative,
                 borderColor: AppColors.negative,
                 iconColor: Colors.black,
-                icon: AppImages.move,
+                icon: AppImages.movement,
                 onTap: () async {
                   showDialog(
                     context: context,
@@ -119,7 +119,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.09),
+                size: 0.05),
           ],
         );
 
@@ -132,7 +132,7 @@ class RaceVM {
                 color: user.color,
                 borderColor: user.color,
                 iconColor: user.darkColor,
-                icon: AppImages.move,
+                icon: AppImages.movement,
                 onTap: () async {
                   showDialog(
                     context: context,
@@ -145,12 +145,12 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.09),
+                size: 0.05),
             AppCircularButton(
                 color: user.color,
                 borderColor: user.color,
                 iconColor: user.darkColor,
-                icon: AppImages.look,
+                icon: AppImages.vision,
                 onTap: () async {
                   showDialog(
                     context: context,
@@ -163,7 +163,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.09),
+                size: 0.05),
             AppCircularButton(
                 color: AppColors.negative,
                 borderColor: AppColors.negative,
@@ -181,7 +181,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.09),
+                size: 0.05),
           ],
         );
         break;
@@ -193,7 +193,7 @@ class RaceVM {
                 color: user.color,
                 borderColor: user.color,
                 iconColor: user.darkColor,
-                icon: AppImages.defend,
+                icon: AppImages.defense,
                 onTap: () async {
                   showDialog(
                     context: context,
@@ -206,7 +206,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.09),
+                size: 0.05),
             AppCircularButton(
                 color: user.color,
                 borderColor: user.color,
@@ -224,12 +224,12 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.09),
+                size: 0.05),
             AppCircularButton(
                 color: AppColors.negative,
                 borderColor: AppColors.negative,
                 iconColor: Colors.black,
-                icon: AppImages.look,
+                icon: AppImages.vision,
                 onTap: () async {
                   showDialog(
                     context: context,
@@ -242,7 +242,7 @@ class RaceVM {
                     },
                   );
                 },
-                size: 0.09),
+                size: 0.05),
           ],
         );
         break;

@@ -21,23 +21,24 @@ class NpcList {
     ),
     power: Power(attribute: 0),
     movement: Movement(attribute: -1),
-    vision: Vision(attribute: -1),
+    vision: Vision(attribute: -1, tempVision: 0),
     position: Position.empty(),
     attacks: [
       Attack(
         name: 'bite',
         damage: Damage(pDamage: 3, mDamage: 0),
-        range: Range(min: 10, max: 0, width: 5, shape: 'circle'),
+        range: Range(min: 6, max: 0, width: 4, shape: 'circle'),
       ),
       Attack(
-          name: 'slash',
-          damage: Damage(pDamage: 1, mDamage: 0),
-          range: Range(
-            min: 5,
-            max: 12.5,
-            width: 12.5,
-            shape: 'cone',
-          )),
+        name: 'slash',
+        damage: Damage(pDamage: 1, mDamage: 0),
+        range: Range(
+          min: 5,
+          max: 7.5,
+          width: 7.5,
+          shape: 'cone',
+        ),
+      ),
     ],
   );
 
@@ -52,25 +53,25 @@ class NpcList {
     ),
     power: Power(attribute: 1),
     movement: Movement(attribute: 0),
-    vision: Vision(attribute: 1),
+    vision: Vision(attribute: 1, tempVision: 0),
     position: Position.empty(),
     attacks: [
       Attack(
           name: 'blast',
           damage: Damage(pDamage: 0, mDamage: 1),
           range: Range(
-            min: 30,
-            max: 20,
-            width: 15,
+            min: 40,
+            max: 0,
+            width: 10,
             shape: 'circle',
           )),
       Attack(
           name: 'shot',
           damage: Damage(pDamage: 0, mDamage: 2),
           range: Range(
-            min: 10,
-            max: 70,
-            width: 7.5,
+            min: 5,
+            max: 20,
+            width: 5,
             shape: 'rectangle',
           )),
     ],

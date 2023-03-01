@@ -28,13 +28,13 @@ class _AppTextButtonState extends State<AppTextButton> {
         tween: Tween(begin: 0, end: 255),
         builder: (_, double aplhaValue, __) {
           return Container(
-            width: AppLayout.shortest(context) * 0.5,
-            height: AppLayout.shortest(context) * 0.125,
+            width: AppLayout.avarage(context) * 0.4,
+            height: AppLayout.avarage(context) * 0.08,
             decoration: BoxDecoration(
               color: Colors.black,
               border: Border.all(
                 color: widget.color,
-                width: AppLayout.shortest(context) * 0.005,
+                width: AppLayout.avarage(context) * 0.0025,
               ),
             ),
             child: Stack(
@@ -46,8 +46,8 @@ class _AppTextButtonState extends State<AppTextButton> {
                 Center(
                   child: AppText(
                     text: widget.buttonText.toUpperCase(),
-                    fontSize: 0.025,
-                    letterSpacing: 0.008,
+                    fontSize: 0.02,
+                    letterSpacing: 0.004,
                     color: widget.color,
                   ),
                 ),
