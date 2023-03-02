@@ -2,7 +2,6 @@ import 'package:dsix/model/item/item.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
-import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -12,7 +11,7 @@ import '../layout/app_separator_horizontal.dart';
 import '../layout/app_separator_vertical.dart';
 import '../text/app_text.dart';
 
-class ItemDialog extends StatelessWidget {
+class ItemDialog extends StatefulWidget {
   final Color color;
   final Color darkColor;
   final Item item;
@@ -26,15 +25,148 @@ class ItemDialog extends StatelessWidget {
   });
 
   @override
+  State<ItemDialog> createState() => _ItemDialogState();
+}
+
+class _ItemDialogState extends State<ItemDialog> {
+  List<Widget> getItemAttributes() {
+    List<Widget> itemAttributes = [];
+
+    if (widget.item.armor.pArmor != 0) {
+      itemAttributes.add(
+        Row(
+          children: [
+            AppCircularButton(
+                icon: AppImages.pArmor,
+                iconColor: widget.darkColor,
+                color: widget.color,
+                borderColor: widget.color,
+                size: 0.05),
+            const AppSeparatorHorizontal(value: 0.015),
+            AppText(
+                text: widget.item.armor.pArmor.toString(),
+                fontSize: 0.02,
+                letterSpacing: 0.002,
+                color: Colors.white),
+          ],
+        ),
+      );
+      itemAttributes.add(
+        const AppSeparatorVertical(value: 0.015),
+      );
+    }
+    if (widget.item.armor.mArmor != 0) {
+      itemAttributes.add(Row(
+        children: [
+          AppCircularButton(
+              icon: AppImages.mArmor,
+              iconColor: widget.darkColor,
+              color: widget.color,
+              borderColor: widget.color,
+              size: 0.05),
+          const AppSeparatorHorizontal(value: 0.015),
+          AppText(
+              text: widget.item.armor.mArmor.toString(),
+              fontSize: 0.02,
+              letterSpacing: 0.002,
+              color: Colors.white),
+        ],
+      ));
+      itemAttributes.add(
+        const AppSeparatorVertical(value: 0.015),
+      );
+    }
+    if (widget.item.attack.damage.pDamage != 0) {
+      itemAttributes.add(Row(
+        children: [
+          AppCircularButton(
+              icon: AppImages.pDamage,
+              iconColor: widget.darkColor,
+              color: widget.color,
+              borderColor: widget.color,
+              size: 0.05),
+          const AppSeparatorHorizontal(value: 0.015),
+          AppText(
+              text: widget.item.attack.damage.pDamage.toString(),
+              fontSize: 0.02,
+              letterSpacing: 0.002,
+              color: Colors.white),
+        ],
+      ));
+      itemAttributes.add(
+        const AppSeparatorVertical(value: 0.015),
+      );
+    }
+    if (widget.item.attack.damage.mDamage != 0) {
+      itemAttributes.add(Row(
+        children: [
+          AppCircularButton(
+              icon: AppImages.mDamage,
+              iconColor: widget.darkColor,
+              color: widget.color,
+              borderColor: widget.color,
+              size: 0.05),
+          const AppSeparatorHorizontal(value: 0.015),
+          AppText(
+              text: widget.item.attack.damage.mDamage.toString(),
+              fontSize: 0.02,
+              letterSpacing: 0.002,
+              color: Colors.white),
+        ],
+      ));
+      itemAttributes.add(
+        const AppSeparatorVertical(value: 0.015),
+      );
+    }
+    itemAttributes.add(Row(
+      children: [
+        AppCircularButton(
+            icon: AppImages.weight,
+            iconColor: widget.darkColor,
+            color: widget.color,
+            borderColor: widget.color,
+            size: 0.05),
+        const AppSeparatorHorizontal(value: 0.015),
+        AppText(
+            text: widget.item.weight.toString(),
+            fontSize: 0.02,
+            letterSpacing: 0.002,
+            color: Colors.white),
+      ],
+    ));
+    itemAttributes.add(
+      const AppSeparatorVertical(value: 0.015),
+    );
+    itemAttributes.add(Row(
+      children: [
+        AppCircularButton(
+            icon: AppImages.money,
+            iconColor: widget.darkColor,
+            color: widget.color,
+            borderColor: widget.color,
+            size: 0.05),
+        const AppSeparatorHorizontal(value: 0.015),
+        AppText(
+            text: widget.item.value.toString(),
+            fontSize: 0.02,
+            letterSpacing: 0.002,
+            color: Colors.white),
+      ],
+    ));
+
+    return itemAttributes;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: AppLayout.shortest(context) * 0.6,
+        width: AppLayout.shortest(context) * 0.5,
         decoration: BoxDecoration(
-          color: color,
+          color: widget.color,
           border: Border.all(
-            color: color,
+            color: widget.color,
             width: AppLayout.shortest(context) * 0.005,
           ),
         ),
@@ -43,232 +175,46 @@ class ItemDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             DialogTitle(
-              color: color,
-              title: item.name,
-              subTitle: item.itemSlot,
+              color: widget.color,
+              title: widget.item.name,
+              subTitle: widget.item.itemSlot,
             ),
             Container(
               color: Colors.black,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const AppSeparatorVertical(value: 0.05),
+                  const AppSeparatorVertical(value: 0.03),
                   Stack(
                     children: [
-                      SvgPicture.asset(
-                        AppImages().getItemIcon(item.name),
-                        width: AppLayout.shortest(context) * 0.4,
-                        height: AppLayout.shortest(context) * 0.4,
-                        color: Colors.white,
+                      Align(
+                        alignment: const Alignment(0.5, 0),
+                        child: SvgPicture.asset(
+                          AppImages().getItemIcon(widget.item.name),
+                          width: AppLayout.shortest(context) * 0.3,
+                          height: AppLayout.shortest(context) * 0.3,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Align(
+                        alignment: const Alignment(-0.9, 0.0),
+                        child: SizedBox(
+                          width: AppLayout.shortest(context) * 0.2,
+                          height: AppLayout.shortest(context) * 0.4,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: getItemAttributes(),
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  const AppSeparatorVertical(value: 0.05),
-                  AppLineDividerHorizontal(
-                    color: color,
-                    value: 2,
-                  ),
-                  Column(
-                    children: [
-                      const AppSeparatorVertical(value: 0.01),
-                      (item.description != '')
-                          ? SizedBox(
-                              width: AppLayout.shortest(context) * 0.8,
-                              child: AppText(
-                                text: item.description,
-                                fontSize: 0.025,
-                                letterSpacing: 0.004,
-                                color: Colors.white,
-                              ),
-                            )
-                          : SizedBox(
-                              width: AppLayout.shortest(context) * 0.8,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const AppSeparatorHorizontal(value: 0.01),
-                                  // Column(
-                                  //   crossAxisAlignment:
-                                  //       CrossAxisAlignment.start,
-                                  //   children: [
-                                  //     Row(
-                                  //       children: [
-                                  //         AppCircularButton(
-                                  //             icon: AppImages.pDamage,
-                                  //             iconColor: darkColor,
-                                  //             color: color,
-                                  //             borderColor: color,
-                                  //             size: 0.055),
-                                  //         const AppSeparatorHorizontal(
-                                  //             value: 0.01),
-                                  //         AppText(
-                                  //             text: item.damage.pDamage
-                                  //                 .toString(),
-                                  //             fontSize: 0.03,
-                                  //             letterSpacing: 0.0015,
-                                  //             color: Colors.white),
-                                  //       ],
-                                  //     ),
-                                  //     const AppSeparatorVertical(value: 0.01),
-                                  //     Row(
-                                  //       children: [
-                                  //         AppCircularButton(
-                                  //             icon: AppImages.mDamage,
-                                  //             iconColor: darkColor,
-                                  //             color: color,
-                                  //             borderColor: color,
-                                  //             size: 0.055),
-                                  //         const AppSeparatorHorizontal(
-                                  //             value: 0.01),
-                                  //         AppText(
-                                  //             text: item.damage.mDamage
-                                  //                 .toString(),
-                                  //             fontSize: 0.03,
-                                  //             letterSpacing: 0.0015,
-                                  //             color: Colors.white),
-                                  //       ],
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          AppCircularButton(
-                                              icon: AppImages.pArmor,
-                                              iconColor: darkColor,
-                                              color: color,
-                                              borderColor: color,
-                                              size: 0.055),
-                                          const AppSeparatorHorizontal(
-                                              value: 0.01),
-                                          AppText(
-                                              text:
-                                                  item.armor.pArmor.toString(),
-                                              fontSize: 0.03,
-                                              letterSpacing: 0.0015,
-                                              color: Colors.white),
-                                        ],
-                                      ),
-                                      const AppSeparatorVertical(value: 0.01),
-                                      Row(
-                                        children: [
-                                          AppCircularButton(
-                                              icon: AppImages.mArmor,
-                                              iconColor: darkColor,
-                                              color: color,
-                                              borderColor: color,
-                                              size: 0.055),
-                                          const AppSeparatorHorizontal(
-                                              value: 0.01),
-                                          AppText(
-                                              text:
-                                                  item.armor.mArmor.toString(),
-                                              fontSize: 0.03,
-                                              letterSpacing: 0.0015,
-                                              color: Colors.white),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  // Column(
-                                  //   crossAxisAlignment:
-                                  //       CrossAxisAlignment.start,
-                                  //   children: [
-                                  //     Row(
-                                  //       children: [
-                                  //         AppCircularButton(
-                                  //             icon: AppImages.maxRange,
-                                  //             iconColor: darkColor,
-                                  //             color: color,
-                                  //             borderColor: color,
-                                  //             size: 0.055),
-                                  //         const AppSeparatorHorizontal(
-                                  //             value: 0.01),
-                                  //         AppText(
-                                  //             text: item.maxRange.toString(),
-                                  //             fontSize: 0.03,
-                                  //             letterSpacing: 0.0015,
-                                  //             color: Colors.white),
-                                  //       ],
-                                  //     ),
-                                  //     const AppSeparatorVertical(value: 0.01),
-                                  //     Row(
-                                  //       children: [
-                                  //         AppCircularButton(
-                                  //             icon: AppImages.minRange,
-                                  //             iconColor: darkColor,
-                                  //             color: color,
-                                  //             borderColor: color,
-                                  //             size: 0.055),
-                                  //         const AppSeparatorHorizontal(
-                                  //             value: 0.01),
-                                  //         AppText(
-                                  //             text: item.minRange.toString(),
-                                  //             fontSize: 0.03,
-                                  //             letterSpacing: 0.0015,
-                                  //             color: Colors.white),
-                                  //       ],
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          AppCircularButton(
-                                              icon: AppImages.weight,
-                                              iconColor: darkColor,
-                                              color: color,
-                                              borderColor: color,
-                                              size: 0.055),
-                                          const AppSeparatorHorizontal(
-                                              value: 0.01),
-                                          AppText(
-                                              text: item.weight.toString(),
-                                              fontSize: 0.03,
-                                              letterSpacing: 0.0015,
-                                              color: Colors.white),
-                                        ],
-                                      ),
-                                      const AppSeparatorVertical(value: 0.01),
-                                      Row(
-                                        children: [
-                                          AppCircularButton(
-                                              icon: AppImages.money,
-                                              iconColor: darkColor,
-                                              color: color,
-                                              borderColor: color,
-                                              size: 0.055),
-                                          const AppSeparatorHorizontal(
-                                              value: 0.01),
-                                          AppText(
-                                              text: item.value.toString(),
-                                              fontSize: 0.03,
-                                              letterSpacing: 0.0015,
-                                              color: Colors.white),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const AppSeparatorHorizontal(value: 0.01),
-                                ],
-                              ),
-                            ),
-                      const AppSeparatorVertical(value: 0.01),
-                    ],
-                  ),
+                  const AppSeparatorVertical(value: 0.02),
                   DialogButton(
-                      color: color,
+                      color: widget.color,
                       buttonText: 'sell',
                       onTap: () {
-                        sellItem();
+                        widget.sellItem();
                         Navigator.pop(context);
                       }),
                 ],

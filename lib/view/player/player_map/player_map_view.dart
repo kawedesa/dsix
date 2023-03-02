@@ -1,13 +1,7 @@
-import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
-
-import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
-import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
-import 'package:dsix/shared/app_widgets/map/action_button.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -40,56 +34,53 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
 
-    return Center(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Expanded(
-          child: Stack(
-            children: [
-              InteractiveViewer(
-                transformationController: _playerMapVM.createCanvasController(
-                    context, user.player.position),
-                constrained: false,
-                panEnabled: true,
-                maxScale: _playerMapVM.maxZoom,
-                minScale: _playerMapVM.minZoom,
-                child: SizedBox(
-                  width: 320,
-                  height: 320,
-                  child: Stack(
-                    children: [
-                      SvgPicture.asset(
-                        game.map.map,
-                        width: AppLayout.longest(context),
-                        height: AppLayout.longest(context),
-                      ),
-                      AreaEffectSprite(
-                        area: _playerMapVM.combat.areaEffect.area,
-                      ),
-                      Stack(
-                        children:
-                            _playerMapVM.createNpcSprites(npcs, user.player),
-                      ),
-                      Stack(
-                        children: _playerMapVM.createPlayerSprites(
-                            players, user.player, refresh),
-                      ),
-                      // _playerMapVM.popUpMenu(),
-                    ],
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: Stack(
+        children: [
+          InteractiveViewer(
+            transformationController: _playerMapVM.createCanvasController(
+                context, user.player.position),
+            constrained: false,
+            panEnabled: true,
+            maxScale: _playerMapVM.maxZoom,
+            minScale: _playerMapVM.minZoom,
+            child: SizedBox(
+              width: 320,
+              height: 320,
+              child: Stack(
+                children: [
+                  SvgPicture.asset(
+                    game.map.map,
+                    width: AppLayout.longest(context),
+                    height: AppLayout.longest(context),
                   ),
-                ),
+                  AreaEffectSprite(
+                    area: _playerMapVM.combat.areaEffect.area,
+                  ),
+                  Stack(
+                    children: _playerMapVM.createNpcSprites(npcs, user.player),
+                  ),
+                  Stack(
+                    children: _playerMapVM.createPlayerSprites(
+                        players, user.player, refresh),
+                  ),
+                  // _playerMapVM.popUpMenu(),
+                ],
               ),
-              _playerMapVM.getMouseInput(npcs, players, user.player, refresh),
-              Align(
-                  alignment: const Alignment(0, 0.25),
-                  child: SizedBox(
-                      width: AppLayout.shortest(context) * 0.75,
-                      height: AppLayout.shortest(context) * 0.3,
-                      child: _playerMapVM.actionButtons(user, refresh))),
-              _playerMapVM.endGameButton(context, game.phase, user.player),
-            ],
+            ),
           ),
-        ),
-      ]),
+          _playerMapVM.getAttackInput(npcs, players, user.player, refresh),
+          Align(
+              alignment: const Alignment(0, 0.25),
+              child: SizedBox(
+                  width: AppLayout.shortest(context) * 0.75,
+                  height: AppLayout.shortest(context) * 0.3,
+                  child: _playerMapVM.actionButtons(user, refresh))),
+          _playerMapVM.endGameButton(context, game.phase, user.player),
+        ],
+      ),
     );
   }
 }

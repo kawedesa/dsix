@@ -33,7 +33,7 @@ class AttributesInfoBar extends StatelessWidget {
                   color: color,
                   borderColor: color,
                   size: 0.05),
-              const AppSeparatorHorizontal(value: 0.025),
+              const AppSeparatorHorizontal(value: 0.015),
               AppText(
                   text: attributes.power.attribute.toString(),
                   fontSize: 0.02,
@@ -49,7 +49,7 @@ class AttributesInfoBar extends StatelessWidget {
                   color: color,
                   borderColor: color,
                   size: 0.05),
-              const AppSeparatorHorizontal(value: 0.025),
+              const AppSeparatorHorizontal(value: 0.015),
               AppText(
                   text: attributes.defense.attribute.toString(),
                   fontSize: 0.02,
@@ -65,7 +65,7 @@ class AttributesInfoBar extends StatelessWidget {
                   color: color,
                   borderColor: color,
                   size: 0.05),
-              const AppSeparatorHorizontal(value: 0.025),
+              const AppSeparatorHorizontal(value: 0.015),
               AppText(
                   text: attributes.vision.attribute.toString(),
                   fontSize: 0.02,
@@ -81,7 +81,7 @@ class AttributesInfoBar extends StatelessWidget {
                   color: color,
                   borderColor: color,
                   size: 0.05),
-              const AppSeparatorHorizontal(value: 0.025),
+              const AppSeparatorHorizontal(value: 0.015),
               AppText(
                   text: attributes.movement.attribute.toString(),
                   fontSize: 0.02,

@@ -188,4 +188,30 @@ class PlayerEquipment {
 
     return Armor(pArmor: pArmor, mArmor: mArmor);
   }
+
+  int getPArmor() {
+    int pArmor = 0;
+
+    pArmor = mainHandSlot.item.armor.pArmor +
+        offHandSlot.item.armor.pArmor +
+        headSlot.item.armor.pArmor +
+        bodySlot.item.armor.pArmor +
+        handSlot.item.armor.pArmor +
+        feetSlot.item.armor.pArmor;
+
+    return pArmor;
+  }
+
+  int getMArmor() {
+    int mArmor = 0;
+
+    mArmor = mainHandSlot.item.armor.mArmor +
+        offHandSlot.item.armor.mArmor +
+        headSlot.item.armor.mArmor +
+        bodySlot.item.armor.mArmor +
+        handSlot.item.armor.mArmor +
+        feetSlot.item.armor.mArmor;
+
+    return mArmor;
+  }
 }

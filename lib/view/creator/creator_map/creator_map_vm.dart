@@ -4,7 +4,8 @@ import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_widgets/map/action_button.dart';
+import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_widgets/map/attack_button.dart';
 
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/creator_view/creator_view_dead_npc_sprite.dart';
@@ -118,7 +119,7 @@ class CreatorMapVM {
     }
   }
 
-  bool takingAction = false;
+  bool isAttacking = false;
 
   Widget actionButtons(context, String gamePhase, List<Npc> npcs,
       List<Player> players, Function refresh) {
@@ -134,11 +135,12 @@ class CreatorMapVM {
 
     for (Attack attack in selectedNpc!.attacks) {
       abilityButtons.add(
-        ActionButton(
+        AttackButton(
+            isAttacking: isAttacking,
+            icon: AppImages().getItemIcon('empty'),
             color: AppColors.uiColor,
             darkColor: AppColors.uiColorDark,
-            active: takingAction,
-            startAction: (buttonPosition) {
+            startAttack: (buttonPosition) {
               startAttack(
                 buttonPosition,
                 selectedNpc!.position,
@@ -146,10 +148,10 @@ class CreatorMapVM {
               );
               refresh();
             },
-            cancelAction: () {
+            cancelAttack: () {
               cancelAction();
             },
-            resetAction: () {
+            resetAttack: () {
               combat.resetActionArea();
               refresh();
             }),
@@ -176,18 +178,19 @@ class CreatorMapVM {
     combat.setInputCenterPosition(inputCenter);
     combat.setActionCenterPosition(actionCenter);
     combat.setAttack(attack);
-    takingAction = true;
+    isAttacking = true;
   }
 
   void cancelAction() {
     combat.cancelAction();
-    takingAction = false;
+    isAttacking = false;
   }
 
-  Widget getMouseInput(List<Npc> npcs, List<Player> players, Function refresh) {
+  Widget getAttackInput(
+      List<Npc> npcs, List<Player> players, Function refresh) {
     Widget mouseInputWidget = const SizedBox();
 
-    if (takingAction) {
+    if (isAttacking) {
       mouseInputWidget = MouseInput(
         getMousePosition: (mousePosition) {
           combat.setMousePosition(mousePosition);

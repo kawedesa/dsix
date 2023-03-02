@@ -37,7 +37,9 @@ class _CreatorMapState extends State<CreatorMap> {
     _creatorMapVM.checkForEndGame(game, npcs, players);
     _creatorMapVM.updateSelectedNpc(npcs);
 
-    return Expanded(
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
       child: Stack(
         children: [
           InteractiveViewer(
@@ -77,7 +79,7 @@ class _CreatorMapState extends State<CreatorMap> {
             ),
           ),
           _creatorMapVM.selectedNpcUi(),
-          _creatorMapVM.getMouseInput(npcs, players, refresh),
+          _creatorMapVM.getAttackInput(npcs, players, refresh),
           _creatorMapVM.actionButtons(
               context, game.phase, npcs, players, refresh),
           _creatorMapVM.gameCreationMenu(game.phase, widget.displaySnackbar),

@@ -46,8 +46,8 @@ class _InventorySlotState extends State<InventorySlot> {
           List<dynamic> rejected,
         ) {
           return Container(
-            width: AppLayout.avarage(context) * 0.1,
-            height: AppLayout.avarage(context) * 0.1,
+            width: AppLayout.avarage(context) * 0.09,
+            height: AppLayout.avarage(context) * 0.09,
             decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(

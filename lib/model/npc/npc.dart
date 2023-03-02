@@ -105,6 +105,7 @@ class Npc {
       leftOverArmor += pDamage.abs();
       pDamage = 0;
     }
+
     int mDamage = attackDamage.mDamage - armor.mArmor;
     if (mDamage < 0) {
       leftOverArmor += mDamage.abs();

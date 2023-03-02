@@ -1,10 +1,13 @@
 import 'package:dsix/model/user.dart';
+import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/player_sprite_image.dart';
+import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:dsix/view/player/inventory/inventory_vm.dart';
 import 'package:dsix/view/player/inventory/widgets/attributes_info_bar.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +79,49 @@ class _InventoryViewState extends State<InventoryView> {
                           _inventoryVM.feetSlot!,
                         ],
                       ),
-                      const AppSeparatorVertical(value: 0.1),
+                      const AppSeparatorVertical(value: 0.035),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              AppCircularButton(
+                                  icon: AppImages.pArmor,
+                                  iconColor: user.darkColor,
+                                  color: user.color,
+                                  borderColor: user.color,
+                                  size: 0.05),
+                              const AppSeparatorHorizontal(value: 0.015),
+                              AppText(
+                                  text: user.player.equipment
+                                      .getPArmor()
+                                      .toString(),
+                                  fontSize: 0.02,
+                                  letterSpacing: 0.002,
+                                  color: Colors.white),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              AppText(
+                                  text: user.player.equipment
+                                      .getMArmor()
+                                      .toString(),
+                                  fontSize: 0.02,
+                                  letterSpacing: 0.002,
+                                  color: Colors.white),
+                              const AppSeparatorHorizontal(value: 0.015),
+                              AppCircularButton(
+                                  icon: AppImages.mArmor,
+                                  iconColor: user.darkColor,
+                                  color: user.color,
+                                  borderColor: user.color,
+                                  size: 0.05),
+                            ],
+                          )
+                        ],
+                      ),
+                      const AppSeparatorVertical(value: 0.035),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

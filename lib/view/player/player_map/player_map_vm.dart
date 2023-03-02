@@ -2,11 +2,11 @@ import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
-import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/map/action_button.dart';
+import 'package:dsix/shared/app_widgets/map/attack_button.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_dead_npc_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/sprite/player_view/player_view_dead_player_sprite.dart';
@@ -127,15 +127,17 @@ class PlayerMapVM {
     return AppRadialMenu(
       maxAngle: 60,
       buttonInfo: [
-        ActionButton(
-          active: (playerMode == 'attack') ? true : false,
+        AttackButton(
+          isAttacking: (playerMode == 'attack') ? true : false,
+          icon: AppImages()
+              .getItemIcon(user.player.equipment.mainHandSlot.item.name),
           color: user.color,
           darkColor: user.darkColor,
-          resetAction: () {
+          resetAttack: () {
             combat.resetActionArea();
             refresh();
           },
-          startAction: (position) {
+          startAttack: (position) {
             startAttack(
               position,
               user.player.position,
@@ -144,42 +146,44 @@ class PlayerMapVM {
 
             refresh();
           },
-          cancelAction: () {
+          cancelAttack: () {
             cancelAction();
             refresh();
           },
         ),
-        ActionButton(
-          active: false,
+        // ActionButton(
+        //   active: false,
+        //   color: user.color,
+        //   darkColor: user.darkColor,
+        //   resetAction: () {},
+        //   startAction: (position) {
+        //     user.player.defend();
+        //     refresh();
+        //   },
+        //   cancelAction: () {},
+        // ),
+        // ActionButton(
+        //   active: false,
+        //   color: user.color,
+        //   darkColor: user.darkColor,
+        //   resetAction: () {},
+        //   startAction: (position) {
+        //     user.player.look();
+        //     refresh();
+        //   },
+        //   cancelAction: () {},
+        // ),
+        AttackButton(
+          isAttacking: (playerMode == 'attack') ? true : false,
           color: user.color,
           darkColor: user.darkColor,
-          resetAction: () {},
-          startAction: (position) {
-            user.player.defend();
-            refresh();
-          },
-          cancelAction: () {},
-        ),
-        ActionButton(
-          active: false,
-          color: user.color,
-          darkColor: user.darkColor,
-          resetAction: () {},
-          startAction: (position) {
-            user.player.look();
-            refresh();
-          },
-          cancelAction: () {},
-        ),
-        ActionButton(
-          active: (playerMode == 'attack') ? true : false,
-          color: user.color,
-          darkColor: user.darkColor,
-          resetAction: () {
+          icon: AppImages()
+              .getItemIcon(user.player.equipment.offHandSlot.item.name),
+          resetAttack: () {
             combat.resetActionArea();
             refresh();
           },
-          startAction: (position) {
+          startAttack: (position) {
             startAttack(
               position,
               user.player.position,
@@ -188,7 +192,7 @@ class PlayerMapVM {
 
             refresh();
           },
-          cancelAction: () {
+          cancelAttack: () {
             cancelAction();
             refresh();
           },
@@ -197,12 +201,12 @@ class PlayerMapVM {
     );
   }
 
-  Widget getMouseInput(List<Npc> npcs, List<Player> players,
+  Widget getAttackInput(List<Npc> npcs, List<Player> players,
       Player selectedPlayer, Function refresh) {
-    Widget mouseInputWidget = const SizedBox();
+    Widget attackInputWidget = const SizedBox();
 
     if (playerMode == 'attack') {
-      mouseInputWidget = MouseInput(
+      attackInputWidget = MouseInput(
         getMousePosition: (mousePosition) {
           combat.setMousePosition(mousePosition);
           combat.setActionArea();
@@ -215,10 +219,10 @@ class PlayerMapVM {
         },
       );
 
-      return mouseInputWidget;
+      return attackInputWidget;
     }
 
-    return mouseInputWidget;
+    return attackInputWidget;
   }
 
   void startAttack(Position inputCenter, Position actionCenter, Attack attack) {

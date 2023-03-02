@@ -155,6 +155,7 @@ class Player {
   }
 
   void defend() {
+    //TODO Deixar esse valor menor do que o ataque. Para incentivar a criatividade
     attributes.defense.defend();
     update();
   }

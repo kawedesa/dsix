@@ -48,7 +48,7 @@ class AppImages {
   //Item
   //Light Weapons
   static const dagger = 'assets/images/items/dagger.svg';
-  static const ritualDagger = 'assets/images/items/ritualDagger.svg';
+  static const magicDagger = 'assets/images/items/magicDagger.svg';
   static const baton = 'assets/images/items/baton.svg';
   static const mace = 'assets/images/items/mace.svg';
   static const claw = 'assets/images/items/claw.svg';
@@ -128,14 +128,19 @@ class AppImages {
     String itemIcon = '';
 
     switch (item) {
-      case 'short sword':
+      case 'empty':
         itemIcon = shortSword;
         break;
-      case 'short bow':
-        itemIcon = shortBow;
-        break;
+
+      //MELEE
       case 'mace':
         itemIcon = mace;
+        break;
+      case 'magic dagger':
+        itemIcon = magicDagger;
+        break;
+      case 'short sword':
+        itemIcon = shortSword;
         break;
       case 'short spear':
         itemIcon = shortSpear;
@@ -146,11 +151,64 @@ class AppImages {
       case 'morning star':
         itemIcon = morningStar;
         break;
+
+      //RANGED
+
+      case 'magic orb':
+        itemIcon = magicOrb;
+        break;
+      case 'grenades':
+        itemIcon = grenades;
+        break;
+      case 'wand':
+        itemIcon = wand;
+        break;
+      case 'short bow':
+        itemIcon = shortBow;
+        break;
+      case 'long bow':
+        itemIcon = longBow;
+        break;
+      case 'musket':
+        itemIcon = musket;
+        break;
+
+      //ARMOR
+      case 'boots':
+        itemIcon = boots;
+        break;
       case 'gloves':
         itemIcon = gloves;
         break;
-      case 'boots':
-        itemIcon = boots;
+      case 'buckler':
+        itemIcon = buckler;
+        break;
+      case 'magic sandals':
+        itemIcon = magicSandals;
+        break;
+      case 'helmet':
+        itemIcon = helmet;
+        break;
+      case 'light shield':
+        itemIcon = lightShield;
+        break;
+      case 'magic robe':
+        itemIcon = magicRobe;
+        break;
+      case 'light armor':
+        itemIcon = lightArmor;
+        break;
+      case 'heavy shield':
+        itemIcon = heavyShield;
+        break;
+      case 'full helmet':
+        itemIcon = fullHelmet;
+        break;
+      case 'magic shield':
+        itemIcon = magicShield;
+        break;
+      case 'heavy armor':
+        itemIcon = heavyArmor;
         break;
     }
 
@@ -177,37 +235,54 @@ class AppImages {
   static const elfBody = 'assets/images/sprites/elfBody.svg';
   static const elfHead = 'assets/images/sprites/elfHead.svg';
 
-  static const goblin = 'assets/images/sprites/goblin.svg';
-  static const golen = 'assets/images/sprites/golen.svg';
-  static const skeletonMage = 'assets/images/sprites/skeletonMage.svg';
-  static const skeleton = 'assets/images/sprites/skeleton.svg';
-  static const vampire = 'assets/images/sprites/vampire.svg';
+  //NPC
   static const zombie = 'assets/images/sprites/zombie.svg';
+  static const giantBat = 'assets/images/sprites/giantBat.svg';
+  static const skeleton = 'assets/images/sprites/skeleton.svg';
+  static const skeletonMage = 'assets/images/sprites/skeletonMage.svg';
+  static const giantFrog = 'assets/images/sprites/giantFrog.svg';
+  static const goblin = 'assets/images/sprites/goblin.svg';
+  static const beast = 'assets/images/sprites/beast.svg';
+  static const explosiveLizzard = 'assets/images/sprites/explosiveLizzard.svg';
+  static const wraith = 'assets/images/sprites/wraith.svg';
+  static const golen = 'assets/images/sprites/golen.svg';
 
   String getRaceIcon(String race) {
     String raceIcon = '';
 
     switch (race) {
-      case 'goblin':
-        raceIcon = goblin;
+      case 'zombie':
+        raceIcon = zombie;
         break;
-      case 'golen':
-        raceIcon = golen;
-        break;
-      case 'skeleton mage':
-        raceIcon = skeletonMage;
+      case 'giant bat':
+        raceIcon = giantBat;
         break;
       case 'skeleton':
         raceIcon = skeleton;
         break;
-      case 'vampire':
-        raceIcon = vampire;
+      case 'skeleton mage':
+        raceIcon = skeletonMage;
         break;
-      case 'zombie':
-        raceIcon = zombie;
+      case 'giant frog':
+        raceIcon = giantFrog;
         break;
-      case 'orc':
-        raceIcon = orc;
+
+      case 'goblin':
+        raceIcon = goblin;
+        break;
+      case 'beast':
+        raceIcon = beast;
+        break;
+      case 'explosive lizzard':
+        raceIcon = explosiveLizzard;
+        break;
+
+      case 'wraith':
+        raceIcon = wraith;
+        break;
+
+      case 'golen':
+        raceIcon = golen;
         break;
     }
 
