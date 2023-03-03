@@ -34,7 +34,7 @@ class _CreatorMapState extends State<CreatorMap> {
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
 
-    _creatorMapVM.checkForEndGame(game, npcs, players);
+    // _creatorMapVM.checkForEndGame(game, npcs, players);
     _creatorMapVM.updateSelectedNpc(npcs);
 
     return SizedBox(
@@ -68,11 +68,11 @@ class _CreatorMapState extends State<CreatorMap> {
                     area: _creatorMapVM.combat.areaEffect.area,
                   ),
                   Stack(
-                    children: _creatorMapVM.createNpcSprites(
-                        game.phase, npcs, refresh),
+                    children: _creatorMapVM.createPlayerSprites(players, npcs),
                   ),
                   Stack(
-                    children: _creatorMapVM.createPlayerSprites(players, npcs),
+                    children: _creatorMapVM.createNpcSprites(
+                        game.phase, npcs, refresh),
                   ),
                 ],
               ),
@@ -83,7 +83,7 @@ class _CreatorMapState extends State<CreatorMap> {
           _creatorMapVM.actionButtons(
               context, game.phase, npcs, players, refresh),
           _creatorMapVM.gameCreationMenu(game.phase, widget.displaySnackbar),
-          _creatorMapVM.endGameButton(context, game),
+          // _creatorMapVM.endGameButton(game, players, widget.refresh),
         ],
       ),
     );

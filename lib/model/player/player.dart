@@ -129,12 +129,12 @@ class Player {
 
     int pDamage = attackDamage.pDamage - equipment.getTotalArmor().pArmor;
     if (pDamage < 0) {
-      leftOverArmor += pDamage.abs();
+      leftOverArmor += pDamage.abs() ~/ 2;
       pDamage = 0;
     }
     int mDamage = attackDamage.mDamage - equipment.getTotalArmor().mArmor;
     if (mDamage < 0) {
-      leftOverArmor += mDamage.abs();
+      leftOverArmor += mDamage.abs() ~/ 2;
       mDamage = 0;
     }
 
@@ -173,6 +173,13 @@ class Player {
     } else {
       return true;
     }
+  }
+
+  void preparePlayerForNewRound() {
+    position.reset();
+    life.reset();
+    ready = false;
+    update();
   }
 
   void set() async {

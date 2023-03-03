@@ -193,14 +193,14 @@ class NpcList {
     id: 0,
     race: 'beast',
     size: 10,
-    life: Life(current: 24, max: 24),
+    life: Life(current: 16, max: 16),
     armor: Armor(
-      pArmor: 3,
+      pArmor: 2,
       mArmor: 0,
     ),
     power: Power(attribute: 2),
-    movement: Movement(attribute: 0),
-    vision: Vision(attribute: 0, tempVision: 0),
+    movement: Movement(attribute: 1),
+    vision: Vision(attribute: 1, tempVision: 0),
     position: Position.empty(),
     attacks: [
       Attack(
@@ -229,7 +229,7 @@ class NpcList {
       mArmor: 0,
     ),
     power: Power(attribute: 3),
-    movement: Movement(attribute: 1),
+    movement: Movement(attribute: 2),
     vision: Vision(attribute: 1, tempVision: 0),
     position: Position.empty(),
     attacks: [
@@ -252,19 +252,23 @@ class NpcList {
     size: 10,
     life: Life(current: 16, max: 16),
     armor: Armor(
-      pArmor: 6,
+      pArmor: 3,
       mArmor: 0,
     ),
     power: Power(attribute: 2),
     movement: Movement(attribute: 1),
-    vision: Vision(attribute: 0, tempVision: 0),
+    vision: Vision(attribute: 1, tempVision: 0),
     position: Position.empty(),
     attacks: [
       Attack(
         name: 'drain',
-        damage: Damage(pDamage: 0, mDamage: 3),
-        range: Range(min: 1, max: 5, width: 0, shape: 'torus'),
+        damage: Damage(pDamage: 0, mDamage: 2),
+        range: Range(min: 0.05, max: 5, width: 0, shape: 'torus'),
       ),
+      Attack(
+          name: 'dark bolt',
+          damage: Damage(pDamage: 0, mDamage: 3),
+          range: Range(min: 5, max: 30, width: 5, shape: 'rectangle')),
     ],
   );
 
@@ -272,14 +276,14 @@ class NpcList {
     id: 0,
     race: 'golen',
     size: 10,
-    life: Life(current: 32, max: 32),
+    life: Life(current: 24, max: 24),
     armor: Armor(
       pArmor: 2,
       mArmor: 2,
     ),
     power: Power(attribute: 1),
     movement: Movement(attribute: 3),
-    vision: Vision(attribute: -1, tempVision: 0),
+    vision: Vision(attribute: 0, tempVision: 0),
     position: Position.empty(),
     attacks: [
       Attack(

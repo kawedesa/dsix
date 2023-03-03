@@ -48,14 +48,14 @@ class Defense {
     int result = roll1 + roll2 + attribute;
 
     if (result > 12) {
-      tempDefense = 6;
+      tempDefense = 9;
     }
 
     if (result > 9 && result < 12) {
-      tempDefense = 4;
+      tempDefense = 6;
     }
     if (result > 6 && result < 10) {
-      tempDefense = 2;
+      tempDefense = 3;
     }
     if (result < 7) {
       tempDefense = 0;

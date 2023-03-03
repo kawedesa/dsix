@@ -78,7 +78,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                   width: AppLayout.shortest(context) * 0.75,
                   height: AppLayout.shortest(context) * 0.3,
                   child: _playerMapVM.actionButtons(user, refresh))),
-          _playerMapVM.endGameButton(context, game.phase, user.player),
+          // _playerMapVM.endGameButton(game.phase, user.player),
         ],
       ),
     );

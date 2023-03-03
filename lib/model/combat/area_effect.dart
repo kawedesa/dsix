@@ -48,16 +48,22 @@ class AreaEffect {
         break;
 
       case 'torus':
-        Path maxDistanceShape = Path()
+        Path maxRangeShape = Path()
           ..addOval(
-              Rect.fromCircle(center: const Offset(0, 0), radius: range.max));
+              Rect.fromCircle(center: const Offset(0, 0), radius: maxRange));
 
-        Path minDistanceShape = Path()
+        Path minRangeShape = Path()
           ..addOval(
               Rect.fromCircle(center: const Offset(0, 0), radius: range.min));
 
-        area = Path.combine(
-            PathOperation.difference, maxDistanceShape, minDistanceShape);
+        Path adjShape = Path()
+          ..addRect(Rect.fromPoints(
+              Offset(-0.05, -maxRange), Offset(0.05, maxRange)));
+
+        Path tempShape =
+            Path.combine(PathOperation.difference, maxRangeShape, adjShape);
+
+        area = Path.combine(PathOperation.difference, tempShape, minRangeShape);
 
         break;
     }

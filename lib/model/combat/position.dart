@@ -36,4 +36,9 @@ class Position {
   Offset getOffset() {
     return Offset(dx, dy);
   }
+
+  void reset() {
+    dx = -1000;
+    dy = -1000;
+  }
 }

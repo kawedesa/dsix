@@ -268,55 +268,53 @@ class PlayerMapVM {
   //   playerMode = 'stand';
   // }
 
-  Widget endGameButton(context, String gamePhase, Player player) {
-    Widget button = const SizedBox();
+  // Widget endGameButton(String gamePhase, Player player) {
+  //   Widget button = const SizedBox();
 
-    switch (gamePhase) {
-      case 'end':
-        button = Stack(
-          children: [
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: AppColors().getPlayerDarkColor(player.id).withAlpha(100),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: AppTextButton(
-                  color: AppColors().getPlayerColor(player.id),
-                  buttonText: 'end',
-                  onTap: () {
-                    goToHomeView(context);
-                  }),
-            ),
-          ],
-        );
+  //   switch (gamePhase) {
+  //     case 'end':
+  //       button = Stack(
+  //         children: [
+  //           Container(
+  //             width: double.infinity,
+  //             height: double.infinity,
+  //             color: AppColors().getPlayerDarkColor(player.id).withAlpha(100),
+  //           ),
+  //           Align(
+  //             alignment: Alignment.center,
+  //             child: AppTextButton(
+  //                 color: AppColors().getPlayerColor(player.id),
+  //                 buttonText: 'end',
+  //                 onTap: () {
+  //                   // goToHomeView(context);
+  //                 }),
+  //           ),
+  //         ],
+  //       );
 
-        playerMode = 'end';
+  //       break;
+  //   }
 
-        break;
-    }
+  //   return button;
+  // }
 
-    return button;
-  }
+  // void goToHomeView(context) {
+  //   Route newRoute = PageRouteBuilder(
+  //     pageBuilder: (context, animation, secondaryAnimation) => const HomeView(),
+  //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+  //       var begin = const Offset(-1.0, 0.0);
+  //       var end = const Offset(0.0, 0.0);
+  //       var curve = Curves.ease;
+  //       var tween =
+  //           Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-  void goToHomeView(context) {
-    Route newRoute = PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const HomeView(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = const Offset(-1.0, 0.0);
-        var end = const Offset(0.0, 0.0);
-        var curve = Curves.ease;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+  //       return SlideTransition(
+  //         position: animation.drive(tween),
+  //         child: child,
+  //       );
+  //     },
+  //   );
 
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-
-    Navigator.of(context).push(newRoute);
-  }
+  //   Navigator.of(context).push(newRoute);
+  // }
 }

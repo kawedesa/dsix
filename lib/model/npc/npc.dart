@@ -102,13 +102,13 @@ class Npc {
 
     int pDamage = attackDamage.pDamage - armor.pArmor;
     if (pDamage < 0) {
-      leftOverArmor += pDamage.abs();
+      leftOverArmor += pDamage.abs() ~/ 2;
       pDamage = 0;
     }
 
     int mDamage = attackDamage.mDamage - armor.mArmor;
     if (mDamage < 0) {
-      leftOverArmor += mDamage.abs();
+      leftOverArmor += mDamage.abs() ~/ 2;
       mDamage = 0;
     }
 

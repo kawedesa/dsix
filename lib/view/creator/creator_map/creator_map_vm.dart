@@ -335,76 +335,57 @@ class CreatorMapVM {
     popUpMenuIsOpen = false;
   }
 
-  void checkForEndGame(Game game, List<Npc> npcs, List<Player> players) {
-    int deadNpcs = 0;
-    int deadPlayers = 0;
+  // void checkForEndGame(Game game, List<Npc> npcs, List<Player> players) {
+  //   int deadNpcs = 0;
+  //   int deadPlayers = 0;
 
-    for (Npc npc in npcs) {
-      if (npc.life.isDead()) {
-        deadNpcs++;
-      }
-    }
-    for (Player player in players) {
-      if (player.life.isDead()) {
-        deadPlayers++;
-      }
-    }
+  //   for (Npc npc in npcs) {
+  //     if (npc.life.isDead()) {
+  //       deadNpcs++;
+  //     }
+  //   }
+  //   for (Player player in players) {
+  //     if (player.life.isDead()) {
+  //       deadPlayers++;
+  //     }
+  //   }
 
-    if (deadNpcs == npcs.length && deadNpcs != 0) {
-      game.endGame();
-    }
-    if (deadPlayers == players.length && deadPlayers != 0) {
-      game.endGame();
-    }
-  }
+  //   if (deadNpcs == npcs.length && deadNpcs != 0) {
+  //     game.endGame();
+  //   }
+  //   if (deadPlayers == players.length && deadPlayers != 0) {
+  //     game.endGame();
+  //   }
+  // }
 
-  Widget endGameButton(context, Game game) {
-    Widget button = const SizedBox();
+  // Widget endGameButton(Game game, List<Player> players, Function refresh) {
+  //   Widget button = const SizedBox();
 
-    switch (game.phase) {
-      case 'end':
-        button = Stack(
-          children: [
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: AppColors.uiColorDark.withAlpha(100),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: AppTextButton(
-                  color: AppColors.uiColor,
-                  buttonText: 'end game',
-                  onTap: () {
-                    goToHomeView(context);
-                  }),
-            ),
-          ],
-        );
+  //   switch (game.phase) {
+  //     case 'end':
+  //       button = Stack(
+  //         children: [
+  //           Container(
+  //             width: double.infinity,
+  //             height: double.infinity,
+  //             color: AppColors.uiColorDark.withAlpha(100),
+  //           ),
+  //           Align(
+  //             alignment: Alignment.center,
+  //             child: AppTextButton(
+  //                 color: AppColors.uiColor,
+  //                 buttonText: 'end game',
+  //                 onTap: () {
+  //                   newRound(game, players);
+  //                   refresh();
+  //                 }),
+  //           ),
+  //         ],
+  //       );
 
-        break;
-    }
+  //       break;
+  //   }
 
-    return button;
-  }
-
-  void goToHomeView(context) {
-    Route newRoute = PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const HomeView(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = const Offset(-1.0, 0.0);
-        var end = const Offset(0.0, 0.0);
-        var curve = Curves.ease;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-
-    Navigator.of(context).push(newRoute);
-  }
+  //   return button;
+  // }
 }

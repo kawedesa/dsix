@@ -66,20 +66,26 @@ class _AttackButtonState extends State<AttackButton> {
     return MouseRegion(
       onEnter: (details) {
         if (active) {
-          reset = true;
+          setState(() {
+            reset = true;
+          });
         }
       },
       onExit: (details) {
         if (active) {
-          reset = false;
+          setState(() {
+            reset = false;
+          });
         }
       },
       onHover: (details) {
         buttonPosition =
             Position(dx: details.position.dx, dy: details.position.dy);
         if (active) {
-          reset = true;
-          widget.resetAttack();
+          setState(() {
+            reset = true;
+            widget.resetAttack();
+          });
         }
       },
       child: AppCircularButton(
@@ -92,6 +98,7 @@ class _AttackButtonState extends State<AttackButton> {
           setState(() {
             if (active) {
               active = false;
+              reset = false;
               widget.cancelAttack();
             } else {
               active = true;

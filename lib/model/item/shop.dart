@@ -506,25 +506,6 @@ class Shop {
           range: Range(min: 5, max: 20, width: 5, shape: 'rectangle')),
       armor: Armor(pArmor: 0, mArmor: 1),
       weight: 1,
-      value: 200,
-    ),
-
-    Item(
-      name: 'grenades',
-      description: '',
-      itemSlot: 'one hand',
-      type: 'ranged',
-      attack: Attack(
-          name: 'blast',
-          damage: Damage(pDamage: 1, mDamage: 1),
-          range: Range(
-            min: 40,
-            max: 0,
-            width: 10,
-            shape: 'circle',
-          )),
-      armor: Armor(pArmor: 0, mArmor: 0),
-      weight: 1,
       value: 300,
     ),
 
@@ -591,6 +572,24 @@ class Shop {
     //   maxRange: 40,
     //   minRange: 30,
     // ),
+    Item(
+      name: 'grenades',
+      description: '',
+      itemSlot: 'one hand',
+      type: 'ranged',
+      attack: Attack(
+          name: 'blast',
+          damage: Damage(pDamage: 1, mDamage: 1),
+          range: Range(
+            min: 40,
+            max: 0,
+            width: 10,
+            shape: 'circle',
+          )),
+      armor: Armor(pArmor: 0, mArmor: 0),
+      weight: 1,
+      value: 500,
+    ),
 
     Item(
       name: 'long bow',

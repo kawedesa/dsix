@@ -2,11 +2,9 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/shared/app_widgets/button/app_bar_circular_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../model/user.dart';
 import '../../../../shared/app_colors.dart';
 import '../../../../shared/app_images.dart';
-import '../../../../shared/app_widgets/button/app_circular_button.dart';
 import '../../../../shared/app_widgets/layout/app_separator_horizontal.dart';
 
 class BottomNavigationPlayer extends StatelessWidget {

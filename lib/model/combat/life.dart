@@ -27,12 +27,12 @@ class Life {
   void setLife(String race) {
     switch (race) {
       case 'dwarf':
-        max = 25;
-        current = 25;
+        max = 26;
+        current = 26;
         break;
       case 'elf':
-        max = 20;
-        current = 20;
+        max = 14;
+        current = 14;
         break;
       case 'orc':
         max = 20;
@@ -51,5 +51,9 @@ class Life {
     } else {
       return false;
     }
+  }
+
+  void reset() {
+    current = max;
   }
 }

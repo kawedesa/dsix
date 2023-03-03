@@ -113,6 +113,15 @@ class Game {
         .set(Game.newGame(choosenDifficulty, numberOfPlayers).toMap());
   }
 
+  void newRound() {
+    deleteNpcs();
+    deleteSpawners();
+    round++;
+    phase = 'creation';
+    map = AppMap.empty();
+    update();
+  }
+
   void startGame() {
     phase = 'action';
     update();

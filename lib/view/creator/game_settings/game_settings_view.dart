@@ -1,11 +1,12 @@
+import 'package:dsix/model/player/player.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/dialog/confirm_dialog.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
+import 'package:dsix/view/creator/game_settings/game_settings_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../model/game/game.dart';
 import '../../../shared/app_widgets/button/app_text_button.dart';
-import '../../home/home_view.dart';
 
 class GameSettings extends StatefulWidget {
   const GameSettings({Key? key}) : super(key: key);
@@ -15,29 +16,12 @@ class GameSettings extends StatefulWidget {
 }
 
 class _GameSettingsState extends State<GameSettings> {
-  void goToHomeView(context) {
-    Route newRoute = PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const HomeView(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = const Offset(-1.0, 0.0);
-        var end = const Offset(0.0, 0.0);
-        var curve = Curves.ease;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-
-    Navigator.of(context).push(newRoute);
-  }
+  final GameSettingsVM _gameSettingsVM = GameSettingsVM();
 
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
+    final players = Provider.of<List<Player>>(context);
 
     return Align(
       alignment: Alignment.center,
@@ -46,32 +30,18 @@ class _GameSettingsState extends State<GameSettings> {
         children: [
           const AppSeparatorVertical(value: 0.005),
           AppTextButton(
-              buttonText: 'add player',
+              buttonText: 'new round',
               color: AppColors.uiColor,
               onTap: () {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return ConfirmDialog(
-                      title: 'add player?',
+                      title: 'start new round?',
                       color: AppColors.uiColor,
-                      confirm: () {},
-                    );
-                  },
-                );
-              }),
-          const AppSeparatorVertical(value: 0.005),
-          AppTextButton(
-              buttonText: 'remove player',
-              color: AppColors.uiColor,
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ConfirmDialog(
-                      title: 'remove player?',
-                      color: AppColors.uiColor,
-                      confirm: () {},
+                      confirm: () {
+                        _gameSettingsVM.newRound(game, players);
+                      },
                     );
                   },
                 );
@@ -89,7 +59,7 @@ class _GameSettingsState extends State<GameSettings> {
                       color: AppColors.uiColor,
                       confirm: () {
                         game.deleteGame();
-                        goToHomeView(context);
+                        _gameSettingsVM.goToHomeView(context);
                       },
                     );
                   },

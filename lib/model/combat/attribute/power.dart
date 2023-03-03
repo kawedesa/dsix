@@ -45,18 +45,22 @@ class Power {
 
     int result = roll1 + roll2 + attribute;
 
-    if (result > 12) {
-      rawDamage = 6;
+    if (result == 15) {
+      rawDamage = 15;
+    }
+
+    if (result > 11 && result < 15) {
+      rawDamage = 10;
     }
 
     if (result > 9 && result < 12) {
-      rawDamage = 4;
+      rawDamage = 6;
     }
     if (result > 6 && result < 10) {
-      rawDamage = 2;
+      rawDamage = 4;
     }
     if (result < 7) {
-      rawDamage = 0;
+      rawDamage = 1;
     }
 
     return rawDamage;
