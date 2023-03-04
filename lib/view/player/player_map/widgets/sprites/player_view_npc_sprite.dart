@@ -1,5 +1,4 @@
 import 'package:dsix/model/npc/npc.dart';
-import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/animation/damage_animation.dart';
 import 'package:flutter/material.dart';
@@ -54,21 +53,21 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
         height: widget.npc.vision.getRange(),
         child: Stack(
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                width: 7,
-                height: 7,
-                decoration: BoxDecoration(
-                  color: AppColors.uiColorDark.withAlpha(25),
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColors.uiColorDark.withAlpha(25),
-                    width: 0.3,
-                  ),
-                ),
-              ),
-            ),
+            // Align(
+            //   alignment: Alignment.center,
+            //   child: Container(
+            //     width: 7,
+            //     height: 7,
+            //     decoration: BoxDecoration(
+            //       color: AppColors.uiColorDark.withAlpha(25),
+            //       shape: BoxShape.circle,
+            //       border: Border.all(
+            //         color: AppColors.uiColorDark.withAlpha(25),
+            //         width: 0.3,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Align(
               alignment: Alignment.center,
               child: GestureDetector(

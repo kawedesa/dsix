@@ -11,12 +11,14 @@ class CreatorViewEditNpcSprite extends StatefulWidget {
   final Npc npc;
   final bool selected;
   final Function() selectNpc;
+  final Function() deselectNpc;
 
   const CreatorViewEditNpcSprite({
     super.key,
     required this.npc,
     required this.selected,
     required this.selectNpc,
+    required this.deselectNpc,
   });
 
   @override
@@ -28,6 +30,22 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
   final NpcSpriteController _controller = NpcSpriteController();
   final TempPosition _tempPosition = TempPosition();
   bool drag = false;
+
+  Color getColor() {
+    if (widget.selected) {
+      return AppColors.uiColorLight.withAlpha(75);
+    } else {
+      return AppColors.uiColorDark.withAlpha(25);
+    }
+  }
+
+  Color getStrokeColor() {
+    if (widget.selected) {
+      return AppColors.uiColorLight.withAlpha(200);
+    } else {
+      return AppColors.uiColorDark.withAlpha(100);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +69,13 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
                 Align(
                   alignment: Alignment.center,
                   child: Container(
-                    width: 7,
-                    height: 7,
+                    width: 10,
+                    height: 10,
                     decoration: BoxDecoration(
-                      color: AppColors.uiColorDark.withAlpha(25),
+                      color: getColor(),
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: AppColors.uiColorDark.withAlpha(25),
+                        color: getStrokeColor(),
                         width: 0.3,
                       ),
                     ),
@@ -67,7 +85,13 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: () {
-                      widget.selectNpc();
+                      setState(() {
+                        if (widget.selected) {
+                          widget.deselectNpc();
+                        } else {
+                          widget.selectNpc();
+                        }
+                      });
                     },
                     onPanStart: (details) {
                       drag = true;

@@ -26,12 +26,12 @@ class NpcList {
     attacks: [
       Attack(
         name: 'bite',
-        damage: Damage(pDamage: 3, mDamage: 0),
+        damage: Damage(pDamage: 3, mDamage: 0, rawDamage: 0),
         range: Range(min: 6, max: 0, width: 4, shape: 'circle'),
       ),
       Attack(
         name: 'slash',
-        damage: Damage(pDamage: 1, mDamage: 0),
+        damage: Damage(pDamage: 1, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 5,
           max: 7.5,
@@ -58,7 +58,7 @@ class NpcList {
     attacks: [
       Attack(
         name: 'bite',
-        damage: Damage(pDamage: 2, mDamage: 0),
+        damage: Damage(pDamage: 2, mDamage: 0, rawDamage: 0),
         range: Range(min: 6, max: 0, width: 4, shape: 'circle'),
       ),
     ],
@@ -80,7 +80,7 @@ class NpcList {
     attacks: [
       Attack(
         name: 'slash',
-        damage: Damage(pDamage: 2, mDamage: 0),
+        damage: Damage(pDamage: 2, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 5,
           max: 12.5,
@@ -107,7 +107,7 @@ class NpcList {
     attacks: [
       Attack(
           name: 'blast',
-          damage: Damage(pDamage: 0, mDamage: 1),
+          damage: Damage(pDamage: 0, mDamage: 1, rawDamage: 0),
           range: Range(
             min: 40,
             max: 0,
@@ -116,7 +116,7 @@ class NpcList {
           )),
       Attack(
           name: 'shot',
-          damage: Damage(pDamage: 0, mDamage: 2),
+          damage: Damage(pDamage: 0, mDamage: 2, rawDamage: 0),
           range: Range(
             min: 5,
             max: 20,
@@ -142,10 +142,7 @@ class NpcList {
     attacks: [
       Attack(
         name: 'tongue',
-        damage: Damage(
-          pDamage: 2,
-          mDamage: 0,
-        ),
+        damage: Damage(pDamage: 2, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 5,
           max: 17.5,
@@ -172,7 +169,7 @@ class NpcList {
     attacks: [
       Attack(
         name: 'slash',
-        damage: Damage(pDamage: 1, mDamage: 0),
+        damage: Damage(pDamage: 1, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 5,
           max: 7.5,
@@ -182,10 +179,7 @@ class NpcList {
       ),
       Attack(
           name: 'shot',
-          damage: Damage(
-            pDamage: 3,
-            mDamage: 0,
-          ),
+          damage: Damage(pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(min: 20, max: 50, width: 5, shape: 'rectangle')),
     ],
   );
@@ -205,10 +199,7 @@ class NpcList {
     attacks: [
       Attack(
         name: 'slash',
-        damage: Damage(
-          pDamage: 2,
-          mDamage: 0,
-        ),
+        damage: Damage(pDamage: 2, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 5,
           max: 15,
@@ -235,7 +226,7 @@ class NpcList {
     attacks: [
       Attack(
         name: 'explode',
-        damage: Damage(pDamage: 4, mDamage: 0),
+        damage: Damage(pDamage: 4, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 0,
           max: 0,
@@ -262,12 +253,12 @@ class NpcList {
     attacks: [
       Attack(
         name: 'drain',
-        damage: Damage(pDamage: 0, mDamage: 2),
+        damage: Damage(pDamage: 0, mDamage: 2, rawDamage: 0),
         range: Range(min: 0.05, max: 5, width: 0, shape: 'torus'),
       ),
       Attack(
           name: 'dark bolt',
-          damage: Damage(pDamage: 0, mDamage: 3),
+          damage: Damage(pDamage: 0, mDamage: 3, rawDamage: 0),
           range: Range(min: 5, max: 30, width: 5, shape: 'rectangle')),
     ],
   );
@@ -291,6 +282,7 @@ class NpcList {
           damage: Damage(
             pDamage: 3,
             mDamage: 0,
+            rawDamage: 0,
           ),
           range: Range(min: 5, max: 50, width: 20, shape: 'rectangle')),
     ],

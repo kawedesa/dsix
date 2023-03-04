@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/attribute/attribute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/player/equipment/player_equipment.dart';
@@ -124,7 +125,15 @@ class Player {
     update();
   }
 
-  void receiveAttack(Damage attackDamage, int rawDamage) {
+  Attack attack(Attack attack) {
+    Attack playerAttack = attack;
+
+    playerAttack.damage.rawDamage = attributes.power.getRawDamage();
+
+    return playerAttack;
+  }
+
+  void receiveAttack(Damage attackDamage) {
     int leftOverArmor = 0;
 
     int pDamage = attackDamage.pDamage - equipment.getTotalArmor().pArmor;
@@ -138,7 +147,7 @@ class Player {
       mDamage = 0;
     }
 
-    int leftOverRawDamage = rawDamage - leftOverArmor;
+    int leftOverRawDamage = attackDamage.rawDamage - leftOverArmor;
 
     if (leftOverRawDamage < 1) {
       leftOverRawDamage = 0;
@@ -155,7 +164,6 @@ class Player {
   }
 
   void defend() {
-    //TODO Deixar esse valor menor do que o ataque. Para incentivar a criatividade
     attributes.defense.defend();
     update();
   }

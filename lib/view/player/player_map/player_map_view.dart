@@ -1,13 +1,15 @@
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
+import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_widgets/map/area_effect_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../model/npc/npc.dart';
 import '../../../shared/app_layout.dart';
-import '../../../shared/app_widgets/map/sprite/area_effect_sprite.dart';
 
 class PlayerMapView extends StatefulWidget {
   final Function() refresh;
@@ -22,7 +24,7 @@ class PlayerMapView extends StatefulWidget {
 
 class _PlayerMapViewState extends State<PlayerMapView> {
   final PlayerMapVM _playerMapVM = PlayerMapVM();
-
+  final MapInfo _mapInfo = MapInfo.empty();
   void refresh() {
     setState(() {});
   }
@@ -34,25 +36,27 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
 
+    user.updatePlayer(players);
+    _mapInfo.setMapInfo(context, game.map);
+
     return SizedBox(
       width: double.infinity,
       height: double.infinity,
       child: Stack(
         children: [
           InteractiveViewer(
-            transformationController: _playerMapVM.createCanvasController(
-                context, user.player.position),
+            transformationController: _mapInfo.canvasController,
             constrained: false,
             panEnabled: true,
-            maxScale: _playerMapVM.maxZoom,
-            minScale: _playerMapVM.minZoom,
+            maxScale: _mapInfo.maxZoom,
+            minScale: _mapInfo.minZoom,
             child: SizedBox(
               width: 320,
               height: 320,
               child: Stack(
                 children: [
                   SvgPicture.asset(
-                    game.map.map,
+                    AppImages().getMapImage(game.map),
                     width: AppLayout.longest(context),
                     height: AppLayout.longest(context),
                   ),

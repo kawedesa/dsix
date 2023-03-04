@@ -14,12 +14,14 @@ class CreatorViewActionNpcSprite extends StatefulWidget {
   final Npc npc;
   final bool selected;
   final Function() selectNpc;
+  final Function() deselectNpc;
 
   const CreatorViewActionNpcSprite({
     super.key,
     required this.npc,
     required this.selected,
     required this.selectNpc,
+    required this.deselectNpc,
   });
 
   @override
@@ -77,7 +79,13 @@ class _CreatorViewActionNpcSpriteState
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: () {
-                      widget.selectNpc();
+                      setState(() {
+                        if (widget.selected) {
+                          widget.deselectNpc();
+                        } else {
+                          widget.selectNpc();
+                        }
+                      });
                     },
                     onPanStart: (details) {
                       drag = true;
@@ -171,20 +179,38 @@ class NpcSpriteMoveRange extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color getColor() {
-      Color rangeColor = AppColors.uiColorDark;
+      Color rangeColor = AppColors.uiColorDark.withAlpha(25);
 
-      if (distanceMoved == 0) {
-        rangeColor = AppColors.uiColorDark;
+      if (selected) {
+        rangeColor = AppColors.uiColorLight.withAlpha(25);
       }
+
       if (distanceMoved > 0 && distanceMoved < 4) {
-        rangeColor = AppColors.negative;
+        rangeColor = AppColors.negative.withAlpha(25);
       }
-      if (distanceMoved > 4 && distanceMoved < maxRange) {
-        rangeColor = rangeColor;
-      }
+
       if (distanceMoved > maxRange) {
-        rangeColor = AppColors.negative;
+        rangeColor = AppColors.negative.withAlpha(25);
       }
+
+      return rangeColor;
+    }
+
+    Color getStrokeColor() {
+      Color rangeColor = AppColors.uiColorDark.withAlpha(100);
+
+      if (selected) {
+        rangeColor = AppColors.uiColorLight.withAlpha(200);
+      }
+
+      if (distanceMoved > 0 && distanceMoved < 4) {
+        rangeColor = AppColors.negative.withAlpha(100);
+      }
+
+      if (distanceMoved > maxRange) {
+        rangeColor = AppColors.negative.withAlpha(100);
+      }
+
       return rangeColor;
     }
 
@@ -193,10 +219,11 @@ class NpcSpriteMoveRange extends StatelessWidget {
 
       switch (selected) {
         case true:
-          range = (maxRange - distanceMoved < 7) ? 7 : maxRange - distanceMoved;
+          range =
+              (maxRange - distanceMoved < 10) ? 10 : maxRange - distanceMoved;
           break;
         case false:
-          range = 7;
+          range = 10;
           break;
       }
 
@@ -209,10 +236,10 @@ class NpcSpriteMoveRange extends StatelessWidget {
       width: getRange(),
       height: getRange(),
       decoration: BoxDecoration(
-        color: getColor().withAlpha(25),
+        color: getColor(),
         shape: BoxShape.circle,
         border: Border.all(
-          color: getColor().withAlpha(150),
+          color: getStrokeColor(),
           width: 0.3,
         ),
       ),
@@ -235,13 +262,15 @@ class NpcSpriteVisionRange extends StatelessWidget {
     return DottedBorder(
       borderType: BorderType.Circle,
       dashPattern: const [3, 6],
-      color: AppColors.uiColorDark.withAlpha(150),
+      color: (selected)
+          ? AppColors.uiColorLight.withAlpha(200)
+          : AppColors.uiColorDark.withAlpha(100),
       strokeWidth: 0.3,
       child: AnimatedContainer(
         curve: Curves.fastLinearToSlowEaseIn,
         duration: const Duration(milliseconds: 700),
-        width: (selected) ? range : 0,
-        height: (selected) ? range : 0,
+        width: (selected) ? range : 10,
+        height: (selected) ? range : 10,
       ),
     );
   }

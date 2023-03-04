@@ -6,7 +6,8 @@ import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
-import 'package:dsix/shared/app_widgets/map/sprite/player_sprite_image.dart';
+import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
+
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:dsix/view/player/inventory/inventory_vm.dart';
 import 'package:dsix/view/player/inventory/widgets/attributes_info_bar.dart';

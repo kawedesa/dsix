@@ -53,25 +53,4 @@ class User {
       }
     }
   }
-
-  //   if (firstAction.time == 0) {
-  //     firstAction.attack(
-  //         player.id, angle, distanceScale, player.location.oldLocation);
-  //     firstAction.aoe.setArea(
-  //       angle,
-  //       distanceScale,
-  //       player.location.oldLocation,
-  //       equipment,
-  //     );
-  //     return;
-  //   }
-
-  //   if (secondAction.time == 0) {
-  //     secondAction.attack(
-  //         player.id, angle, distanceScale, firstAction.location);
-  //     secondAction.aoe
-  //         .setArea(angle, distanceScale, firstAction.location, equipment);
-  //     return;
-  //   }
-  // }
 }

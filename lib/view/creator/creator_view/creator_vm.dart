@@ -1,3 +1,5 @@
+import 'package:dsix/view/creator/creator_map/creator_map_view.dart';
+import 'package:dsix/view/creator/creator_map_selection/creator_map_selection_view.dart';
 import 'package:flutter/material.dart';
 
 class CreatorVM {
@@ -25,6 +27,22 @@ class CreatorVM {
       case 1:
         pageTitle = 'map';
         break;
+    }
+  }
+
+  Widget getMapPage(String mapName, Function refresh,
+      Function(String, Color) displaySnackBar) {
+    if (mapName == '') {
+      return const CreatorMapSelection();
+    } else {
+      return CreatorMapView(
+        refresh: () {
+          refresh();
+        },
+        displaySnackBar: (string, color) {
+          displaySnackBar(string, color);
+        },
+      );
     }
   }
 }

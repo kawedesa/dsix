@@ -4,8 +4,6 @@ import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_bar_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/view/creator/creator_view/creator_vm.dart';
-import 'package:dsix/view/creator/creator_map/creator_map_view.dart';
-import 'package:dsix/view/creator/creator_map_selection/creator_map_selection_view.dart';
 import 'package:dsix/view/creator/game_settings/game_settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -79,13 +77,7 @@ class _CreatorViewState extends State<CreatorView> {
           controller: _creatorVM.pageController,
           children: [
             const GameSettings(),
-            (game.map.name == '')
-                ? const CreatorMapSelection()
-                : CreatorMap(
-                    refresh: () => refresh(),
-                    displaySnackbar: (text, color) =>
-                        displaySnackBar(text, color),
-                  ),
+            _creatorVM.getMapPage(game.map, refresh, displaySnackBar),
           ],
         ),
       ),

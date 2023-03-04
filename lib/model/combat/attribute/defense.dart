@@ -47,7 +47,11 @@ class Defense {
 
     int result = roll1 + roll2 + attribute;
 
-    if (result > 12) {
+    if (result > 14) {
+      tempDefense = 13;
+    }
+
+    if (result > 11 && result < 15) {
       tempDefense = 9;
     }
 

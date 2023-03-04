@@ -1,91 +1,75 @@
 import 'package:dsix/model/game/game.dart';
-import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/spawner/spawner.dart';
-import 'package:dsix/shared/app_widgets/map/sprite/area_effect_sprite.dart';
-import 'package:dsix/view/creator/creator_map/creator_map_vm.dart';
+import 'package:dsix/model/npc/npc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import '../../../model/npc/npc.dart';
-import '../../../shared/app_layout.dart';
+import 'creator_map_vm.dart';
+import 'widgets/creator_map_action_mode.dart';
+import 'widgets/creator_map_edit_mode.dart';
 
-class CreatorMap extends StatefulWidget {
+class CreatorMapView extends StatefulWidget {
   final Function() refresh;
-  final Function(String, Color) displaySnackbar;
-  const CreatorMap(
-      {Key? key, required this.refresh, required this.displaySnackbar})
-      : super(key: key);
+  final Function(String, Color) displaySnackBar;
+  const CreatorMapView(
+      {super.key, required this.refresh, required this.displaySnackBar});
 
   @override
-  State<CreatorMap> createState() => _CreatorMapState();
+  State<CreatorMapView> createState() => _CreatorMapViewState();
 }
 
-class _CreatorMapState extends State<CreatorMap> {
+class _CreatorMapViewState extends State<CreatorMapView> {
   final CreatorMapVM _creatorMapVM = CreatorMapVM();
-
-  void refresh() {
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
-    final spawners = Provider.of<List<Spawner>>(context);
     final npcs = Provider.of<List<Npc>>(context);
-    final players = Provider.of<List<Player>>(context);
 
-    // _creatorMapVM.checkForEndGame(game, npcs, players);
+    _creatorMapVM.mapInfo.setMapInfo(context, game.map);
     _creatorMapVM.updateSelectedNpc(npcs);
 
-    return SizedBox(
-      width: double.infinity,
-      height: double.infinity,
-      child: Stack(
-        children: [
-          InteractiveViewer(
-            transformationController:
-                _creatorMapVM.createCanvasController(context),
-            constrained: false,
-            panEnabled: true,
-            maxScale: _creatorMapVM.maxZoom,
-            minScale: _creatorMapVM.minZoom,
-            child: SizedBox(
-              width: 320,
-              height: 320,
-              child: Stack(
-                children: [
-                  SvgPicture.asset(
-                    game.map.map,
-                    width: AppLayout.longest(context),
-                    height: AppLayout.longest(context),
-                  ),
-                  _creatorMapVM.npcDeselector(refresh),
-                  Stack(
-                    children: _creatorMapVM.createSpawnerSprites(
-                        game.phase, spawners),
-                  ),
-                  AreaEffectSprite(
-                    area: _creatorMapVM.combat.areaEffect.area,
-                  ),
-                  Stack(
-                    children: _creatorMapVM.createPlayerSprites(players, npcs),
-                  ),
-                  Stack(
-                    children: _creatorMapVM.createNpcSprites(
-                        game.phase, npcs, refresh),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          _creatorMapVM.selectedNpcUi(),
-          _creatorMapVM.getAttackInput(npcs, players, refresh),
-          _creatorMapVM.actionButtons(
-              context, game.phase, npcs, players, refresh),
-          _creatorMapVM.gameCreationMenu(game.phase, widget.displaySnackbar),
-          // _creatorMapVM.endGameButton(game, players, widget.refresh),
-        ],
-      ),
-    );
+    return (game.phase == 'action')
+        ? CreatorMapActionMode(
+            mapInfo: _creatorMapVM.mapInfo,
+            selectedNpc: _creatorMapVM.selectedNpc,
+            selectNpc: (npc) {
+              setState(() {
+                _creatorMapVM.selectNpc(npc);
+              });
+            },
+            deselect: () {
+              setState(() {
+                _creatorMapVM.deselectNpc();
+              });
+            },
+            createNpc: (position) {
+              setState(() {
+                _creatorMapVM.createNpc(position);
+              });
+            },
+            displaySnackBar: (text, color) {
+              widget.displaySnackBar(text, color);
+            },
+          )
+        : CreatorMapEditMode(
+            mapInfo: _creatorMapVM.mapInfo,
+            selectedNpc: _creatorMapVM.selectedNpc,
+            selectNpc: (npc) {
+              setState(() {
+                _creatorMapVM.selectNpc(npc);
+              });
+            },
+            deselect: () {
+              setState(() {
+                _creatorMapVM.deselectNpc();
+              });
+            },
+            createNpc: (position) {
+              setState(() {
+                _creatorMapVM.createNpc(position);
+              });
+            },
+            displaySnackBar: (text, color) =>
+                widget.displaySnackBar(text, color),
+          );
   }
 }

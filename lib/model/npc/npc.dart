@@ -97,7 +97,15 @@ class Npc {
         .set(toMap());
   }
 
-  void receiveAttack(Damage attackDamage, int rawDamage) {
+  Attack attack(Attack attack) {
+    Attack npcAttack = attack;
+
+    npcAttack.damage.rawDamage = power.getRawDamage();
+
+    return npcAttack;
+  }
+
+  void receiveAttack(Damage attackDamage) {
     int leftOverArmor = 0;
 
     int pDamage = attackDamage.pDamage - armor.pArmor;
@@ -112,7 +120,7 @@ class Npc {
       mDamage = 0;
     }
 
-    int leftOverRawDamage = rawDamage - leftOverArmor;
+    int leftOverRawDamage = attackDamage.rawDamage - leftOverArmor;
 
     if (leftOverRawDamage < 1) {
       leftOverRawDamage = 0;

@@ -1,25 +1,26 @@
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/shared/app_widgets/map/sprite/player_sprite_image.dart';
+import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
-class CreatorViewDeadPlayerSprite extends StatefulWidget {
+class PlayerViewDeadPlayerSprite extends StatefulWidget {
   final Player player;
   final Color color;
 
-  const CreatorViewDeadPlayerSprite({
+  const PlayerViewDeadPlayerSprite({
     super.key,
     required this.player,
     required this.color,
   });
 
   @override
-  State<CreatorViewDeadPlayerSprite> createState() =>
-      _CreatorViewDeadPlayerSpriteState();
+  State<PlayerViewDeadPlayerSprite> createState() =>
+      _PlayerViewDeadPlayerSpriteState();
 }
 
-class _CreatorViewDeadPlayerSpriteState
-    extends State<CreatorViewDeadPlayerSprite> {
+class _PlayerViewDeadPlayerSpriteState
+    extends State<PlayerViewDeadPlayerSprite> {
   @override
   Widget build(BuildContext context) {
     return Positioned(

@@ -18,16 +18,21 @@ class LifeBar extends StatelessWidget {
       return life.current / life.max * width;
     }
 
-    return Stack(children: [
-      Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-            width: width, height: height, color: AppColors.uiColorDark),
-      ),
-      Align(
-          alignment: Alignment.bottomLeft,
-          child: Container(
-              width: currentLife(), height: height, color: AppColors.negative)),
-    ]);
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Stack(children: [
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(width: width, height: height, color: Colors.black),
+        ),
+        Align(
+            alignment: Alignment.bottomLeft,
+            child: Container(
+                width: currentLife(),
+                height: height,
+                color: AppColors.negative)),
+      ]),
+    );
   }
 }

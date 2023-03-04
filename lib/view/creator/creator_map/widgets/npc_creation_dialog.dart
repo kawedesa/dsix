@@ -65,8 +65,6 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                       shrinkWrap: true,
                       physics: const ScrollPhysics(),
                       crossAxisCount: 6,
-                      // crossAxisCount:
-                      //     (AppLayout.avarage(context) * 0.006).toInt(),
                       mainAxisSpacing: AppLayout.height(context) * 0.01,
                       crossAxisSpacing: AppLayout.width(context) * 0.01,
                       children:

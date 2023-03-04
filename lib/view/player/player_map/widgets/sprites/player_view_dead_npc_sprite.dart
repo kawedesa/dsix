@@ -2,21 +2,21 @@ import 'package:dsix/model/npc/npc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../app_images.dart';
+import '../../../../../shared/app_images.dart';
 
-class CreatorViewDeadNpcSprite extends StatefulWidget {
+class PlayerViewDeadNpcSprite extends StatefulWidget {
   final Npc npc;
-  const CreatorViewDeadNpcSprite({
+  const PlayerViewDeadNpcSprite({
     super.key,
     required this.npc,
   });
 
   @override
-  State<CreatorViewDeadNpcSprite> createState() =>
-      _CreatorViewDeadNpcSpriteState();
+  State<PlayerViewDeadNpcSprite> createState() =>
+      _PlayerViewDeadNpcSpriteState();
 }
 
-class _CreatorViewDeadNpcSpriteState extends State<CreatorViewDeadNpcSprite> {
+class _PlayerViewDeadNpcSpriteState extends State<PlayerViewDeadNpcSprite> {
   @override
   Widget build(BuildContext context) {
     return Positioned(

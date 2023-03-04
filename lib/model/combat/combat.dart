@@ -8,29 +8,26 @@ import 'dart:math' as math;
 class Combat {
   AreaEffect areaEffect = AreaEffect();
   Attack attack = Attack.empty();
+  bool isAttacking = false;
   Position inputCenter = Position.empty();
   Position actionCenter = Position.empty();
   Position mousePosition = Position.empty();
   // BattleLog battleLog = BattleLog();
 
-  void setInputCenterPosition(Position position) {
-    inputCenter = position;
-  }
-
-  void setActionCenterPosition(Position position) {
-    actionCenter = position;
+  void startAttack(Position inputCenter, Position actionCenter, Attack attack) {
+    this.inputCenter = inputCenter;
+    this.actionCenter = actionCenter;
+    this.attack = attack;
+    isAttacking = true;
   }
 
   void setMousePosition(Position position) {
     mousePosition = position;
   }
 
-  void setAttack(Attack attack) {
-    this.attack = attack;
-  }
-
   void cancelAction() {
     attack = Attack.empty();
+    isAttacking = false;
     inputCenter = Position.empty();
     actionCenter = Position.empty();
     mousePosition = Position.empty();
@@ -39,6 +36,23 @@ class Combat {
 
   void resetActionArea() {
     areaEffect.reset();
+  }
+
+  void confirmAttack(
+    List<Npc> npcs,
+    List<Player> players,
+  ) {
+    for (Npc npc in npcs) {
+      if (areaEffect.insideArea(npc.position)) {
+        npc.receiveAttack(attack.damage);
+      }
+    }
+
+    for (Player player in players) {
+      if (areaEffect.insideArea(player.position)) {
+        player.receiveAttack(attack.damage);
+      }
+    }
   }
 
   void setActionArea() {
@@ -54,25 +68,6 @@ class Combat {
     }
 
     areaEffect.setArea(angle, distance, actionCenter, attack.range);
-  }
-
-  void confirmNpcAttack(
-      List<Npc> npcs, List<Player> players, Npc selectedNpc, Attack attack) {
-    int rawDamage = selectedNpc.power.getRawDamage();
-
-    for (Npc npc in npcs) {
-      if (areaEffect.insideArea(npc.position)) {
-        npc.receiveAttack(attack.damage, rawDamage);
-        //  battleLog.addAttackLog(selectedNpc.race, attack.name, npc.race);
-      }
-    }
-
-    for (Player player in players) {
-      if (areaEffect.insideArea(player.position)) {
-        player.receiveAttack(attack.damage, rawDamage);
-        // battleLog.addAttackLog(selectedNpc.race, attack.name, player.name);
-      }
-    }
   }
 }
 

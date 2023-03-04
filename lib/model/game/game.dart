@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dsix/model/map/app_map.dart';
 
 class Game {
   String phase;
 
   int difficulty;
   int round;
-  AppMap map;
+  String map;
   String quest;
   int numberOfPlayers;
   List<String> availablePlayers;
@@ -29,7 +28,7 @@ class Game {
       'phase': phase,
       'difficulty': difficulty,
       'round': round,
-      'map': map.toMap(),
+      'map': map,
       'quest': quest,
       'numberOfPlayers': numberOfPlayers,
       'availablePlayers': availablePlayers,
@@ -54,7 +53,7 @@ class Game {
       phase: data?['phase'],
       difficulty: data?['difficulty'],
       round: data?['round'],
-      map: AppMap.fromMap(data?['map']),
+      map: data?['map'],
       quest: data?['quest'],
       numberOfPlayers: data?['numberOfPlayers'],
       availablePlayers: availablePlayers,
@@ -67,7 +66,7 @@ class Game {
       phase: 'empty',
       difficulty: 0,
       round: 0,
-      map: AppMap.empty(),
+      map: '',
       quest: '',
       numberOfPlayers: 0,
       availablePlayers: ['blue', 'pink', 'green', 'yellow', 'purple'],
@@ -80,7 +79,7 @@ class Game {
       phase: 'creation',
       difficulty: choosenDifficulty,
       round: 1,
-      map: AppMap.empty(),
+      map: '',
       quest: '',
       numberOfPlayers: numberOfPlayers,
       availablePlayers: ['blue', 'pink', 'green', 'yellow', 'purple'],
@@ -118,7 +117,7 @@ class Game {
     deleteSpawners();
     round++;
     phase = 'creation';
-    map = AppMap.empty();
+    map = '';
     update();
   }
 

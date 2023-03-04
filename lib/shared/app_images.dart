@@ -291,4 +291,16 @@ class AppImages {
 
   //Map
   static const oldRuins = 'assets/images/maps/oldRuins.svg';
+
+  String getMapImage(String map) {
+    String mapImage = '';
+
+    switch (map) {
+      case 'old ruins':
+        mapImage = oldRuins;
+        break;
+    }
+
+    return mapImage;
+  }
 }

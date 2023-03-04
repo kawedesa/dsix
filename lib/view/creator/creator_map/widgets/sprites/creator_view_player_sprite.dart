@@ -1,26 +1,26 @@
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/shared/app_widgets/animation/damage_animation.dart';
+import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
-import '../player_sprite_image.dart';
 
-class PlayerViewOtherPlayerSprite extends StatefulWidget {
+class CreatorViewPlayerSprite extends StatefulWidget {
   final Player player;
   final Color color;
   final Function() onTap;
-  const PlayerViewOtherPlayerSprite(
+  const CreatorViewPlayerSprite(
       {super.key,
       required this.player,
       required this.color,
       required this.onTap});
 
   @override
-  State<PlayerViewOtherPlayerSprite> createState() =>
-      _PlayerViewOtherPlayerSpriteState();
+  State<CreatorViewPlayerSprite> createState() =>
+      _CreatorViewPlayerSpriteState();
 }
 
-class _PlayerViewOtherPlayerSpriteState
-    extends State<PlayerViewOtherPlayerSprite> {
+class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
   int? lifeChecker;
   List<Widget> animations = [];
 

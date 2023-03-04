@@ -87,10 +87,7 @@ class Shop {
       type: 'melee',
       attack: Attack(
         name: 'crush',
-        damage: Damage(
-          pDamage: 2,
-          mDamage: 0,
-        ),
+        damage: Damage(pDamage: 2, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 8,
           max: 0,
@@ -141,7 +138,7 @@ class Shop {
       type: 'melee',
       attack: Attack(
         name: 'slash',
-        damage: Damage(pDamage: 1, mDamage: 2),
+        damage: Damage(pDamage: 1, mDamage: 2, rawDamage: 0),
         range: Range(
           min: 5,
           max: 7.5,
@@ -160,10 +157,7 @@ class Shop {
       type: 'melee',
       attack: Attack(
         name: 'slash',
-        damage: Damage(
-          pDamage: 1,
-          mDamage: 0,
-        ),
+        damage: Damage(pDamage: 1, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 5,
           max: 12.5,
@@ -183,10 +177,7 @@ class Shop {
       type: 'melee',
       attack: Attack(
         name: 'thrust',
-        damage: Damage(
-          pDamage: 2,
-          mDamage: 0,
-        ),
+        damage: Damage(pDamage: 2, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 5,
           max: 17.5,
@@ -268,10 +259,7 @@ class Shop {
       type: 'melee',
       attack: Attack(
         name: 'slash',
-        damage: Damage(
-          pDamage: 1,
-          mDamage: 1,
-        ),
+        damage: Damage(pDamage: 1, mDamage: 1, rawDamage: 0),
         range: Range(
           min: 5,
           max: 15,
@@ -322,10 +310,7 @@ class Shop {
       type: 'melee',
       attack: Attack(
         name: 'crush',
-        damage: Damage(
-          pDamage: 5,
-          mDamage: 0,
-        ),
+        damage: Damage(pDamage: 5, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 8,
           max: 0,
@@ -499,10 +484,7 @@ class Shop {
       type: 'ranged',
       attack: Attack(
           name: 'shot',
-          damage: Damage(
-            pDamage: 0,
-            mDamage: 1,
-          ),
+          damage: Damage(pDamage: 0, mDamage: 1, rawDamage: 0),
           range: Range(min: 5, max: 20, width: 5, shape: 'rectangle')),
       armor: Armor(pArmor: 0, mArmor: 1),
       weight: 1,
@@ -516,10 +498,7 @@ class Shop {
       type: 'ranged',
       attack: Attack(
           name: 'shot',
-          damage: Damage(
-            pDamage: 0,
-            mDamage: 3,
-          ),
+          damage: Damage(pDamage: 0, mDamage: 3, rawDamage: 0),
           range: Range(min: 5, max: 30, width: 5, shape: 'rectangle')),
       armor: Armor.empty(),
       weight: 2,
@@ -533,10 +512,7 @@ class Shop {
       type: 'ranged',
       attack: Attack(
           name: 'shot',
-          damage: Damage(
-            pDamage: 3,
-            mDamage: 0,
-          ),
+          damage: Damage(pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(min: 20, max: 50, width: 5, shape: 'rectangle')),
       armor: Armor.empty(),
       weight: 3,
@@ -579,7 +555,7 @@ class Shop {
       type: 'ranged',
       attack: Attack(
           name: 'blast',
-          damage: Damage(pDamage: 1, mDamage: 1),
+          damage: Damage(pDamage: 1, mDamage: 1, rawDamage: 0),
           range: Range(
             min: 40,
             max: 0,
@@ -598,10 +574,7 @@ class Shop {
       type: 'ranged',
       attack: Attack(
           name: 'shot',
-          damage: Damage(
-            pDamage: 4,
-            mDamage: 0,
-          ),
+          damage: Damage(pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(min: 30, max: 70, width: 5, shape: 'rectangle')),
       armor: Armor.empty(),
       weight: 4,
@@ -706,10 +679,7 @@ class Shop {
       type: 'ranged',
       attack: Attack(
           name: 'shot',
-          damage: Damage(
-            pDamage: 5,
-            mDamage: 0,
-          ),
+          damage: Damage(pDamage: 5, mDamage: 0, rawDamage: 0),
           range: Range(min: 15, max: 35, width: 5, shape: 'rectangle')),
       armor: Armor.empty(),
       weight: 4,
