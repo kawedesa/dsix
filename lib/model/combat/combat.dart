@@ -38,21 +38,42 @@ class Combat {
     actionArea.reset();
   }
 
-  void confirmAttack(
-    List<Npc> npcs,
-    List<Player> players,
-  ) {
+  void confirmPlayerAttack(
+      List<Npc> npcs, List<Player> players, Player selectedPlayer) {
     for (Npc npc in npcs) {
       if (actionArea.insideArea(npc.position)) {
         npc.receiveAttack(attack);
+        selectedPlayer.receiveEffect(npc.passiveEffects.onBeingHitEffect);
       }
     }
 
     for (Player player in players) {
       if (actionArea.insideArea(player.position)) {
         player.receiveAttack(attack);
+        selectedPlayer.receiveEffect(player.passiveEffects.onBeingHitEffect);
       }
     }
+
+    // selectedPlayer.triggerAfterAttackEffect();
+  }
+
+  void confirmNpcAttack(
+      List<Npc> npcs, List<Player> players, Npc? selectedNpc) {
+    for (Npc npc in npcs) {
+      if (actionArea.insideArea(npc.position)) {
+        npc.receiveAttack(attack);
+        selectedNpc!.receiveEffect(npc.passiveEffects.onBeingHitEffect);
+      }
+    }
+
+    for (Player player in players) {
+      if (actionArea.insideArea(player.position)) {
+        player.receiveAttack(attack);
+        selectedNpc!.receiveEffect(player.passiveEffects.onBeingHitEffect);
+      }
+    }
+
+    // selectedNpc!.triggerAfterAttackEffect();
   }
 
   void setActionArea() {

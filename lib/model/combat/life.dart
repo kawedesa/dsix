@@ -41,6 +41,13 @@ class Life {
     }
   }
 
+  void heal(int value) {
+    current += value;
+    if (current > max) {
+      current = max;
+    }
+  }
+
   void receiveDamage(int damage) {
     current -= damage;
   }

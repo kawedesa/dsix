@@ -11,6 +11,7 @@ import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
 import 'package:dsix/shared/app_widgets/map/area_effect_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/attack_button.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
+import 'package:dsix/shared/app_widgets/text/app_text.dart';
 
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_action_npc_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_dead_npc_sprite.dart';
@@ -100,10 +101,12 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
               ),
             ),
           ),
+          _creatorMapController.displayTurn(game.turn.currentTurn),
           _creatorMapController.selectedNpcUi(
             widget.selectedNpc,
           ),
-          _creatorMapController.getAttackInput(npcs, players, refresh),
+          _creatorMapController.getAttackInput(
+              npcs, players, widget.selectedNpc, refresh),
           _creatorMapController.actionButtons(
               context, npcs, players, widget.selectedNpc, refresh),
           _creatorMapController.inGameMenu(widget.selectNpc),
@@ -174,9 +177,7 @@ class CreatorMapActionModeController {
 
     for (Npc npc in npcs) {
       if (npc.life.isDead() == false) {
-        visibleArea.addOval(Rect.fromCircle(
-            center: Offset(npc.position.dx, npc.position.dy),
-            radius: npc.vision.getRange() / 2));
+        visibleArea.addPath(npc.getVisionArea(), Offset.zero);
       }
     }
     return visibleArea;
@@ -268,6 +269,17 @@ class CreatorMapActionModeController {
     );
   }
 
+  Widget displayTurn(String turn) {
+    return Align(
+      alignment: const Alignment(0.0, -0.97),
+      child: AppText(
+          text: '${turn.toUpperCase()} TURN',
+          fontSize: 0.02,
+          letterSpacing: 0.002,
+          color: Colors.black),
+    );
+  }
+
 //COMBAT
 
   Combat combat = Combat();
@@ -324,8 +336,8 @@ class CreatorMapActionModeController {
     );
   }
 
-  Widget getAttackInput(
-      List<Npc> npcs, List<Player> players, Function refresh) {
+  Widget getAttackInput(List<Npc> npcs, List<Player> players, Npc? selectedNpc,
+      Function refresh) {
     Widget mouseInputWidget = const SizedBox();
 
     if (combat.isAttacking) {
@@ -336,7 +348,7 @@ class CreatorMapActionModeController {
           refresh();
         },
         onTap: () {
-          combat.confirmAttack(npcs, players);
+          combat.confirmNpcAttack(npcs, players, selectedNpc);
           combat.cancelAction();
           refresh();
         },

@@ -2,10 +2,11 @@ import 'dart:math';
 import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/attribute/attribute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dsix/model/combat/effect.dart';
+import 'package:dsix/model/combat/effect/effect.dart';
+import 'package:dsix/model/combat/effect/passive_effects.dart';
 import 'package:dsix/model/player/equipment/player_equipment.dart';
 import 'package:dsix/model/combat/life.dart';
-import '../combat/damage.dart';
+import 'package:flutter/material.dart';
 import '../combat/position.dart';
 
 class Player {
@@ -17,7 +18,8 @@ class Player {
   Position position;
   Attribute attributes;
   PlayerEquipment equipment;
-  List<Effect> appliedEffects;
+  List<Effect> currentEffects;
+  PassiveEffects passiveEffects;
   bool ready;
 
   Player(
@@ -29,7 +31,8 @@ class Player {
       required this.position,
       required this.attributes,
       required this.equipment,
-      required this.appliedEffects,
+      required this.currentEffects,
+      required this.passiveEffects,
       required this.ready});
 
   final database = FirebaseFirestore.instance;
@@ -44,7 +47,8 @@ class Player {
       position: Position.empty(),
       attributes: Attribute.empty(),
       equipment: PlayerEquipment.empty(),
-      appliedEffects: [],
+      currentEffects: [],
+      passiveEffects: PassiveEffects.empty(),
       ready: false,
     );
   }
@@ -59,13 +63,14 @@ class Player {
       position: Position.empty(),
       attributes: Attribute.empty(),
       equipment: PlayerEquipment.empty(),
-      appliedEffects: [],
+      currentEffects: [],
+      passiveEffects: PassiveEffects.empty(),
       ready: false,
     );
   }
 
   Map<String, dynamic> toMap() {
-    var effectsToMap = appliedEffects.map((effect) => effect.toMap()).toList();
+    var effectsToMap = currentEffects.map((effect) => effect.toMap()).toList();
 
     return {
       'id': id,
@@ -76,16 +81,17 @@ class Player {
       'position': position.toMap(),
       'attributes': attributes.toMap(),
       'equipment': equipment.toMap(),
-      'appliedEffects': effectsToMap,
+      'currentEffects': effectsToMap,
+      'passiveEffects': passiveEffects.toMap(),
       'ready': ready,
     };
   }
 
   factory Player.fromMap(Map<String, dynamic>? data) {
-    List<Effect> getAppliedEffects = [];
-    List<dynamic> appliedEffectsMap = data?['appliedEffects'];
-    for (var effect in appliedEffectsMap) {
-      getAppliedEffects.add(Effect.fromMap(effect));
+    List<Effect> getCurrentEffects = [];
+    List<dynamic> currentEffectsMap = data?['currentEffects'];
+    for (var effect in currentEffectsMap) {
+      getCurrentEffects.add(Effect.fromMap(effect));
     }
 
     return Player(
@@ -97,7 +103,8 @@ class Player {
       position: Position.fromMap(data?['position']),
       attributes: Attribute.fromMap(data?['attributes']),
       equipment: PlayerEquipment.fromMap(data?['equipment']),
-      appliedEffects: getAppliedEffects,
+      currentEffects: getCurrentEffects,
+      passiveEffects: PassiveEffects.fromMap(data?['passiveEffects']),
       ready: data?['ready'],
     );
   }
@@ -164,11 +171,16 @@ class Player {
 
     int leftOverRawDamage = attack.damage.rawDamage - leftOverArmor;
 
-    if (leftOverRawDamage < 1) {
-      leftOverRawDamage = 0;
+    int leftOverDamageAfterTempArmor =
+        leftOverRawDamage - attributes.defense.tempDefense;
+
+    attributes.defense.reduceTempArmor(leftOverRawDamage);
+
+    if (leftOverDamageAfterTempArmor < 1) {
+      leftOverDamageAfterTempArmor = 0;
     }
 
-    int totalDamage = pDamage + mDamage + leftOverRawDamage;
+    int totalDamage = pDamage + mDamage + leftOverDamageAfterTempArmor;
 
     if (totalDamage < 1) {
       totalDamage = 0;
@@ -176,13 +188,80 @@ class Player {
 
     life.receiveDamage(totalDamage);
 
-    //Apply Effects
+    if (totalDamage < 0) {
+      update();
+    } else {
+      receiveEffect(attack.onHitEffect);
+    }
+  }
 
-    if (attack.onHitEffects.isNotEmpty) {
-      print('apply effect');
+  void receiveEffect(Effect incomingEffect) {
+    for (Effect effect in currentEffects) {
+      if (effect.name == incomingEffect.name) {
+        effect.countdown++;
+        update();
+        return;
+      }
     }
 
+    applyNewEffect(incomingEffect);
     update();
+  }
+
+  void applyNewEffect(Effect effect) {
+    switch (effect.name) {
+      case 'poison':
+        currentEffects.add(effect);
+        break;
+      case 'thorn':
+        life.receiveDamage(1);
+        break;
+    }
+  }
+
+  // void triggerAfterAttackEffect() {}
+
+  void passTurn() {
+    checkEffects();
+    attributes.defense.resetTempDefense();
+    attributes.vision.resetTempVision();
+    update();
+  }
+
+  void checkEffects() {
+    List<Effect> effectsToRemove = [];
+
+    for (Effect effect in currentEffects) {
+      triggerEffects(effect);
+      if (markEffectToRemove(effect)) {
+        effectsToRemove.add(effect);
+      }
+    }
+
+    for (Effect effect in effectsToRemove) {
+      removeEffect(effect);
+    }
+  }
+
+  void triggerEffects(Effect effect) {
+    switch (effect.name) {
+      case 'poison':
+        life.receiveDamage(effect.value);
+        effect.countdown--;
+        break;
+    }
+  }
+
+  bool markEffectToRemove(Effect effect) {
+    if (effect.countdown > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  void removeEffect(Effect effect) {
+    currentEffects.remove(effect);
   }
 
   void defend() {
@@ -195,14 +274,13 @@ class Player {
     update();
   }
 
-  bool canSee(Position position) {
-    double distance = this.position.getDistanceFromPosition(position);
+  Path getVisionArea() {
+    Path area = Path()
+      ..addOval(Rect.fromCircle(
+          center: Offset(position.dx, position.dy),
+          radius: attributes.vision.getRange() / 2));
 
-    if (distance > attributes.vision.getRange() / 2) {
-      return false;
-    } else {
-      return true;
-    }
+    return area;
   }
 
   void preparePlayerForNewRound() {

@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+
 class Vision {
   int attribute;
   int tempVision;
@@ -47,7 +51,30 @@ class Vision {
   }
 
   void look() {
-    tempVision = 40;
+    tempVision = 0;
+
+    int roll1 = Random().nextInt(6) + 1;
+    int roll2 = Random().nextInt(6) + 1;
+
+    int result = roll1 + roll2 + attribute;
+
+    if (result > 14) {
+      tempVision = 60;
+    }
+
+    if (result > 11 && result < 15) {
+      tempVision = 55;
+    }
+
+    if (result > 9 && result < 12) {
+      tempVision = 50;
+    }
+    if (result > 6 && result < 10) {
+      tempVision = 35;
+    }
+    if (result < 7) {
+      tempVision = 0;
+    }
   }
 
   void resetTempVision() {

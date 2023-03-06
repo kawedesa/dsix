@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsix/model/game/turn.dart';
 
 class Game {
   String phase;
-
   int difficulty;
   int round;
+  Turn turn;
   String map;
   String quest;
   int numberOfPlayers;
@@ -15,6 +16,7 @@ class Game {
     required this.phase,
     required this.difficulty,
     required this.round,
+    required this.turn,
     required this.map,
     required this.quest,
     required this.numberOfPlayers,
@@ -28,6 +30,7 @@ class Game {
       'phase': phase,
       'difficulty': difficulty,
       'round': round,
+      'turn': turn.toMap(),
       'map': map,
       'quest': quest,
       'numberOfPlayers': numberOfPlayers,
@@ -53,6 +56,7 @@ class Game {
       phase: data?['phase'],
       difficulty: data?['difficulty'],
       round: data?['round'],
+      turn: Turn.fromMap(data?['turn']),
       map: data?['map'],
       quest: data?['quest'],
       numberOfPlayers: data?['numberOfPlayers'],
@@ -66,6 +70,7 @@ class Game {
       phase: 'empty',
       difficulty: 0,
       round: 0,
+      turn: Turn.empty(),
       map: '',
       quest: '',
       numberOfPlayers: 0,
@@ -79,6 +84,7 @@ class Game {
       phase: 'creation',
       difficulty: choosenDifficulty,
       round: 1,
+      turn: Turn.empty(),
       map: '',
       quest: '',
       numberOfPlayers: numberOfPlayers,
@@ -116,8 +122,14 @@ class Game {
     deleteNpcs();
     deleteSpawners();
     round++;
+    turn.reset();
     phase = 'creation';
     map = '';
+    update();
+  }
+
+  void passTurn() {
+    turn.passTurn();
     update();
   }
 

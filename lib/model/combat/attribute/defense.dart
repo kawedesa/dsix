@@ -66,6 +66,13 @@ class Defense {
     }
   }
 
+  void reduceTempArmor(int value) {
+    tempDefense -= value;
+    if (tempDefense < 1) {
+      tempDefense = 0;
+    }
+  }
+
   void resetTempDefense() {
     tempDefense = 0;
   }

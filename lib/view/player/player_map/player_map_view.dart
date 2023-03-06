@@ -64,7 +64,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     area: _playerMapVM.combat.actionArea.area,
                   ),
                   Stack(
-                    children: _playerMapVM.createNpcSprites(npcs, user.player),
+                    children: _playerMapVM.createNpcSprites(npcs, players),
                   ),
                   Stack(
                     children: _playerMapVM.createPlayerSprites(
@@ -77,10 +77,10 @@ class _PlayerMapViewState extends State<PlayerMapView> {
           ),
           _playerMapVM.getAttackInput(npcs, players, user.player, refresh),
           Align(
-              alignment: const Alignment(0, 0.25),
+              alignment: const Alignment(0, 0.50),
               child: SizedBox(
-                  width: AppLayout.shortest(context) * 0.75,
-                  height: AppLayout.shortest(context) * 0.3,
+                  width: AppLayout.shortest(context) * 0.50,
+                  height: AppLayout.shortest(context) * 0.1,
                   child: _playerMapVM.actionButtons(user, refresh))),
           // _playerMapVM.endGameButton(game.phase, user.player),
         ],

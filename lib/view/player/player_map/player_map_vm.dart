@@ -3,6 +3,7 @@ import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
+import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/map/attack_button.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_npc_sprite.dart';
@@ -16,11 +17,13 @@ import '../../../model/combat/combat.dart';
 import '../../../model/npc/npc.dart';
 
 class PlayerMapVM {
-  List<Widget> createNpcSprites(List<Npc> npcs, Player player) {
+  List<Widget> createNpcSprites(List<Npc> npcs, List<Player> players) {
     List<Widget> npcSprites = [];
 
+    Path playersVisibleArea = getPlayersVisibleArea(players);
+
     for (Npc npc in npcs) {
-      if (player.canSee(npc.position)) {
+      if (playersVisibleArea.contains(npc.position.getOffset())) {
         if (npc.life.isDead()) {
           npcSprites.add(PlayerViewDeadNpcSprite(
             npc: npc,
@@ -35,6 +38,17 @@ class PlayerMapVM {
     }
 
     return npcSprites;
+  }
+
+  Path getPlayersVisibleArea(List<Player> players) {
+    Path visibleArea = Path();
+
+    for (Player player in players) {
+      if (player.life.isDead() == false) {
+        visibleArea.addPath(player.getVisionArea(), Offset.zero);
+      }
+    }
+    return visibleArea;
   }
 
   List<Widget> createPlayerSprites(
@@ -80,9 +94,9 @@ class PlayerMapVM {
   String playerMode = 'stand';
 
   Widget actionButtons(User user, Function refresh) {
-    return AppRadialMenu(
-      maxAngle: 60,
-      buttonInfo: [
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
         AttackButton(
           isAttacking: (combat.isAttacking) ? true : false,
           icon: AppImages()
@@ -106,6 +120,28 @@ class PlayerMapVM {
           },
           cancelAttack: () {
             cancelAction();
+            refresh();
+          },
+        ),
+        AppCircularButton(
+          icon: AppImages.defense,
+          iconColor: user.darkColor,
+          color: user.color,
+          borderColor: user.darkColor,
+          size: 0.05,
+          onTap: () {
+            user.player.defend();
+            refresh();
+          },
+        ),
+        AppCircularButton(
+          icon: AppImages.vision,
+          iconColor: user.darkColor,
+          color: user.color,
+          borderColor: user.darkColor,
+          size: 0.05,
+          onTap: () {
+            user.player.look();
             refresh();
           },
         ),
@@ -149,7 +185,7 @@ class PlayerMapVM {
           refresh();
         },
         onTap: () {
-          combat.confirmAttack(npcs, players);
+          combat.confirmPlayerAttack(npcs, players, selectedPlayer);
           cancelAction();
           refresh();
         },

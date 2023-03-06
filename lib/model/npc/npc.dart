@@ -4,10 +4,11 @@ import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/attribute/movement.dart';
 import 'package:dsix/model/combat/attribute/power.dart';
 import 'package:dsix/model/combat/attribute/vision.dart';
-import 'package:dsix/model/combat/effect.dart';
+import 'package:dsix/model/combat/effect/effect.dart';
+import 'package:dsix/model/combat/effect/passive_effects.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/position.dart';
-import '../combat/damage.dart';
+import 'package:flutter/material.dart';
 
 class Npc {
   int id;
@@ -20,8 +21,8 @@ class Npc {
   Vision vision;
   Position position;
   List<Attack> attacks;
-  // List<Effect> passiveEffects;
-  List<Effect> appliedEffects;
+  PassiveEffects passiveEffects;
+  List<Effect> currentEffects;
 
   Npc({
     required this.id,
@@ -34,19 +35,16 @@ class Npc {
     required this.vision,
     required this.position,
     required this.attacks,
-    // required this.passiveEffects,
-    required this.appliedEffects,
+    required this.passiveEffects,
+    required this.currentEffects,
   });
 
   final database = FirebaseFirestore.instance;
 
   Map<String, dynamic> toMap() {
     var attacksToMap = attacks.map((attack) => attack.toMap()).toList();
-
-    // var passiveEffectsToMap = passiveEffects.map((passiveEffect) => passiveEffect.toMap()).toList();
-
-    var appliedEffectsMap =
-        appliedEffects.map((effect) => effect.toMap()).toList();
+    var currentEffectsMap =
+        currentEffects.map((effect) => effect.toMap()).toList();
 
     return {
       'id': id,
@@ -59,8 +57,8 @@ class Npc {
       'vision': vision.toMap(),
       'position': position.toMap(),
       'attacks': attacksToMap,
-      // 'passiveEffects': passiveEffectsToMap,
-      'appliedEffects': appliedEffectsMap,
+      'passiveEffects': passiveEffects.toMap(),
+      'currentEffects': currentEffectsMap,
     };
   }
 
@@ -71,16 +69,10 @@ class Npc {
       getAttacks.add(Attack.fromMap(attack));
     }
 
-    // List<Effect> getPassiveEffects = [];
-    // List<dynamic> passiveEffectsMap = data?['passiveEffects'];
-    // for (var effect in passiveEffectsMap) {
-    //   getPassiveEffects.add(Effect.fromMap(effect));
-    // }
-
-    List<Effect> getAppliedEffects = [];
-    List<dynamic> appliedEffectsMap = data?['appliedEffects'];
-    for (var effect in appliedEffectsMap) {
-      getAppliedEffects.add(Effect.fromMap(effect));
+    List<Effect> getCurrentEffects = [];
+    List<dynamic> currentEffectsMap = data?['currentEffects'];
+    for (var effect in currentEffectsMap) {
+      getCurrentEffects.add(Effect.fromMap(effect));
     }
 
     return Npc(
@@ -94,8 +86,8 @@ class Npc {
       vision: Vision.fromMap(data?['vision']),
       position: Position.fromMap(data?['position']),
       attacks: getAttacks,
-      // passiveEffects: getPassiveEffects,
-      appliedEffects: getAppliedEffects,
+      passiveEffects: PassiveEffects.fromMap(data?['passiveEffects']),
+      currentEffects: getCurrentEffects,
     );
   }
 
@@ -158,6 +150,93 @@ class Npc {
     }
 
     life.receiveDamage(totalDamage);
+
+    if (totalDamage < 0) {
+      update();
+    } else {
+      receiveEffect(attack.onHitEffect);
+    }
+  }
+
+  void receiveEffect(Effect incomingEffect) {
+    for (Effect effect in currentEffects) {
+      if (effect.name == incomingEffect.name) {
+        effect.countdown++;
+        update();
+        return;
+      }
+    }
+
+    applyNewEffect(incomingEffect);
     update();
+  }
+
+  void applyNewEffect(Effect effect) {
+    switch (effect.name) {
+      case 'poison':
+        currentEffects.add(effect);
+        break;
+      case 'thorn':
+        life.receiveDamage(1);
+        break;
+    }
+  }
+
+  // void triggerAfterAttackEffect() {
+  //   triggerEffects(passiveEffects.afterAttackEffect);
+  //   update();
+  // }
+
+  void passTurn() {
+    checkEffects();
+    update();
+  }
+
+  void checkEffects() {
+    List<Effect> effectsToRemove = [];
+
+    for (Effect effect in currentEffects) {
+      triggerEffects(effect);
+      if (markEffectToRemove(effect)) {
+        effectsToRemove.add(effect);
+      }
+    }
+
+    for (Effect effect in effectsToRemove) {
+      removeEffect(effect);
+    }
+  }
+
+  void triggerEffects(Effect effect) {
+    switch (effect.name) {
+      case 'poison':
+        life.receiveDamage(effect.value);
+        effect.countdown--;
+        break;
+      case 'heal':
+        life.heal(effect.value);
+        break;
+    }
+  }
+
+  bool markEffectToRemove(Effect effect) {
+    if (effect.countdown > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  void removeEffect(Effect effect) {
+    currentEffects.remove(effect);
+  }
+
+  Path getVisionArea() {
+    Path area = Path()
+      ..addOval(Rect.fromCircle(
+          center: Offset(position.dx, position.dy),
+          radius: vision.getRange() / 2));
+
+    return area;
   }
 }
