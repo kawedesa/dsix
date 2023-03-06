@@ -3,6 +3,7 @@ import 'package:dsix/model/combat/attribute/movement.dart';
 import 'package:dsix/model/combat/attribute/power.dart';
 import 'package:dsix/model/combat/attribute/vision.dart';
 import 'package:dsix/model/combat/damage.dart';
+import 'package:dsix/model/combat/effect.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/range.dart';
 import '../combat/armor.dart';
@@ -28,6 +29,7 @@ class NpcList {
         name: 'bite',
         damage: Damage(pDamage: 3, mDamage: 0, rawDamage: 0),
         range: Range(min: 6, max: 0, width: 4, shape: 'circle'),
+        onHitEffects: [],
       ),
       Attack(
         name: 'slash',
@@ -38,8 +40,10 @@ class NpcList {
           width: 7.5,
           shape: 'cone',
         ),
+        onHitEffects: [],
       ),
     ],
+    appliedEffects: [],
   );
 
   static Npc giantBat = Npc(
@@ -60,8 +64,10 @@ class NpcList {
         name: 'bite',
         damage: Damage(pDamage: 2, mDamage: 0, rawDamage: 0),
         range: Range(min: 6, max: 0, width: 4, shape: 'circle'),
+        onHitEffects: [],
       ),
     ],
+    appliedEffects: [],
   );
 
   static Npc skeleton = Npc(
@@ -87,8 +93,10 @@ class NpcList {
           width: 20,
           shape: 'cone',
         ),
+        onHitEffects: [],
       ),
     ],
+    appliedEffects: [],
   );
 
   static Npc skeletonMage = Npc(
@@ -106,24 +114,29 @@ class NpcList {
     position: Position.empty(),
     attacks: [
       Attack(
-          name: 'blast',
-          damage: Damage(pDamage: 0, mDamage: 1, rawDamage: 0),
-          range: Range(
-            min: 40,
-            max: 0,
-            width: 10,
-            shape: 'circle',
-          )),
+        name: 'blast',
+        damage: Damage(pDamage: 0, mDamage: 1, rawDamage: 0),
+        range: Range(
+          min: 40,
+          max: 0,
+          width: 10,
+          shape: 'circle',
+        ),
+        onHitEffects: [],
+      ),
       Attack(
-          name: 'shot',
-          damage: Damage(pDamage: 0, mDamage: 2, rawDamage: 0),
-          range: Range(
-            min: 5,
-            max: 20,
-            width: 5,
-            shape: 'rectangle',
-          )),
+        name: 'shot',
+        damage: Damage(pDamage: 0, mDamage: 2, rawDamage: 0),
+        range: Range(
+          min: 5,
+          max: 20,
+          width: 5,
+          shape: 'rectangle',
+        ),
+        onHitEffects: [],
+      ),
     ],
+    appliedEffects: [],
   );
 
   static Npc giantFrog = Npc(
@@ -149,8 +162,18 @@ class NpcList {
           width: 5,
           shape: 'rectangle',
         ),
+        onHitEffects: [
+          Effect(
+            name: 'poison',
+            type: 'attack',
+            description: 'it burns',
+            value: 1,
+            countdown: 1,
+          ),
+        ],
       ),
     ],
+    appliedEffects: [],
   );
 
   static Npc goblin = Npc(
@@ -176,12 +199,16 @@ class NpcList {
           width: 7.5,
           shape: 'cone',
         ),
+        onHitEffects: [],
       ),
       Attack(
-          name: 'shot',
-          damage: Damage(pDamage: 3, mDamage: 0, rawDamage: 0),
-          range: Range(min: 20, max: 50, width: 5, shape: 'rectangle')),
+        name: 'shot',
+        damage: Damage(pDamage: 3, mDamage: 0, rawDamage: 0),
+        range: Range(min: 20, max: 50, width: 5, shape: 'rectangle'),
+        onHitEffects: [],
+      ),
     ],
+    appliedEffects: [],
   );
   static Npc beast = Npc(
     id: 0,
@@ -206,8 +233,10 @@ class NpcList {
           width: 20,
           shape: 'cone',
         ),
+        onHitEffects: [],
       ),
     ],
+    appliedEffects: [],
   );
 
   static Npc explosiveLizzard = Npc(
@@ -233,8 +262,10 @@ class NpcList {
           width: 10,
           shape: 'circle',
         ),
+        onHitEffects: [],
       ),
     ],
+    appliedEffects: [],
   );
 
   static Npc wraith = Npc(
@@ -255,12 +286,24 @@ class NpcList {
         name: 'drain',
         damage: Damage(pDamage: 0, mDamage: 2, rawDamage: 0),
         range: Range(min: 0.05, max: 5, width: 0, shape: 'torus'),
+        onHitEffects: [
+          Effect(
+            name: 'drain',
+            type: 'attack',
+            description: 'steals the soul',
+            value: 1,
+            countdown: 0,
+          ),
+        ],
       ),
       Attack(
-          name: 'dark bolt',
-          damage: Damage(pDamage: 0, mDamage: 3, rawDamage: 0),
-          range: Range(min: 5, max: 30, width: 5, shape: 'rectangle')),
+        name: 'dark bolt',
+        damage: Damage(pDamage: 0, mDamage: 3, rawDamage: 0),
+        range: Range(min: 5, max: 30, width: 5, shape: 'rectangle'),
+        onHitEffects: [],
+      ),
     ],
+    appliedEffects: [],
   );
 
   static Npc golen = Npc(
@@ -278,14 +321,17 @@ class NpcList {
     position: Position.empty(),
     attacks: [
       Attack(
-          name: 'roll',
-          damage: Damage(
-            pDamage: 3,
-            mDamage: 0,
-            rawDamage: 0,
-          ),
-          range: Range(min: 5, max: 50, width: 20, shape: 'rectangle')),
+        name: 'roll',
+        damage: Damage(
+          pDamage: 3,
+          mDamage: 0,
+          rawDamage: 0,
+        ),
+        range: Range(min: 5, max: 50, width: 20, shape: 'rectangle'),
+        onHitEffects: [],
+      ),
     ],
+    appliedEffects: [],
   );
 
   List<Npc> getNpcList() {

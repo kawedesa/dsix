@@ -9,12 +9,11 @@ import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_edit_npc_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_spawner_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
+import 'package:dsix/view/creator/creator_map/widgets/ui/game_creation_menu.dart';
+import 'package:dsix/view/creator/creator_map/widgets/ui/selected_npc_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
-import 'game_creation_menu.dart';
-import 'selected_npc_ui.dart';
 
 class CreatorMapEditMode extends StatefulWidget {
   final MapInfo mapInfo;

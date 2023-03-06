@@ -2,17 +2,16 @@ import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/npc/npc_list.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
+import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_vertical.dart';
+import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/text/app_bar_title.dart';
 
 import 'package:flutter/material.dart';
-
-import '../../../../shared/app_layout.dart';
-import '../../../../shared/app_widgets/layout/app_line_divider_horizontal.dart';
-import '../../../../shared/app_widgets/layout/app_separator_vertical.dart';
-import '../../../../shared/app_widgets/dialog/dialog_button.dart';
-import '../../../../shared/app_widgets/dialog/dialog_title.dart';
 
 class NpcCreationDialog extends StatefulWidget {
   final Function(Npc) chooseNpc;

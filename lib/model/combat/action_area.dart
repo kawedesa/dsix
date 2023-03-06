@@ -4,9 +4,9 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 import 'range.dart';
 
-class AreaEffect {
+class ActionArea {
   Path area = Path();
-  AreaEffect();
+  ActionArea();
 
   void setArea(double angle, double distance, Position center, Range range) {
     double maxRange = distance * range.max;

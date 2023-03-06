@@ -11,6 +11,7 @@ class AppCircularButton extends StatefulWidget {
   final double size;
   final double? borderSize;
   final String? icon;
+  final double? iconSize;
 
   const AppCircularButton({
     Key? key,
@@ -21,6 +22,7 @@ class AppCircularButton extends StatefulWidget {
     required this.size,
     this.borderSize,
     this.icon,
+    this.iconSize,
   }) : super(key: key);
 
   @override
@@ -79,8 +81,12 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                         alignment: Alignment.center,
                         child: SvgPicture.asset(
                           widget.icon!,
-                          width: tweenValue / 2,
-                          height: tweenValue / 2,
+                          width: (widget.iconSize == null)
+                              ? tweenValue / 2
+                              : tweenValue * widget.iconSize!,
+                          height: (widget.iconSize == null)
+                              ? tweenValue / 2
+                              : tweenValue * widget.iconSize!,
                           color: (widget.iconColor != null)
                               ? widget.iconColor!
                               : Colors.transparent,

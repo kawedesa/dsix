@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/attribute/attribute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsix/model/combat/effect.dart';
 import 'package:dsix/model/player/equipment/player_equipment.dart';
 import 'package:dsix/model/combat/life.dart';
 import '../combat/damage.dart';
@@ -16,6 +17,7 @@ class Player {
   Position position;
   Attribute attributes;
   PlayerEquipment equipment;
+  List<Effect> appliedEffects;
   bool ready;
 
   Player(
@@ -27,6 +29,7 @@ class Player {
       required this.position,
       required this.attributes,
       required this.equipment,
+      required this.appliedEffects,
       required this.ready});
 
   final database = FirebaseFirestore.instance;
@@ -41,6 +44,7 @@ class Player {
       position: Position.empty(),
       attributes: Attribute.empty(),
       equipment: PlayerEquipment.empty(),
+      appliedEffects: [],
       ready: false,
     );
   }
@@ -55,11 +59,14 @@ class Player {
       position: Position.empty(),
       attributes: Attribute.empty(),
       equipment: PlayerEquipment.empty(),
+      appliedEffects: [],
       ready: false,
     );
   }
 
   Map<String, dynamic> toMap() {
+    var effectsToMap = appliedEffects.map((effect) => effect.toMap()).toList();
+
     return {
       'id': id,
       'name': name,
@@ -69,11 +76,18 @@ class Player {
       'position': position.toMap(),
       'attributes': attributes.toMap(),
       'equipment': equipment.toMap(),
+      'appliedEffects': effectsToMap,
       'ready': ready,
     };
   }
 
   factory Player.fromMap(Map<String, dynamic>? data) {
+    List<Effect> getAppliedEffects = [];
+    List<dynamic> appliedEffectsMap = data?['appliedEffects'];
+    for (var effect in appliedEffectsMap) {
+      getAppliedEffects.add(Effect.fromMap(effect));
+    }
+
     return Player(
       id: data?['id'],
       name: data?['name'],
@@ -83,6 +97,7 @@ class Player {
       position: Position.fromMap(data?['position']),
       attributes: Attribute.fromMap(data?['attributes']),
       equipment: PlayerEquipment.fromMap(data?['equipment']),
+      appliedEffects: getAppliedEffects,
       ready: data?['ready'],
     );
   }
@@ -133,21 +148,21 @@ class Player {
     return playerAttack;
   }
 
-  void receiveAttack(Damage attackDamage) {
+  void receiveAttack(Attack attack) {
     int leftOverArmor = 0;
 
-    int pDamage = attackDamage.pDamage - equipment.getTotalArmor().pArmor;
+    int pDamage = attack.damage.pDamage - equipment.getTotalArmor().pArmor;
     if (pDamage < 0) {
       leftOverArmor += pDamage.abs() ~/ 2;
       pDamage = 0;
     }
-    int mDamage = attackDamage.mDamage - equipment.getTotalArmor().mArmor;
+    int mDamage = attack.damage.mDamage - equipment.getTotalArmor().mArmor;
     if (mDamage < 0) {
       leftOverArmor += mDamage.abs() ~/ 2;
       mDamage = 0;
     }
 
-    int leftOverRawDamage = attackDamage.rawDamage - leftOverArmor;
+    int leftOverRawDamage = attack.damage.rawDamage - leftOverArmor;
 
     if (leftOverRawDamage < 1) {
       leftOverRawDamage = 0;
@@ -160,6 +175,13 @@ class Player {
     }
 
     life.receiveDamage(totalDamage);
+
+    //Apply Effects
+
+    if (attack.onHitEffects.isNotEmpty) {
+      print('apply effect');
+    }
+
     update();
   }
 

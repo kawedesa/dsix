@@ -61,7 +61,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     height: AppLayout.longest(context),
                   ),
                   AreaEffectSprite(
-                    area: _playerMapVM.combat.areaEffect.area,
+                    area: _playerMapVM.combat.actionArea.area,
                   ),
                   Stack(
                     children: _playerMapVM.createNpcSprites(npcs, user.player),

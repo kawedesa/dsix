@@ -1,23 +1,23 @@
 import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
+import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_vertical.dart';
+import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:flutter/material.dart';
-import '../../../../shared/app_layout.dart';
-import '../../../../shared/app_widgets/layout/app_line_divider_horizontal.dart';
-import '../../../../shared/app_widgets/layout/app_separator_vertical.dart';
-import '../../../../shared/app_widgets/dialog/dialog_title.dart';
 
-class ObjectCreationDialog extends StatefulWidget {
+class BuildingCreationDialog extends StatefulWidget {
   // final Function(Npc) chooseNpc;
-  const ObjectCreationDialog({
+  const BuildingCreationDialog({
     super.key,
     // required this.chooseNpc,
   });
 
   @override
-  State<ObjectCreationDialog> createState() => _ObjectCreationDialogState();
+  State<BuildingCreationDialog> createState() => _BuildingCreationDialogState();
 }
 
-class _ObjectCreationDialogState extends State<ObjectCreationDialog> {
+class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
   // Npc? selectedNpc;
 
   @override

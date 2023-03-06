@@ -1,7 +1,9 @@
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
-import 'package:dsix/view/creator/creator_map/widgets/npc_creation_button.dart';
+import 'package:dsix/view/creator/creator_map/widgets/ui/building_creation_button.dart';
+import 'package:dsix/view/creator/creator_map/widgets/ui/npc_creation_button.dart';
+
 import 'package:flutter/material.dart';
 
 class InGameMenu extends StatefulWidget {
@@ -34,10 +36,7 @@ class _InGameMenuState extends State<InGameMenu> {
                 },
               ),
               const AppSeparatorVertical(value: 0.02),
-              NpcCreationButton(
-                active: false,
-                startPlacingNpc: (npc) {},
-              ),
+              BuildingCreationButton(active: true, startPlacingNpc: (npc) {}),
               const AppSeparatorVertical(value: 0.02),
               NpcCreationButton(
                 active: false,

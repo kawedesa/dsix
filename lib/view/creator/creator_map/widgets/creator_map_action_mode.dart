@@ -16,12 +16,14 @@ import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_actio
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_dead_npc_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_dead_player_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_player_sprite.dart';
-import 'package:dsix/view/creator/creator_map/widgets/in_game_menu.dart';
+
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'selected_npc_ui.dart';
+
+import 'ui/in_game_menu.dart';
+import 'ui/selected_npc_ui.dart';
 
 class CreatorMapActionMode extends StatefulWidget {
   final MapInfo mapInfo;
@@ -83,7 +85,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   _creatorMapController.npcDeselector(
                       widget.selectedNpc, widget.deselect),
                   AreaEffectSprite(
-                    area: _creatorMapController.combat.areaEffect.area,
+                    area: _creatorMapController.combat.actionArea.area,
                   ),
                   Stack(
                     children: _creatorMapController.createPlayerSprites(

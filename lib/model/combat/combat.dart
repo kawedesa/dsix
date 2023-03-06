@@ -1,4 +1,4 @@
-import 'package:dsix/model/combat/area_effect.dart';
+import 'package:dsix/model/combat/action_area.dart';
 import 'package:dsix/model/combat/position.dart';
 import '../npc/npc.dart';
 import '../player/player.dart';
@@ -6,7 +6,7 @@ import 'attack.dart';
 import 'dart:math' as math;
 
 class Combat {
-  AreaEffect areaEffect = AreaEffect();
+  ActionArea actionArea = ActionArea();
   Attack attack = Attack.empty();
   bool isAttacking = false;
   Position inputCenter = Position.empty();
@@ -35,7 +35,7 @@ class Combat {
   }
 
   void resetActionArea() {
-    areaEffect.reset();
+    actionArea.reset();
   }
 
   void confirmAttack(
@@ -43,14 +43,14 @@ class Combat {
     List<Player> players,
   ) {
     for (Npc npc in npcs) {
-      if (areaEffect.insideArea(npc.position)) {
-        npc.receiveAttack(attack.damage);
+      if (actionArea.insideArea(npc.position)) {
+        npc.receiveAttack(attack);
       }
     }
 
     for (Player player in players) {
-      if (areaEffect.insideArea(player.position)) {
-        player.receiveAttack(attack.damage);
+      if (actionArea.insideArea(player.position)) {
+        player.receiveAttack(attack);
       }
     }
   }
@@ -67,7 +67,7 @@ class Combat {
       distance = 1;
     }
 
-    areaEffect.setArea(angle, distance, actionCenter, attack.range);
+    actionArea.setArea(angle, distance, actionCenter, attack.range);
   }
 }
 

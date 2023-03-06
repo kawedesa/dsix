@@ -1,17 +1,17 @@
 import 'package:dsix/model/game/game.dart';
+import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_exceptions.dart';
+import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
+import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
+import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
+import 'package:dsix/view/creator/creator_map/widgets/ui/building_creation_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../model/npc/npc.dart';
-import '../../../../model/spawner/spawner.dart';
-import '../../../../shared/app_exceptions.dart';
-import '../../../../shared/app_images.dart';
-import '../../../../shared/app_widgets/button/app_circular_button.dart';
-import '../../../../shared/app_widgets/layout/app_separator_horizontal.dart';
-import '../../../../shared/app_widgets/layout/app_separator_vertical.dart';
 import 'npc_creation_button.dart';
-import 'object_creation_dialog.dart';
 
 class GameCreationMenu extends StatefulWidget {
   final Function(Npc) startPlacingNpc;
@@ -93,33 +93,8 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
           ),
           const AppSeparatorHorizontal(value: 0.025),
           (spawners.isEmpty)
-              ? AppCircularButton(
-                  icon: AppImages.spellBook,
-                  iconColor: AppColors.uiColor.withAlpha(200),
-                  color: AppColors.uiColorDark.withAlpha(100),
-                  borderColor: AppColors.uiColorDark.withAlpha(200),
-                  size: 0.05)
-              : AppCircularButton(
-                  onTap: () {
-                    setState(
-                      () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const ObjectCreationDialog(
-                                  // chooseNpc: (npc) {
-                                  //   createNpc(npc, npcs);
-                                  // },
-                                  );
-                            });
-                      },
-                    );
-                  },
-                  icon: AppImages.spellBook,
-                  iconColor: AppColors.uiColorLight.withAlpha(200),
-                  color: AppColors.uiColor.withAlpha(100),
-                  borderColor: AppColors.uiColorLight.withAlpha(200),
-                  size: 0.05),
+              ? BuildingCreationButton(active: false, startPlacingNpc: (npc) {})
+              : BuildingCreationButton(active: true, startPlacingNpc: (npc) {}),
           const AppSeparatorHorizontal(value: 0.025),
           (spawners.isEmpty)
               ? AppCircularButton(

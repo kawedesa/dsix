@@ -4,6 +4,7 @@ import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/attribute/movement.dart';
 import 'package:dsix/model/combat/attribute/power.dart';
 import 'package:dsix/model/combat/attribute/vision.dart';
+import 'package:dsix/model/combat/effect.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/position.dart';
 import '../combat/damage.dart';
@@ -19,6 +20,8 @@ class Npc {
   Vision vision;
   Position position;
   List<Attack> attacks;
+  // List<Effect> passiveEffects;
+  List<Effect> appliedEffects;
 
   Npc({
     required this.id,
@@ -31,12 +34,19 @@ class Npc {
     required this.vision,
     required this.position,
     required this.attacks,
+    // required this.passiveEffects,
+    required this.appliedEffects,
   });
 
   final database = FirebaseFirestore.instance;
 
   Map<String, dynamic> toMap() {
-    var attacksToMap = attacks.map((attacks) => attacks.toMap()).toList();
+    var attacksToMap = attacks.map((attack) => attack.toMap()).toList();
+
+    // var passiveEffectsToMap = passiveEffects.map((passiveEffect) => passiveEffect.toMap()).toList();
+
+    var appliedEffectsMap =
+        appliedEffects.map((effect) => effect.toMap()).toList();
 
     return {
       'id': id,
@@ -49,15 +59,28 @@ class Npc {
       'vision': vision.toMap(),
       'position': position.toMap(),
       'attacks': attacksToMap,
+      // 'passiveEffects': passiveEffectsToMap,
+      'appliedEffects': appliedEffectsMap,
     };
   }
 
   factory Npc.fromMap(Map<String, dynamic>? data) {
     List<Attack> getAttacks = [];
     List<dynamic> attacksMap = data?['attacks'];
-
     for (var attack in attacksMap) {
       getAttacks.add(Attack.fromMap(attack));
+    }
+
+    // List<Effect> getPassiveEffects = [];
+    // List<dynamic> passiveEffectsMap = data?['passiveEffects'];
+    // for (var effect in passiveEffectsMap) {
+    //   getPassiveEffects.add(Effect.fromMap(effect));
+    // }
+
+    List<Effect> getAppliedEffects = [];
+    List<dynamic> appliedEffectsMap = data?['appliedEffects'];
+    for (var effect in appliedEffectsMap) {
+      getAppliedEffects.add(Effect.fromMap(effect));
     }
 
     return Npc(
@@ -71,6 +94,8 @@ class Npc {
       vision: Vision.fromMap(data?['vision']),
       position: Position.fromMap(data?['position']),
       attacks: getAttacks,
+      // passiveEffects: getPassiveEffects,
+      appliedEffects: getAppliedEffects,
     );
   }
 
@@ -105,22 +130,22 @@ class Npc {
     return npcAttack;
   }
 
-  void receiveAttack(Damage attackDamage) {
+  void receiveAttack(Attack attack) {
     int leftOverArmor = 0;
 
-    int pDamage = attackDamage.pDamage - armor.pArmor;
+    int pDamage = attack.damage.pDamage - armor.pArmor;
     if (pDamage < 0) {
       leftOverArmor += pDamage.abs() ~/ 2;
       pDamage = 0;
     }
 
-    int mDamage = attackDamage.mDamage - armor.mArmor;
+    int mDamage = attack.damage.mDamage - armor.mArmor;
     if (mDamage < 0) {
       leftOverArmor += mDamage.abs() ~/ 2;
       mDamage = 0;
     }
 
-    int leftOverRawDamage = attackDamage.rawDamage - leftOverArmor;
+    int leftOverRawDamage = attack.damage.rawDamage - leftOverArmor;
 
     if (leftOverRawDamage < 1) {
       leftOverRawDamage = 0;

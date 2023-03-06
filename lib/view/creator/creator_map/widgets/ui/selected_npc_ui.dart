@@ -1,9 +1,9 @@
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/app_widgets/map/life_bar.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
-import '../../../../shared/app_widgets/map/life_bar.dart';
 
 class SelectedNpcUi extends StatelessWidget {
   final Npc? npc;
@@ -18,7 +18,7 @@ class SelectedNpcUi extends StatelessWidget {
             width: AppLayout.avarage(context) * 0.25,
             height: AppLayout.avarage(context) * 0.055,
             decoration: BoxDecoration(
-              color: AppColors.uiColorDark,
+              color: Colors.black.withAlpha(150),
               border: Border.all(
                 color: AppColors.uiColor,
                 width: AppLayout.avarage(context) * 0.0025,

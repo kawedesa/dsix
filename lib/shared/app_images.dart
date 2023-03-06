@@ -28,6 +28,9 @@ class AppImages {
   static const map = 'assets/images/ui/map.svg';
   static const profile = 'assets/images/ui/profile.svg';
   static const spawner = 'assets/images/ui/spawner.svg';
+  static const npc = 'assets/images/ui/npc.svg';
+  static const building = 'assets/images/ui/building.svg';
+  static const turn = 'assets/images/ui/turn.svg';
 
   static const shop = 'assets/images/ui/shop.svg';
   static const meleeWeaponMenu = 'assets/images/ui/meleeWeaponMenu.svg';
@@ -46,6 +49,9 @@ class AppImages {
   static const offHandSlot = 'assets/images/ui/offHandSlot.svg';
 
   //Item
+
+  static const punch = 'assets/images/items/punch.svg';
+
   //Light Weapons
   static const dagger = 'assets/images/items/dagger.svg';
   static const magicDagger = 'assets/images/items/magicDagger.svg';
@@ -129,7 +135,7 @@ class AppImages {
 
     switch (item) {
       case 'empty':
-        itemIcon = shortSword;
+        itemIcon = punch;
         break;
 
       //MELEE
