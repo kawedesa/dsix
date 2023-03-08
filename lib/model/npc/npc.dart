@@ -171,10 +171,30 @@ class Npc {
   }
 
   void passTurn() {
-    effects.checkEffects();
+    checkEffects();
     // attributes.defense.resetTempDefense();
     // attributes.vision.resetTempVision();
     update();
+  }
+
+  void checkEffects() {
+    List<Effect> effectsToRemove = [];
+
+    for (Effect effect in effects.currentEffects) {
+      try {
+        effects.triggerEffects(effect);
+      } on TakeDamageException catch (effect) {
+        life.receiveDamage(effect.damage);
+      }
+
+      if (effects.markEffectToRemove(effect)) {
+        effectsToRemove.add(effect);
+      }
+    }
+
+    for (Effect effect in effectsToRemove) {
+      effects.removeEffect(effect);
+    }
   }
 
   Path getVisionArea() {

@@ -38,6 +38,9 @@ class AppImages {
       case 'tempArmor':
         effectIcon = tempArmor;
         break;
+      case 'tempVision':
+        effectIcon = vision;
+        break;
     }
 
     return effectIcon;

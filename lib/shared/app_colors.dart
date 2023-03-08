@@ -13,22 +13,25 @@ class AppColors {
 
 //EFFECTS
 
-  static const poison = Color.fromARGB(255, 137, 196, 26);
-  static const bleed = Color.fromARGB(255, 224, 24, 24);
-  static const tempArmor = Color.fromARGB(255, 189, 189, 189);
+  static const poison = Color.fromARGB(255, 83, 117, 20);
+  static const positiveEffects = Color.fromARGB(255, 34, 32, 32);
+  static const negativeEffects = Color.fromARGB(255, 124, 24, 13);
 
   Color getEffectColor(String effect) {
     Color color = uiColor;
 
     switch (effect) {
+      case 'tempVision':
+        color = positiveEffects;
+        break;
       case 'tempArmor':
-        color = tempArmor;
+        color = positiveEffects;
         break;
       case 'poison':
         color = poison;
         break;
       case 'bleed':
-        color = bleed;
+        color = negativeEffects;
         break;
     }
     return color;

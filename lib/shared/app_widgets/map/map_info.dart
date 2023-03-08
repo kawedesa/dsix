@@ -7,8 +7,10 @@ class MapInfo {
   double mapSize;
   double minZoom = 8;
   double maxZoom = 16;
+  List<Path> grass = [];
   TransformationController? canvasController;
-  MapInfo({required this.mapSize, required this.canvasController});
+
+  MapInfo({required this.mapSize, this.canvasController});
 
   factory MapInfo.empty() {
     return MapInfo(mapSize: 0, canvasController: null);
@@ -31,6 +33,13 @@ class MapInfo {
   Position getCanvasPosition() {
     return Position(
         dx: canvasController!.value.row0.w / minZoom,
-        dy: canvasController!.value.row1.w / minZoom);
+        dy: canvasController!.value.row1.w / minZoom,
+        tile: '');
   }
+}
+
+class MapList {
+  static MapInfo oldRuins = MapInfo(
+    mapSize: 320,
+  );
 }

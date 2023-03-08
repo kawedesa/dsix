@@ -12,10 +12,11 @@ class TempPosition extends ChangeNotifier {
     distanceMoved = 0;
   }
 
-  void panUpdate(Offset dragPosition) {
+  void panUpdate(Offset dragPosition, String tile) {
     newPosition = Position(
         dx: newPosition.dx + dragPosition.dx,
-        dy: newPosition.dy + dragPosition.dy);
+        dy: newPosition.dy + dragPosition.dy,
+        tile: tile);
     calculateDistance();
 
     notifyListeners();

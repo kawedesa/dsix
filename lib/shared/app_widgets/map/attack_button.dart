@@ -79,8 +79,8 @@ class _AttackButtonState extends State<AttackButton> {
         }
       },
       onHover: (details) {
-        buttonPosition =
-            Position(dx: details.position.dx, dy: details.position.dy);
+        buttonPosition = Position(
+            dx: details.position.dx, dy: details.position.dy, tile: '');
         if (active) {
           setState(() {
             reset = true;

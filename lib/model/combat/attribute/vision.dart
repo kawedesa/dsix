@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:dsix/model/combat/effect/effect.dart';
+
 class Vision {
   int attribute;
   int tempVision;
@@ -49,7 +51,7 @@ class Vision {
   }
 
   void look() {
-    tempVision = 0;
+    int tempResult = 0;
 
     int roll1 = Random().nextInt(6) + 1;
     int roll2 = Random().nextInt(6) + 1;
@@ -57,22 +59,28 @@ class Vision {
     int result = roll1 + roll2 + attribute;
 
     if (result > 14) {
-      tempVision = 60;
+      tempResult = 60;
     }
 
     if (result > 11 && result < 15) {
-      tempVision = 55;
+      tempResult = 55;
     }
 
     if (result > 9 && result < 12) {
-      tempVision = 50;
+      tempResult = 50;
     }
     if (result > 6 && result < 10) {
-      tempVision = 35;
+      tempResult = 35;
     }
     if (result < 7) {
-      tempVision = 0;
+      tempResult = 0;
     }
+
+    tempVision += tempResult;
+  }
+
+  Effect getTempVisionEffect() {
+    return Effect(name: 'tempVision', description: '', value: 0, countdown: 0);
   }
 
   void resetTempVision() {

@@ -17,9 +17,7 @@ class _MouseInputState extends State<MouseInput> {
     return MouseRegion(
       onHover: (details) {
         widget.getMousePosition(Position(
-          dx: details.position.dx,
-          dy: details.position.dy,
-        ));
+            dx: details.position.dx, dy: details.position.dy, tile: ''));
       },
       child: GestureDetector(
         onTap: () {

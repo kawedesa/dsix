@@ -93,7 +93,7 @@ class _CreatorViewActionNpcSpriteState
                     },
                     onPanUpdate: (details) {
                       setState(() {
-                        _tempPosition.panUpdate(details.delta);
+                        _tempPosition.panUpdate(details.delta, 'tile');
                       });
                     },
                     onPanEnd: (details) {
@@ -264,13 +264,13 @@ class NpcSpriteVisionRange extends StatelessWidget {
       dashPattern: const [3, 6],
       color: (selected)
           ? AppColors.uiColorLight.withAlpha(200)
-          : AppColors.uiColorDark.withAlpha(100),
+          : Colors.transparent,
       strokeWidth: 0.3,
       child: AnimatedContainer(
         curve: Curves.fastLinearToSlowEaseIn,
         duration: const Duration(milliseconds: 700),
-        width: (selected) ? range : 10,
-        height: (selected) ? range : 10,
+        width: (selected) ? range : 0,
+        height: (selected) ? range : 0,
       ),
     );
   }

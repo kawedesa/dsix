@@ -88,7 +88,8 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                       },
                       onPanUpdate: (details) {
                         setState(() {
-                          _controller.tempPosition.panUpdate(details.delta);
+                          _controller.tempPosition
+                              .panUpdate(details.delta, 'tile');
                         });
                       },
                       onPanEnd: (details) {

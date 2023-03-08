@@ -56,21 +56,13 @@ class EffectController {
         }
         currentEffects.add(effect);
         break;
-    }
-  }
 
-  void checkEffects() {
-    List<Effect> effectsToRemove = [];
+      case 'tempVision':
+        if (currentEffects.contains(effect) == false) {
+          currentEffects.add(effect);
+        }
 
-    for (Effect effect in currentEffects) {
-      triggerEffects(effect);
-      if (markEffectToRemove(effect)) {
-        effectsToRemove.add(effect);
-      }
-    }
-
-    for (Effect effect in effectsToRemove) {
-      removeEffect(effect);
+        break;
     }
   }
 
@@ -78,13 +70,18 @@ class EffectController {
     switch (effect.name) {
       case 'poison':
         effect.countdown--;
-
         throw TakeDamageException(effect.value);
+
       case 'bleed':
         effect.countdown--;
         throw TakeDamageException(effect.value);
+
       case 'tempArmor':
         currentEffects.remove(effect);
+        break;
+      case 'tempVision':
+        currentEffects.remove(effect);
+        break;
     }
   }
 

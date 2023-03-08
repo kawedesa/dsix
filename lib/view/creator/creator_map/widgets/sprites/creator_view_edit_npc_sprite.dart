@@ -99,7 +99,7 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
                     },
                     onPanUpdate: (details) {
                       setState(() {
-                        _tempPosition.panUpdate(details.delta);
+                        _tempPosition.panUpdate(details.delta, 'tile');
                       });
                     },
                     onPanEnd: (details) {

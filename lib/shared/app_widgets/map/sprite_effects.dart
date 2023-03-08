@@ -11,6 +11,20 @@ class SpriteEffects extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int displayNumber = 0;
+
+    switch (effect.name) {
+      case 'tempArmor':
+        displayNumber = effect.value;
+        break;
+      case 'poison':
+        displayNumber = effect.countdown;
+        break;
+      case 'bleed':
+        displayNumber = effect.countdown;
+        break;
+    }
+
     return SizedBox(
       width: AppLayout.avarage(context) * 0.004,
       height: AppLayout.avarage(context) * 0.004,
@@ -25,7 +39,8 @@ class SpriteEffects extends StatelessWidget {
           ),
           Align(
             alignment: const Alignment(0, 0.1),
-            child: AppEffectsText(value: effect.value, effectName: effect.name),
+            child:
+                AppEffectsText(value: displayNumber, effectName: effect.name),
           ),
         ],
       ),
@@ -43,14 +58,14 @@ class AppEffectsText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      value.toString(),
+      (value == 0) ? '' : value.toString(),
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: AppLayout.avarage(context) * 0.0017,
         letterSpacing: AppLayout.avarage(context) * 0.0001,
         fontWeight: FontWeight.bold,
         fontFamily: 'Poppins',
-        color: Colors.black,
+        color: Colors.white,
       ),
     );
   }

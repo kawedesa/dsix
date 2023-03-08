@@ -193,7 +193,8 @@ class CreatorMapEditModeController {
                 mapInfo.getCanvasPosition().dx,
             dy: mousePosition.dy / mapInfo.minZoom -
                 mapInfo.getCanvasPosition().dy -
-                50 / mapInfo.minZoom);
+                50 / mapInfo.minZoom,
+            tile: '');
         refresh();
       }, onTap: () {
         createNpc(placeHere);

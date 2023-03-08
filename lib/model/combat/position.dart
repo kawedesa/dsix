@@ -3,15 +3,18 @@ import 'package:flutter/widgets.dart';
 class Position {
   double dx;
   double dy;
+  String tile;
   Position({
     required this.dx,
     required this.dy,
+    required this.tile,
   });
 
   factory Position.empty() {
     return Position(
       dx: -1000,
       dy: -1000,
+      tile: '',
     );
   }
 
@@ -19,6 +22,7 @@ class Position {
     return {
       'dx': dx,
       'dy': dy,
+      'tile': tile,
     };
   }
 
@@ -26,6 +30,7 @@ class Position {
     return Position(
       dx: data?['dx'] * 1.0,
       dy: data?['dy'] * 1.0,
+      tile: data?['tile'],
     );
   }
 
