@@ -4,6 +4,7 @@ import 'package:dsix/model/combat/attribute/power.dart';
 import 'package:dsix/model/combat/attribute/vision.dart';
 import 'package:dsix/model/combat/damage.dart';
 import 'package:dsix/model/combat/effect/effect.dart';
+import 'package:dsix/model/combat/effect/effect_controller.dart';
 import 'package:dsix/model/combat/effect/passive_effects.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/range.dart';
@@ -44,8 +45,7 @@ class NpcList {
         onHitEffect: Effect.empty(),
       ),
     ],
-    passiveEffects: PassiveEffects.empty(),
-    currentEffects: [],
+    effects: EffectController.empty(),
   );
 
   static Npc giantBat = Npc(
@@ -69,8 +69,7 @@ class NpcList {
         onHitEffect: Effect.empty(),
       ),
     ],
-    passiveEffects: PassiveEffects.empty(),
-    currentEffects: [],
+    effects: EffectController.empty(),
   );
 
   static Npc skeleton = Npc(
@@ -99,8 +98,7 @@ class NpcList {
         onHitEffect: Effect.empty(),
       ),
     ],
-    passiveEffects: PassiveEffects.empty(),
-    currentEffects: [],
+    effects: EffectController.empty(),
   );
 
   static Npc skeletonMage = Npc(
@@ -140,8 +138,7 @@ class NpcList {
         onHitEffect: Effect.empty(),
       ),
     ],
-    passiveEffects: PassiveEffects.empty(),
-    currentEffects: [],
+    effects: EffectController.empty(),
   );
 
   static Npc giantFrog = Npc(
@@ -175,8 +172,7 @@ class NpcList {
         ),
       ),
     ],
-    passiveEffects: PassiveEffects.empty(),
-    currentEffects: [],
+    effects: EffectController.empty(),
   );
 
   static Npc goblin = Npc(
@@ -212,8 +208,7 @@ class NpcList {
         onHitEffect: Effect.empty(),
       ),
     ],
-    passiveEffects: PassiveEffects.empty(),
-    currentEffects: [],
+    effects: EffectController.empty(),
   );
   static Npc beast = Npc(
     id: 0,
@@ -241,15 +236,17 @@ class NpcList {
         onHitEffect: Effect.empty(),
       ),
     ],
-    passiveEffects: PassiveEffects(
-        onBeingHitEffect: Effect(
-          name: 'thorn',
-          description: 'spiky',
-          value: 1,
-          countdown: 0,
-        ),
-        afterAttackEffect: Effect.empty()),
-    currentEffects: [],
+    effects: EffectController(
+      currentEffects: [],
+      passiveEffects: PassiveEffects(
+          onBeingHitEffect: Effect(
+            name: 'thorn',
+            description: 'spiky',
+            value: 1,
+            countdown: 0,
+          ),
+          afterAttackEffect: Effect.empty()),
+    ),
   );
 
   static Npc explosiveLizzard = Npc(
@@ -278,8 +275,7 @@ class NpcList {
         onHitEffect: Effect.empty(),
       ),
     ],
-    passiveEffects: PassiveEffects.empty(),
-    currentEffects: [],
+    effects: EffectController.empty(),
   );
 
   static Npc wraith = Npc(
@@ -314,16 +310,18 @@ class NpcList {
         onHitEffect: Effect.empty(),
       ),
     ],
-    passiveEffects: PassiveEffects(
-      onBeingHitEffect: Effect.empty(),
-      afterAttackEffect: Effect(
-        name: 'heal',
-        description: '',
-        value: 1,
-        countdown: 0,
+    effects: EffectController(
+      currentEffects: [],
+      passiveEffects: PassiveEffects(
+        onBeingHitEffect: Effect.empty(),
+        afterAttackEffect: Effect(
+          name: 'heal',
+          description: '',
+          value: 1,
+          countdown: 0,
+        ),
       ),
     ),
-    currentEffects: [],
   );
 
   static Npc golen = Npc(
@@ -351,8 +349,7 @@ class NpcList {
         onHitEffect: Effect.empty(),
       ),
     ],
-    passiveEffects: PassiveEffects.empty(),
-    currentEffects: [],
+    effects: EffectController.empty(),
   );
 
   List<Npc> getNpcList() {

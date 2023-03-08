@@ -5,9 +5,10 @@ import 'package:dsix/model/combat/attribute/movement.dart';
 import 'package:dsix/model/combat/attribute/power.dart';
 import 'package:dsix/model/combat/attribute/vision.dart';
 import 'package:dsix/model/combat/effect/effect.dart';
-import 'package:dsix/model/combat/effect/passive_effects.dart';
+import 'package:dsix/model/combat/effect/effect_controller.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/position.dart';
+import 'package:dsix/shared/app_exceptions.dart';
 import 'package:flutter/material.dart';
 
 class Npc {
@@ -21,8 +22,7 @@ class Npc {
   Vision vision;
   Position position;
   List<Attack> attacks;
-  PassiveEffects passiveEffects;
-  List<Effect> currentEffects;
+  EffectController effects;
 
   Npc({
     required this.id,
@@ -35,16 +35,13 @@ class Npc {
     required this.vision,
     required this.position,
     required this.attacks,
-    required this.passiveEffects,
-    required this.currentEffects,
+    required this.effects,
   });
 
   final database = FirebaseFirestore.instance;
 
   Map<String, dynamic> toMap() {
     var attacksToMap = attacks.map((attack) => attack.toMap()).toList();
-    var currentEffectsMap =
-        currentEffects.map((effect) => effect.toMap()).toList();
 
     return {
       'id': id,
@@ -57,8 +54,7 @@ class Npc {
       'vision': vision.toMap(),
       'position': position.toMap(),
       'attacks': attacksToMap,
-      'passiveEffects': passiveEffects.toMap(),
-      'currentEffects': currentEffectsMap,
+      'effects': effects.toMap(),
     };
   }
 
@@ -67,12 +63,6 @@ class Npc {
     List<dynamic> attacksMap = data?['attacks'];
     for (var attack in attacksMap) {
       getAttacks.add(Attack.fromMap(attack));
-    }
-
-    List<Effect> getCurrentEffects = [];
-    List<dynamic> currentEffectsMap = data?['currentEffects'];
-    for (var effect in currentEffectsMap) {
-      getCurrentEffects.add(Effect.fromMap(effect));
     }
 
     return Npc(
@@ -86,8 +76,7 @@ class Npc {
       vision: Vision.fromMap(data?['vision']),
       position: Position.fromMap(data?['position']),
       attacks: getAttacks,
-      passiveEffects: PassiveEffects.fromMap(data?['passiveEffects']),
-      currentEffects: getCurrentEffects,
+      effects: EffectController.fromMap(data?['effects']),
     );
   }
 
@@ -130,7 +119,6 @@ class Npc {
       leftOverArmor += pDamage.abs() ~/ 2;
       pDamage = 0;
     }
-
     int mDamage = attack.damage.mDamage - armor.mArmor;
     if (mDamage < 0) {
       leftOverArmor += mDamage.abs() ~/ 2;
@@ -139,9 +127,17 @@ class Npc {
 
     int leftOverRawDamage = attack.damage.rawDamage - leftOverArmor;
 
-    if (leftOverRawDamage < 1) {
-      leftOverRawDamage = 0;
-    }
+    // int leftOverDamageAfterTempArmor =
+    //     leftOverRawDamage - attributes.defense.tempDefense;
+
+    // attributes.defense.reduceTempArmor(leftOverRawDamage);
+    // if (attributes.defense.tempDefense > 0) {
+    //   effects.applyNewEffect(attributes.defense.getTempArmorEffect());
+    // }
+
+    // if (leftOverDamageAfterTempArmor < 1) {
+    //   leftOverDamageAfterTempArmor = 0;
+    // }
 
     int totalDamage = pDamage + mDamage + leftOverRawDamage;
 
@@ -151,84 +147,34 @@ class Npc {
 
     life.receiveDamage(totalDamage);
 
-    if (totalDamage < 0) {
-      update();
-    } else {
+    if (totalDamage > 0) {
       receiveEffect(attack.onHitEffect);
     }
+
+    update();
   }
 
   void receiveEffect(Effect incomingEffect) {
-    for (Effect effect in currentEffects) {
-      if (effect.name == incomingEffect.name) {
+    for (Effect effect in effects.currentEffects) {
+      if (effect.name == incomingEffect.name && effect.countdown > 0) {
         effect.countdown++;
-        update();
+
         return;
       }
     }
 
-    applyNewEffect(incomingEffect);
-    update();
-  }
-
-  void applyNewEffect(Effect effect) {
-    switch (effect.name) {
-      case 'poison':
-        currentEffects.add(effect);
-        break;
-      case 'thorn':
-        life.receiveDamage(1);
-        break;
+    try {
+      effects.applyNewEffect(incomingEffect);
+    } on TakeDamageException catch (effect) {
+      life.receiveDamage(effect.damage);
     }
   }
-
-  // void triggerAfterAttackEffect() {
-  //   triggerEffects(passiveEffects.afterAttackEffect);
-  //   update();
-  // }
 
   void passTurn() {
-    checkEffects();
+    effects.checkEffects();
+    // attributes.defense.resetTempDefense();
+    // attributes.vision.resetTempVision();
     update();
-  }
-
-  void checkEffects() {
-    List<Effect> effectsToRemove = [];
-
-    for (Effect effect in currentEffects) {
-      triggerEffects(effect);
-      if (markEffectToRemove(effect)) {
-        effectsToRemove.add(effect);
-      }
-    }
-
-    for (Effect effect in effectsToRemove) {
-      removeEffect(effect);
-    }
-  }
-
-  void triggerEffects(Effect effect) {
-    switch (effect.name) {
-      case 'poison':
-        life.receiveDamage(effect.value);
-        effect.countdown--;
-        break;
-      case 'heal':
-        life.heal(effect.value);
-        break;
-    }
-  }
-
-  bool markEffectToRemove(Effect effect) {
-    if (effect.countdown > 0) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  void removeEffect(Effect effect) {
-    currentEffects.remove(effect);
   }
 
   Path getVisionArea() {

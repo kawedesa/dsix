@@ -3,9 +3,10 @@ import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/attribute/attribute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/combat/effect/effect.dart';
-import 'package:dsix/model/combat/effect/passive_effects.dart';
+import 'package:dsix/model/combat/effect/effect_controller.dart';
 import 'package:dsix/model/player/equipment/player_equipment.dart';
 import 'package:dsix/model/combat/life.dart';
+import 'package:dsix/shared/app_exceptions.dart';
 import 'package:flutter/material.dart';
 import '../combat/position.dart';
 
@@ -18,8 +19,7 @@ class Player {
   Position position;
   Attribute attributes;
   PlayerEquipment equipment;
-  List<Effect> currentEffects;
-  PassiveEffects passiveEffects;
+  EffectController effects;
   bool ready;
 
   Player(
@@ -31,8 +31,7 @@ class Player {
       required this.position,
       required this.attributes,
       required this.equipment,
-      required this.currentEffects,
-      required this.passiveEffects,
+      required this.effects,
       required this.ready});
 
   final database = FirebaseFirestore.instance;
@@ -47,8 +46,7 @@ class Player {
       position: Position.empty(),
       attributes: Attribute.empty(),
       equipment: PlayerEquipment.empty(),
-      currentEffects: [],
-      passiveEffects: PassiveEffects.empty(),
+      effects: EffectController.empty(),
       ready: false,
     );
   }
@@ -63,15 +61,12 @@ class Player {
       position: Position.empty(),
       attributes: Attribute.empty(),
       equipment: PlayerEquipment.empty(),
-      currentEffects: [],
-      passiveEffects: PassiveEffects.empty(),
+      effects: EffectController.empty(),
       ready: false,
     );
   }
 
   Map<String, dynamic> toMap() {
-    var effectsToMap = currentEffects.map((effect) => effect.toMap()).toList();
-
     return {
       'id': id,
       'name': name,
@@ -81,19 +76,12 @@ class Player {
       'position': position.toMap(),
       'attributes': attributes.toMap(),
       'equipment': equipment.toMap(),
-      'currentEffects': effectsToMap,
-      'passiveEffects': passiveEffects.toMap(),
+      'effects': effects.toMap(),
       'ready': ready,
     };
   }
 
   factory Player.fromMap(Map<String, dynamic>? data) {
-    List<Effect> getCurrentEffects = [];
-    List<dynamic> currentEffectsMap = data?['currentEffects'];
-    for (var effect in currentEffectsMap) {
-      getCurrentEffects.add(Effect.fromMap(effect));
-    }
-
     return Player(
       id: data?['id'],
       name: data?['name'],
@@ -103,8 +91,7 @@ class Player {
       position: Position.fromMap(data?['position']),
       attributes: Attribute.fromMap(data?['attributes']),
       equipment: PlayerEquipment.fromMap(data?['equipment']),
-      currentEffects: getCurrentEffects,
-      passiveEffects: PassiveEffects.fromMap(data?['passiveEffects']),
+      effects: EffectController.fromMap(data?['effects']),
       ready: data?['ready'],
     );
   }
@@ -176,7 +163,7 @@ class Player {
 
     attributes.defense.reduceTempArmor(leftOverRawDamage);
     if (attributes.defense.tempDefense > 0) {
-      applyNewEffect(attributes.defense.getTempArmorEffect());
+      effects.applyNewEffect(attributes.defense.getTempArmorEffect());
     }
 
     if (leftOverDamageAfterTempArmor < 1) {
@@ -191,103 +178,39 @@ class Player {
 
     life.receiveDamage(totalDamage);
 
-    if (totalDamage < 0) {
-      update();
-    } else {
+    if (totalDamage > 0) {
       receiveEffect(attack.onHitEffect);
     }
+
+    update();
   }
 
   void receiveEffect(Effect incomingEffect) {
-    for (Effect effect in currentEffects) {
+    for (Effect effect in effects.currentEffects) {
       if (effect.name == incomingEffect.name && effect.countdown > 0) {
         effect.countdown++;
-        update();
+
         return;
       }
     }
 
-    applyNewEffect(incomingEffect);
-  }
-
-  void applyNewEffect(Effect effect) {
-    switch (effect.name) {
-      case 'poison':
-        currentEffects.add(effect);
-        break;
-      case 'thorn':
-        life.receiveDamage(1);
-        break;
-      case 'bleed':
-        currentEffects.add(effect);
-        break;
-
-      case 'tempArmor':
-        for (Effect effect in currentEffects) {
-          if (effect.name == 'tempArmor') {
-            currentEffects.remove(effect);
-          }
-        }
-        currentEffects.add(effect);
-        break;
+    try {
+      effects.applyNewEffect(incomingEffect);
+    } on TakeDamageException catch (effect) {
+      life.receiveDamage(effect.damage);
     }
-    update();
   }
-
-  // void triggerAfterAttackEffect() {}
 
   void passTurn() {
-    checkEffects();
+    effects.checkEffects();
     attributes.defense.resetTempDefense();
     attributes.vision.resetTempVision();
     update();
   }
 
-  void checkEffects() {
-    List<Effect> effectsToRemove = [];
-
-    for (Effect effect in currentEffects) {
-      triggerEffects(effect);
-      if (markEffectToRemove(effect)) {
-        effectsToRemove.add(effect);
-      }
-    }
-
-    for (Effect effect in effectsToRemove) {
-      removeEffect(effect);
-    }
-  }
-
-  void triggerEffects(Effect effect) {
-    switch (effect.name) {
-      case 'poison':
-        life.receiveDamage(effect.value);
-        effect.countdown--;
-        break;
-      case 'bleed':
-        life.receiveDamage(effect.value);
-        effect.countdown--;
-        break;
-      case 'tempArmor':
-        currentEffects.remove(effect);
-    }
-  }
-
-  bool markEffectToRemove(Effect effect) {
-    if (effect.countdown > 0) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  void removeEffect(Effect effect) {
-    currentEffects.remove(effect);
-  }
-
   void defend() {
     attributes.defense.defend();
-    applyNewEffect(attributes.defense.getTempArmorEffect());
+    effects.applyNewEffect(attributes.defense.getTempArmorEffect());
   }
 
   void look() {

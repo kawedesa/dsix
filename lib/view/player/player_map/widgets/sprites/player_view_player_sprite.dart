@@ -169,12 +169,12 @@ class PlayerSpriteController {
   }
 
   Widget getPlayerEffects(context, Player player) {
-    if (player.currentEffects.isEmpty) {
+    if (player.effects.currentEffects.isEmpty) {
       return const SizedBox();
     }
     List<Widget> effectsIcons = [];
 
-    for (Effect effect in player.currentEffects) {
+    for (Effect effect in player.effects.currentEffects) {
       effectsIcons.add(
         SpriteEffects(
           effect: effect,

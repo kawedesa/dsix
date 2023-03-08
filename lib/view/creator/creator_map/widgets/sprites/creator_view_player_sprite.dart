@@ -1,14 +1,10 @@
 import 'package:dsix/model/combat/effect/effect.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/animation/damage_animation.dart';
 import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
 import 'package:dsix/shared/app_widgets/map/sprite_effects.dart';
-import 'package:dsix/shared/app_widgets/text/app_text.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
 class CreatorViewPlayerSprite extends StatefulWidget {
@@ -52,12 +48,12 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
   }
 
   Widget getPlayerEffects(context) {
-    if (widget.player.currentEffects.isEmpty) {
+    if (widget.player.effects.currentEffects.isEmpty) {
       return const SizedBox();
     }
     List<Widget> effectsIcons = [];
 
-    for (Effect effect in widget.player.currentEffects) {
+    for (Effect effect in widget.player.effects.currentEffects) {
       effectsIcons.add(
         SpriteEffects(
           effect: effect,
