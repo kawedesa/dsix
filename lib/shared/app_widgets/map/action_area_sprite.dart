@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 
-class AreaEffectSprite extends StatelessWidget {
+class ActionAreaSprite extends StatelessWidget {
   final Path area;
 
-  const AreaEffectSprite({Key? key, required this.area}) : super(key: key);
+  const ActionAreaSprite({Key? key, required this.area}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: AreaEffectSpritePainter(
+      painter: ActionAreaSpritePainter(
         area: area,
       ),
     );
   }
 }
 
-class AreaEffectSpritePainter extends CustomPainter {
+class ActionAreaSpritePainter extends CustomPainter {
   Path area;
-  AreaEffectSpritePainter({required this.area});
+  ActionAreaSpritePainter({required this.area});
 
   @override
   void paint(Canvas canvas, Size size) {
-    // final fillColor = Paint()..color = Colors.red.withOpacity(0.25);
     final fillColor = Paint()..color = Colors.red.withAlpha(75);
 
     final strokeColor = Paint()

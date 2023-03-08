@@ -8,7 +8,7 @@ import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
-import 'package:dsix/shared/app_widgets/map/area_effect_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/action_area_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/attack_button.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
@@ -85,7 +85,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   ),
                   _creatorMapController.npcDeselector(
                       widget.selectedNpc, widget.deselect),
-                  AreaEffectSprite(
+                  ActionAreaSprite(
                     area: _creatorMapController.combat.actionArea.area,
                   ),
                   Stack(

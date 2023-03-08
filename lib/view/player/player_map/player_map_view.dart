@@ -2,7 +2,7 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
-import 'package:dsix/shared/app_widgets/map/area_effect_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/action_area_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +60,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     width: AppLayout.longest(context),
                     height: AppLayout.longest(context),
                   ),
-                  AreaEffectSprite(
+                  ActionAreaSprite(
                     area: _playerMapVM.combat.actionArea.area,
                   ),
                   Stack(

@@ -11,6 +11,29 @@ class AppColors {
   static const selected = Color.fromARGB(255, 49, 198, 44);
   static const cancel = Color.fromARGB(255, 193, 23, 8);
 
+//EFFECTS
+
+  static const poison = Color.fromARGB(255, 137, 196, 26);
+  static const bleed = Color.fromARGB(255, 224, 24, 24);
+  static const tempArmor = Color.fromARGB(255, 189, 189, 189);
+
+  Color getEffectColor(String effect) {
+    Color color = uiColor;
+
+    switch (effect) {
+      case 'tempArmor':
+        color = tempArmor;
+        break;
+      case 'poison':
+        color = poison;
+        break;
+      case 'bleed':
+        color = bleed;
+        break;
+    }
+    return color;
+  }
+
 //PLAYERS
 //Pink
 

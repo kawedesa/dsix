@@ -1,15 +1,14 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:dsix/model/combat/effect/effect.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/animation/damage_animation.dart';
 import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
-import 'package:dsix/shared/app_widgets/text/app_text.dart';
-
+import 'package:dsix/shared/app_widgets/map/sprite_effects.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
@@ -111,7 +110,7 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                     ),
                   ),
                 ),
-                _controller.tempArmor(widget.player),
+                _controller.getPlayerEffects(context, widget.player),
                 _controller.lifeAnimation(widget.player),
               ],
             ),
@@ -169,38 +168,29 @@ class PlayerSpriteController {
     );
   }
 
-  Widget tempArmor(Player player) {
-    if (player.attributes.defense.tempDefense < 1) {
+  Widget getPlayerEffects(context, Player player) {
+    if (player.currentEffects.isEmpty) {
       return const SizedBox();
-    } else {
-      return Align(
-        alignment: const Alignment(0.05, 0),
-        child: SizedBox(
-          width: 8,
-          height: 8,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: SvgPicture.asset(
-                  AppImages.lightShield,
-                  color: Colors.amber,
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: AppText(
-                  text: player.attributes.defense.tempDefense.toString(),
-                  fontSize: 0.0025,
-                  letterSpacing: 0.0001,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
+    }
+    List<Widget> effectsIcons = [];
+
+    for (Effect effect in player.currentEffects) {
+      effectsIcons.add(
+        SpriteEffects(
+          effect: effect,
         ),
       );
     }
+    return Align(
+      alignment: const Alignment(0, -0.17),
+      child: SizedBox(
+        width: AppLayout.avarage(context) * 0.0045 * effectsIcons.length,
+        height: AppLayout.avarage(context) * 0.0045 * effectsIcons.length,
+        child: Row(
+          children: effectsIcons,
+        ),
+      ),
+    );
   }
 }
 

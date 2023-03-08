@@ -89,3 +89,7 @@ flutter:
   - family: Headline
     fonts:
     - asset: fonts/Headline.ttf
+
+  - family: AmericanSigns
+    fonts:
+    - asset: fonts/AmericanSigns.otf  

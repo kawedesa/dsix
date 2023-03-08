@@ -175,6 +175,9 @@ class Player {
         leftOverRawDamage - attributes.defense.tempDefense;
 
     attributes.defense.reduceTempArmor(leftOverRawDamage);
+    if (attributes.defense.tempDefense > 0) {
+      applyNewEffect(attributes.defense.getTempArmorEffect());
+    }
 
     if (leftOverDamageAfterTempArmor < 1) {
       leftOverDamageAfterTempArmor = 0;
@@ -197,7 +200,7 @@ class Player {
 
   void receiveEffect(Effect incomingEffect) {
     for (Effect effect in currentEffects) {
-      if (effect.name == incomingEffect.name) {
+      if (effect.name == incomingEffect.name && effect.countdown > 0) {
         effect.countdown++;
         update();
         return;
@@ -205,7 +208,6 @@ class Player {
     }
 
     applyNewEffect(incomingEffect);
-    update();
   }
 
   void applyNewEffect(Effect effect) {
@@ -216,7 +218,20 @@ class Player {
       case 'thorn':
         life.receiveDamage(1);
         break;
+      case 'bleed':
+        currentEffects.add(effect);
+        break;
+
+      case 'tempArmor':
+        for (Effect effect in currentEffects) {
+          if (effect.name == 'tempArmor') {
+            currentEffects.remove(effect);
+          }
+        }
+        currentEffects.add(effect);
+        break;
     }
+    update();
   }
 
   // void triggerAfterAttackEffect() {}
@@ -249,6 +264,12 @@ class Player {
         life.receiveDamage(effect.value);
         effect.countdown--;
         break;
+      case 'bleed':
+        life.receiveDamage(effect.value);
+        effect.countdown--;
+        break;
+      case 'tempArmor':
+        currentEffects.remove(effect);
     }
   }
 
@@ -266,7 +287,7 @@ class Player {
 
   void defend() {
     attributes.defense.defend();
-    update();
+    applyNewEffect(attributes.defense.getTempArmorEffect());
   }
 
   void look() {

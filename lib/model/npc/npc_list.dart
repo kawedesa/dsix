@@ -202,7 +202,8 @@ class NpcList {
           width: 7.5,
           shape: 'cone',
         ),
-        onHitEffect: Effect.empty(),
+        onHitEffect:
+            Effect(name: 'bleed', description: '', value: 1, countdown: 1),
       ),
       Attack(
         name: 'shot',

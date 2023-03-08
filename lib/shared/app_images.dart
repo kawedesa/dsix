@@ -21,6 +21,28 @@ class AppImages {
   static const minRange = 'assets/images/ui/minRange.svg';
   static const maxRange = 'assets/images/ui/maxRange.svg';
 
+  static const tempArmor = 'assets/images/ui/tempArmor.svg';
+  static const poison = 'assets/images/ui/poison.svg';
+  static const bleed = 'assets/images/ui/poison.svg';
+
+  String getEffectIcon(String effect) {
+    String effectIcon = '';
+
+    switch (effect) {
+      case 'bleed':
+        effectIcon = bleed;
+        break;
+      case 'poison':
+        effectIcon = poison;
+        break;
+      case 'tempArmor':
+        effectIcon = tempArmor;
+        break;
+    }
+
+    return effectIcon;
+  }
+
   static const minus = 'assets/images/ui/minus.svg';
   static const plus = 'assets/images/ui/plus.svg';
 

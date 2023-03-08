@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:dsix/model/combat/effect/effect.dart';
+
 class Defense {
   int attribute;
   int tempDefense;
@@ -40,7 +42,7 @@ class Defense {
   }
 
   void defend() {
-    tempDefense = 0;
+    int tempResult = 0;
 
     int roll1 = Random().nextInt(6) + 1;
     int roll2 = Random().nextInt(6) + 1;
@@ -48,22 +50,29 @@ class Defense {
     int result = roll1 + roll2 + attribute;
 
     if (result > 14) {
-      tempDefense = 13;
+      tempResult = 13;
     }
 
     if (result > 11 && result < 15) {
-      tempDefense = 9;
+      tempResult = 9;
     }
 
     if (result > 9 && result < 12) {
-      tempDefense = 6;
+      tempResult = 6;
     }
     if (result > 6 && result < 10) {
-      tempDefense = 3;
+      tempResult = 3;
     }
     if (result < 7) {
-      tempDefense = 0;
+      tempResult = 1;
     }
+
+    tempDefense += tempResult;
+  }
+
+  Effect getTempArmorEffect() {
+    return Effect(
+        name: 'tempArmor', description: '', value: tempDefense, countdown: 0);
   }
 
   void reduceTempArmor(int value) {
