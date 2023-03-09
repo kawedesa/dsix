@@ -1,7 +1,6 @@
 import 'package:dsix/model/combat/effect/effect.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
-import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -14,20 +13,23 @@ class SpriteEffects extends StatelessWidget {
     int displayNumber = 0;
 
     switch (effect.name) {
-      case 'tempArmor':
-        displayNumber = effect.value;
-        break;
       case 'poison':
         displayNumber = effect.countdown;
         break;
       case 'bleed':
         displayNumber = effect.countdown;
         break;
+      case 'tempArmor':
+        displayNumber = effect.value;
+        break;
+      case 'tempVision':
+        displayNumber = 0;
+        break;
     }
 
     return SizedBox(
-      width: AppLayout.avarage(context) * 0.004,
-      height: AppLayout.avarage(context) * 0.004,
+      width: 3,
+      height: 3,
       child: Stack(
         children: [
           Align(
@@ -60,9 +62,9 @@ class AppEffectsText extends StatelessWidget {
     return Text(
       (value == 0) ? '' : value.toString(),
       textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: AppLayout.avarage(context) * 0.0017,
-        letterSpacing: AppLayout.avarage(context) * 0.0001,
+      style: const TextStyle(
+        fontSize: 1.0,
+        letterSpacing: 0.01,
         fontWeight: FontWeight.bold,
         fontFamily: 'Poppins',
         color: Colors.white,

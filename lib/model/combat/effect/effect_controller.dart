@@ -1,6 +1,5 @@
 import 'package:dsix/model/combat/effect/effect.dart';
 import 'package:dsix/model/combat/effect/passive_effects.dart';
-import 'package:dsix/shared/app_exceptions.dart';
 
 class EffectController {
   List<Effect> currentEffects;
@@ -35,54 +34,6 @@ class EffectController {
       'currentEffects': effectsToMap,
       'passiveEffects': passiveEffects.toMap(),
     };
-  }
-
-  void applyNewEffect(Effect effect) {
-    switch (effect.name) {
-      case 'poison':
-        currentEffects.add(effect);
-        break;
-      case 'thorn':
-        throw TakeDamageException(effect.value);
-      case 'bleed':
-        currentEffects.add(effect);
-        break;
-
-      case 'tempArmor':
-        for (Effect effect in currentEffects) {
-          if (effect.name == 'tempArmor') {
-            currentEffects.remove(effect);
-          }
-        }
-        currentEffects.add(effect);
-        break;
-
-      case 'tempVision':
-        if (currentEffects.contains(effect) == false) {
-          currentEffects.add(effect);
-        }
-
-        break;
-    }
-  }
-
-  void triggerEffects(Effect effect) {
-    switch (effect.name) {
-      case 'poison':
-        effect.countdown--;
-        throw TakeDamageException(effect.value);
-
-      case 'bleed':
-        effect.countdown--;
-        throw TakeDamageException(effect.value);
-
-      case 'tempArmor':
-        currentEffects.remove(effect);
-        break;
-      case 'tempVision':
-        currentEffects.remove(effect);
-        break;
-    }
   }
 
   bool markEffectToRemove(Effect effect) {

@@ -1,4 +1,3 @@
-import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,7 @@ class AttackButton extends StatefulWidget {
   final Color color;
   final Color darkColor;
   final bool isAttacking;
-  final Function(Position) startAttack;
+  final Function() startAttack;
   final Function() cancelAttack;
   final Function() resetAttack;
 
@@ -28,7 +27,6 @@ class AttackButton extends StatefulWidget {
 }
 
 class _AttackButtonState extends State<AttackButton> {
-  Position buttonPosition = Position.empty();
   bool active = false;
   bool reset = false;
 
@@ -79,8 +77,6 @@ class _AttackButtonState extends State<AttackButton> {
         }
       },
       onHover: (details) {
-        buttonPosition = Position(
-            dx: details.position.dx, dy: details.position.dy, tile: '');
         if (active) {
           setState(() {
             reset = true;
@@ -104,7 +100,7 @@ class _AttackButtonState extends State<AttackButton> {
             } else {
               active = true;
               reset = true;
-              widget.startAttack(buttonPosition);
+              widget.startAttack();
             }
           });
         },

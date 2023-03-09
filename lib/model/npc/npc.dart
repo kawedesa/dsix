@@ -8,7 +8,6 @@ import 'package:dsix/model/combat/effect/effect.dart';
 import 'package:dsix/model/combat/effect/effect_controller.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/position.dart';
-import 'package:dsix/shared/app_exceptions.dart';
 import 'package:flutter/material.dart';
 
 class Npc {
@@ -131,19 +130,12 @@ class Npc {
     //     leftOverRawDamage - attributes.defense.tempDefense;
 
     // attributes.defense.reduceTempArmor(leftOverRawDamage);
-    // if (attributes.defense.tempDefense > 0) {
-    //   effects.applyNewEffect(attributes.defense.getTempArmorEffect());
-    // }
 
     // if (leftOverDamageAfterTempArmor < 1) {
     //   leftOverDamageAfterTempArmor = 0;
     // }
 
     int totalDamage = pDamage + mDamage + leftOverRawDamage;
-
-    if (totalDamage < 1) {
-      totalDamage = 0;
-    }
 
     life.receiveDamage(totalDamage);
 
@@ -163,30 +155,28 @@ class Npc {
       }
     }
 
-    try {
-      effects.applyNewEffect(incomingEffect);
-    } on TakeDamageException catch (effect) {
-      life.receiveDamage(effect.damage);
-    }
+    applyNewEffect(incomingEffect);
   }
 
-  void passTurn() {
-    checkEffects();
-    // attributes.defense.resetTempDefense();
-    // attributes.vision.resetTempVision();
-    update();
+  void applyNewEffect(Effect effect) {
+    switch (effect.name) {
+      case 'poison':
+        effects.currentEffects.add(effect);
+        break;
+      case 'thorn':
+        life.receiveDamage(effect.value);
+        break;
+      case 'bleed':
+        effects.currentEffects.add(effect);
+        break;
+    }
   }
 
   void checkEffects() {
     List<Effect> effectsToRemove = [];
 
     for (Effect effect in effects.currentEffects) {
-      try {
-        effects.triggerEffects(effect);
-      } on TakeDamageException catch (effect) {
-        life.receiveDamage(effect.damage);
-      }
-
+      triggerEffects(effect);
       if (effects.markEffectToRemove(effect)) {
         effectsToRemove.add(effect);
       }
@@ -195,6 +185,27 @@ class Npc {
     for (Effect effect in effectsToRemove) {
       effects.removeEffect(effect);
     }
+  }
+
+  void triggerEffects(Effect effect) {
+    switch (effect.name) {
+      case 'poison':
+        effect.countdown--;
+        life.receiveDamage(effect.value);
+        break;
+      case 'bleed':
+        effect.countdown--;
+        life.receiveDamage(effect.value);
+        break;
+    }
+  }
+
+  void passTurn() {
+    checkEffects();
+
+    // attributes.defense.resetTempDefense();
+    // attributes.vision.resetTempVision();
+    update();
   }
 
   Path getVisionArea() {

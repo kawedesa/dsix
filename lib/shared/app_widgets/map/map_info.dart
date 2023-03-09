@@ -30,6 +30,17 @@ class MapInfo {
     }
   }
 
+  Position getPlayerOnScreenPosition(Position position) {
+    return Position(
+        dx: (position.dx * minZoom) +
+            (getCanvasPosition().dx * minZoom) -
+            1 * minZoom,
+        dy: (position.dy * minZoom) +
+            (getCanvasPosition().dy * minZoom) +
+            7 * minZoom,
+        tile: '');
+  }
+
   Position getCanvasPosition() {
     return Position(
         dx: canvasController!.value.row0.w / minZoom,

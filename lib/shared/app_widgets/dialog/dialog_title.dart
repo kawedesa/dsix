@@ -18,7 +18,7 @@ class DialogTitle extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const AppSeparatorVertical(value: 0.005),
+          const AppSeparatorVertical(value: 0.002),
           Text(title.toUpperCase(),
               style: TextStyle(
                 fontSize: AppLayout.avarage(context) * 0.015,
@@ -31,7 +31,7 @@ class DialogTitle extends StatelessWidget {
               ? const SizedBox()
               : Column(
                   children: [
-                    const AppSeparatorVertical(value: 0.0025),
+                    const AppSeparatorVertical(value: 0.001),
                     Text(subTitle!.toUpperCase(),
                         style: TextStyle(
                           fontSize: AppLayout.avarage(context) * 0.01,
@@ -42,7 +42,7 @@ class DialogTitle extends StatelessWidget {
                         )),
                   ],
                 ),
-          const AppSeparatorVertical(value: 0.005),
+          const AppSeparatorVertical(value: 0.0025),
         ],
       ),
     );

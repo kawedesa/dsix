@@ -21,6 +21,7 @@ class AppImages {
   static const minRange = 'assets/images/ui/minRange.svg';
   static const maxRange = 'assets/images/ui/maxRange.svg';
 
+  static const tempVision = 'assets/images/ui/tempVision.svg';
   static const tempArmor = 'assets/images/ui/tempArmor.svg';
   static const poison = 'assets/images/ui/poison.svg';
   static const bleed = 'assets/images/ui/poison.svg';
@@ -39,7 +40,7 @@ class AppImages {
         effectIcon = tempArmor;
         break;
       case 'tempVision':
-        effectIcon = vision;
+        effectIcon = tempVision;
         break;
     }
 

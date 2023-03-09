@@ -107,8 +107,8 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
           ),
           _creatorMapController.getAttackInput(
               npcs, players, widget.selectedNpc, refresh),
-          _creatorMapController.actionButtons(
-              context, npcs, players, widget.selectedNpc, refresh),
+          _creatorMapController.actionButtons(context, widget.mapInfo, npcs,
+              players, widget.selectedNpc, refresh),
           _creatorMapController.inGameMenu(widget.selectNpc),
           _creatorMapController.npcPlacer(
               widget.mapInfo, widget.createNpc, refresh),
@@ -285,8 +285,8 @@ class CreatorMapActionModeController {
 
   Combat combat = Combat();
 
-  Widget actionButtons(context, List<Npc> npcs, List<Player> players,
-      Npc? selectedNpc, Function refresh) {
+  Widget actionButtons(context, MapInfo mapInfo, List<Npc> npcs,
+      List<Player> players, Npc? selectedNpc, Function refresh) {
     if (selectedNpc == null) {
       return const SizedBox();
     }
@@ -303,9 +303,9 @@ class CreatorMapActionModeController {
             icon: AppImages().getItemIcon('empty'),
             color: AppColors.uiColor,
             darkColor: AppColors.uiColorDark,
-            startAttack: (buttonPosition) {
+            startAttack: () {
               combat.startAttack(
-                buttonPosition,
+                mapInfo.getPlayerOnScreenPosition(selectedNpc.position),
                 selectedNpc.position,
                 selectedNpc.attack(attack),
               );

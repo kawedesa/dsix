@@ -8,11 +8,15 @@ import '../../../../shared/app_images.dart';
 import '../../../../shared/app_widgets/layout/app_separator_horizontal.dart';
 
 class BottomNavigationPlayer extends StatelessWidget {
+  final int currentPage;
   final Function(int) changePage;
   final Function() refresh;
 
   const BottomNavigationPlayer(
-      {super.key, required this.changePage, required this.refresh});
+      {super.key,
+      required this.currentPage,
+      required this.changePage,
+      required this.refresh});
 
   @override
   Widget build(BuildContext context) {
@@ -29,20 +33,22 @@ class BottomNavigationPlayer extends StatelessWidget {
                     changePage(0);
                     refresh();
                   },
-                  icon: AppImages.inventory,
-                  iconColor: user.darkColor,
+                  icon: AppImages.shop,
+                  iconColor: (currentPage == 0) ? Colors.white : user.darkColor,
                   color: Colors.transparent,
-                  borderColor: user.darkColor,
+                  borderColor:
+                      (currentPage == 0) ? Colors.white : user.darkColor,
                   size: 0.05),
               AppBarCircularButton(
                   onTap: () {
                     changePage(1);
                     refresh();
                   },
-                  icon: AppImages.shop,
-                  iconColor: user.darkColor,
+                  icon: AppImages.inventory,
+                  iconColor: (currentPage == 1) ? Colors.white : user.darkColor,
                   color: Colors.transparent,
-                  borderColor: user.darkColor,
+                  borderColor:
+                      (currentPage == 1) ? Colors.white : user.darkColor,
                   size: 0.05),
               (user.player.ready)
                   ? AppBarCircularButton(
@@ -77,20 +83,22 @@ class BottomNavigationPlayer extends StatelessWidget {
                     changePage(0);
                     refresh();
                   },
-                  icon: AppImages.inventory,
-                  iconColor: user.darkColor,
+                  icon: AppImages.map,
+                  iconColor: (currentPage == 0) ? Colors.white : user.darkColor,
                   color: Colors.transparent,
-                  borderColor: user.darkColor,
+                  borderColor:
+                      (currentPage == 0) ? Colors.white : user.darkColor,
                   size: 0.05),
               AppBarCircularButton(
                   onTap: () {
                     changePage(1);
                     refresh();
                   },
-                  icon: AppImages.map,
-                  iconColor: user.darkColor,
+                  icon: AppImages.inventory,
+                  iconColor: (currentPage == 1) ? Colors.white : user.darkColor,
                   color: Colors.transparent,
-                  borderColor: user.darkColor,
+                  borderColor:
+                      (currentPage == 1) ? Colors.white : user.darkColor,
                   size: 0.05),
               const AppSeparatorHorizontal(value: 0.05),
             ],

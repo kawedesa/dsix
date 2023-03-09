@@ -43,6 +43,7 @@ class Combat {
     for (Npc npc in npcs) {
       if (actionArea.insideArea(npc.position)) {
         npc.receiveAttack(attack);
+
         selectedPlayer
             .receiveEffect(npc.effects.passiveEffects.onBeingHitEffect);
       }
@@ -51,12 +52,11 @@ class Combat {
     for (Player player in players) {
       if (actionArea.insideArea(player.position)) {
         player.receiveAttack(attack);
+
         selectedPlayer
             .receiveEffect(player.effects.passiveEffects.onBeingHitEffect);
       }
     }
-
-    // selectedPlayer.triggerAfterAttackEffect();
   }
 
   void confirmNpcAttack(
@@ -64,6 +64,7 @@ class Combat {
     for (Npc npc in npcs) {
       if (actionArea.insideArea(npc.position)) {
         npc.receiveAttack(attack);
+
         selectedNpc!.receiveEffect(npc.effects.passiveEffects.onBeingHitEffect);
       }
     }
@@ -71,12 +72,11 @@ class Combat {
     for (Player player in players) {
       if (actionArea.insideArea(player.position)) {
         player.receiveAttack(attack);
+
         selectedNpc!
             .receiveEffect(player.effects.passiveEffects.onBeingHitEffect);
       }
     }
-
-    // selectedNpc!.triggerAfterAttackEffect();
   }
 
   void setActionArea() {

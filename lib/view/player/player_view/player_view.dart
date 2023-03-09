@@ -10,7 +10,6 @@ import 'package:dsix/view/player/player_view/widgets/page_view_content_player.da
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../model/player/player.dart';
-import '../../../shared/app_widgets/text/app_bar_title.dart';
 
 class PlayerView extends StatefulWidget {
   const PlayerView({Key? key}) : super(key: key);
@@ -54,10 +53,6 @@ class _PlayerViewState extends State<PlayerView> {
         toolbarHeight: AppLayout.height(context) * 0.04,
         backgroundColor: user.color,
         centerTitle: false,
-        title: AppBarTitle(
-          title: _playerVM.pageTitle,
-          color: user.darkColor,
-        ),
         leading: Row(
           children: [
             const AppSeparatorHorizontal(
@@ -96,7 +91,7 @@ class _PlayerViewState extends State<PlayerView> {
                 text: '${user.player.life.current}/${user.player.life.max}',
                 fontSize: 0.02,
                 letterSpacing: 0.002,
-                color: user.darkColor,
+                color: Colors.white,
               ),
               const AppSeparatorHorizontal(
                 value: 0.025,
@@ -115,7 +110,7 @@ class _PlayerViewState extends State<PlayerView> {
                     '${user.player.equipment.currentWeight}/${user.player.equipment.maxWeight}',
                 fontSize: 0.02,
                 letterSpacing: 0.002,
-                color: user.darkColor,
+                color: Colors.white,
               ),
               const AppSeparatorHorizontal(
                 value: 0.025,
@@ -133,7 +128,7 @@ class _PlayerViewState extends State<PlayerView> {
                 text: '${user.player.equipment.money}',
                 fontSize: 0.02,
                 letterSpacing: 0.002,
-                color: user.darkColor,
+                color: Colors.white,
               ),
               const AppSeparatorHorizontal(
                 value: 0.05,
@@ -154,11 +149,14 @@ class _PlayerViewState extends State<PlayerView> {
         height: AppLayout.height(context) * 0.06,
         child: Align(
           alignment: Alignment.center,
-          child: BottomNavigationPlayer(changePage: (number) {
-            _playerVM.changePage(number);
-          }, refresh: () {
-            refresh();
-          }),
+          child: BottomNavigationPlayer(
+              currentPage: _playerVM.selectedPage,
+              changePage: (number) {
+                _playerVM.changePage(number);
+              },
+              refresh: () {
+                refresh();
+              }),
         ),
       ),
     );

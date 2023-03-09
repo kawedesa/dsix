@@ -25,21 +25,21 @@ class PageViewContentPlayer extends StatelessWidget {
       controller: controller,
       children: (game.phase == 'creation')
           ? [
-              InventoryView(
+              ShopView(
                 refresh: () => refresh(),
                 displaySnackbar: (text, color) => displaySnackbar(text, color),
               ),
-              ShopView(
+              InventoryView(
                 refresh: () => refresh(),
                 displaySnackbar: (text, color) => displaySnackbar(text, color),
               ),
             ]
           : [
-              InventoryView(
+              PlayerMapView(
                 refresh: () => refresh(),
                 displaySnackbar: (text, color) => displaySnackbar(text, color),
               ),
-              PlayerMapView(
+              InventoryView(
                 refresh: () => refresh(),
                 displaySnackbar: (text, color) => displaySnackbar(text, color),
               ),

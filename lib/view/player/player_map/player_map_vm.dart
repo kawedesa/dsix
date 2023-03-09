@@ -4,6 +4,7 @@ import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/map/attack_button.dart';
+import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_npc_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_player_sprite.dart';
@@ -92,7 +93,7 @@ class PlayerMapVM {
   Combat combat = Combat();
   String playerMode = 'stand';
 
-  Widget actionButtons(User user, Function refresh) {
+  Widget actionButtons(MapInfo mapInfo, User user, Function refresh) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -106,9 +107,9 @@ class PlayerMapVM {
             combat.resetActionArea();
             refresh();
           },
-          startAttack: (position) {
+          startAttack: () {
             combat.startAttack(
-              position,
+              mapInfo.getPlayerOnScreenPosition(user.player.position),
               user.player.position,
               user.player
                   .attack(user.player.equipment.mainHandSlot.item.attack),
@@ -154,9 +155,9 @@ class PlayerMapVM {
             combat.resetActionArea();
             refresh();
           },
-          startAttack: (position) {
+          startAttack: () {
             combat.startAttack(
-              position,
+              mapInfo.getPlayerOnScreenPosition(user.player.position),
               user.player.position,
               user.player.attack(user.player.equipment.offHandSlot.item.attack),
             );

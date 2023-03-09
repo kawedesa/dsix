@@ -81,7 +81,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
               child: SizedBox(
                   width: AppLayout.shortest(context) * 0.50,
                   height: AppLayout.shortest(context) * 0.1,
-                  child: _playerMapVM.actionButtons(user, refresh))),
+                  child: _playerMapVM.actionButtons(_mapInfo, user, refresh))),
           // _playerMapVM.endGameButton(game.phase, user.player),
         ],
       ),
