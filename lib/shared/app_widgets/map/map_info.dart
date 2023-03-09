@@ -6,7 +6,6 @@ import '../../../model/combat/position.dart';
 class MapInfo {
   double mapSize;
   double minZoom = 8;
-  double maxZoom = 16;
   List<Path> grass = [];
   TransformationController? canvasController;
 

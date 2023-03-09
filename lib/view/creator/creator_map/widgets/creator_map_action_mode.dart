@@ -71,7 +71,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
             transformationController: widget.mapInfo.canvasController,
             constrained: false,
             panEnabled: true,
-            maxScale: widget.mapInfo.maxZoom,
+            maxScale: widget.mapInfo.minZoom,
             minScale: widget.mapInfo.minZoom,
             child: SizedBox(
               width: widget.mapInfo.mapSize,

@@ -48,7 +48,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
             transformationController: _mapInfo.canvasController,
             constrained: false,
             panEnabled: true,
-            maxScale: _mapInfo.maxZoom,
+            maxScale: _mapInfo.minZoom,
             minScale: _mapInfo.minZoom,
             child: SizedBox(
               width: 320,
@@ -70,19 +70,12 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     children: _playerMapVM.createPlayerSprites(
                         players, user.player, refresh),
                   ),
-                  // _playerMapVM.popUpMenu(),
                 ],
               ),
             ),
           ),
           _playerMapVM.getAttackInput(npcs, players, user.player, refresh),
-          Align(
-              alignment: const Alignment(0, 0.50),
-              child: SizedBox(
-                  width: AppLayout.shortest(context) * 0.50,
-                  height: AppLayout.shortest(context) * 0.1,
-                  child: _playerMapVM.actionButtons(_mapInfo, user, refresh))),
-          // _playerMapVM.endGameButton(game.phase, user.player),
+          _playerMapVM.actionButtons(_mapInfo, user, refresh),
         ],
       ),
     );

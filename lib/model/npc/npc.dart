@@ -150,12 +150,13 @@ class Npc {
     for (Effect effect in effects.currentEffects) {
       if (effect.name == incomingEffect.name && effect.countdown > 0) {
         effect.countdown++;
-
+        update();
         return;
       }
     }
 
     applyNewEffect(incomingEffect);
+    update();
   }
 
   void applyNewEffect(Effect effect) {

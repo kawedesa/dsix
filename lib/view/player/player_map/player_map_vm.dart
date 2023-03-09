@@ -1,11 +1,9 @@
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_images.dart';
-import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
-import 'package:dsix/shared/app_widgets/map/attack_button.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
+import 'package:dsix/view/player/player_map/widgets/player_action_buttons.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_npc_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_player_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_npc_sprite.dart';
@@ -93,84 +91,16 @@ class PlayerMapVM {
   Combat combat = Combat();
   String playerMode = 'stand';
 
-  Widget actionButtons(MapInfo mapInfo, User user, Function refresh) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        AttackButton(
-          isAttacking: (combat.isAttacking) ? true : false,
-          icon: AppImages()
-              .getItemIcon(user.player.equipment.mainHandSlot.item.name),
-          color: user.color,
-          darkColor: user.darkColor,
-          resetAttack: () {
-            combat.resetActionArea();
-            refresh();
-          },
-          startAttack: () {
-            combat.startAttack(
-              mapInfo.getPlayerOnScreenPosition(user.player.position),
-              user.player.position,
-              user.player
-                  .attack(user.player.equipment.mainHandSlot.item.attack),
-            );
-            playerMode = 'attack';
-
-            refresh();
-          },
-          cancelAttack: () {
-            cancelAction();
-            refresh();
-          },
-        ),
-        AppCircularButton(
-          icon: AppImages.defense,
-          iconColor: user.darkColor,
-          color: user.color,
-          borderColor: user.darkColor,
-          size: 0.05,
-          onTap: () {
-            user.player.defend();
-            refresh();
-          },
-        ),
-        AppCircularButton(
-          icon: AppImages.vision,
-          iconColor: user.darkColor,
-          color: user.color,
-          borderColor: user.darkColor,
-          size: 0.05,
-          onTap: () {
-            user.player.look();
-            refresh();
-          },
-        ),
-        AttackButton(
-          isAttacking: (combat.isAttacking) ? true : false,
-          color: user.color,
-          darkColor: user.darkColor,
-          icon: AppImages()
-              .getItemIcon(user.player.equipment.offHandSlot.item.name),
-          resetAttack: () {
-            combat.resetActionArea();
-            refresh();
-          },
-          startAttack: () {
-            combat.startAttack(
-              mapInfo.getPlayerOnScreenPosition(user.player.position),
-              user.player.position,
-              user.player.attack(user.player.equipment.offHandSlot.item.attack),
-            );
-            playerMode = 'attack';
-            refresh();
-          },
-          cancelAttack: () {
-            cancelAction();
-            refresh();
-          },
-        ),
-      ],
-    );
+  Widget actionButtons(MapInfo mapInfo, User user, Function() refresh) {
+    return PlayerActioButtons(
+        mapInfo: mapInfo,
+        user: user,
+        combat: combat,
+        cancelAction: cancelAction,
+        changePlayerMode: () {
+          playerMode = 'attack';
+        },
+        refresh: refresh);
   }
 
   Widget getAttackInput(List<Npc> npcs, List<Player> players,
