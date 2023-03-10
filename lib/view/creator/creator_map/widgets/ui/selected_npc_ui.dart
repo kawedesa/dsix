@@ -1,5 +1,4 @@
 import 'package:dsix/model/npc/npc.dart';
-import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/map/life_bar.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
@@ -15,13 +14,13 @@ class SelectedNpcUi extends StatelessWidget {
     return (npc == null)
         ? const SizedBox()
         : Container(
-            width: AppLayout.avarage(context) * 0.25,
-            height: AppLayout.avarage(context) * 0.055,
+            width: AppLayout.avarage(context) * 0.15,
+            height: AppLayout.avarage(context) * 0.04,
             decoration: BoxDecoration(
               color: Colors.black.withAlpha(150),
               border: Border.all(
-                color: AppColors.uiColor,
-                width: AppLayout.avarage(context) * 0.0025,
+                color: Colors.black.withAlpha(150),
+                width: AppLayout.avarage(context) * 0.0015,
               ),
             ),
             child: Padding(
@@ -32,8 +31,8 @@ class SelectedNpcUi extends StatelessWidget {
                     alignment: Alignment.topCenter,
                     child: AppText(
                       text: npc!.race.toUpperCase(),
-                      fontSize: 0.0125,
-                      letterSpacing: 0.0025,
+                      fontSize: 0.01,
+                      letterSpacing: 0.001,
                       color: Colors.white,
                     ),
                   ),
@@ -41,8 +40,8 @@ class SelectedNpcUi extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: LifeBar(
                       life: npc!.life,
-                      width: AppLayout.avarage(context) * 0.18,
-                      height: AppLayout.avarage(context) * 0.01,
+                      width: AppLayout.avarage(context) * 0.13,
+                      height: AppLayout.avarage(context) * 0.0075,
                     ),
                   ),
                 ],

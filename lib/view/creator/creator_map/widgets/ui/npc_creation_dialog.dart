@@ -57,15 +57,15 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const AppSeparatorVertical(value: 0.025),
+                  const AppSeparatorVertical(value: 0.01),
                   SizedBox(
                     width: AppLayout.shortest(context) * 0.55,
                     child: GridView.count(
                       shrinkWrap: true,
                       physics: const ScrollPhysics(),
-                      crossAxisCount: 6,
-                      mainAxisSpacing: AppLayout.height(context) * 0.01,
-                      crossAxisSpacing: AppLayout.width(context) * 0.01,
+                      crossAxisCount: 8,
+                      mainAxisSpacing: AppLayout.height(context) * 0.005,
+                      crossAxisSpacing: AppLayout.width(context) * 0.005,
                       children:
                           List.generate(NpcList().getNpcList().length, (index) {
                         return GestureDetector(
@@ -78,7 +78,7 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                                   iconColor: AppColors.uiColorDark,
                                   icon: AppImages().getRaceIcon(
                                       NpcList().getNpcList()[index].race),
-                                  size: 0.07,
+                                  size: 0.04,
                                   onTap: () {
                                     setState(() {
                                       selectedNpc =
@@ -92,7 +92,7 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                                   iconColor: AppColors.uiColor,
                                   icon: AppImages().getRaceIcon(
                                       NpcList().getNpcList()[index].race),
-                                  size: 0.07,
+                                  size: 0.04,
                                   onTap: () {
                                     setState(() {
                                       selectedNpc =
@@ -104,7 +104,7 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                       }),
                     ),
                   ),
-                  const AppSeparatorVertical(value: 0.025),
+                  const AppSeparatorVertical(value: 0.01),
                   const AppLineDividerHorizontal(
                       color: AppColors.uiColor, value: 5),
                   SizedBox(

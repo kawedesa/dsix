@@ -15,10 +15,11 @@ import '../../../model/combat/combat.dart';
 import '../../../model/npc/npc.dart';
 
 class PlayerMapVM {
-  List<Widget> createNpcSprites(List<Npc> npcs, List<Player> players) {
+  List<Widget> createNpcSprites(
+      MapInfo mapInfo, List<Npc> npcs, List<Player> players) {
     List<Widget> npcSprites = [];
 
-    Path playersVisibleArea = getPlayersVisibleArea(players);
+    Path playersVisibleArea = getPlayersVisibleArea(mapInfo, players);
 
     for (Npc npc in npcs) {
       if (playersVisibleArea.contains(npc.position.getOffset())) {
@@ -38,19 +39,30 @@ class PlayerMapVM {
     return npcSprites;
   }
 
-  Path getPlayersVisibleArea(List<Player> players) {
+  Path getPlayersVisibleArea(MapInfo mapInfo, List<Player> players) {
     Path visibleArea = Path();
 
     for (Player player in players) {
       if (player.life.isDead() == false) {
-        visibleArea.addPath(player.getVisionArea(), Offset.zero);
+        Path playerVision = Path()
+          ..addPath(player.getVisionArea(), Offset.zero);
+        Path playerVisibleArea = Path();
+
+        if (player.position.tile != 'grass') {
+          playerVisibleArea = Path.combine(
+              PathOperation.difference, playerVision, mapInfo.grass);
+        } else {
+          playerVisibleArea = playerVision;
+        }
+
+        visibleArea.addPath(playerVisibleArea, Offset.zero);
       }
     }
     return visibleArea;
   }
 
-  List<Widget> createPlayerSprites(
-      List<Player> players, Player player, Function() refresh) {
+  List<Widget> createPlayerSprites(MapInfo mapInfo, List<Player> players,
+      Player player, Function() refresh) {
     List<Widget> playerSprites = [];
 
 //OTHER PLAYERS
@@ -78,6 +90,7 @@ class PlayerMapVM {
       ));
     } else {
       playerSprites.add(PlayerViewPlayerSprite(
+        mapInfo: mapInfo,
         player: player,
         color: AppColors().getPlayerColor(player.id),
         playerMode: playerMode,

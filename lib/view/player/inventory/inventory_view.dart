@@ -40,7 +40,7 @@ class _InventoryViewState extends State<InventoryView> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const AppSeparatorVertical(
-          value: 0.02,
+          value: 0.01,
         ),
         AttributesInfoBar(
           color: user.color,
@@ -48,7 +48,7 @@ class _InventoryViewState extends State<InventoryView> {
           attributes: user.player.attributes,
         ),
         const AppSeparatorVertical(
-          value: 0.02,
+          value: 0.01,
         ),
         AppLineDividerHorizontal(color: user.color, value: 4),
         Expanded(
@@ -91,14 +91,14 @@ class _InventoryViewState extends State<InventoryView> {
                                   iconColor: user.darkColor,
                                   color: user.color,
                                   borderColor: user.color,
-                                  size: 0.05),
+                                  size: 0.04),
                               const AppSeparatorHorizontal(value: 0.015),
                               AppText(
                                   text: user.player.equipment
                                       .getPArmor()
                                       .toString(),
-                                  fontSize: 0.02,
-                                  letterSpacing: 0.002,
+                                  fontSize: 0.015,
+                                  letterSpacing: 0.001,
                                   color: Colors.white),
                             ],
                           ),
@@ -108,8 +108,8 @@ class _InventoryViewState extends State<InventoryView> {
                                   text: user.player.equipment
                                       .getMArmor()
                                       .toString(),
-                                  fontSize: 0.02,
-                                  letterSpacing: 0.002,
+                                  fontSize: 0.015,
+                                  letterSpacing: 0.001,
                                   color: Colors.white),
                               const AppSeparatorHorizontal(value: 0.015),
                               AppCircularButton(
@@ -117,7 +117,7 @@ class _InventoryViewState extends State<InventoryView> {
                                   iconColor: user.darkColor,
                                   color: user.color,
                                   borderColor: user.color,
-                                  size: 0.05),
+                                  size: 0.04),
                             ],
                           )
                         ],

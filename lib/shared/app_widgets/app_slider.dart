@@ -109,7 +109,7 @@ class _AppSliderState extends State<AppSlider> {
                   iconColor: widget.iconColor,
                   color: widget.color,
                   borderColor: widget.color,
-                  size: 0.05,
+                  size: 0.04,
                   onTap: () {
                     showDialog(
                       context: context,

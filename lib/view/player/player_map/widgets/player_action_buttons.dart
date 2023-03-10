@@ -88,10 +88,10 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
                       ? const SizedBox()
                       : AppCircularButton(
                           icon: AppImages.defense,
-                          iconColor: widget.user.darkColor,
-                          color: widget.user.color,
-                          borderColor: widget.user.darkColor,
-                          size: 0.05,
+                          iconColor: widget.user.darkColor.withAlpha(225),
+                          color: widget.user.color.withAlpha(100),
+                          borderColor: widget.user.darkColor.withAlpha(225),
+                          size: 0.04,
                           onTap: () {
                             widget.user.player.defend();
                             widget.refresh();
@@ -101,10 +101,10 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
                       ? const SizedBox()
                       : AppCircularButton(
                           icon: AppImages.vision,
-                          iconColor: widget.user.darkColor,
-                          color: widget.user.color,
-                          borderColor: widget.user.darkColor,
-                          size: 0.05,
+                          iconColor: widget.user.darkColor.withAlpha(225),
+                          color: widget.user.color.withAlpha(100),
+                          borderColor: widget.user.darkColor.withAlpha(225),
+                          size: 0.04,
                           onTap: () {
                             widget.user.player.look();
                             widget.refresh();

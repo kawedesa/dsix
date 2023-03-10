@@ -41,18 +41,18 @@ class _ItemDialogState extends State<ItemDialog> {
                 iconColor: widget.darkColor,
                 color: widget.color,
                 borderColor: widget.color,
-                size: 0.05),
-            const AppSeparatorHorizontal(value: 0.015),
+                size: 0.025),
+            const AppSeparatorHorizontal(value: 0.01),
             AppText(
                 text: widget.item.armor.pArmor.toString(),
-                fontSize: 0.02,
+                fontSize: 0.015,
                 letterSpacing: 0.002,
                 color: Colors.white),
           ],
         ),
       );
       itemAttributes.add(
-        const AppSeparatorVertical(value: 0.015),
+        const AppSeparatorVertical(value: 0.0125),
       );
     }
     if (widget.item.armor.mArmor != 0) {
@@ -63,17 +63,17 @@ class _ItemDialogState extends State<ItemDialog> {
               iconColor: widget.darkColor,
               color: widget.color,
               borderColor: widget.color,
-              size: 0.05),
-          const AppSeparatorHorizontal(value: 0.015),
+              size: 0.025),
+          const AppSeparatorHorizontal(value: 0.01),
           AppText(
               text: widget.item.armor.mArmor.toString(),
-              fontSize: 0.02,
+              fontSize: 0.015,
               letterSpacing: 0.002,
               color: Colors.white),
         ],
       ));
       itemAttributes.add(
-        const AppSeparatorVertical(value: 0.015),
+        const AppSeparatorVertical(value: 0.0125),
       );
     }
     if (widget.item.attack.damage.pDamage != 0) {
@@ -84,17 +84,17 @@ class _ItemDialogState extends State<ItemDialog> {
               iconColor: widget.darkColor,
               color: widget.color,
               borderColor: widget.color,
-              size: 0.05),
-          const AppSeparatorHorizontal(value: 0.015),
+              size: 0.025),
+          const AppSeparatorHorizontal(value: 0.01),
           AppText(
               text: widget.item.attack.damage.pDamage.toString(),
-              fontSize: 0.02,
+              fontSize: 0.015,
               letterSpacing: 0.002,
               color: Colors.white),
         ],
       ));
       itemAttributes.add(
-        const AppSeparatorVertical(value: 0.015),
+        const AppSeparatorVertical(value: 0.0125),
       );
     }
     if (widget.item.attack.damage.mDamage != 0) {
@@ -105,17 +105,17 @@ class _ItemDialogState extends State<ItemDialog> {
               iconColor: widget.darkColor,
               color: widget.color,
               borderColor: widget.color,
-              size: 0.05),
-          const AppSeparatorHorizontal(value: 0.015),
+              size: 0.025),
+          const AppSeparatorHorizontal(value: 0.01),
           AppText(
               text: widget.item.attack.damage.mDamage.toString(),
-              fontSize: 0.02,
+              fontSize: 0.015,
               letterSpacing: 0.002,
               color: Colors.white),
         ],
       ));
       itemAttributes.add(
-        const AppSeparatorVertical(value: 0.015),
+        const AppSeparatorVertical(value: 0.0125),
       );
     }
     itemAttributes.add(Row(
@@ -125,17 +125,17 @@ class _ItemDialogState extends State<ItemDialog> {
             iconColor: widget.darkColor,
             color: widget.color,
             borderColor: widget.color,
-            size: 0.05),
-        const AppSeparatorHorizontal(value: 0.015),
+            size: 0.025),
+        const AppSeparatorHorizontal(value: 0.01),
         AppText(
             text: widget.item.weight.toString(),
-            fontSize: 0.02,
+            fontSize: 0.015,
             letterSpacing: 0.002,
             color: Colors.white),
       ],
     ));
     itemAttributes.add(
-      const AppSeparatorVertical(value: 0.015),
+      const AppSeparatorVertical(value: 0.0125),
     );
     itemAttributes.add(Row(
       children: [
@@ -144,11 +144,11 @@ class _ItemDialogState extends State<ItemDialog> {
             iconColor: widget.darkColor,
             color: widget.color,
             borderColor: widget.color,
-            size: 0.05),
-        const AppSeparatorHorizontal(value: 0.015),
+            size: 0.025),
+        const AppSeparatorHorizontal(value: 0.01),
         AppText(
             text: widget.item.value.toString(),
-            fontSize: 0.02,
+            fontSize: 0.015,
             letterSpacing: 0.002,
             color: Colors.white),
       ],
@@ -184,7 +184,7 @@ class _ItemDialogState extends State<ItemDialog> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const AppSeparatorVertical(value: 0.03),
+                  const AppSeparatorVertical(value: 0.01),
                   Stack(
                     children: [
                       Align(
@@ -200,16 +200,16 @@ class _ItemDialogState extends State<ItemDialog> {
                         alignment: const Alignment(-0.9, 0.0),
                         child: SizedBox(
                           width: AppLayout.shortest(context) * 0.2,
-                          height: AppLayout.shortest(context) * 0.4,
+                          height: AppLayout.shortest(context) * 0.3,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: getItemAttributes(),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const AppSeparatorVertical(value: 0.02),
+                  const AppSeparatorVertical(value: 0.01),
                   DialogButton(
                       color: widget.color,
                       buttonText: 'sell',

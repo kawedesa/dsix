@@ -21,9 +21,9 @@ class DialogTitle extends StatelessWidget {
           const AppSeparatorVertical(value: 0.002),
           Text(title.toUpperCase(),
               style: TextStyle(
-                fontSize: AppLayout.avarage(context) * 0.015,
+                fontSize: AppLayout.avarage(context) * 0.0125,
                 fontWeight: FontWeight.bold,
-                letterSpacing: AppLayout.avarage(context) * 0.005,
+                letterSpacing: AppLayout.avarage(context) * 0.0025,
                 fontFamily: 'Poppins',
                 color: Colors.black,
               )),
@@ -34,9 +34,9 @@ class DialogTitle extends StatelessWidget {
                     const AppSeparatorVertical(value: 0.001),
                     Text(subTitle!.toUpperCase(),
                         style: TextStyle(
-                          fontSize: AppLayout.avarage(context) * 0.01,
+                          fontSize: AppLayout.avarage(context) * 0.0075,
                           fontWeight: FontWeight.normal,
-                          letterSpacing: AppLayout.avarage(context) * 0.003,
+                          letterSpacing: AppLayout.avarage(context) * 0.0015,
                           fontFamily: 'Poppins',
                           color: Colors.black,
                         )),

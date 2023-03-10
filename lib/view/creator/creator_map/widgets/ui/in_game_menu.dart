@@ -73,7 +73,7 @@ class _InGameMenuState extends State<InGameMenu> {
                 borderColor: (game.turn.currentTurn == 'player')
                     ? AppColors.uiColorDark.withAlpha(200)
                     : AppColors.uiColorLight.withAlpha(200),
-                size: 0.05,
+                size: 0.04,
                 onTap: () {
                   passTurn(game, npcs, players);
                 },

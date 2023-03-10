@@ -115,7 +115,7 @@ class _RaceViewState extends State<RaceView> {
                 ),
                 const AppSeparatorVertical(value: 0.025),
                 SizedBox(
-                    width: AppLayout.avarage(context) * 0.25,
+                    width: AppLayout.avarage(context) * 0.2,
                     child: _raceVM.raceBonusIcons(context, user)),
                 const AppSeparatorVertical(value: 0.025),
                 AppTextButton(

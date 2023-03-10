@@ -52,7 +52,7 @@ class _ShopDialogState extends State<ShopDialog> {
         ),
       );
       itemAttributes.add(
-        const AppSeparatorVertical(value: 0.015),
+        const AppSeparatorVertical(value: 0.0125),
       );
     }
     if (widget.item.armor.mArmor != 0) {
@@ -73,7 +73,7 @@ class _ShopDialogState extends State<ShopDialog> {
         ],
       ));
       itemAttributes.add(
-        const AppSeparatorVertical(value: 0.015),
+        const AppSeparatorVertical(value: 0.0125),
       );
     }
     if (widget.item.attack.damage.pDamage != 0) {
@@ -94,7 +94,7 @@ class _ShopDialogState extends State<ShopDialog> {
         ],
       ));
       itemAttributes.add(
-        const AppSeparatorVertical(value: 0.015),
+        const AppSeparatorVertical(value: 0.0125),
       );
     }
     if (widget.item.attack.damage.mDamage != 0) {
@@ -115,7 +115,7 @@ class _ShopDialogState extends State<ShopDialog> {
         ],
       ));
       itemAttributes.add(
-        const AppSeparatorVertical(value: 0.015),
+        const AppSeparatorVertical(value: 0.0125),
       );
     }
     itemAttributes.add(Row(
@@ -135,7 +135,7 @@ class _ShopDialogState extends State<ShopDialog> {
       ],
     ));
     itemAttributes.add(
-      const AppSeparatorVertical(value: 0.015),
+      const AppSeparatorVertical(value: 0.0125),
     );
     itemAttributes.add(Row(
       children: [
@@ -184,7 +184,7 @@ class _ShopDialogState extends State<ShopDialog> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const AppSeparatorVertical(value: 0.03),
+                  const AppSeparatorVertical(value: 0.01),
                   Stack(
                     children: [
                       Align(
@@ -200,7 +200,7 @@ class _ShopDialogState extends State<ShopDialog> {
                         alignment: const Alignment(-0.9, 0.0),
                         child: SizedBox(
                           width: AppLayout.shortest(context) * 0.2,
-                          height: AppLayout.shortest(context) * 0.4,
+                          height: AppLayout.shortest(context) * 0.3,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: getItemAttributes(),
@@ -209,7 +209,7 @@ class _ShopDialogState extends State<ShopDialog> {
                       ),
                     ],
                   ),
-                  const AppSeparatorVertical(value: 0.02),
+                  const AppSeparatorVertical(value: 0.01),
                   DialogButton(
                       color: widget.color,
                       buttonText: 'buy',

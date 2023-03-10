@@ -35,7 +35,7 @@ class _ShopViewState extends State<ShopView> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const AppSeparatorVertical(
-            value: 0.02,
+            value: 0.01,
           ),
           SizedBox(
             width: AppLayout.shortest(context) * 0.8,
@@ -50,7 +50,7 @@ class _ShopViewState extends State<ShopView> {
                       ? user.lightColor
                       : user.color,
                   color: user.color,
-                  size: 0.05,
+                  size: 0.04,
                   onTap: () {
                     setState(() {
                       _shopVM.changeMenu(0);
@@ -64,7 +64,7 @@ class _ShopViewState extends State<ShopView> {
                       ? user.lightColor
                       : user.color,
                   color: user.color,
-                  size: 0.05,
+                  size: 0.04,
                   onTap: () {
                     setState(() {
                       _shopVM.changeMenu(1);
@@ -78,7 +78,7 @@ class _ShopViewState extends State<ShopView> {
                       ? user.lightColor
                       : user.color,
                   color: user.color,
-                  size: 0.05,
+                  size: 0.04,
                   onTap: () {
                     setState(() {
                       _shopVM.changeMenu(2);
@@ -92,7 +92,7 @@ class _ShopViewState extends State<ShopView> {
                       ? user.lightColor
                       : user.color,
                   color: user.color,
-                  size: 0.05,
+                  size: 0.04,
                   onTap: () {
                     setState(() {
                       _shopVM.changeMenu(3);
@@ -103,7 +103,7 @@ class _ShopViewState extends State<ShopView> {
             ),
           ),
           const AppSeparatorVertical(
-            value: 0.02,
+            value: 0.01,
           ),
           AppLineDividerHorizontal(color: user.color, value: 4),
           const AppSeparatorVertical(

@@ -90,7 +90,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   ),
                   Stack(
                     children: _creatorMapController.createPlayerSprites(
-                        players, npcs),
+                        widget.mapInfo, players, npcs),
                   ),
                   Stack(
                     children: _creatorMapController.createNpcSprites(npcs,
@@ -147,10 +147,11 @@ class CreatorMapActionModeController {
     return npcSprites;
   }
 
-  List<Widget> createPlayerSprites(List<Player> players, List<Npc> npcs) {
+  List<Widget> createPlayerSprites(
+      MapInfo mapInfo, List<Player> players, List<Npc> npcs) {
     List<Widget> playerSprites = [];
 
-    Path npcVisibleArea = getNpcsVisibleArea(npcs);
+    Path npcVisibleArea = getNpcsVisibleArea(mapInfo, npcs);
 
     for (Player player in players) {
       if (npcVisibleArea.contains(player.position.getOffset())) {
@@ -172,12 +173,22 @@ class CreatorMapActionModeController {
     return playerSprites;
   }
 
-  Path getNpcsVisibleArea(List<Npc> npcs) {
+  Path getNpcsVisibleArea(MapInfo mapInfo, List<Npc> npcs) {
     Path visibleArea = Path();
 
     for (Npc npc in npcs) {
       if (npc.life.isDead() == false) {
-        visibleArea.addPath(npc.getVisionArea(), Offset.zero);
+        Path playerVision = Path()..addPath(npc.getVisionArea(), Offset.zero);
+        Path playerVisibleArea = Path();
+
+        if (npc.position.tile != 'grass') {
+          playerVisibleArea = Path.combine(
+              PathOperation.difference, playerVision, mapInfo.grass);
+        } else {
+          playerVisibleArea = playerVision;
+        }
+
+        visibleArea.addPath(playerVisibleArea, Offset.zero);
       }
     }
     return visibleArea;
@@ -272,11 +283,11 @@ class CreatorMapActionModeController {
 
   Widget displayTurn(String turn) {
     return Align(
-      alignment: const Alignment(0.0, -0.97),
+      alignment: const Alignment(0.0, -0.98),
       child: AppText(
           text: '${turn.toUpperCase()} TURN',
-          fontSize: 0.02,
-          letterSpacing: 0.002,
+          fontSize: 0.0125,
+          letterSpacing: 0.001,
           color: Colors.black),
     );
   }

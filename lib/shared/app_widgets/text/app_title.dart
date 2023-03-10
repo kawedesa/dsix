@@ -15,8 +15,8 @@ class AppTitle extends StatelessWidget {
           decoration: TextDecoration.underline,
           decorationColor: color,
           color: Colors.transparent,
-          fontSize: AppLayout.avarage(context) * 0.05,
-          letterSpacing: AppLayout.avarage(context) * 0.01,
+          fontSize: AppLayout.avarage(context) * 0.035,
+          letterSpacing: AppLayout.avarage(context) * 0.005,
           fontFamily: 'Poppins',
         ));
   }

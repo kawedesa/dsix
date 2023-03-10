@@ -82,8 +82,8 @@ class _HomeMenuState extends State<HomeMenu> {
           child: SvgPicture.asset(
             AppImages.logo,
             color: Colors.grey,
-            width: AppLayout.avarage(context) * 0.15,
-            height: AppLayout.avarage(context) * 0.15,
+            width: AppLayout.avarage(context) * 0.1,
+            height: AppLayout.avarage(context) * 0.1,
           ),
         );
 
@@ -114,7 +114,7 @@ class _HomeMenuState extends State<HomeMenu> {
                         });
                       }),
                   const AppSeparatorVertical(
-                    value: 0.01,
+                    value: 0.005,
                   ),
                   AppTextButton(
                       buttonText: 'creator',

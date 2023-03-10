@@ -4,6 +4,7 @@ import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/animation/damage_animation.dart';
+import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/player_effects_ui.dart';
 import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,14 @@ import 'package:provider/provider.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
 class PlayerViewPlayerSprite extends StatefulWidget {
+  final MapInfo mapInfo;
   final Color color;
   final Player player;
   final String playerMode;
   final Function() onTap;
   const PlayerViewPlayerSprite(
       {super.key,
+      required this.mapInfo,
       required this.color,
       required this.player,
       required this.playerMode,
@@ -87,13 +90,12 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                       },
                       onPanUpdate: (details) {
                         setState(() {
-                          _controller.tempPosition
-                              .panUpdate(details.delta, 'tile');
+                          _controller.tempPosition.panUpdate(details.delta, '');
                         });
                       },
                       onPanEnd: (details) {
                         setState(() {
-                          _controller.endMove(widget.player);
+                          _controller.endMove(widget.player, widget.mapInfo);
 
                           _controller.drag = false;
                         });
@@ -136,9 +138,11 @@ class PlayerSpriteController {
         tempPosition.newPosition.dy - player.attributes.vision.getRange() / 2);
   }
 
-  void endMove(Player player) {
+  void endMove(Player player, MapInfo mapInfo) {
     if (tempPosition.distanceMoved < player.attributes.movement.maxRange() &&
         tempPosition.distanceMoved > 4) {
+      tempPosition.newPosition.tile =
+          mapInfo.getTile(tempPosition.newPosition.getOffset());
       player.changePosition(tempPosition.newPosition);
     }
   }

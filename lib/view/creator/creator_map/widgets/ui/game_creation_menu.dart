@@ -77,13 +77,13 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
                   iconColor: AppColors.uiColorLight.withAlpha(200),
                   color: AppColors.uiColor.withAlpha(100),
                   borderColor: AppColors.uiColorLight.withAlpha(200),
-                  size: 0.05)
+                  size: 0.04)
               : AppCircularButton(
                   icon: AppImages.spawner,
                   iconColor: AppColors.uiColor.withAlpha(200),
                   color: AppColors.uiColorDark.withAlpha(100),
                   borderColor: AppColors.uiColorDark.withAlpha(200),
-                  size: 0.05),
+                  size: 0.04),
           const AppSeparatorHorizontal(value: 0.025),
           NpcCreationButton(
             active: (spawners.isEmpty) ? false : true,
@@ -102,7 +102,7 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
                   iconColor: AppColors.uiColor.withAlpha(200),
                   color: AppColors.uiColorDark.withAlpha(100),
                   borderColor: AppColors.uiColorDark.withAlpha(200),
-                  size: 0.05)
+                  size: 0.04)
               : AppCircularButton(
                   onTap: () {
                     setState(() {
@@ -118,7 +118,7 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
                   iconColor: AppColors.uiColorLight.withAlpha(200),
                   color: AppColors.uiColor.withAlpha(100),
                   borderColor: AppColors.uiColorLight.withAlpha(200),
-                  size: 0.05)
+                  size: 0.04)
         ],
       ),
     );

@@ -29,7 +29,7 @@ class _DialogButtonState extends State<DialogButton> {
         builder: (_, double aplhaValue, __) {
           return Container(
             width: double.infinity,
-            height: AppLayout.avarage(context) * 0.08,
+            height: AppLayout.avarage(context) * 0.06,
             decoration: BoxDecoration(
               color: Colors.black,
               border: Border.all(
@@ -46,8 +46,8 @@ class _DialogButtonState extends State<DialogButton> {
                 Center(
                   child: AppText(
                     text: widget.buttonText.toUpperCase(),
-                    fontSize: 0.02,
-                    letterSpacing: 0.004,
+                    fontSize: 0.015,
+                    letterSpacing: 0.002,
                     color: widget.color,
                   ),
                 ),

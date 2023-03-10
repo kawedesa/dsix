@@ -64,11 +64,12 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     area: _playerMapVM.combat.actionArea.area,
                   ),
                   Stack(
-                    children: _playerMapVM.createNpcSprites(npcs, players),
+                    children:
+                        _playerMapVM.createNpcSprites(_mapInfo, npcs, players),
                   ),
                   Stack(
                     children: _playerMapVM.createPlayerSprites(
-                        players, user.player, refresh),
+                        _mapInfo, players, user.player, refresh),
                   ),
                 ],
               ),

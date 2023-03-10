@@ -20,7 +20,7 @@ class ConfirmDialog extends StatelessWidget {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: AppLayout.avarage(context) * 0.4,
+        width: AppLayout.avarage(context) * 0.2,
         decoration: BoxDecoration(
           color: color,
           border: Border.all(
