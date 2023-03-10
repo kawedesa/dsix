@@ -53,21 +53,6 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
         height: widget.npc.vision.getRange(),
         child: Stack(
           children: [
-            // Align(
-            //   alignment: Alignment.center,
-            //   child: Container(
-            //     width: 7,
-            //     height: 7,
-            //     decoration: BoxDecoration(
-            //       color: AppColors.uiColorDark.withAlpha(25),
-            //       shape: BoxShape.circle,
-            //       border: Border.all(
-            //         color: AppColors.uiColorDark.withAlpha(25),
-            //         width: 0.3,
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Align(
               alignment: Alignment.center,
               child: GestureDetector(
@@ -81,7 +66,7 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
                   child: Padding(
                     padding: const EdgeInsets.all(1.0),
                     child: SvgPicture.asset(
-                      AppImages().getRaceIcon(
+                      AppImages().getNpcIcon(
                         widget.npc.race,
                       ),
                       color: Colors.black,

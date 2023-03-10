@@ -1,9 +1,41 @@
+import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 
 class CreatorMapVM {
   final MapInfo mapInfo = MapInfo.empty();
+
+  Building? selectedBuilding;
+
+  void updateSelectedBuilding(List<Building> buildings) {
+    if (selectedBuilding == null) {
+      return;
+    }
+
+    for (Building building in buildings) {
+      if (selectedBuilding!.id == building.id) {
+        selectedBuilding = building;
+      }
+    }
+  }
+
+  void selectBuilding(Building building) {
+    selectedBuilding = building;
+  }
+
+  void deselectBuilding() {
+    if (selectedBuilding == null) {
+      return;
+    } else {
+      selectedBuilding = null;
+    }
+  }
+
+  void createBuilding(Position position) {
+    selectedBuilding!.changePosition(position);
+    selectedBuilding!.set();
+  }
 
   Npc? selectedNpc;
 

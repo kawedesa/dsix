@@ -114,7 +114,7 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
                       child: Padding(
                         padding: const EdgeInsets.all(1.0),
                         child: SvgPicture.asset(
-                          AppImages().getRaceIcon(
+                          AppImages().getNpcIcon(
                             widget.npc.race,
                           ),
                           color: Colors.black,

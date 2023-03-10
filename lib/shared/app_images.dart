@@ -248,77 +248,105 @@ class AppImages {
   }
 
   //Sprites
+  //OBJECTS
+  static const grave = 'assets/images/sprites/objects/grave.svg';
+  static const graveColor = 'assets/images/sprites/objects/graveColor.svg';
 
-  static const grave = 'assets/images/sprites/grave.svg';
-  static const graveColor = 'assets/images/sprites/graveColor.svg';
+  static const chestClosed = 'assets/images/sprites/objects/chestClosed.svg';
+  static const chestOpen = 'assets/images/sprites/objects/chestOpen.svg';
 
-  static const chestClosed = 'assets/images/sprites/chestClosed.svg';
-  static const chestOpen = 'assets/images/sprites/chestOpen.svg';
+  //PLAYERS
 
-  static const dwarf = 'assets/images/sprites/dwarf.svg';
-  static const dwarfBody = 'assets/images/sprites/dwarfBody.svg';
-  static const dwarfHead = 'assets/images/sprites/dwarfHead.svg';
+  static const dwarfBody = 'assets/images/sprites/players/dwarfBody.svg';
+  static const dwarfHead = 'assets/images/sprites/players/dwarfHead.svg';
 
-  static const orc = 'assets/images/sprites/orc.svg';
-  static const orcBody = 'assets/images/sprites/orcBody.svg';
-  static const orcHead = 'assets/images/sprites/orcHead.svg';
+  static const orcBody = 'assets/images/sprites/players/orcBody.svg';
+  static const orcHead = 'assets/images/sprites/players/orcHead.svg';
 
-  static const elf = 'assets/images/sprites/elf.svg';
-  static const elfBody = 'assets/images/sprites/elfBody.svg';
-  static const elfHead = 'assets/images/sprites/elfHead.svg';
+  static const elfBody = 'assets/images/sprites/players/elfBody.svg';
+  static const elfHead = 'assets/images/sprites/players/elfHead.svg';
 
-  //NPC
-  static const zombie = 'assets/images/sprites/zombie.svg';
-  static const giantBat = 'assets/images/sprites/giantBat.svg';
-  static const skeleton = 'assets/images/sprites/skeleton.svg';
-  static const skeletonMage = 'assets/images/sprites/skeletonMage.svg';
-  static const giantFrog = 'assets/images/sprites/giantFrog.svg';
-  static const goblin = 'assets/images/sprites/goblin.svg';
-  static const beast = 'assets/images/sprites/beast.svg';
-  static const explosiveLizzard = 'assets/images/sprites/explosiveLizzard.svg';
-  static const wraith = 'assets/images/sprites/wraith.svg';
-  static const golen = 'assets/images/sprites/golen.svg';
+  //NPCS
+  static const zombie = 'assets/images/sprites/npcs/zombie.svg';
+  static const giantBat = 'assets/images/sprites/npcs/giantBat.svg';
+  static const skeleton = 'assets/images/sprites/npcs/skeleton.svg';
+  static const skeletonMage = 'assets/images/sprites/npcs/skeletonMage.svg';
+  static const giantFrog = 'assets/images/sprites/npcs/giantFrog.svg';
+  static const goblin = 'assets/images/sprites/npcs/goblin.svg';
+  static const beast = 'assets/images/sprites/npcs/beast.svg';
+  static const explosiveLizzard =
+      'assets/images/sprites/npcs/explosiveLizzard.svg';
+  static const wraith = 'assets/images/sprites/npcs/wraith.svg';
+  static const golen = 'assets/images/sprites/npcs/golen.svg';
 
-  String getRaceIcon(String race) {
-    String raceIcon = '';
+  String getNpcIcon(String npc) {
+    String npcIcon = '';
 
-    switch (race) {
+    switch (npc) {
       case 'zombie':
-        raceIcon = zombie;
+        npcIcon = zombie;
         break;
       case 'giant bat':
-        raceIcon = giantBat;
+        npcIcon = giantBat;
         break;
       case 'skeleton':
-        raceIcon = skeleton;
+        npcIcon = skeleton;
         break;
       case 'skeleton mage':
-        raceIcon = skeletonMage;
+        npcIcon = skeletonMage;
         break;
       case 'giant frog':
-        raceIcon = giantFrog;
+        npcIcon = giantFrog;
         break;
 
       case 'goblin':
-        raceIcon = goblin;
+        npcIcon = goblin;
         break;
       case 'beast':
-        raceIcon = beast;
+        npcIcon = beast;
         break;
       case 'explosive lizzard':
-        raceIcon = explosiveLizzard;
+        npcIcon = explosiveLizzard;
         break;
 
       case 'wraith':
-        raceIcon = wraith;
+        npcIcon = wraith;
         break;
 
       case 'golen':
-        raceIcon = golen;
+        npcIcon = golen;
         break;
     }
 
-    return raceIcon;
+    return npcIcon;
+  }
+
+  //BUILDINGS
+  static const blackTablet = 'assets/images/sprites/buildings/blackTablet.svg';
+  static const divineAltar = 'assets/images/sprites/buildings/divineAltar.svg';
+  static const earthAltar = 'assets/images/sprites/buildings/earthAltar.svg';
+  static const sacrificeAltar =
+      'assets/images/sprites/buildings/sacrificeAltar.svg';
+
+  String getBuildingIcon(String building) {
+    String buildingIcon = '';
+
+    switch (building) {
+      case 'black tablet':
+        buildingIcon = blackTablet;
+        break;
+      case 'divine altar':
+        buildingIcon = divineAltar;
+        break;
+      case 'earth altar':
+        buildingIcon = earthAltar;
+        break;
+      case 'sacrifice altar':
+        buildingIcon = sacrificeAltar;
+        break;
+    }
+
+    return buildingIcon;
   }
 
   //Map

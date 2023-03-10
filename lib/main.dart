@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
@@ -74,6 +75,18 @@ class MyApp extends StatelessWidget {
                 .snapshots()
                 .map((querySnapshot) => querySnapshot.docs
                     .map((npc) => Npc.fromMap(npc.data()))
+                    .toList())),
+
+        //BUILDINGS
+        StreamProvider<List<Building>>(
+            initialData: const [],
+            create: (context) => database
+                .collection('game')
+                .doc('gameID')
+                .collection('buildings')
+                .snapshots()
+                .map((querySnapshot) => querySnapshot.docs
+                    .map((building) => Building.fromMap(building.data()))
                     .toList())),
       ],
       child: MaterialApp(

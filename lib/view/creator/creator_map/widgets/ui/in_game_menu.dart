@@ -1,3 +1,4 @@
+import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
@@ -8,16 +9,17 @@ import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/view/creator/creator_map/widgets/ui/building_creation_button.dart';
 import 'package:dsix/view/creator/creator_map/widgets/ui/npc_creation_button.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class InGameMenu extends StatefulWidget {
   final Function(Npc) startPlacingNpc;
+  final Function(Building) startPlacingBuilding;
 
   const InGameMenu({
     super.key,
     required this.startPlacingNpc,
+    required this.startPlacingBuilding,
   });
 
   @override
@@ -60,7 +62,11 @@ class _InGameMenuState extends State<InGameMenu> {
                 },
               ),
               const AppSeparatorVertical(value: 0.02),
-              BuildingCreationButton(active: true, startPlacingNpc: (npc) {}),
+              BuildingCreationButton(
+                  active: true,
+                  startPlacingBuilding: (building) {
+                    widget.startPlacingBuilding(building);
+                  }),
               const AppSeparatorVertical(value: 0.02),
               AppCircularButton(
                 icon: AppImages.turn,

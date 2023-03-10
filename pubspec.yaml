@@ -72,7 +72,10 @@ flutter:
   uses-material-design: true
   
   assets:
-    - 'assets/images/sprites/'
+    - 'assets/images/sprites/buildings/'
+    - 'assets/images/sprites/npcs/'
+    - 'assets/images/sprites/objects/'
+    - 'assets/images/sprites/players/'
     - 'assets/images/ui/'
     - 'assets/images/items/'
     - 'assets/images/maps/'
@@ -86,10 +89,4 @@ flutter:
     - asset: fonts/Poppins-Light.ttf
     - asset: fonts/Poppins-SemiBold.ttf
 
-  - family: Headline
-    fonts:
-    - asset: fonts/Headline.ttf
 
-  - family: AmericanSigns
-    fonts:
-    - asset: fonts/AmericanSigns.otf  

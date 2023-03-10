@@ -34,12 +34,12 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: AppLayout.shortest(context) * 0.6,
+        width: AppLayout.avarage(context) * 0.6,
         decoration: BoxDecoration(
           color: AppColors.uiColor,
           border: Border.all(
             color: AppColors.uiColor,
-            width: AppLayout.shortest(context) * 0.005,
+            width: AppLayout.avarage(context) * 0.0025,
           ),
         ),
         child: Column(
@@ -57,54 +57,56 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const AppSeparatorVertical(value: 0.01),
                   SizedBox(
-                    width: AppLayout.shortest(context) * 0.55,
-                    child: GridView.count(
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      crossAxisCount: 8,
-                      mainAxisSpacing: AppLayout.height(context) * 0.005,
-                      crossAxisSpacing: AppLayout.width(context) * 0.005,
-                      children:
-                          List.generate(NpcList().getNpcList().length, (index) {
-                        return GestureDetector(
-                          onTap: () {},
-                          child: (selectedNpc!.race ==
-                                  NpcList().getNpcList()[index].race)
-                              ? AppCircularButton(
-                                  color: AppColors.uiColor,
-                                  borderColor: AppColors.uiColor,
-                                  iconColor: AppColors.uiColorDark,
-                                  icon: AppImages().getRaceIcon(
-                                      NpcList().getNpcList()[index].race),
-                                  size: 0.04,
-                                  onTap: () {
-                                    setState(() {
-                                      selectedNpc =
-                                          NpcList().getNpcList()[index];
-                                    });
-                                  },
-                                )
-                              : AppCircularButton(
-                                  color: AppColors.uiColorDark,
-                                  borderColor: AppColors.uiColor,
-                                  iconColor: AppColors.uiColor,
-                                  icon: AppImages().getRaceIcon(
-                                      NpcList().getNpcList()[index].race),
-                                  size: 0.04,
-                                  onTap: () {
-                                    setState(() {
-                                      selectedNpc =
-                                          NpcList().getNpcList()[index];
-                                    });
-                                  },
-                                ),
-                        );
-                      }),
+                    width: AppLayout.avarage(context) * 0.6,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.all(AppLayout.avarage(context) * 0.01),
+                      child: GridView.count(
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
+                        crossAxisCount: 10,
+                        mainAxisSpacing: AppLayout.height(context) * 0.005,
+                        crossAxisSpacing: AppLayout.width(context) * 0.005,
+                        children: List.generate(NpcList().getNpcList().length,
+                            (index) {
+                          return GestureDetector(
+                            onTap: () {},
+                            child: (selectedNpc!.race ==
+                                    NpcList().getNpcList()[index].race)
+                                ? AppCircularButton(
+                                    color: AppColors.uiColor,
+                                    borderColor: AppColors.uiColor,
+                                    iconColor: AppColors.uiColorDark,
+                                    icon: AppImages().getNpcIcon(
+                                        NpcList().getNpcList()[index].race),
+                                    size: 0.04,
+                                    onTap: () {
+                                      setState(() {
+                                        selectedNpc =
+                                            NpcList().getNpcList()[index];
+                                      });
+                                    },
+                                  )
+                                : AppCircularButton(
+                                    color: AppColors.uiColorDark,
+                                    borderColor: AppColors.uiColor,
+                                    iconColor: AppColors.uiColor,
+                                    icon: AppImages().getNpcIcon(
+                                        NpcList().getNpcList()[index].race),
+                                    size: 0.04,
+                                    onTap: () {
+                                      setState(() {
+                                        selectedNpc =
+                                            NpcList().getNpcList()[index];
+                                      });
+                                    },
+                                  ),
+                          );
+                        }),
+                      ),
                     ),
                   ),
-                  const AppSeparatorVertical(value: 0.01),
                   const AppLineDividerHorizontal(
                       color: AppColors.uiColor, value: 5),
                   SizedBox(

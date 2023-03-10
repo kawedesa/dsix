@@ -1,3 +1,4 @@
+import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
@@ -15,11 +16,13 @@ import 'npc_creation_button.dart';
 
 class GameCreationMenu extends StatefulWidget {
   final Function(Npc) startPlacingNpc;
+  final Function(Building) startPlacingBuilding;
   final Function(String, Color) displaySnackbar;
 
   const GameCreationMenu({
     super.key,
     required this.startPlacingNpc,
+    required this.startPlacingBuilding,
     required this.displaySnackbar,
   });
 
@@ -93,8 +96,16 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
           ),
           const AppSeparatorHorizontal(value: 0.025),
           (spawners.isEmpty)
-              ? BuildingCreationButton(active: false, startPlacingNpc: (npc) {})
-              : BuildingCreationButton(active: true, startPlacingNpc: (npc) {}),
+              ? BuildingCreationButton(
+                  active: (spawners.isEmpty) ? false : true,
+                  startPlacingBuilding: (building) {
+                    widget.startPlacingBuilding(building);
+                  })
+              : BuildingCreationButton(
+                  active: (spawners.isEmpty) ? false : true,
+                  startPlacingBuilding: (building) {
+                    widget.startPlacingBuilding(building);
+                  }),
           const AppSeparatorHorizontal(value: 0.025),
           (spawners.isEmpty)
               ? AppCircularButton(

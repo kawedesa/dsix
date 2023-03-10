@@ -1,3 +1,4 @@
+import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/combat.dart';
 import 'package:dsix/model/combat/position.dart';
@@ -14,11 +15,13 @@ import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_action_npc_sprite.dart';
+import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_building_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_dead_npc_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_dead_player_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_player_sprite.dart';
 
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
+import 'package:dsix/view/creator/creator_map/widgets/ui/selected_building_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -30,8 +33,11 @@ class CreatorMapActionMode extends StatefulWidget {
   final MapInfo mapInfo;
   final Npc? selectedNpc;
   final Function(Npc) selectNpc;
-  final Function() deselect;
   final Function(Position) createNpc;
+  final Building? selectedBuilding;
+  final Function(Building) selectBuilding;
+  final Function(Position) createBuilding;
+  final Function() deselect;
   final Function(String, Color) displaySnackBar;
 
   const CreatorMapActionMode(
@@ -39,8 +45,11 @@ class CreatorMapActionMode extends StatefulWidget {
       required this.mapInfo,
       required this.selectedNpc,
       required this.selectNpc,
-      required this.deselect,
       required this.createNpc,
+      required this.selectedBuilding,
+      required this.selectBuilding,
+      required this.createBuilding,
+      required this.deselect,
       required this.displaySnackBar})
       : super(key: key);
 
@@ -61,6 +70,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
     final game = Provider.of<Game>(context);
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
+    final buildings = Provider.of<List<Building>>(context);
 
     return SizedBox(
       width: double.infinity,
@@ -83,8 +93,15 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                     width: AppLayout.longest(context),
                     height: AppLayout.longest(context),
                   ),
-                  _creatorMapController.npcDeselector(
-                      widget.selectedNpc, widget.deselect),
+                  _creatorMapController.deselector(widget.selectedNpc,
+                      widget.selectedBuilding, widget.deselect),
+                  Stack(
+                    children: _creatorMapController.createBuildingSprites(
+                        buildings,
+                        widget.selectedBuilding,
+                        widget.selectBuilding,
+                        widget.deselect),
+                  ),
                   ActionAreaSprite(
                     area: _creatorMapController.combat.actionArea.area,
                   ),
@@ -105,11 +122,17 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
           _creatorMapController.selectedNpcUi(
             widget.selectedNpc,
           ),
+          _creatorMapController.selectedBuildingUi(
+            widget.selectedBuilding,
+          ),
           _creatorMapController.getAttackInput(
               npcs, players, widget.selectedNpc, refresh),
           _creatorMapController.actionButtons(context, widget.mapInfo, npcs,
               players, widget.selectedNpc, refresh),
-          _creatorMapController.inGameMenu(widget.selectNpc),
+          _creatorMapController.inGameMenu(
+              widget.selectNpc, widget.selectBuilding),
+          _creatorMapController.buildingPlacer(
+              widget.mapInfo, widget.createBuilding, refresh),
           _creatorMapController.npcPlacer(
               widget.mapInfo, widget.createNpc, refresh),
         ],
@@ -121,32 +144,30 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
 class CreatorMapActionModeController {
 //SPRITES
 
-  List<Widget> createNpcSprites(
-      List<Npc> npcs, Npc? selectedNpc, Function selectNpc, Function deselect) {
-    List<Widget> npcSprites = [];
+  //BUILDINGS
+  List<Widget> createBuildingSprites(
+      List<Building> buildings,
+      Building? selectedBuilding,
+      Function(Building) selectBuilding,
+      Function deselect) {
+    List<Widget> buildingSprites = [];
 
-    for (Npc npc in npcs) {
-      if (npc.life.isDead()) {
-        npcSprites.add(CreatorViewDeadNpcSprite(
-          npc: npc,
-        ));
-      } else {
-        npcSprites.add(CreatorViewActionNpcSprite(
-          npc: npc,
-          selected: (npc == selectedNpc) ? true : false,
-          selectNpc: () {
-            selectNpc(npc);
+    for (Building building in buildings) {
+      buildingSprites.add(CreatorViewBuildingSprite(
+          building: building,
+          selected: (building == selectedBuilding) ? true : false,
+          selectBuilding: () {
+            selectBuilding(building);
           },
-          deselectNpc: () {
+          deselect: () {
             deselect();
-          },
-        ));
-      }
+          }));
     }
 
-    return npcSprites;
+    return buildingSprites;
   }
 
+//PLAYERS
   List<Widget> createPlayerSprites(
       MapInfo mapInfo, List<Player> players, List<Npc> npcs) {
     List<Widget> playerSprites = [];
@@ -171,6 +192,33 @@ class CreatorMapActionModeController {
     }
 
     return playerSprites;
+  }
+
+//NPCS
+  List<Widget> createNpcSprites(
+      List<Npc> npcs, Npc? selectedNpc, Function selectNpc, Function deselect) {
+    List<Widget> npcSprites = [];
+
+    for (Npc npc in npcs) {
+      if (npc.life.isDead()) {
+        npcSprites.add(CreatorViewDeadNpcSprite(
+          npc: npc,
+        ));
+      } else {
+        npcSprites.add(CreatorViewActionNpcSprite(
+          npc: npc,
+          selected: (npc == selectedNpc) ? true : false,
+          selectNpc: () {
+            selectNpc(npc);
+          },
+          deselectNpc: () {
+            deselect();
+          },
+        ));
+      }
+    }
+
+    return npcSprites;
   }
 
   Path getNpcsVisibleArea(MapInfo mapInfo, List<Npc> npcs) {
@@ -207,8 +255,22 @@ class CreatorMapActionModeController {
     }
   }
 
-  Widget npcDeselector(Npc? selectedNpc, Function deselect) {
-    if (selectedNpc == null) {
+  Widget selectedBuildingUi(Building? selectedBuilding) {
+    if (selectedBuilding == null) {
+      return const SizedBox();
+    } else {
+      return Align(
+          alignment: const Alignment(
+            0.0,
+            -0.9,
+          ),
+          child: SelectedBuildingUi(building: selectedBuilding));
+    }
+  }
+
+  Widget deselector(
+      Npc? selectedNpc, Building? selectedBuilding, Function deselect) {
+    if (selectedNpc == null && selectedBuilding == null) {
       return const SizedBox();
     } else {
       return MouseInput(
@@ -219,8 +281,9 @@ class CreatorMapActionModeController {
     }
   }
 
-  Widget inGameMenu(Function(Npc) selectNpc) {
-    if (placingSomething) {
+  Widget inGameMenu(
+      Function(Npc) selectNpc, Function(Building) selectBuilding) {
+    if (placingSomething != 'false') {
       return const SizedBox();
     }
     return Align(
@@ -229,20 +292,51 @@ class CreatorMapActionModeController {
           startPlacingNpc: (npc) {
             startPlacingNpc(npc, selectNpc);
           },
+          startPlacingBuilding: (building) {
+            startPlacingBuilding(building, selectBuilding);
+          },
         ));
   }
 
-  bool placingSomething = false;
+  String placingSomething = 'false';
   Position placeHere = Position.empty();
+
+  void startPlacingBuilding(
+      Building building, Function(Building) selectBuilding) {
+    selectBuilding(building);
+    placingSomething = 'building';
+  }
 
   void startPlacingNpc(Npc npc, Function(Npc) selectNpc) {
     selectNpc(npc);
-    placingSomething = true;
+    placingSomething = 'npc';
+  }
+
+  Widget buildingPlacer(
+      MapInfo mapInfo, Function(Position) createBuilding, Function refresh) {
+    if (placingSomething == 'building') {
+      return MouseInput(getMousePosition: (mousePosition) {
+        placeHere = Position(
+            dx: mousePosition.dx / mapInfo.minZoom -
+                mapInfo.getCanvasPosition().dx,
+            dy: mousePosition.dy / mapInfo.minZoom -
+                mapInfo.getCanvasPosition().dy -
+                50 / mapInfo.minZoom,
+            tile: '');
+        refresh();
+      }, onTap: () {
+        createBuilding(placeHere);
+        placeHere.reset();
+        placingSomething = 'false';
+      });
+    } else {
+      return const SizedBox();
+    }
   }
 
   Widget npcPlacer(
       MapInfo mapInfo, Function(Position) createNpc, Function refresh) {
-    if (placingSomething) {
+    if (placingSomething == 'npc') {
       return MouseInput(getMousePosition: (mousePosition) {
         placeHere = Position(
             dx: mousePosition.dx / mapInfo.minZoom -
@@ -255,7 +349,7 @@ class CreatorMapActionModeController {
       }, onTap: () {
         createNpc(placeHere);
         placeHere.reset();
-        placingSomething = false;
+        placingSomething = 'false';
       });
     } else {
       return const SizedBox();
@@ -301,7 +395,7 @@ class CreatorMapActionModeController {
     if (selectedNpc == null) {
       return const SizedBox();
     }
-    if (placingSomething) {
+    if (placingSomething != 'false') {
       return const SizedBox();
     }
 

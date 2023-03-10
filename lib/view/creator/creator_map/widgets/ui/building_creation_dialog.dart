@@ -1,16 +1,19 @@
+import 'package:dsix/model/building/building.dart';
+import 'package:dsix/model/building/building_list.dart';
 import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
+import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
-import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
-import 'package:dsix/shared/app_widgets/layout/app_line_divider_vertical.dart';
-import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class BuildingCreationDialog extends StatefulWidget {
-  // final Function(Npc) chooseNpc;
+  final Function(Building) chooseBuilding;
   const BuildingCreationDialog({
     super.key,
-    // required this.chooseNpc,
+    required this.chooseBuilding,
   });
 
   @override
@@ -18,21 +21,39 @@ class BuildingCreationDialog extends StatefulWidget {
 }
 
 class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
-  // Npc? selectedNpc;
+  Building? selectedBuilding;
+  int index = 0;
+
+  void changeSelectedBuilding(int value) {
+    index += value;
+
+    if (index < 0) {
+      index = BuildingList().getBuildingList().length - 1;
+    }
+
+    if (index > BuildingList().getBuildingList().length - 1) {
+      index = 0;
+    }
+    selectBuilding();
+  }
+
+  void selectBuilding() {
+    selectedBuilding = BuildingList().getBuildingList()[index];
+  }
 
   @override
   Widget build(BuildContext context) {
-    // selectedNpc ??= NpcList().getNpcList().first;
+    selectedBuilding ??= BuildingList().getBuildingList().first;
 
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: AppLayout.shortest(context) * 0.6,
+        width: AppLayout.avarage(context) * 0.6,
         decoration: BoxDecoration(
           color: AppColors.uiColor,
           border: Border.all(
             color: AppColors.uiColor,
-            width: AppLayout.shortest(context) * 0.005,
+            width: AppLayout.avarage(context) * 0.0025,
           ),
         ),
         child: Column(
@@ -41,101 +62,65 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
           children: [
             const DialogTitle(
               color: AppColors.uiColor,
-              title: 'object',
+              title: 'buildings',
             ),
             Container(
               color: Colors.black,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const AppSeparatorVertical(value: 0.025),
-                  // SizedBox(
-                  //   width: AppLayout.shortest(context) * 0.55,
-                  //   child: GridView.count(
-                  //     shrinkWrap: true,
-                  //     physics: const ScrollPhysics(),
-                  //     crossAxisCount: 6,
-                  //     // crossAxisCount:
-                  //     //     (AppLayout.avarage(context) * 0.006).toInt(),
-                  //     mainAxisSpacing: AppLayout.height(context) * 0.01,
-                  //     crossAxisSpacing: AppLayout.width(context) * 0.01,
-                  //     children:
-                  //         List.generate(NpcList().getNpcList().length, (index) {
-                  //       return GestureDetector(
-                  //         onTap: () {},
-                  //         child: (selectedNpc!.race ==
-                  //                 NpcList().getNpcList()[index].race)
-                  //             ? AppCircularButton(
-                  //                 color: AppColors.uiColor,
-                  //                 borderColor: AppColors.uiColor,
-                  //                 iconColor: AppColors.uiColorDark,
-                  //                 icon: AppImages().getRaceIcon(
-                  //                     NpcList().getNpcList()[index].race),
-                  //                 size: 0.07,
-                  //                 onTap: () {
-                  //                   setState(() {
-                  //                     selectedNpc =
-                  //                         NpcList().getNpcList()[index];
-                  //                   });
-                  //                 },
-                  //               )
-                  //             : AppCircularButton(
-                  //                 color: AppColors.uiColorDark,
-                  //                 borderColor: AppColors.uiColor,
-                  //                 iconColor: AppColors.uiColor,
-                  //                 icon: AppImages().getRaceIcon(
-                  //                     NpcList().getNpcList()[index].race),
-                  //                 size: 0.07,
-                  //                 onTap: () {
-                  //                   setState(() {
-                  //                     selectedNpc =
-                  //                         NpcList().getNpcList()[index];
-                  //                   });
-                  //                 },
-                  //               ),
-                  //       );
-                  //     }),
-                  //   ),
-                  // ),
-                  const AppSeparatorVertical(value: 0.025),
-                  const AppLineDividerHorizontal(
-                      color: AppColors.uiColor, value: 5),
-                  SizedBox(
-                    height: AppLayout.height(context) * 0.35,
-                    child: Row(
-                      children: const [
-                        Expanded(flex: 2, child: SizedBox()),
-                        AppLineDividerVertical(
-                            color: AppColors.uiColor, value: 2.5),
-                        // Expanded(
-                        //     flex: 3,
-                        //     child: SizedBox(
-                        //       child: Column(
-                        //         children: [
-                        //           const AppSeparatorVertical(value: 0.025),
-                        //           AppBarTitle(
-                        //             title: selectedNpc!.race,
-                        //             color: AppColors.uiColor,
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //     ),
-                      ],
+              width: AppLayout.avarage(context) * 0.6,
+              height: AppLayout.avarage(context) * 0.375,
+              child: Padding(
+                padding: EdgeInsets.all(AppLayout.avarage(context) * 0.025),
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: AppCircularButton(
+                        icon: AppImages.left,
+                        iconColor: AppColors.uiColor,
+                        color: Colors.transparent,
+                        borderColor: AppColors.uiColor,
+                        size: 0.075,
+                        onTap: () {
+                          setState(() {
+                            changeSelectedBuilding(-1);
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset(
+                        AppImages().getBuildingIcon(selectedBuilding!.name),
+                        width: AppLayout.avarage(context) * 0.25,
+                        height: AppLayout.avarage(context) * 0.25,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: AppCircularButton(
+                        icon: AppImages.right,
+                        iconColor: AppColors.uiColor,
+                        color: Colors.transparent,
+                        borderColor: AppColors.uiColor,
+                        size: 0.075,
+                        onTap: () {
+                          setState(() {
+                            changeSelectedBuilding(1);
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            // DialogButton(
-            //     color: AppColors.uiColor,
-            //     buttonText: 'choose',
-            //     onTap: () {
-            //       widget.chooseNpc(selectedNpc!);
-            //       Navigator.pop(context);
-            //     }),
+            DialogButton(
+                color: AppColors.uiColor,
+                buttonText: 'choose',
+                onTap: () {
+                  widget.chooseBuilding(selectedBuilding!);
+                  Navigator.pop(context);
+                }),
           ],
         ),
       ),
