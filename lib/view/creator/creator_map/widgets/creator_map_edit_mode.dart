@@ -30,7 +30,6 @@ class CreatorMapEditMode extends StatefulWidget {
   final Function() duplicateBuilding;
   final Function(Position) createBuilding;
   final Function() deselect;
-  final Function(String, Color) displaySnackBar;
 
   const CreatorMapEditMode(
       {Key? key,
@@ -43,8 +42,7 @@ class CreatorMapEditMode extends StatefulWidget {
       required this.selectBuilding,
       required this.duplicateBuilding,
       required this.createBuilding,
-      required this.deselect,
-      required this.displaySnackBar})
+      required this.deselect})
       : super(key: key);
 
   @override
@@ -108,15 +106,14 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
               ),
             ),
           ),
+          // ignore: prefer_const_constructors
           SelectedNpcUi(),
+          // ignore: prefer_const_constructors
           SelectedBuildingUi(),
           GameCreationMenu(
             active: (user.placingSomething == 'false') ? true : false,
             refresh: () {
               refresh();
-            },
-            displaySnackbar: (text, color) {
-              widget.displaySnackBar(text, color);
             },
           ),
           MouseInput(

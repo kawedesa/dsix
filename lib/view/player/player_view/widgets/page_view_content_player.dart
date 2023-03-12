@@ -9,13 +9,12 @@ import '../../shop/shop_view.dart';
 class PageViewContentPlayer extends StatelessWidget {
   final PageController controller;
   final Function() refresh;
-  final Function(String, Color) displaySnackbar;
 
-  const PageViewContentPlayer(
-      {super.key,
-      required this.controller,
-      required this.refresh,
-      required this.displaySnackbar});
+  const PageViewContentPlayer({
+    super.key,
+    required this.controller,
+    required this.refresh,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,21 +26,17 @@ class PageViewContentPlayer extends StatelessWidget {
           ? [
               ShopView(
                 refresh: () => refresh(),
-                displaySnackbar: (text, color) => displaySnackbar(text, color),
               ),
               InventoryView(
                 refresh: () => refresh(),
-                displaySnackbar: (text, color) => displaySnackbar(text, color),
               ),
             ]
           : [
               PlayerMapView(
                 refresh: () => refresh(),
-                displaySnackbar: (text, color) => displaySnackbar(text, color),
               ),
               InventoryView(
                 refresh: () => refresh(),
-                displaySnackbar: (text, color) => displaySnackbar(text, color),
               ),
             ],
     );

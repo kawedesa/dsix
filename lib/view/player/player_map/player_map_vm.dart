@@ -4,6 +4,7 @@ import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
+import 'package:dsix/shared/app_widgets/map/vision_grid.dart';
 import 'package:dsix/view/player/player_map/widgets/loot_dialog.dart';
 import 'package:dsix/view/player/player_map/widgets/player_action_buttons.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_building_sprite.dart';
@@ -19,8 +20,8 @@ import '../../../model/npc/npc.dart';
 class PlayerMapVM {
   //SPRITES
   //NPC
-  Widget createNpcSprites(
-      context, MapInfo mapInfo, List<Npc> npcs, List<Player> players) {
+  Widget createNpcSprites(context, MapInfo mapInfo, List<Npc> npcs,
+      List<Player> players, Function() refresh) {
     List<Widget> npcSprites = [];
 
     Path playersVisibleArea = getPlayersVisibleArea(mapInfo, players);
@@ -36,6 +37,7 @@ class PlayerMapVM {
                   builder: (BuildContext context) {
                     return LootDialog(
                       loot: npc.loot,
+                      refresh: refresh,
                     );
                   });
             },
@@ -56,12 +58,13 @@ class PlayerMapVM {
 
   Path getPlayersVisibleArea(MapInfo mapInfo, List<Player> players) {
     Path visibleArea = Path();
-//TODO come bakc and review this part
+    visibleArea.fillType = PathFillType.evenOdd;
+
     for (Player player in players) {
       if (player.life.isDead() == false) {
-        Path playerVision = Path()
-          ..addPath(player.getVisionArea(), Offset.zero);
         Path playerVisibleArea = Path();
+        Path playerVision = Path.combine(PathOperation.difference,
+            player.getVisionArea(), VisionGrid().getGrid(player.position));
 
         if (player.position.tile != 'grass') {
           playerVisibleArea = Path.combine(

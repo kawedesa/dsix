@@ -1,10 +1,11 @@
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_exceptions.dart';
+import 'package:dsix/model/player/equipment/bag_slot.dart';
+import 'package:dsix/shared/app_globals.dart';
+import 'package:dsix/shared/app_widgets/app_snackbar.dart';
 import 'package:dsix/view/player/inventory/widgets/inventory_slot.dart';
 import 'package:flutter/material.dart';
-import '../../../model/player/equipment/equipment_slot.dart';
 import '../../../shared/app_images.dart';
-import '../../../shared/app_layout.dart';
 
 class InventoryVM {
   InventorySlot? mainHandSlot;
@@ -13,10 +14,8 @@ class InventoryVM {
   InventorySlot? bodySlot;
   InventorySlot? handSlot;
   InventorySlot? feetSlot;
-  DragTarget<EquipmentSlot>? bagSlot;
 
-  void setInventorySlots(
-      User user, Function() refresh, Function(String, Color) displaySnackbar) {
+  void setInventorySlots(User user, Function() refresh) {
     mainHandSlot = InventorySlot(
       color: user.color,
       darkColor: user.darkColor,
@@ -48,7 +47,8 @@ class InventoryVM {
         try {
           user.player.equipment.sellItem(user.player.equipment.mainHandSlot);
         } on ItemSoldException catch (e) {
-          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+          snackbarKey.currentState?.showSnackBar(
+              AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
 
         user.player.update();
@@ -83,7 +83,8 @@ class InventoryVM {
         try {
           user.player.equipment.sellItem(user.player.equipment.headSlot);
         } on ItemSoldException catch (e) {
-          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+          snackbarKey.currentState?.showSnackBar(
+              AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
 
         user.player.update();
@@ -118,7 +119,8 @@ class InventoryVM {
         try {
           user.player.equipment.sellItem(user.player.equipment.bodySlot);
         } on ItemSoldException catch (e) {
-          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+          snackbarKey.currentState?.showSnackBar(
+              AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
 
         user.player.update();
@@ -158,7 +160,8 @@ class InventoryVM {
         try {
           user.player.equipment.sellItem(user.player.equipment.offHandSlot);
         } on ItemSoldException catch (e) {
-          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+          snackbarKey.currentState?.showSnackBar(
+              AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
 
         user.player.update();
@@ -193,7 +196,8 @@ class InventoryVM {
         try {
           user.player.equipment.sellItem(user.player.equipment.handSlot);
         } on ItemSoldException catch (e) {
-          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+          snackbarKey.currentState?.showSnackBar(
+              AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
 
         user.player.update();
@@ -228,7 +232,8 @@ class InventoryVM {
         try {
           user.player.equipment.sellItem(user.player.equipment.feetSlot);
         } on ItemSoldException catch (e) {
-          displaySnackbar(e.itemValue.toUpperCase(), user.color);
+          snackbarKey.currentState?.showSnackBar(
+              AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
         user.player.update();
         refresh();
@@ -237,88 +242,7 @@ class InventoryVM {
     );
   }
 
-  void setBagSlots(
-      User user, Function() refresh, Function(String, Color) displaySnackbar) {
-    bagSlot = DragTarget<EquipmentSlot>(onWillAccept: (equipment) {
-      if (equipment!.name == 'bag') {
-        return false;
-      } else {
-        return true;
-      }
-    }, onAccept: (equipment) {
-      user.player.equipment.unequip(equipment);
-      user.player.update();
-      refresh();
-    }, builder: (
-      BuildContext context,
-      List<dynamic> accepted,
-      List<dynamic> rejected,
-    ) {
-      return Stack(
-        children: [
-          GridView.count(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            crossAxisCount: 6,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 5,
-            children: List.generate(12, (index) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  border: Border.all(
-                    color: user.color,
-                    width: AppLayout.shortest(context) * 0.004,
-                  ),
-                ),
-              );
-            }),
-          ),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            crossAxisCount: 6,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 5,
-            children: List.generate(user.player.equipment.bag.length, (index) {
-              return InventorySlot(
-                color: user.color,
-                darkColor: user.darkColor,
-                icon: AppImages()
-                    .getItemIcon(user.player.equipment.bag[index].name),
-                equipmentSlot: EquipmentSlot(
-                    name: 'bag', item: user.player.equipment.bag[index]),
-                onDragComplete: () {
-                  user.player.equipment
-                      .removeItemfromBag(user.player.equipment.bag[index]);
-                  user.player.update();
-                },
-                onAccept: (equipment) {},
-                onWillAccept: (equipment) {
-                  return false;
-                },
-                sellItem: () {
-                  try {
-                    user.player.equipment.sellItem(EquipmentSlot(
-                        name: 'bag', item: user.player.equipment.bag[index]));
-                  } on ItemSoldException catch (e) {
-                    displaySnackbar(e.itemValue.toUpperCase(), user.color);
-                  }
-
-                  user.player.update();
-                  refresh();
-                },
-                useItem: () {
-                  //TODO implement use items
-
-                  // user.player.equipment.useItem(EquipmentSlot(
-                  //     name: 'bag', item: user.player.equipment.bag[index]));
-                },
-              );
-            }),
-          ),
-        ],
-      );
-    });
+  Widget getBagSlots(Function() refresh) {
+    return BagSlot(refresh: refresh);
   }
 }

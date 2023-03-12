@@ -13,6 +13,7 @@ import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
 import 'package:dsix/shared/app_widgets/map/action_area_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/attack_button.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
+import 'package:dsix/shared/app_widgets/map/vision_grid.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_action_npc_sprite.dart';
@@ -41,7 +42,6 @@ class CreatorMapActionMode extends StatefulWidget {
   final Function() duplicateBuilding;
   final Function(Position) createBuilding;
   final Function() deselect;
-  final Function(String, Color) displaySnackBar;
 
   const CreatorMapActionMode(
       {Key? key,
@@ -54,8 +54,7 @@ class CreatorMapActionMode extends StatefulWidget {
       required this.selectBuilding,
       required this.duplicateBuilding,
       required this.createBuilding,
-      required this.deselect,
-      required this.displaySnackBar})
+      required this.deselect})
       : super(key: key);
 
   @override
@@ -128,8 +127,9 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
             ),
           ),
           _creatorMapController.displayTurn(game.turn.currentTurn),
-          //TODO PASSAR ALGUMAS DAS FUNCOES DO USER PARA ESSE MENU. ADICIONAR A FUNCAO DE REFRESH
+          // ignore: prefer_const_constructors
           SelectedNpcUi(),
+          // ignore: prefer_const_constructors
           SelectedBuildingUi(),
           _creatorMapController.getAttackInput(
               npcs, players, widget.selectedNpc, refresh),
@@ -189,6 +189,30 @@ class CreatorMapActionModeController {
     return buildingSprites;
   }
 
+//NPCS
+  List<Widget> createNpcSprites(
+      MapInfo mapInfo, List<Npc> npcs, Function refresh) {
+    List<Widget> npcSprites = [];
+
+    for (Npc npc in npcs) {
+      if (npc.life.isDead()) {
+        npcSprites.add(CreatorViewDeadNpcSprite(
+          npc: npc,
+        ));
+      } else {
+        npcSprites.add(CreatorViewActionNpcSprite(
+          npc: npc,
+          mapInfo: mapInfo,
+          refresh: () {
+            refresh();
+          },
+        ));
+      }
+    }
+
+    return npcSprites;
+  }
+
 //PLAYERS
   List<Widget> createPlayerSprites(
       MapInfo mapInfo, List<Player> players, List<Npc> npcs) {
@@ -215,46 +239,24 @@ class CreatorMapActionModeController {
     return playerSprites;
   }
 
-//NPCS
-  List<Widget> createNpcSprites(
-      MapInfo mapInfo, List<Npc> npcs, Function refresh) {
-    List<Widget> npcSprites = [];
-
-    for (Npc npc in npcs) {
-      if (npc.life.isDead()) {
-        npcSprites.add(CreatorViewDeadNpcSprite(
-          npc: npc,
-        ));
-      } else {
-        npcSprites.add(CreatorViewActionNpcSprite(
-          npc: npc,
-          mapInfo: mapInfo,
-          refresh: () {
-            refresh();
-          },
-        ));
-      }
-    }
-
-    return npcSprites;
-  }
-
   Path getNpcsVisibleArea(MapInfo mapInfo, List<Npc> npcs) {
     Path visibleArea = Path();
+    visibleArea.fillType = PathFillType.evenOdd;
 
     for (Npc npc in npcs) {
       if (npc.life.isDead() == false) {
-        Path playerVision = Path()..addPath(npc.getVisionArea(), Offset.zero);
-        Path playerVisibleArea = Path();
+        Path npcVisibleArea = Path();
+        Path npcVision = Path.combine(PathOperation.difference,
+            npc.getVisionArea(), VisionGrid().getGrid(npc.position));
 
         if (npc.position.tile != 'grass') {
-          playerVisibleArea = Path.combine(
-              PathOperation.difference, playerVision, mapInfo.grass);
+          npcVisibleArea =
+              Path.combine(PathOperation.difference, npcVision, mapInfo.grass);
         } else {
-          playerVisibleArea = playerVision;
+          npcVisibleArea = npcVision;
         }
 
-        visibleArea.addPath(playerVisibleArea, Offset.zero);
+        visibleArea.addPath(npcVisibleArea, Offset.zero);
       }
     }
     return visibleArea;

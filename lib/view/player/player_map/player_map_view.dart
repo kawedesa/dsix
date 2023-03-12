@@ -14,10 +14,7 @@ import '../../../shared/app_layout.dart';
 
 class PlayerMapView extends StatefulWidget {
   final Function() refresh;
-  final Function(String, Color) displaySnackbar;
-  const PlayerMapView(
-      {Key? key, required this.refresh, required this.displaySnackbar})
-      : super(key: key);
+  const PlayerMapView({Key? key, required this.refresh}) : super(key: key);
 
   @override
   State<PlayerMapView> createState() => _PlayerMapViewState();
@@ -64,13 +61,10 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                   ),
                   _playerMapVM.createBuildingSprites(buildings),
                   ActionAreaSprite(
-                    area: _playerMapVM.getPlayersVisibleArea(_mapInfo, players),
-                  ),
-                  ActionAreaSprite(
                     area: _playerMapVM.combat.actionArea.area,
                   ),
                   _playerMapVM.createNpcSprites(
-                      context, _mapInfo, npcs, players),
+                      context, _mapInfo, npcs, players, widget.refresh),
                   _playerMapVM.createPlayerSprites(
                       _mapInfo, players, user.player, refresh),
                 ],

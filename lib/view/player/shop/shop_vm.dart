@@ -3,8 +3,10 @@ import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/item/shop.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_exceptions.dart';
+import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/app_widgets/app_snackbar.dart';
 import 'package:dsix/shared/app_widgets/dialog/shop_dialog.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
@@ -112,8 +114,7 @@ class ShopVM {
     setDisplayItems();
   }
 
-  Widget getItems(context, User user, Function refresh,
-      Function(String, Color) displaySnackBar) {
+  Widget getItems(context, User user, Function refresh) {
     List<Widget> menu = [];
 
     for (Item item in itemList) {
@@ -131,11 +132,14 @@ class ShopVM {
                     Navigator.pop(context);
                     buyItem(item, user.player);
                   } on NotEnoughMoneyException catch (e) {
-                    displaySnackBar(e.message.toUpperCase(), user.color);
+                    snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                        .getSnackBar(e.message.toUpperCase(), user.color));
                   } on TooHeavyException catch (e) {
-                    displaySnackBar(e.message.toUpperCase(), user.color);
+                    snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                        .getSnackBar(e.message.toUpperCase(), user.color));
                   } on ItemBoughtException catch (e) {
-                    displaySnackBar(e.itemValue.toUpperCase(), user.color);
+                    snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                        .getSnackBar(e.itemValue.toUpperCase(), user.color));
                   }
                   refresh();
                 },

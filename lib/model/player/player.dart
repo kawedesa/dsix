@@ -252,12 +252,10 @@ class Player {
   }
 
   Path getVisionArea() {
-    Path area = Path()
+    return Path()
       ..addOval(Rect.fromCircle(
           center: Offset(position.dx, position.dy),
           radius: attributes.vision.getRange() / 2));
-
-    return area;
   }
 
   void preparePlayerForNewRound() {

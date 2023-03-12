@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../model/game/game.dart';
 import '../../../shared/app_widgets/text/app_bar_title.dart';
-import '../../../shared/app_widgets/text/app_text.dart';
 
 class CreatorView extends StatefulWidget {
   const CreatorView({Key? key}) : super(key: key);
@@ -24,22 +23,6 @@ class _CreatorViewState extends State<CreatorView> {
 
   void refresh() {
     setState(() {});
-  }
-
-  void displaySnackBar(String text, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: SizedBox(
-          height: AppLayout.avarage(context) * 0.05,
-          child: Center(
-            child: AppText(
-              text: text,
-              fontSize: 0.03,
-              letterSpacing: 0.005,
-              color: Colors.white,
-            ),
-          )),
-      backgroundColor: color,
-    ));
   }
 
   @override
@@ -79,7 +62,7 @@ class _CreatorViewState extends State<CreatorView> {
           controller: _creatorVM.pageController,
           children: [
             const GameSettings(),
-            _creatorVM.getMapPage(game.map, refresh, displaySnackBar),
+            _creatorVM.getMapPage(game.map, refresh),
           ],
         ),
       ),

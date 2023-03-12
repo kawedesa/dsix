@@ -30,17 +30,13 @@ class CreatorVM {
     }
   }
 
-  Widget getMapPage(String mapName, Function refresh,
-      Function(String, Color) displaySnackBar) {
+  Widget getMapPage(String mapName, Function refresh) {
     if (mapName == '') {
       return const CreatorMapSelection();
     } else {
       return CreatorMapView(
         refresh: () {
           refresh();
-        },
-        displaySnackBar: (string, color) {
-          displaySnackBar(string, color);
         },
       );
     }

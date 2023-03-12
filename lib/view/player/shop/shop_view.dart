@@ -11,10 +11,11 @@ import 'package:provider/provider.dart';
 
 class ShopView extends StatefulWidget {
   final Function() refresh;
-  final Function(String, Color) displaySnackbar;
-  const ShopView(
-      {Key? key, required this.refresh, required this.displaySnackbar})
-      : super(key: key);
+
+  const ShopView({
+    Key? key,
+    required this.refresh,
+  }) : super(key: key);
 
   @override
   State<ShopView> createState() => _ShopViewState();
@@ -130,8 +131,7 @@ class _ShopViewState extends State<ShopView> {
                       });
                     },
                     size: 0.075),
-                _shopVM.getItems(
-                    context, user, widget.refresh, widget.displaySnackbar),
+                _shopVM.getItems(context, user, widget.refresh),
                 AppCircularButton(
                     color: Colors.transparent,
                     borderColor: user.color,

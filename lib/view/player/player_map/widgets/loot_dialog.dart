@@ -1,17 +1,18 @@
 import 'package:dsix/model/item/item.dart';
+import 'package:dsix/model/player/equipment/bag_slot.dart';
 import 'package:dsix/shared/app_colors.dart';
-
 import 'package:dsix/shared/app_layout.dart';
-
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 
 class LootDialog extends StatefulWidget {
   final List<Item> loot;
+  final Function() refresh;
 
   const LootDialog({
     super.key,
     required this.loot,
+    required this.refresh,
   });
 
   @override
@@ -42,8 +43,19 @@ class _LootDialogState extends State<LootDialog> {
             ),
             Container(
               color: Colors.black,
-              width: AppLayout.avarage(context) * 0.6,
-              height: AppLayout.avarage(context) * 0.375,
+              child: BagSlot(
+                refresh: widget.refresh,
+              ),
+            ),
+            const DialogTitle(
+              color: AppColors.uiColor,
+              title: 'bag',
+            ),
+            Container(
+              color: Colors.black,
+              child: BagSlot(
+                refresh: widget.refresh,
+              ),
             ),
           ],
         ),

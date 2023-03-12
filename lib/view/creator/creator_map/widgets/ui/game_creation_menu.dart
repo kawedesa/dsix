@@ -3,7 +3,9 @@ import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_exceptions.dart';
+import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_widgets/app_snackbar.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
@@ -15,13 +17,11 @@ import 'npc_creation_button.dart';
 class GameCreationMenu extends StatefulWidget {
   final bool active;
   final Function() refresh;
-  final Function(String, Color) displaySnackbar;
 
   const GameCreationMenu({
     super.key,
     required this.active,
     required this.refresh,
-    required this.displaySnackbar,
   });
 
   @override
@@ -113,8 +113,10 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
                             try {
                               startGame(game, players, spawners);
                             } on PlayerNotReadyException catch (e) {
-                              widget.displaySnackbar(e.playerName.toUpperCase(),
-                                  AppColors.uiColor);
+                              snackbarKey.currentState?.showSnackBar(
+                                  AppSnackBar().getSnackBar(
+                                      e.playerName.toUpperCase(),
+                                      AppColors.uiColor));
                             }
                           });
                         },

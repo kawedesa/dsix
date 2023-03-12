@@ -5,6 +5,7 @@ import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/user.dart';
+import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/view/home/home_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
                     .toList())),
       ],
       child: MaterialApp(
+        scaffoldMessengerKey: snackbarKey,
         home: FutureBuilder(
           future: Firebase.initializeApp(),
           builder: (context, snapshot) {

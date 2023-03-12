@@ -16,10 +16,8 @@ import 'package:provider/provider.dart';
 
 class InventoryView extends StatefulWidget {
   final Function() refresh;
-  final Function(String, Color) displaySnackbar;
-  const InventoryView(
-      {Key? key, required this.refresh, required this.displaySnackbar})
-      : super(key: key);
+
+  const InventoryView({Key? key, required this.refresh}) : super(key: key);
 
   @override
   State<InventoryView> createState() => _InventoryViewState();
@@ -32,9 +30,7 @@ class _InventoryViewState extends State<InventoryView> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    _inventoryVM.setInventorySlots(
-        user, widget.refresh, widget.displaySnackbar);
-    _inventoryVM.setBagSlots(user, widget.refresh, widget.displaySnackbar);
+    _inventoryVM.setInventorySlots(user, widget.refresh);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,7 +129,7 @@ class _InventoryViewState extends State<InventoryView> {
                       const AppSeparatorVertical(value: 0.025),
                       SizedBox(
                         width: AppLayout.avarage(context) * 0.5,
-                        child: _inventoryVM.bagSlot,
+                        child: _inventoryVM.getBagSlots(widget.refresh),
                       ),
                     ],
                   ),

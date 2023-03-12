@@ -9,9 +9,7 @@ import 'widgets/creator_map_edit_mode.dart';
 
 class CreatorMapView extends StatefulWidget {
   final Function() refresh;
-  final Function(String, Color) displaySnackBar;
-  const CreatorMapView(
-      {super.key, required this.refresh, required this.displaySnackBar});
+  const CreatorMapView({super.key, required this.refresh});
 
   @override
   State<CreatorMapView> createState() => _CreatorMapViewState();
@@ -71,9 +69,6 @@ class _CreatorMapViewState extends State<CreatorMapView> {
                 _creatorMapVM.deselectBuilding();
               });
             },
-            displaySnackBar: (text, color) {
-              widget.displaySnackBar(text, color);
-            },
           )
         : CreatorMapEditMode(
             mapInfo: _creatorMapVM.mapInfo,
@@ -114,9 +109,6 @@ class _CreatorMapViewState extends State<CreatorMapView> {
                 _creatorMapVM.deselectNpc();
                 _creatorMapVM.deselectBuilding();
               });
-            },
-            displaySnackBar: (text, color) {
-              widget.displaySnackBar(text, color);
             },
           );
   }

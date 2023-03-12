@@ -25,21 +25,21 @@ class _PlayerViewState extends State<PlayerView> {
     setState(() {});
   }
 
-  void displaySnackBar(String text, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: SizedBox(
-          height: AppLayout.avarage(context) * 0.05,
-          child: Center(
-            child: AppBarText(
-              text: text,
-              fontSize: 0.03,
-              letterSpacing: 0.005,
-              color: Colors.white,
-            ),
-          )),
-      backgroundColor: color,
-    ));
-  }
+  // void displaySnackBar(String text, Color color) {
+  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //     content: SizedBox(
+  //         height: AppLayout.avarage(context) * 0.05,
+  //         child: Center(
+  //           child: AppBarText(
+  //             text: text,
+  //             fontSize: 0.03,
+  //             letterSpacing: 0.005,
+  //             color: Colors.white,
+  //           ),
+  //         )),
+  //     backgroundColor: color,
+  //   ));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +140,6 @@ class _PlayerViewState extends State<PlayerView> {
       body: SafeArea(
         child: PageViewContentPlayer(
           controller: _playerVM.pageController,
-          displaySnackbar: (p0, p1) => displaySnackBar(p0, p1),
           refresh: () => refresh(),
         ),
       ),
