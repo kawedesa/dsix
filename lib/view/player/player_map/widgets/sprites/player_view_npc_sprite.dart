@@ -67,7 +67,7 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
                     padding: const EdgeInsets.all(1.0),
                     child: SvgPicture.asset(
                       AppImages().getNpcIcon(
-                        widget.npc.race,
+                        widget.npc.name,
                       ),
                       color: Colors.black,
                     ),

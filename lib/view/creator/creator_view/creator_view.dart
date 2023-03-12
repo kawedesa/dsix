@@ -1,3 +1,4 @@
+import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
@@ -44,6 +45,7 @@ class _CreatorViewState extends State<CreatorView> {
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
+    final user = Provider.of<User>(context);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -105,6 +107,7 @@ class _CreatorViewState extends State<CreatorView> {
                   onTap: () {
                     setState(() {
                       _creatorVM.changePage(1);
+                      user.resetPlacing();
                     });
                   },
                   icon: AppImages.map,

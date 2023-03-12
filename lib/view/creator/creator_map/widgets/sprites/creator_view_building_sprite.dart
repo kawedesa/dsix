@@ -1,6 +1,7 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
+import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/map/map_circular_button.dart';
@@ -10,16 +11,11 @@ import 'package:provider/provider.dart';
 
 class CreatorViewBuildingSprite extends StatefulWidget {
   final Building building;
-  final bool selected;
-  final Function() selectBuilding;
-  final Function() deselect;
-
+  final Function() refresh;
   const CreatorViewBuildingSprite({
     super.key,
     required this.building,
-    required this.selected,
-    required this.selectBuilding,
-    required this.deselect,
+    required this.refresh,
   });
 
   @override
@@ -31,9 +27,10 @@ class _CreatorViewBuildingSpriteState extends State<CreatorViewBuildingSprite> {
   final BuildingSpriteController _controller = BuildingSpriteController();
   final TempPosition _tempPosition = TempPosition();
   bool drag = false;
+  bool selected = false;
 
   Color getColor() {
-    if (widget.selected) {
+    if (selected) {
       return AppColors.uiColorLight.withAlpha(75);
     } else {
       return AppColors.uiColorDark.withAlpha(25);
@@ -41,7 +38,7 @@ class _CreatorViewBuildingSpriteState extends State<CreatorViewBuildingSprite> {
   }
 
   Color getStrokeColor() {
-    if (widget.selected) {
+    if (selected) {
       return AppColors.uiColorLight.withAlpha(200);
     } else {
       return AppColors.uiColorDark.withAlpha(100);
@@ -54,6 +51,14 @@ class _CreatorViewBuildingSpriteState extends State<CreatorViewBuildingSprite> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
+    if (user.selectedBuilding != null &&
+        widget.building.id == user.selectedBuilding!.id) {
+      selected = true;
+    } else {
+      selected = false;
+    }
     if (drag == false) {
       _tempPosition.initialize(widget.building.position);
     }
@@ -73,35 +78,35 @@ class _CreatorViewBuildingSpriteState extends State<CreatorViewBuildingSprite> {
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: () {
-                      if (widget.selected) {
-                        widget.deselect();
+                      if (selected) {
+                        user.deselect();
                       } else {
-                        widget.selectBuilding();
+                        user.deselect();
+                        user.selectBuilding(widget.building);
                       }
 
-                      refresh();
+                      widget.refresh();
                     },
                     onPanStart: (details) {
                       if (_controller.isLocked == false) {
                         drag = true;
                       }
 
-                      widget.selectBuilding();
+                      user.selectBuilding(widget.building);
+                      widget.refresh();
                     },
                     onPanUpdate: (details) {
                       if (_controller.isLocked == false) {
-                        _tempPosition.panUpdate(details.delta, 'tile');
+                        setState(() {
+                          _tempPosition.panUpdate(details.delta, 'tile');
+                        });
                       }
-
-                      refresh();
                     },
                     onPanEnd: (details) {
                       if (_controller.isLocked == false) {
                         _controller.endMove(_tempPosition, widget.building);
                         drag = false;
                       }
-
-                      refresh();
                     },
                     child: SvgPicture.asset(
                       AppImages().getBuildingIcon(widget.building.name),
@@ -113,7 +118,7 @@ class _CreatorViewBuildingSpriteState extends State<CreatorViewBuildingSprite> {
                 Align(
                     alignment: Alignment.bottomCenter,
                     child: _controller.getMenu(
-                        widget.building, widget.selected, refresh)),
+                        widget.building, selected, refresh)),
               ],
             ),
           ),
@@ -150,6 +155,7 @@ class BuildingSpriteController {
 
     if (isLocked) {
       menu = MapCircularButton(
+        icon: AppImages.locked,
         color: AppColors.uiColor.withAlpha(100),
         iconColor: AppColors.uiColorLight.withAlpha(200),
         borderColor: AppColors.uiColorLight.withAlpha(200),
@@ -174,6 +180,7 @@ class BuildingSpriteController {
             },
           ),
           MapCircularButton(
+            icon: AppImages.unlocked,
             color: AppColors.uiColor.withAlpha(200),
             iconColor: AppColors.uiColorLight.withAlpha(200),
             borderColor: AppColors.uiColorLight.withAlpha(200),

@@ -1,5 +1,5 @@
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_widgets/text/app_text.dart';
+import 'package:dsix/shared/app_widgets/map/map_text.dart';
 import 'package:flutter/material.dart';
 
 class DamageAnimation extends StatefulWidget {
@@ -19,11 +19,12 @@ class _DamageAnimationState extends State<DamageAnimation>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1))
-          ..forward();
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1500))
+      ..forward();
     _opacity = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
-    _offset = Tween<Offset>(begin: Offset.zero, end: const Offset(0.0, -0.5))
+    _offset = Tween<Offset>(
+            begin: const Offset(0.0, 0.1), end: const Offset(0.0, -0.5))
         .animate(_controller);
   }
 
@@ -39,10 +40,10 @@ class _DamageAnimationState extends State<DamageAnimation>
       position: _offset,
       child: FadeTransition(
         opacity: _opacity,
-        child: AppText(
+        child: MapText(
           text: widget.damage.toString(),
-          fontSize: 0.005,
-          letterSpacing: 0.0001,
+          fontSize: 4,
+          letterSpacing: 1,
           color: (widget.damage < 0) ? AppColors.negative : AppColors.positive,
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/npc/npc_list.dart';
+import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
@@ -12,12 +13,11 @@ import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/text/app_bar_title.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NpcCreationDialog extends StatefulWidget {
-  final Function(Npc) chooseNpc;
   const NpcCreationDialog({
     super.key,
-    required this.chooseNpc,
   });
 
   @override
@@ -29,6 +29,8 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     selectedNpc ??= NpcList().getNpcList().first;
 
     return AlertDialog(
@@ -72,14 +74,14 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                             (index) {
                           return GestureDetector(
                             onTap: () {},
-                            child: (selectedNpc!.race ==
-                                    NpcList().getNpcList()[index].race)
+                            child: (selectedNpc!.name ==
+                                    NpcList().getNpcList()[index].name)
                                 ? AppCircularButton(
                                     color: AppColors.uiColor,
                                     borderColor: AppColors.uiColor,
                                     iconColor: AppColors.uiColorDark,
                                     icon: AppImages().getNpcIcon(
-                                        NpcList().getNpcList()[index].race),
+                                        NpcList().getNpcList()[index].name),
                                     size: 0.04,
                                     onTap: () {
                                       setState(() {
@@ -93,7 +95,7 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                                     borderColor: AppColors.uiColor,
                                     iconColor: AppColors.uiColor,
                                     icon: AppImages().getNpcIcon(
-                                        NpcList().getNpcList()[index].race),
+                                        NpcList().getNpcList()[index].name),
                                     size: 0.04,
                                     onTap: () {
                                       setState(() {
@@ -123,7 +125,7 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                                 children: [
                                   const AppSeparatorVertical(value: 0.025),
                                   AppBarTitle(
-                                    title: selectedNpc!.race,
+                                    title: selectedNpc!.name,
                                     color: AppColors.uiColor,
                                   ),
                                 ],
@@ -139,7 +141,9 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                 color: AppColors.uiColor,
                 buttonText: 'choose',
                 onTap: () {
-                  widget.chooseNpc(selectedNpc!);
+                  selectedNpc!.id = DateTime.now().millisecondsSinceEpoch;
+                  user.selectNpc(selectedNpc!);
+                  user.startPlacingNpc();
                   Navigator.pop(context);
                 }),
           ],

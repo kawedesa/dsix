@@ -6,9 +6,11 @@ import '../../../../../shared/app_images.dart';
 
 class PlayerViewDeadNpcSprite extends StatefulWidget {
   final Npc npc;
+  final Function() onTap;
   const PlayerViewDeadNpcSprite({
     super.key,
     required this.npc,
+    required this.onTap,
   });
 
   @override
@@ -27,8 +29,15 @@ class _PlayerViewDeadNpcSpriteState extends State<PlayerViewDeadNpcSprite> {
         height: widget.npc.size,
         child: Align(
           alignment: Alignment.topCenter,
-          child: SvgPicture.asset(
-            AppImages.chestClosed,
+          child: GestureDetector(
+            child: SvgPicture.asset(
+              (widget.npc.loot.isEmpty)
+                  ? AppImages.chestOpen
+                  : AppImages.chestClosed,
+            ),
+            onTap: () {
+              widget.onTap();
+            },
           ),
         ),
       ),

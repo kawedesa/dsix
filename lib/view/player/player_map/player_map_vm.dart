@@ -1,22 +1,26 @@
+import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
+import 'package:dsix/view/player/player_map/widgets/loot_dialog.dart';
 import 'package:dsix/view/player/player_map/widgets/player_action_buttons.dart';
+import 'package:dsix/view/player/player_map/widgets/sprites/player_view_building_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_npc_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_player_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_npc_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_other_player_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_player_sprite.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../../../model/combat/combat.dart';
 import '../../../model/npc/npc.dart';
 
 class PlayerMapVM {
-  List<Widget> createNpcSprites(
-      MapInfo mapInfo, List<Npc> npcs, List<Player> players) {
+  //SPRITES
+  //NPC
+  Widget createNpcSprites(
+      context, MapInfo mapInfo, List<Npc> npcs, List<Player> players) {
     List<Widget> npcSprites = [];
 
     Path playersVisibleArea = getPlayersVisibleArea(mapInfo, players);
@@ -26,6 +30,15 @@ class PlayerMapVM {
         if (npc.life.isDead()) {
           npcSprites.add(PlayerViewDeadNpcSprite(
             npc: npc,
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return LootDialog(
+                      loot: npc.loot,
+                    );
+                  });
+            },
           ));
         } else {
           npcSprites.add(PlayerViewNpcSprite(
@@ -36,12 +49,14 @@ class PlayerMapVM {
       }
     }
 
-    return npcSprites;
+    return Stack(
+      children: npcSprites,
+    );
   }
 
   Path getPlayersVisibleArea(MapInfo mapInfo, List<Player> players) {
     Path visibleArea = Path();
-
+//TODO come bakc and review this part
     for (Player player in players) {
       if (player.life.isDead() == false) {
         Path playerVision = Path()
@@ -61,11 +76,12 @@ class PlayerMapVM {
     return visibleArea;
   }
 
-  List<Widget> createPlayerSprites(MapInfo mapInfo, List<Player> players,
+  //PLAYERS
+  Widget createPlayerSprites(MapInfo mapInfo, List<Player> players,
       Player player, Function() refresh) {
     List<Widget> playerSprites = [];
 
-//OTHER PLAYERS
+    //OTHER PLAYERS
     for (Player otherPlayer in players) {
       if (otherPlayer != player) {
         if (otherPlayer.life.isDead()) {
@@ -82,7 +98,7 @@ class PlayerMapVM {
       }
     }
 
-//PLAYER
+    //PLAYER
     if (player.life.isDead()) {
       playerSprites.add(PlayerViewDeadPlayerSprite(
         player: player,
@@ -98,7 +114,26 @@ class PlayerMapVM {
       ));
     }
 
-    return playerSprites;
+    return Stack(
+      children: playerSprites,
+    );
+  }
+
+  //BUILDINGS
+
+  Widget createBuildingSprites(List<Building> buildings) {
+    List<Widget> buildingSprites = [];
+    for (Building building in buildings) {
+      buildingSprites.add(PlayerViewBuildingSprite(
+          building: building,
+          selected: false,
+          selectBuilding: () {},
+          deselect: () {}));
+    }
+
+    return Stack(
+      children: buildingSprites,
+    );
   }
 
   Combat combat = Combat();
@@ -108,6 +143,7 @@ class PlayerMapVM {
     return PlayerActioButtons(
         mapInfo: mapInfo,
         user: user,
+        playerMode: playerMode,
         combat: combat,
         cancelAction: cancelAction,
         changePlayerMode: () {
@@ -120,22 +156,19 @@ class PlayerMapVM {
       Player selectedPlayer, Function refresh) {
     Widget attackInputWidget = const SizedBox();
 
-    if (playerMode == 'attack') {
-      attackInputWidget = MouseInput(
-        getMousePosition: (mousePosition) {
-          combat.setMousePosition(mousePosition);
-          combat.setActionArea();
-          refresh();
-        },
-        onTap: () {
-          combat.confirmPlayerAttack(npcs, players, selectedPlayer);
-          cancelAction();
-          refresh();
-        },
-      );
-
-      return attackInputWidget;
-    }
+    attackInputWidget = MouseInput(
+      active: (playerMode == 'attack'),
+      getMouseOffset: (mouseOffset) {
+        combat.setMousePosition(mouseOffset);
+        combat.setActionArea();
+        refresh();
+      },
+      onTap: () {
+        combat.confirmPlayerAttack(npcs, players, selectedPlayer);
+        cancelAction();
+        refresh();
+      },
+    );
 
     return attackInputWidget;
   }

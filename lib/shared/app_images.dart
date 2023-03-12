@@ -2,9 +2,12 @@ class AppImages {
   //UI
   static const logo = 'assets/images/ui/logo.svg';
   static const cancel = 'assets/images/ui/cancel.svg';
+  static const duplicate = 'assets/images/ui/duplicate.svg';
   static const confirm = 'assets/images/ui/confirm.svg';
   static const left = 'assets/images/ui/left.svg';
   static const right = 'assets/images/ui/right.svg';
+  static const locked = 'assets/images/ui/locked.svg';
+  static const unlocked = 'assets/images/ui/unlocked.svg';
 
   static const power = 'assets/images/ui/power.svg';
   static const defense = 'assets/images/ui/defense.svg';

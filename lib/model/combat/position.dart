@@ -34,8 +34,8 @@ class Position {
     );
   }
 
-  double getDistanceFromPosition(Position position) {
-    return Offset(dx - position.dx, dy - position.dy).distance;
+  double getDistanceFromPoint(Offset point) {
+    return Offset(dx - point.dx, dy - point.dy).distance;
   }
 
   Offset getOffset() {

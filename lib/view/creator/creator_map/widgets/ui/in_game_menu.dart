@@ -1,4 +1,3 @@
-import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
@@ -13,14 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class InGameMenu extends StatefulWidget {
-  final Function(Npc) startPlacingNpc;
-  final Function(Building) startPlacingBuilding;
-
-  const InGameMenu({
-    super.key,
-    required this.startPlacingNpc,
-    required this.startPlacingBuilding,
-  });
+  final bool active;
+  final Function() refresh;
+  const InGameMenu({super.key, required this.active, required this.refresh});
 
   @override
   State<InGameMenu> createState() => _InGameMenuState();
@@ -47,45 +41,47 @@ class _InGameMenuState extends State<InGameMenu> {
     final players = Provider.of<List<Player>>(context);
     final game = Provider.of<Game>(context);
 
-    return Align(
-        alignment: Alignment.topLeft,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(AppLayout.avarage(context) * 0.025,
-              AppLayout.avarage(context) * 0.035, 0, 0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              NpcCreationButton(
-                active: true,
-                startPlacingNpc: (npc) {
-                  widget.startPlacingNpc(npc);
-                },
+    return (widget.active)
+        ? Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(AppLayout.avarage(context) * 0.025,
+                  AppLayout.avarage(context) * 0.035, 0, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  NpcCreationButton(
+                      active: true,
+                      refresh: () {
+                        widget.refresh();
+                      }),
+                  const AppSeparatorVertical(value: 0.02),
+                  BuildingCreationButton(
+                    active: true,
+                    refresh: () {
+                      widget.refresh();
+                    },
+                  ),
+                  const AppSeparatorVertical(value: 0.02),
+                  AppCircularButton(
+                    icon: AppImages.turn,
+                    iconColor: (game.turn.currentTurn == 'player')
+                        ? AppColors.uiColor.withAlpha(200)
+                        : AppColors.uiColorLight.withAlpha(200),
+                    color: (game.turn.currentTurn == 'player')
+                        ? AppColors.uiColorDark.withAlpha(100)
+                        : AppColors.uiColor.withAlpha(100),
+                    borderColor: (game.turn.currentTurn == 'player')
+                        ? AppColors.uiColorDark.withAlpha(200)
+                        : AppColors.uiColorLight.withAlpha(200),
+                    size: 0.04,
+                    onTap: () {
+                      passTurn(game, npcs, players);
+                    },
+                  ),
+                ],
               ),
-              const AppSeparatorVertical(value: 0.02),
-              BuildingCreationButton(
-                  active: true,
-                  startPlacingBuilding: (building) {
-                    widget.startPlacingBuilding(building);
-                  }),
-              const AppSeparatorVertical(value: 0.02),
-              AppCircularButton(
-                icon: AppImages.turn,
-                iconColor: (game.turn.currentTurn == 'player')
-                    ? AppColors.uiColor.withAlpha(200)
-                    : AppColors.uiColorLight.withAlpha(200),
-                color: (game.turn.currentTurn == 'player')
-                    ? AppColors.uiColorDark.withAlpha(100)
-                    : AppColors.uiColor.withAlpha(100),
-                borderColor: (game.turn.currentTurn == 'player')
-                    ? AppColors.uiColorDark.withAlpha(200)
-                    : AppColors.uiColorLight.withAlpha(200),
-                size: 0.04,
-                onTap: () {
-                  passTurn(game, npcs, players);
-                },
-              ),
-            ],
-          ),
-        ));
+            ))
+        : const SizedBox();
   }
 }

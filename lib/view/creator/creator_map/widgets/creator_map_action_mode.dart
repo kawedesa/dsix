@@ -5,6 +5,7 @@ import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
@@ -33,9 +34,11 @@ class CreatorMapActionMode extends StatefulWidget {
   final MapInfo mapInfo;
   final Npc? selectedNpc;
   final Function(Npc) selectNpc;
+  final Function() duplicateNpc;
   final Function(Position) createNpc;
   final Building? selectedBuilding;
   final Function(Building) selectBuilding;
+  final Function() duplicateBuilding;
   final Function(Position) createBuilding;
   final Function() deselect;
   final Function(String, Color) displaySnackBar;
@@ -45,9 +48,11 @@ class CreatorMapActionMode extends StatefulWidget {
       required this.mapInfo,
       required this.selectedNpc,
       required this.selectNpc,
+      required this.duplicateNpc,
       required this.createNpc,
       required this.selectedBuilding,
       required this.selectBuilding,
+      required this.duplicateBuilding,
       required this.createBuilding,
       required this.deselect,
       required this.displaySnackBar})
@@ -68,6 +73,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
+    final user = Provider.of<User>(context);
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
     final buildings = Provider.of<List<Building>>(context);
@@ -93,14 +99,16 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                     width: AppLayout.longest(context),
                     height: AppLayout.longest(context),
                   ),
-                  _creatorMapController.deselector(widget.selectedNpc,
-                      widget.selectedBuilding, widget.deselect),
+                  MouseInput(
+                      getMouseOffset: (mouseOffset) {},
+                      active: user.somethingIsSelected(),
+                      onTap: () {
+                        user.deselect();
+                        refresh();
+                      }),
                   Stack(
                     children: _creatorMapController.createBuildingSprites(
-                        buildings,
-                        widget.selectedBuilding,
-                        widget.selectBuilding,
-                        widget.deselect),
+                        buildings, refresh),
                   ),
                   ActionAreaSprite(
                     area: _creatorMapController.combat.actionArea.area,
@@ -110,31 +118,51 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                         widget.mapInfo, players, npcs),
                   ),
                   Stack(
-                    children: _creatorMapController.createNpcSprites(npcs,
-                        widget.selectedNpc, widget.selectNpc, widget.deselect),
+                    children: _creatorMapController.createNpcSprites(
+                        widget.mapInfo, npcs, refresh),
                   ),
-                  _creatorMapController.placeHereTarget(),
+                  _creatorMapController
+                      .placeHereTarget(user.placeHere.getOffset()),
                 ],
               ),
             ),
           ),
           _creatorMapController.displayTurn(game.turn.currentTurn),
-          _creatorMapController.selectedNpcUi(
-            widget.selectedNpc,
-          ),
-          _creatorMapController.selectedBuildingUi(
-            widget.selectedBuilding,
-          ),
+          //TODO PASSAR ALGUMAS DAS FUNCOES DO USER PARA ESSE MENU. ADICIONAR A FUNCAO DE REFRESH
+          SelectedNpcUi(),
+          SelectedBuildingUi(),
           _creatorMapController.getAttackInput(
               npcs, players, widget.selectedNpc, refresh),
           _creatorMapController.actionButtons(context, widget.mapInfo, npcs,
-              players, widget.selectedNpc, refresh),
-          _creatorMapController.inGameMenu(
-              widget.selectNpc, widget.selectBuilding),
-          _creatorMapController.buildingPlacer(
-              widget.mapInfo, widget.createBuilding, refresh),
-          _creatorMapController.npcPlacer(
-              widget.mapInfo, widget.createNpc, refresh),
+              players, widget.selectedNpc, user.placingSomething, refresh),
+          Align(
+              alignment: Alignment.topLeft,
+              child: InGameMenu(
+                active: (user.placingSomething == 'false') ? true : false,
+                refresh: () {
+                  refresh();
+                },
+              )),
+          MouseInput(
+              active: (user.placingSomething == 'building') ? true : false,
+              getMouseOffset: (mouseOffset) {
+                user.setPlaceHere(mouseOffset, widget.mapInfo);
+                refresh();
+              },
+              onTap: () {
+                user.createBuilding();
+                user.resetPlacing();
+              }),
+          MouseInput(
+              active: (user.placingSomething == 'npc') ? true : false,
+              getMouseOffset: (mouseOffset) {
+                user.setPlaceHere(mouseOffset, widget.mapInfo);
+                refresh();
+              },
+              onTap: () {
+                user.createNpc();
+                user.resetPlacing();
+              }),
         ],
       ),
     );
@@ -146,22 +174,16 @@ class CreatorMapActionModeController {
 
   //BUILDINGS
   List<Widget> createBuildingSprites(
-      List<Building> buildings,
-      Building? selectedBuilding,
-      Function(Building) selectBuilding,
-      Function deselect) {
+      List<Building> buildings, Function refresh) {
     List<Widget> buildingSprites = [];
 
     for (Building building in buildings) {
       buildingSprites.add(CreatorViewBuildingSprite(
-          building: building,
-          selected: (building == selectedBuilding) ? true : false,
-          selectBuilding: () {
-            selectBuilding(building);
-          },
-          deselect: () {
-            deselect();
-          }));
+        building: building,
+        refresh: () {
+          refresh();
+        },
+      ));
     }
 
     return buildingSprites;
@@ -185,7 +207,6 @@ class CreatorMapActionModeController {
           playerSprites.add(CreatorViewPlayerSprite(
             player: player,
             color: AppColors().getPlayerColor(player.id),
-            onTap: () {},
           ));
         }
       }
@@ -196,7 +217,7 @@ class CreatorMapActionModeController {
 
 //NPCS
   List<Widget> createNpcSprites(
-      List<Npc> npcs, Npc? selectedNpc, Function selectNpc, Function deselect) {
+      MapInfo mapInfo, List<Npc> npcs, Function refresh) {
     List<Widget> npcSprites = [];
 
     for (Npc npc in npcs) {
@@ -207,12 +228,9 @@ class CreatorMapActionModeController {
       } else {
         npcSprites.add(CreatorViewActionNpcSprite(
           npc: npc,
-          selected: (npc == selectedNpc) ? true : false,
-          selectNpc: () {
-            selectNpc(npc);
-          },
-          deselectNpc: () {
-            deselect();
+          mapInfo: mapInfo,
+          refresh: () {
+            refresh();
           },
         ));
       }
@@ -242,121 +260,7 @@ class CreatorMapActionModeController {
     return visibleArea;
   }
 
-  Widget selectedNpcUi(Npc? selectedNpc) {
-    if (selectedNpc == null) {
-      return const SizedBox();
-    } else {
-      return Align(
-          alignment: const Alignment(
-            0.0,
-            -0.9,
-          ),
-          child: SelectedNpcUi(npc: selectedNpc));
-    }
-  }
-
-  Widget selectedBuildingUi(Building? selectedBuilding) {
-    if (selectedBuilding == null) {
-      return const SizedBox();
-    } else {
-      return Align(
-          alignment: const Alignment(
-            0.0,
-            -0.9,
-          ),
-          child: SelectedBuildingUi(building: selectedBuilding));
-    }
-  }
-
-  Widget deselector(
-      Npc? selectedNpc, Building? selectedBuilding, Function deselect) {
-    if (selectedNpc == null && selectedBuilding == null) {
-      return const SizedBox();
-    } else {
-      return MouseInput(
-          getMousePosition: (mousePosition) {},
-          onTap: () {
-            deselect();
-          });
-    }
-  }
-
-  Widget inGameMenu(
-      Function(Npc) selectNpc, Function(Building) selectBuilding) {
-    if (placingSomething != 'false') {
-      return const SizedBox();
-    }
-    return Align(
-        alignment: Alignment.topLeft,
-        child: InGameMenu(
-          startPlacingNpc: (npc) {
-            startPlacingNpc(npc, selectNpc);
-          },
-          startPlacingBuilding: (building) {
-            startPlacingBuilding(building, selectBuilding);
-          },
-        ));
-  }
-
-  String placingSomething = 'false';
-  Position placeHere = Position.empty();
-
-  void startPlacingBuilding(
-      Building building, Function(Building) selectBuilding) {
-    selectBuilding(building);
-    placingSomething = 'building';
-  }
-
-  void startPlacingNpc(Npc npc, Function(Npc) selectNpc) {
-    selectNpc(npc);
-    placingSomething = 'npc';
-  }
-
-  Widget buildingPlacer(
-      MapInfo mapInfo, Function(Position) createBuilding, Function refresh) {
-    if (placingSomething == 'building') {
-      return MouseInput(getMousePosition: (mousePosition) {
-        placeHere = Position(
-            dx: mousePosition.dx / mapInfo.minZoom -
-                mapInfo.getCanvasPosition().dx,
-            dy: mousePosition.dy / mapInfo.minZoom -
-                mapInfo.getCanvasPosition().dy -
-                50 / mapInfo.minZoom,
-            tile: '');
-        refresh();
-      }, onTap: () {
-        createBuilding(placeHere);
-        placeHere.reset();
-        placingSomething = 'false';
-      });
-    } else {
-      return const SizedBox();
-    }
-  }
-
-  Widget npcPlacer(
-      MapInfo mapInfo, Function(Position) createNpc, Function refresh) {
-    if (placingSomething == 'npc') {
-      return MouseInput(getMousePosition: (mousePosition) {
-        placeHere = Position(
-            dx: mousePosition.dx / mapInfo.minZoom -
-                mapInfo.getCanvasPosition().dx,
-            dy: mousePosition.dy / mapInfo.minZoom -
-                mapInfo.getCanvasPosition().dy -
-                50 / mapInfo.minZoom,
-            tile: '');
-        refresh();
-      }, onTap: () {
-        createNpc(placeHere);
-        placeHere.reset();
-        placingSomething = 'false';
-      });
-    } else {
-      return const SizedBox();
-    }
-  }
-
-  Widget placeHereTarget() {
+  Widget placeHereTarget(Offset placeHere) {
     return Positioned(
       left: placeHere.dx - 2.5,
       top: placeHere.dy - 2.5,
@@ -390,8 +294,14 @@ class CreatorMapActionModeController {
 
   Combat combat = Combat();
 
-  Widget actionButtons(context, MapInfo mapInfo, List<Npc> npcs,
-      List<Player> players, Npc? selectedNpc, Function refresh) {
+  Widget actionButtons(
+      context,
+      MapInfo mapInfo,
+      List<Npc> npcs,
+      List<Player> players,
+      Npc? selectedNpc,
+      String placingSomething,
+      Function refresh) {
     if (selectedNpc == null) {
       return const SizedBox();
     }
@@ -444,24 +354,19 @@ class CreatorMapActionModeController {
 
   Widget getAttackInput(List<Npc> npcs, List<Player> players, Npc? selectedNpc,
       Function refresh) {
-    Widget mouseInputWidget = const SizedBox();
-
-    if (combat.isAttacking) {
-      mouseInputWidget = MouseInput(
-        getMousePosition: (mousePosition) {
-          combat.setMousePosition(mousePosition);
-          combat.setActionArea();
-          refresh();
-        },
-        onTap: () {
-          combat.confirmNpcAttack(npcs, players, selectedNpc);
-          combat.cancelAction();
-          refresh();
-        },
-      );
-
-      return mouseInputWidget;
-    }
+    Widget mouseInputWidget = MouseInput(
+      active: combat.isAttacking,
+      getMouseOffset: (mouseOffset) {
+        combat.setMousePosition(mouseOffset);
+        combat.setActionArea();
+        refresh();
+      },
+      onTap: () {
+        combat.confirmNpcAttack(npcs, players, selectedNpc);
+        combat.cancelAction();
+        refresh();
+      },
+    );
 
     return mouseInputWidget;
   }

@@ -8,11 +8,14 @@ import 'package:dsix/model/combat/effect/effect.dart';
 import 'package:dsix/model/combat/effect/effect_controller.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/position.dart';
+import 'package:dsix/model/item/item.dart';
+import 'package:dsix/model/item/shop.dart';
 import 'package:flutter/material.dart';
 
 class Npc {
   int id;
-  String race;
+  int xp;
+  String name;
   double size;
   Life life;
   Armor armor;
@@ -22,10 +25,12 @@ class Npc {
   Position position;
   List<Attack> attacks;
   EffectController effects;
+  List<Item> loot;
 
   Npc({
     required this.id,
-    required this.race,
+    required this.xp,
+    required this.name,
     required this.size,
     required this.life,
     required this.armor,
@@ -35,16 +40,18 @@ class Npc {
     required this.position,
     required this.attacks,
     required this.effects,
+    required this.loot,
   });
 
   final database = FirebaseFirestore.instance;
 
   Map<String, dynamic> toMap() {
     var attacksToMap = attacks.map((attack) => attack.toMap()).toList();
-
+    var lootToMap = loot.map((item) => item.toMap()).toList();
     return {
       'id': id,
-      'race': race,
+      'xp': xp,
+      'name': name,
       'size': size,
       'life': life.toMap(),
       'armor': armor.toMap(),
@@ -54,6 +61,7 @@ class Npc {
       'position': position.toMap(),
       'attacks': attacksToMap,
       'effects': effects.toMap(),
+      'loot': lootToMap,
     };
   }
 
@@ -64,9 +72,16 @@ class Npc {
       getAttacks.add(Attack.fromMap(attack));
     }
 
+    List<Item> getLoot = [];
+    List<dynamic> lootMap = data?['loot'];
+    for (var item in lootMap) {
+      getLoot.add(Item.fromMap(item));
+    }
+
     return Npc(
       id: data?['id'],
-      race: data?['race'],
+      xp: data?['xp'],
+      name: data?['name'],
       size: data?['size'] * 1.0,
       life: Life.fromMap(data?['life']),
       armor: Armor.fromMap(data?['armor']),
@@ -76,30 +91,13 @@ class Npc {
       position: Position.fromMap(data?['position']),
       attacks: getAttacks,
       effects: EffectController.fromMap(data?['effects']),
+      loot: getLoot,
     );
   }
 
   void changePosition(Position newPosition) {
     position = newPosition;
     update();
-  }
-
-  void update() async {
-    await database
-        .collection('game')
-        .doc('gameID')
-        .collection('npcs')
-        .doc(id.toString())
-        .set(toMap());
-  }
-
-  void set() async {
-    await database
-        .collection('game')
-        .doc('gameID')
-        .collection('npcs')
-        .doc(id.toString())
-        .set(toMap());
   }
 
   Attack attack(Attack attack) {
@@ -137,12 +135,17 @@ class Npc {
 
     int totalDamage = pDamage + mDamage + leftOverRawDamage;
 
-    life.receiveDamage(totalDamage);
-
     if (totalDamage > 0) {
       receiveEffect(attack.onHitEffect);
     }
 
+    life.receiveDamage(totalDamage);
+
+    update();
+  }
+
+  void createLoot() {
+    loot.add(Shop().meleeWeapons.first);
     update();
   }
 
@@ -216,5 +219,32 @@ class Npc {
           radius: vision.getRange() / 2));
 
     return area;
+  }
+
+  void delete() async {
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('npcs')
+        .doc(id.toString())
+        .delete();
+  }
+
+  void update() async {
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('npcs')
+        .doc(id.toString())
+        .set(toMap());
+  }
+
+  void set() async {
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('npcs')
+        .doc(id.toString())
+        .set(toMap());
   }
 }

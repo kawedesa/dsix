@@ -85,7 +85,7 @@ class _AttackButtonState extends State<AttackButton> {
         }
       },
       child: AppCircularButton(
-        color: widget.color.withAlpha(100),
+        color: widget.color.withAlpha(175),
         icon: widget.icon,
         iconSize: 0.75,
         iconColor: getDetailColor().withAlpha(225),

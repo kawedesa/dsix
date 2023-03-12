@@ -50,14 +50,23 @@ class Building {
   void changeSize(double value) {
     size += value;
 
-    if (size < 30) {
-      size = 30;
+    if (size < 20) {
+      size = 20;
     }
     if (size > 50) {
       size = 50;
     }
 
     update();
+  }
+
+  void delete() async {
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('buildings')
+        .doc(id.toString())
+        .delete();
   }
 
   void update() async {

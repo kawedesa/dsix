@@ -1,5 +1,6 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/building/building_list.dart';
+import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
@@ -8,12 +9,11 @@ import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class BuildingCreationDialog extends StatefulWidget {
-  final Function(Building) chooseBuilding;
   const BuildingCreationDialog({
     super.key,
-    required this.chooseBuilding,
   });
 
   @override
@@ -43,6 +43,8 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     selectedBuilding ??= BuildingList().getBuildingList().first;
 
     return AlertDialog(
@@ -118,7 +120,9 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
                 color: AppColors.uiColor,
                 buttonText: 'choose',
                 onTap: () {
-                  widget.chooseBuilding(selectedBuilding!);
+                  selectedBuilding!.id = DateTime.now().millisecondsSinceEpoch;
+                  user.selectBuilding(selectedBuilding!);
+                  user.startPlacingBuilding();
                   Navigator.pop(context);
                 }),
           ],

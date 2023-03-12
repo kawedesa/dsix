@@ -1,5 +1,6 @@
 import 'package:dsix/model/combat/action_area.dart';
 import 'package:dsix/model/combat/position.dart';
+import 'package:flutter/material.dart';
 import '../npc/npc.dart';
 import '../player/player.dart';
 import 'attack.dart';
@@ -11,7 +12,7 @@ class Combat {
   bool isAttacking = false;
   Position inputCenter = Position.empty();
   Position actionCenter = Position.empty();
-  Position mousePosition = Position.empty();
+  Offset mousePosition = Offset.zero;
   // BattleLog battleLog = BattleLog();
 
   void startAttack(Position inputCenter, Position actionCenter, Attack attack) {
@@ -21,7 +22,7 @@ class Combat {
     isAttacking = true;
   }
 
-  void setMousePosition(Position position) {
+  void setMousePosition(Offset position) {
     mousePosition = position;
   }
 
@@ -30,7 +31,7 @@ class Combat {
     isAttacking = false;
     inputCenter = Position.empty();
     actionCenter = Position.empty();
-    mousePosition = Position.empty();
+    mousePosition = Offset.zero;
     resetActionArea();
   }
 
@@ -38,14 +39,31 @@ class Combat {
     actionArea.reset();
   }
 
+  void setActionArea() {
+    double angle = math.atan2(mousePosition.dy - inputCenter.dy,
+            mousePosition.dx - inputCenter.dx) -
+        1.5708;
+
+    double distance = (inputCenter.getDistanceFromPoint(mousePosition)) / 200;
+
+    if (distance > 1) {
+      distance = 1;
+    }
+
+    actionArea.setArea(angle, distance, actionCenter, attack.range);
+  }
+
   void confirmPlayerAttack(
       List<Npc> npcs, List<Player> players, Player selectedPlayer) {
     for (Npc npc in npcs) {
       if (actionArea.insideArea(npc.position)) {
         npc.receiveAttack(attack);
-
         selectedPlayer
             .receiveEffect(npc.effects.passiveEffects.onBeingHitEffect);
+
+        if (npc.life.isDead()) {
+          npc.createLoot();
+        }
       }
     }
 
@@ -66,6 +84,9 @@ class Combat {
         npc.receiveAttack(attack);
 
         selectedNpc!.receiveEffect(npc.effects.passiveEffects.onBeingHitEffect);
+        if (npc.life.isDead()) {
+          npc.createLoot();
+        }
       }
     }
 
@@ -77,21 +98,6 @@ class Combat {
             .receiveEffect(player.effects.passiveEffects.onBeingHitEffect);
       }
     }
-  }
-
-  void setActionArea() {
-    double angle = math.atan2(mousePosition.dy - inputCenter.dy,
-            mousePosition.dx - inputCenter.dx) -
-        1.5708;
-
-    double distance =
-        (inputCenter.getDistanceFromPosition(mousePosition)) / 200;
-
-    if (distance > 1) {
-      distance = 1;
-    }
-
-    actionArea.setArea(angle, distance, actionCenter, attack.range);
   }
 }
 

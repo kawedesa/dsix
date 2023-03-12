@@ -223,4 +223,6 @@ class Game {
   void update() async {
     await database.collection('game').doc('gameID').update(toMap());
   }
+
+  //TODO COMEBACK HERE AND THINK HOW TO USE THIS CLASS BETTER. MAYBE OPTIMIZE DELETE FUNCTIONS
 }

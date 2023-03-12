@@ -8,12 +8,12 @@ import 'package:transparent_pointer/transparent_pointer.dart';
 class CreatorViewPlayerSprite extends StatefulWidget {
   final Player player;
   final Color color;
-  final Function() onTap;
-  const CreatorViewPlayerSprite(
-      {super.key,
-      required this.player,
-      required this.color,
-      required this.onTap});
+
+  const CreatorViewPlayerSprite({
+    super.key,
+    required this.player,
+    required this.color,
+  });
 
   @override
   State<CreatorViewPlayerSprite> createState() =>
@@ -92,9 +92,7 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
                 child: TransparentPointer(
                   transparent: false,
                   child: GestureDetector(
-                    onTap: () {
-                      widget.onTap();
-                    },
+                    onTap: () {},
                     onPanStart: (details) {},
                     onPanUpdate: (details) {},
                     onPanEnd: (details) {},

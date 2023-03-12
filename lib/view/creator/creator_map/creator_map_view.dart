@@ -41,6 +41,9 @@ class _CreatorMapViewState extends State<CreatorMapView> {
                 _creatorMapVM.selectNpc(npc);
               });
             },
+            duplicateNpc: () {
+              _creatorMapVM.duplicateNpc();
+            },
             createNpc: (position) {
               setState(() {
                 _creatorMapVM.createNpc(position);
@@ -53,6 +56,9 @@ class _CreatorMapViewState extends State<CreatorMapView> {
                 _creatorMapVM.deselectNpc();
                 _creatorMapVM.selectBuilding(building);
               });
+            },
+            duplicateBuilding: () {
+              _creatorMapVM.duplicateBuilding();
             },
             createBuilding: (position) {
               setState(() {
@@ -79,6 +85,9 @@ class _CreatorMapViewState extends State<CreatorMapView> {
                 _creatorMapVM.selectNpc(npc);
               });
             },
+            duplicateNpc: () {
+              _creatorMapVM.duplicateNpc();
+            },
             createNpc: (position) {
               setState(() {
                 _creatorMapVM.createNpc(position);
@@ -91,6 +100,9 @@ class _CreatorMapViewState extends State<CreatorMapView> {
                 _creatorMapVM.deselectNpc();
                 _creatorMapVM.selectBuilding(building);
               });
+            },
+            duplicateBuilding: () {
+              _creatorMapVM.duplicateBuilding();
             },
             createBuilding: (position) {
               setState(() {

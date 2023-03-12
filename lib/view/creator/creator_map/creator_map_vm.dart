@@ -32,6 +32,14 @@ class CreatorMapVM {
     }
   }
 
+  void duplicateBuilding() {
+    Building newBuilding = selectedBuilding!;
+    newBuilding.id = DateTime.now().millisecondsSinceEpoch;
+    newBuilding.position.dx += 5;
+    newBuilding.set();
+    selectedBuilding = newBuilding;
+  }
+
   void createBuilding(Position position) {
     selectedBuilding!.changePosition(position);
     selectedBuilding!.set();
@@ -65,6 +73,14 @@ class CreatorMapVM {
     } else {
       selectedNpc = null;
     }
+  }
+
+  void duplicateNpc() {
+    Npc newNpc = selectedNpc!;
+    newNpc.id = DateTime.now().millisecondsSinceEpoch;
+    newNpc.position.dx += 5;
+    newNpc.set();
+    selectedNpc = newNpc;
   }
 
   void createNpc(Position position) {

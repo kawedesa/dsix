@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 
 class PlayerActioButtons extends StatefulWidget {
   final MapInfo mapInfo;
-
   final User user;
+  final String playerMode;
   final Combat combat;
   final Function() cancelAction;
   final Function() changePlayerMode;
@@ -20,6 +20,7 @@ class PlayerActioButtons extends StatefulWidget {
       {super.key,
       required this.mapInfo,
       required this.user,
+      required this.playerMode,
       required this.combat,
       required this.cancelAction,
       required this.changePlayerMode,
@@ -42,6 +43,10 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.playerMode == 'stand') {
+      selectedAction = 0;
+    }
+
     return (widget.user.player.life.isDead())
         ? const SizedBox()
         : Align(
@@ -89,7 +94,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
                       : AppCircularButton(
                           icon: AppImages.defense,
                           iconColor: widget.user.darkColor.withAlpha(225),
-                          color: widget.user.color.withAlpha(100),
+                          color: widget.user.color.withAlpha(175),
                           borderColor: widget.user.darkColor.withAlpha(225),
                           size: 0.04,
                           onTap: () {
@@ -102,7 +107,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
                       : AppCircularButton(
                           icon: AppImages.vision,
                           iconColor: widget.user.darkColor.withAlpha(225),
-                          color: widget.user.color.withAlpha(100),
+                          color: widget.user.color.withAlpha(175),
                           borderColor: widget.user.darkColor.withAlpha(225),
                           size: 0.04,
                           onTap: () {

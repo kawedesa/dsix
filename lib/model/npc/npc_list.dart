@@ -15,7 +15,8 @@ import 'npc.dart';
 class NpcList {
   static Npc zombie = Npc(
     id: 0,
-    race: 'zombie',
+    xp: 25,
+    name: 'zombie',
     size: 10,
     life: Life(current: 16, max: 16),
     armor: Armor(
@@ -46,11 +47,13 @@ class NpcList {
       ),
     ],
     effects: EffectController.empty(),
+    loot: [],
   );
 
   static Npc giantBat = Npc(
     id: 0,
-    race: 'giant bat',
+    xp: 25,
+    name: 'giant bat',
     size: 10,
     life: Life(current: 8, max: 8),
     armor: Armor(
@@ -70,11 +73,13 @@ class NpcList {
       ),
     ],
     effects: EffectController.empty(),
+    loot: [],
   );
 
   static Npc skeleton = Npc(
     id: 0,
-    race: 'skeleton',
+    xp: 25,
+    name: 'skeleton',
     size: 10,
     life: Life(current: 8, max: 8),
     armor: Armor(
@@ -99,11 +104,13 @@ class NpcList {
       ),
     ],
     effects: EffectController.empty(),
+    loot: [],
   );
 
   static Npc skeletonMage = Npc(
     id: 0,
-    race: 'skeleton mage',
+    xp: 50,
+    name: 'skeleton mage',
     size: 10,
     life: Life(current: 8, max: 8),
     armor: Armor(
@@ -139,11 +146,13 @@ class NpcList {
       ),
     ],
     effects: EffectController.empty(),
+    loot: [],
   );
 
   static Npc giantFrog = Npc(
     id: 0,
-    race: 'giant frog',
+    xp: 50,
+    name: 'giant frog',
     size: 10,
     life: Life(current: 16, max: 16),
     armor: Armor(
@@ -173,11 +182,13 @@ class NpcList {
       ),
     ],
     effects: EffectController.empty(),
+    loot: [],
   );
 
   static Npc goblin = Npc(
     id: 0,
-    race: 'goblin',
+    xp: 50,
+    name: 'goblin',
     size: 10,
     life: Life(current: 8, max: 8),
     armor: Armor(
@@ -209,10 +220,12 @@ class NpcList {
       ),
     ],
     effects: EffectController.empty(),
+    loot: [],
   );
   static Npc beast = Npc(
     id: 0,
-    race: 'beast',
+    xp: 50,
+    name: 'beast',
     size: 10,
     life: Life(current: 16, max: 16),
     armor: Armor(
@@ -247,11 +260,13 @@ class NpcList {
           ),
           afterAttackEffect: Effect.empty()),
     ),
+    loot: [],
   );
 
   static Npc explosiveLizzard = Npc(
     id: 0,
-    race: 'explosive lizzard',
+    xp: 50,
+    name: 'explosive lizzard',
     size: 10,
     life: Life(current: 8, max: 8),
     armor: Armor(
@@ -276,11 +291,13 @@ class NpcList {
       ),
     ],
     effects: EffectController.empty(),
+    loot: [],
   );
 
   static Npc wraith = Npc(
     id: 0,
-    race: 'wraith',
+    xp: 100,
+    name: 'wraith',
     size: 10,
     life: Life(current: 16, max: 16),
     armor: Armor(
@@ -322,11 +339,13 @@ class NpcList {
         ),
       ),
     ),
+    loot: [],
   );
 
   static Npc golen = Npc(
     id: 0,
-    race: 'golen',
+    xp: 100,
+    name: 'golen',
     size: 10,
     life: Life(current: 24, max: 24),
     armor: Armor(
@@ -350,6 +369,7 @@ class NpcList {
       ),
     ],
     effects: EffectController.empty(),
+    loot: [],
   );
 
   List<Npc> getNpcList() {

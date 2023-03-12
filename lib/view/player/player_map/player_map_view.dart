@@ -1,3 +1,4 @@
+import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
@@ -35,6 +36,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     final game = Provider.of<Game>(context);
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
+    final buildings = Provider.of<List<Building>>(context);
 
     user.updatePlayer(players);
     _mapInfo.setMapInfo(context, game.map);
@@ -60,17 +62,17 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     width: AppLayout.longest(context),
                     height: AppLayout.longest(context),
                   ),
+                  _playerMapVM.createBuildingSprites(buildings),
+                  ActionAreaSprite(
+                    area: _playerMapVM.getPlayersVisibleArea(_mapInfo, players),
+                  ),
                   ActionAreaSprite(
                     area: _playerMapVM.combat.actionArea.area,
                   ),
-                  Stack(
-                    children:
-                        _playerMapVM.createNpcSprites(_mapInfo, npcs, players),
-                  ),
-                  Stack(
-                    children: _playerMapVM.createPlayerSprites(
-                        _mapInfo, players, user.player, refresh),
-                  ),
+                  _playerMapVM.createNpcSprites(
+                      context, _mapInfo, npcs, players),
+                  _playerMapVM.createPlayerSprites(
+                      _mapInfo, players, user.player, refresh),
                 ],
               ),
             ),

@@ -96,7 +96,6 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                       onPanEnd: (details) {
                         setState(() {
                           _controller.endMove(widget.player, widget.mapInfo);
-
                           _controller.drag = false;
                         });
                       },
