@@ -5,7 +5,7 @@ import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/vision_grid.dart';
-import 'package:dsix/view/player/player_map/widgets/loot_dialog.dart';
+import 'package:dsix/model/player/equipment/loot_dialog.dart';
 import 'package:dsix/view/player/player_map/widgets/player_action_buttons.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_building_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_npc_sprite.dart';
@@ -36,7 +36,7 @@ class PlayerMapVM {
                   context: context,
                   builder: (BuildContext context) {
                     return LootDialog(
-                      loot: npc.loot,
+                      npc: npc,
                       refresh: refresh,
                     );
                   });
@@ -73,7 +73,8 @@ class PlayerMapVM {
           playerVisibleArea = playerVision;
         }
 
-        visibleArea.addPath(playerVisibleArea, Offset.zero);
+        visibleArea =
+            Path.combine(PathOperation.union, visibleArea, playerVisibleArea);
       }
     }
     return visibleArea;

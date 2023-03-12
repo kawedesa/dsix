@@ -149,6 +149,16 @@ class Npc {
     update();
   }
 
+  void addItemToLoot(Item item) {
+    loot.add(item);
+    update();
+  }
+
+  void removeItemFromLoot(Item item) {
+    loot.remove(item);
+    update();
+  }
+
   void receiveEffect(Effect incomingEffect) {
     for (Effect effect in effects.currentEffects) {
       if (effect.name == incomingEffect.name && effect.countdown > 0) {

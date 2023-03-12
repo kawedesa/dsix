@@ -256,7 +256,8 @@ class CreatorMapActionModeController {
           npcVisibleArea = npcVision;
         }
 
-        visibleArea.addPath(npcVisibleArea, Offset.zero);
+        visibleArea =
+            Path.combine(PathOperation.union, visibleArea, npcVisibleArea);
       }
     }
     return visibleArea;

@@ -122,6 +122,15 @@ class PlayerEquipment {
     offHandSlot.item = tempItem;
   }
 
+  void addToBag(EquipmentSlot slot) {
+    if (slot.name == 'loot') {
+      currentWeight += slot.item.weight;
+      bag.add(slot.item);
+      return;
+    }
+    unequip(slot);
+  }
+
   void unequip(EquipmentSlot slot) {
     if (slot.isEmpty()) {
       return;
@@ -135,6 +144,10 @@ class PlayerEquipment {
     }
     bag.add(slot.item);
     slot.unequip();
+  }
+
+  void removeItemWeight(Item item) {
+    currentWeight -= item.weight;
   }
 
   void removeItemfromBag(Item item) {

@@ -3,7 +3,7 @@ import 'package:dsix/shared/app_exceptions.dart';
 import 'package:dsix/model/player/equipment/bag_slot.dart';
 import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/shared/app_widgets/app_snackbar.dart';
-import 'package:dsix/view/player/inventory/widgets/inventory_slot.dart';
+import 'package:dsix/model/player/equipment/inventory_slot.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/app_images.dart';
 

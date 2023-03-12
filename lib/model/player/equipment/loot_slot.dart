@@ -1,3 +1,5 @@
+import 'package:dsix/model/item/item.dart';
+import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/equipment/equipment_slot.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_exceptions.dart';
@@ -9,38 +11,31 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:dsix/shared/app_globals.dart';
 
-class BagSlot extends StatefulWidget {
+class LootSlot extends StatefulWidget {
+  final Npc npc;
+
   final Function() refresh;
 
-  const BagSlot({super.key, required this.refresh});
+  const LootSlot({super.key, required this.npc, required this.refresh});
 
   @override
-  State<BagSlot> createState() => _BagSlotState();
+  State<LootSlot> createState() => _LootSlotState();
 }
 
-class _BagSlotState extends State<BagSlot> {
+class _LootSlotState extends State<LootSlot> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
     return DragTarget<EquipmentSlot>(onWillAccept: (equipment) {
-      if (equipment!.name == 'bag') {
-        return false;
-      }
-
-      if (equipment.name != 'loot') {
-        return true;
-      }
-
-      if (user.player.equipment.tooHeavy(equipment.item.weight)) {
-        snackbarKey.currentState?.showSnackBar(
-            AppSnackBar().getSnackBar('too heavy'.toUpperCase(), user.color));
+      if (equipment!.name == 'loot') {
         return false;
       } else {
         return true;
       }
     }, onAccept: (equipment) {
-      user.player.equipment.addToBag(equipment);
+      widget.npc.addItemToLoot(equipment.item);
+      user.player.equipment.removeItemWeight(equipment.item);
       user.player.update();
       widget.refresh();
     }, builder: (
@@ -70,18 +65,15 @@ class _BagSlotState extends State<BagSlot> {
             shrinkWrap: true,
             physics: const ScrollPhysics(),
             crossAxisCount: 6,
-            children: List.generate(user.player.equipment.bag.length, (index) {
+            children: List.generate(widget.npc.loot.length, (index) {
               return InventorySlot(
                 color: user.color,
                 darkColor: user.darkColor,
-                icon: AppImages()
-                    .getItemIcon(user.player.equipment.bag[index].name),
-                equipmentSlot: EquipmentSlot(
-                    name: 'bag', item: user.player.equipment.bag[index]),
+                icon: AppImages().getItemIcon(widget.npc.loot[index].name),
+                equipmentSlot:
+                    EquipmentSlot(name: 'loot', item: widget.npc.loot[index]),
                 onDragComplete: () {
-                  user.player.equipment
-                      .removeItemfromBag(user.player.equipment.bag[index]);
-                  user.player.update();
+                  widget.npc.removeItemFromLoot(widget.npc.loot[index]);
                   widget.refresh();
                 },
                 onAccept: (equipment) {},
@@ -89,16 +81,16 @@ class _BagSlotState extends State<BagSlot> {
                   return false;
                 },
                 sellItem: () {
-                  try {
-                    user.player.equipment.sellItem(EquipmentSlot(
-                        name: 'bag', item: user.player.equipment.bag[index]));
-                  } on ItemSoldException catch (e) {
-                    snackbarKey.currentState?.showSnackBar(AppSnackBar()
-                        .getSnackBar(e.itemValue.toUpperCase(), user.color));
-                  }
+                  // try {
+                  //   user.player.equipment.sellItem(EquipmentSlot(
+                  //       name: 'bag', item: widget.loot[index]));
+                  // } on ItemSoldException catch (e) {
+                  //   snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                  //       .getSnackBar(e.itemValue.toUpperCase(), user.color));
+                  // }
 
-                  user.player.update();
-                  widget.refresh();
+                  // user.player.update();
+                  // widget.refresh();
                 },
                 useItem: () {},
               );
