@@ -13,7 +13,7 @@ class PlayerEquipment {
   List<Item> bag;
   int maxWeight;
   int currentWeight;
-  int money;
+  int gold;
   PlayerEquipment({
     required this.mainHandSlot,
     required this.offHandSlot,
@@ -24,7 +24,7 @@ class PlayerEquipment {
     required this.bag,
     required this.maxWeight,
     required this.currentWeight,
-    required this.money,
+    required this.gold,
   });
 
   factory PlayerEquipment.empty() {
@@ -38,7 +38,7 @@ class PlayerEquipment {
       bag: [],
       maxWeight: 0,
       currentWeight: 0,
-      money: 1000,
+      gold: 500,
     );
   }
 
@@ -60,7 +60,7 @@ class PlayerEquipment {
       bag: bag,
       maxWeight: data?['maxWeight'],
       currentWeight: data?['currentWeight'],
-      money: data?['money'],
+      gold: data?['gold'],
     );
   }
 
@@ -76,7 +76,7 @@ class PlayerEquipment {
       'bag': bag,
       'maxWeight': maxWeight,
       'currentWeight': currentWeight,
-      'money': money,
+      'gold': gold,
     };
   }
 
@@ -89,7 +89,7 @@ class PlayerEquipment {
   }
 
   bool notEnoughMoney(int itemValue) {
-    if (itemValue > money) {
+    if (itemValue > gold) {
       return true;
     } else {
       return false;
@@ -102,6 +102,10 @@ class PlayerEquipment {
     } else {
       return false;
     }
+  }
+
+  void getGold(int value) {
+    gold += value;
   }
 
   void equip(EquipmentSlot slot, Item item) {
@@ -155,7 +159,7 @@ class PlayerEquipment {
   }
 
   void buyItem(Item item) {
-    money -= item.value;
+    gold -= item.value;
     currentWeight += item.weight;
     bag.add(item);
   }
@@ -168,7 +172,7 @@ class PlayerEquipment {
       unequip(slot);
     }
 
-    money += itemValue;
+    gold += itemValue;
     currentWeight -= tempItem.weight;
     removeItemfromBag(tempItem);
 

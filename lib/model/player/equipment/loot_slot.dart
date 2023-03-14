@@ -1,21 +1,15 @@
-import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/equipment/equipment_slot.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_exceptions.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/app_snackbar.dart';
 import 'package:dsix/model/player/equipment/inventory_slot.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:dsix/shared/app_globals.dart';
 
 class LootSlot extends StatefulWidget {
   final Npc npc;
-
   final Function() refresh;
-
   const LootSlot({super.key, required this.npc, required this.refresh});
 
   @override
@@ -80,18 +74,7 @@ class _LootSlotState extends State<LootSlot> {
                 onWillAccept: (equipment) {
                   return false;
                 },
-                sellItem: () {
-                  // try {
-                  //   user.player.equipment.sellItem(EquipmentSlot(
-                  //       name: 'bag', item: widget.loot[index]));
-                  // } on ItemSoldException catch (e) {
-                  //   snackbarKey.currentState?.showSnackBar(AppSnackBar()
-                  //       .getSnackBar(e.itemValue.toUpperCase(), user.color));
-                  // }
-
-                  // user.player.update();
-                  // widget.refresh();
-                },
+                sellItem: () {},
                 useItem: () {},
               );
             }),

@@ -7,7 +7,7 @@ class GameSettingsVM {
   void newRound(Game game, List<Player> players) {
     game.newRound();
     for (Player player in players) {
-      player.preparePlayerForNewRound();
+      player.newRound();
     }
   }
 

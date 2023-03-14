@@ -25,22 +25,6 @@ class _PlayerViewState extends State<PlayerView> {
     setState(() {});
   }
 
-  // void displaySnackBar(String text, Color color) {
-  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //     content: SizedBox(
-  //         height: AppLayout.avarage(context) * 0.05,
-  //         child: Center(
-  //           child: AppBarText(
-  //             text: text,
-  //             fontSize: 0.03,
-  //             letterSpacing: 0.005,
-  //             color: Colors.white,
-  //           ),
-  //         )),
-  //     backgroundColor: color,
-  //   ));
-  // }
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -125,7 +109,7 @@ class _PlayerViewState extends State<PlayerView> {
                 value: 0.01,
               ),
               AppBarText(
-                text: '${user.player.equipment.money}',
+                text: '${user.player.equipment.gold}',
                 fontSize: 0.02,
                 letterSpacing: 0.002,
                 color: Colors.white,

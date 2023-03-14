@@ -7,10 +7,42 @@ import 'dart:math';
 import 'item.dart';
 
 class Shop {
+  List<Item> createRandomLoot(int lootValue) {
+    List<Item> loot = [];
+    int currentValue = 0;
+
+    while (currentValue < lootValue) {
+      int leftOverAmount = lootValue - currentValue;
+
+      if (leftOverAmount < 100) {
+        Item gold = Item(
+            name: 'gold',
+            description: 'shiny',
+            itemSlot: '',
+            type: 'gold',
+            attack: Attack.empty(),
+            armor: Armor.empty(),
+            weight: 0,
+            value: leftOverAmount);
+
+        loot.add(gold);
+        currentValue += leftOverAmount;
+      } else {
+        Item newItem = randomItem();
+        if (currentValue + newItem.value <= lootValue) {
+          loot.add(newItem);
+          currentValue += newItem.value;
+        }
+      }
+    }
+
+    return loot;
+  }
+
   Item randomItem() {
     late Item newItem;
     late int randomItem;
-    switch (randomCategory()) {
+    switch (randomItemCategory()) {
       case 'meleeWeapons':
         randomItem = Random().nextInt(meleeWeapons.length);
         newItem = meleeWeapons[randomItem];
@@ -37,13 +69,13 @@ class Shop {
     return newItem;
   }
 
-  String randomCategory() {
+  String randomItemCategory() {
     List<String> category = [
       'meleeWeapons',
       'rangedWeapons',
       'armor',
-      'ancient',
-      'consumable',
+      // 'ancient',
+      // 'consumable',
     ];
     int randomCategory = Random().nextInt(category.length);
     return category[randomCategory];
@@ -524,7 +556,7 @@ class Shop {
       attack: Attack(
         name: 'shot',
         damage: Damage(pDamage: 3, mDamage: 0, rawDamage: 0),
-        range: Range(min: 20, max: 50, width: 5, shape: 'rectangle'),
+        range: Range(min: 20, max: 50, width: 3.5, shape: 'circle'),
         onHitEffect: Effect.empty(),
       ),
       armor: Armor.empty(),
@@ -590,7 +622,7 @@ class Shop {
       attack: Attack(
         name: 'shot',
         damage: Damage(pDamage: 4, mDamage: 0, rawDamage: 0),
-        range: Range(min: 30, max: 70, width: 5, shape: 'rectangle'),
+        range: Range(min: 30, max: 70, width: 3.5, shape: 'circle'),
         onHitEffect: Effect.empty(),
       ),
       armor: Armor.empty(),

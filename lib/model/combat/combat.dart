@@ -5,6 +5,7 @@ import '../npc/npc.dart';
 import '../player/player.dart';
 import 'attack.dart';
 import 'dart:math' as math;
+import 'battle_log.dart';
 
 class Combat {
   ActionArea actionArea = ActionArea();
@@ -13,7 +14,7 @@ class Combat {
   Position inputCenter = Position.empty();
   Position actionCenter = Position.empty();
   Offset mousePosition = Offset.zero;
-  // BattleLog battleLog = BattleLog();
+  BattleLog battleLog = BattleLog.empty();
 
   void startAttack(Position inputCenter, Position actionCenter, Attack attack) {
     this.inputCenter = inputCenter;
@@ -44,7 +45,7 @@ class Combat {
             mousePosition.dx - inputCenter.dx) -
         1.5708;
 
-    double distance = (inputCenter.getDistanceFromPoint(mousePosition)) / 200;
+    double distance = (inputCenter.getDistanceFromPoint(mousePosition)) / 500;
 
     if (distance > 1) {
       distance = 1;
@@ -55,6 +56,8 @@ class Combat {
 
   void confirmPlayerAttack(
       List<Npc> npcs, List<Player> players, Player selectedPlayer) {
+//TODO CREATE BATTLELOG
+
     for (Npc npc in npcs) {
       if (actionArea.insideArea(npc.position)) {
         npc.receiveAttack(attack);
@@ -100,5 +103,3 @@ class Combat {
     }
   }
 }
-
-// class BattleLog {}

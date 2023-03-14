@@ -40,7 +40,14 @@ class _BagSlotState extends State<BagSlot> {
         return true;
       }
     }, onAccept: (equipment) {
-      user.player.equipment.addToBag(equipment);
+      if (equipment.item.name == 'gold') {
+        user.player.equipment.getGold(equipment.item.value);
+        snackbarKey.currentState?.showSnackBar(AppSnackBar().getSnackBar(
+            '+\$${equipment.item.value}'.toUpperCase(), user.color));
+      } else {
+        user.player.equipment.addToBag(equipment);
+      }
+
       user.player.update();
       widget.refresh();
     }, builder: (

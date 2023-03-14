@@ -132,9 +132,9 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
           // ignore: prefer_const_constructors
           SelectedBuildingUi(),
           _creatorMapController.getAttackInput(
-              npcs, players, widget.selectedNpc, refresh),
+              npcs, players, user.selectedNpc, refresh),
           _creatorMapController.actionButtons(context, widget.mapInfo, npcs,
-              players, widget.selectedNpc, user.placingSomething, refresh),
+              players, user.selectedNpc, user.placingSomething, refresh),
           Align(
               alignment: Alignment.topLeft,
               child: InGameMenu(
@@ -308,10 +308,6 @@ class CreatorMapActionModeController {
     if (selectedNpc == null) {
       return const SizedBox();
     }
-    if (placingSomething != 'false') {
-      return const SizedBox();
-    }
-
     List<Widget> abilityButtons = [];
 
     for (Attack attack in selectedNpc.attacks) {

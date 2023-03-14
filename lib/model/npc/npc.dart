@@ -145,7 +145,7 @@ class Npc {
   }
 
   void createLoot() {
-    loot.add(Shop().meleeWeapons.first);
+    loot = Shop().createRandomLoot(xp);
     update();
   }
 

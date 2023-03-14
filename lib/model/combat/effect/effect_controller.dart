@@ -47,4 +47,8 @@ class EffectController {
   void removeEffect(Effect effect) {
     currentEffects.remove(effect);
   }
+
+  void reset() {
+    currentEffects = [];
+  }
 }

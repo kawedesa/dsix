@@ -81,6 +81,10 @@ class AppImages {
 
   static const punch = 'assets/images/items/punch.svg';
 
+  //VALUABLES
+
+  static const gold = 'assets/images/items/gold.svg';
+
   //Light Weapons
   static const dagger = 'assets/images/items/dagger.svg';
   static const magicDagger = 'assets/images/items/magicDagger.svg';
@@ -165,6 +169,11 @@ class AppImages {
     switch (item) {
       case 'empty':
         itemIcon = punch;
+        break;
+
+      //VALUABLES
+      case 'gold':
+        itemIcon = gold;
         break;
 
       //MELEE

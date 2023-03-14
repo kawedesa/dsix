@@ -258,9 +258,10 @@ class Player {
           radius: attributes.vision.getRange() / 2));
   }
 
-  void preparePlayerForNewRound() {
+  void newRound() {
     position.reset();
     life.reset();
+    effects.reset();
     ready = false;
     update();
   }
