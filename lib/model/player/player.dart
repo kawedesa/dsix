@@ -141,7 +141,7 @@ class Player {
     return playerAttack;
   }
 
-  void receiveAttack(Attack attack) {
+  void receiveAttack(Attack attack, Function(int) getDamage) {
     int leftOverArmor = 0;
 
     int pDamage = attack.damage.pDamage - equipment.getTotalArmor().pArmor;
@@ -168,10 +168,10 @@ class Player {
 
     int totalDamage = pDamage + mDamage + leftOverDamageAfterTempArmor;
 
-    life.receiveDamage(totalDamage);
-
     if (totalDamage > 0) {
       receiveEffect(attack.onHitEffect);
+      life.receiveDamage(totalDamage);
+      getDamage(totalDamage);
     }
 
     update();

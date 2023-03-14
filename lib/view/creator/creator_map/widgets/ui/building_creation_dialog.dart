@@ -121,6 +121,7 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
                 buttonText: 'choose',
                 onTap: () {
                   selectedBuilding!.id = DateTime.now().millisecondsSinceEpoch;
+                  user.deselect();
                   user.selectBuilding(selectedBuilding!);
                   user.startPlacingBuilding();
                   Navigator.pop(context);

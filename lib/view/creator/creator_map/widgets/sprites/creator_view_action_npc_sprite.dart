@@ -6,7 +6,6 @@ import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
-import 'package:dsix/shared/app_widgets/animation/damage_animation.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -117,7 +116,6 @@ class _CreatorViewActionNpcSpriteState
                     ),
                   ),
                 ),
-                _controller.lifeAnimation(widget.npc),
               ],
             ),
           ),
@@ -163,30 +161,6 @@ class NpcSpriteController {
     }
 
     drag = false;
-  }
-
-  int? lifeChecker;
-  List<Widget> animations = [];
-
-  Widget lifeAnimation(Npc npc) {
-    lifeChecker ??= npc.life.current;
-
-    if (lifeChecker != npc.life.current) {
-      int damage = npc.life.current - lifeChecker!;
-
-      animations.add(DamageAnimation(damage: damage));
-    }
-    lifeChecker = npc.life.current;
-
-    return Align(
-      alignment: Alignment.center,
-      child: Padding(
-        padding: EdgeInsets.only(bottom: npc.size * 2),
-        child: Stack(
-          children: animations,
-        ),
-      ),
-    );
   }
 }
 

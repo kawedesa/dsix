@@ -108,7 +108,7 @@ class Npc {
     return npcAttack;
   }
 
-  void receiveAttack(Attack attack) {
+  void receiveAttack(Attack attack, Function(int) getDamage) {
     int leftOverArmor = 0;
 
     int pDamage = attack.damage.pDamage - armor.pArmor;
@@ -137,9 +137,9 @@ class Npc {
 
     if (totalDamage > 0) {
       receiveEffect(attack.onHitEffect);
+      life.receiveDamage(totalDamage);
+      getDamage(totalDamage);
     }
-
-    life.receiveDamage(totalDamage);
 
     update();
   }

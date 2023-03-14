@@ -5,16 +5,19 @@ import 'package:dsix/model/combat/effect/effect.dart';
 class Vision {
   int attribute;
   int tempVision;
+  bool canSeeInvisible;
 
   Vision({
     required this.attribute,
     required this.tempVision,
+    required this.canSeeInvisible,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'attribute': attribute,
       'tempVision': tempVision,
+      'canSeeInvisible': canSeeInvisible,
     };
   }
 
@@ -22,6 +25,7 @@ class Vision {
     return Vision(
       attribute: data?['attribute'],
       tempVision: data?['tempVision'],
+      canSeeInvisible: data?['canSeeInvisible'],
     );
   }
 
@@ -29,6 +33,7 @@ class Vision {
     return Vision(
       attribute: 0,
       tempVision: 0,
+      canSeeInvisible: false,
     );
   }
 
@@ -59,21 +64,24 @@ class Vision {
     int result = roll1 + roll2 + attribute;
 
     if (result > 14) {
-      tempResult = 60;
+      tempResult = 65;
+      canSeeInvisible = true;
     }
 
     if (result > 11 && result < 15) {
-      tempResult = 55;
+      tempResult = 60;
+      canSeeInvisible = true;
     }
 
     if (result > 9 && result < 12) {
       tempResult = 50;
+      canSeeInvisible = true;
     }
     if (result > 6 && result < 10) {
       tempResult = 35;
     }
     if (result < 7) {
-      tempResult = 0;
+      tempResult = 15;
     }
 
     tempVision += tempResult;
@@ -85,5 +93,6 @@ class Vision {
 
   void resetTempVision() {
     tempVision = 0;
+    canSeeInvisible = false;
   }
 }

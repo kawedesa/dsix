@@ -1,9 +1,11 @@
 import 'package:dsix/model/building/building.dart';
+import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/map/action_area_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/map_animation/map_animation.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class PlayerMapView extends StatefulWidget {
 class _PlayerMapViewState extends State<PlayerMapView> {
   final PlayerMapVM _playerMapVM = PlayerMapVM();
   final MapInfo _mapInfo = MapInfo.empty();
+  final MapAnimation _mapAnimation = MapAnimation();
   void refresh() {
     setState(() {});
   }
@@ -34,9 +37,12 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
     final buildings = Provider.of<List<Building>>(context);
+    final battleLog = Provider.of<List<BattleLog>>(context);
 
     user.updatePlayer(players);
     _mapInfo.setMapInfo(context, game.map);
+    _mapAnimation.checkBattleLog(battleLog);
+    _mapAnimation.checkPlayerTurn(game.turn);
 
     return SizedBox(
       width: double.infinity,
@@ -67,10 +73,13 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                       context, _mapInfo, npcs, players, widget.refresh),
                   _playerMapVM.createPlayerSprites(
                       _mapInfo, players, user.player, refresh),
+                  _mapAnimation.displayAttackAnimations(),
+                  _mapAnimation.displayDamageAnimations(),
                 ],
               ),
             ),
           ),
+          _mapAnimation.displayTurnAnimations(),
           _playerMapVM.getAttackInput(npcs, players, user.player, refresh),
           _playerMapVM.actionButtons(_mapInfo, user, refresh),
         ],

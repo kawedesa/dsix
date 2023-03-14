@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_animations.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -60,7 +61,7 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                 (widget.onTap != null)
                     ? const ClipOval(
                         child: RiveAnimation.asset(
-                          'assets/animations/ui/buttonAnimation.riv',
+                          AppAnimations.buttonReflex,
                           fit: BoxFit.fill,
                         ),
                       )

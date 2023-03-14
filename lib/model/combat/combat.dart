@@ -21,6 +21,7 @@ class Combat {
     this.actionCenter = actionCenter;
     this.attack = attack;
     isAttacking = true;
+    battleLog.reset();
   }
 
   void setMousePosition(Offset position) {
@@ -34,6 +35,7 @@ class Combat {
     actionCenter = Position.empty();
     mousePosition = Offset.zero;
     resetActionArea();
+    battleLog.reset();
   }
 
   void resetActionArea() {
@@ -45,24 +47,34 @@ class Combat {
             mousePosition.dx - inputCenter.dx) -
         1.5708;
 
-    double distance = (inputCenter.getDistanceFromPoint(mousePosition)) / 500;
+    double distance = (inputCenter.getDistanceFromPoint(mousePosition)) / 300;
 
     if (distance > 1) {
       distance = 1;
     }
 
     actionArea.setArea(angle, distance, actionCenter, attack.range);
+    battleLog.setAttackInfo(attack.name, angle, distance, actionCenter,
+        attack.damage, attack.range);
   }
 
   void confirmPlayerAttack(
       List<Npc> npcs, List<Player> players, Player selectedPlayer) {
-//TODO CREATE BATTLELOG
+    battleLog.setAttacker(null, selectedPlayer);
 
     for (Npc npc in npcs) {
       if (actionArea.insideArea(npc.position)) {
-        npc.receiveAttack(attack);
-        selectedPlayer
-            .receiveEffect(npc.effects.passiveEffects.onBeingHitEffect);
+        int damageTaken = 0;
+
+        npc.receiveAttack(attack, (damage) {
+          damageTaken = damage;
+        });
+        battleLog.addTarget(
+            npc.id.toString(), 'npc', npc.position, damageTaken);
+
+//TODO COMEBACK TO FIX
+        // selectedPlayer
+        //     .receiveEffect(npc.effects.passiveEffects.onBeingHitEffect);
 
         if (npc.life.isDead()) {
           npc.createLoot();
@@ -72,21 +84,36 @@ class Combat {
 
     for (Player player in players) {
       if (actionArea.insideArea(player.position)) {
-        player.receiveAttack(attack);
+        int damageTaken = 0;
 
-        selectedPlayer
-            .receiveEffect(player.effects.passiveEffects.onBeingHitEffect);
+        player.receiveAttack(attack, (damage) {
+          damageTaken = damage;
+        });
+        battleLog.addTarget(player.id, 'player', player.position, damageTaken);
+
+        // selectedPlayer
+        //     .receiveEffect(player.effects.passiveEffects.onBeingHitEffect);
       }
     }
+
+    battleLog.newBattleLog();
   }
 
   void confirmNpcAttack(
       List<Npc> npcs, List<Player> players, Npc? selectedNpc) {
+    battleLog.setAttacker(selectedNpc, null);
+
     for (Npc npc in npcs) {
       if (actionArea.insideArea(npc.position)) {
-        npc.receiveAttack(attack);
+        int damageTaken = 0;
 
-        selectedNpc!.receiveEffect(npc.effects.passiveEffects.onBeingHitEffect);
+        npc.receiveAttack(attack, (damage) {
+          damageTaken = damage;
+        });
+        battleLog.addTarget(
+            npc.id.toString(), 'npc', npc.position, damageTaken);
+        // selectedNpc!.receiveEffect(npc.effects.passiveEffects.onBeingHitEffect);
+
         if (npc.life.isDead()) {
           npc.createLoot();
         }
@@ -95,11 +122,16 @@ class Combat {
 
     for (Player player in players) {
       if (actionArea.insideArea(player.position)) {
-        player.receiveAttack(attack);
+        int damageTaken = 0;
 
-        selectedNpc!
-            .receiveEffect(player.effects.passiveEffects.onBeingHitEffect);
+        player.receiveAttack(attack, (damage) {
+          damageTaken = damage;
+        });
+        battleLog.addTarget(player.id, 'player', player.position, damageTaken);
+        // selectedNpc!
+        //     .receiveEffect(player.effects.passiveEffects.onBeingHitEffect);
       }
     }
+    battleLog.newBattleLog();
   }
 }

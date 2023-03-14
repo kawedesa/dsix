@@ -7,7 +7,20 @@ import 'dart:math';
 import 'item.dart';
 
 class Shop {
-  List<Item> createRandomLoot(int lootValue) {
+  List<Item> createRandomLoot(int xp) {
+    int lootValue = 0;
+    switch (xp) {
+      case 4:
+        lootValue = 50 + (Random().nextDouble() * 100).toInt();
+        break;
+      case 10:
+        lootValue = 100 + (Random().nextDouble() * 150).toInt();
+        break;
+      case 14:
+        lootValue = 150 + (Random().nextDouble() * 200).toInt();
+        break;
+    }
+
     List<Item> loot = [];
     int currentValue = 0;
 
@@ -175,8 +188,8 @@ class Shop {
         damage: Damage(pDamage: 1, mDamage: 2, rawDamage: 0),
         range: Range(
           min: 5,
-          max: 7.5,
-          width: 7.5,
+          max: 8,
+          width: 16,
           shape: 'cone',
         ),
         onHitEffect: Effect.empty(),
@@ -195,8 +208,8 @@ class Shop {
         damage: Damage(pDamage: 1, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 5,
-          max: 12.5,
-          width: 20,
+          max: 10,
+          width: 18,
           shape: 'cone',
         ),
         onHitEffect: Effect.empty(),
@@ -299,7 +312,7 @@ class Shop {
         damage: Damage(pDamage: 1, mDamage: 1, rawDamage: 0),
         range: Range(
           min: 5,
-          max: 15,
+          max: 12,
           width: 20,
           shape: 'cone',
         ),

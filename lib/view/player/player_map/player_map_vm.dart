@@ -66,11 +66,12 @@ class PlayerMapVM {
         Path playerVision = Path.combine(PathOperation.difference,
             player.getVisionArea(), VisionGrid().getGrid(player.position));
 
-        if (player.position.tile != 'grass') {
+        if (player.position.tile == 'grass' ||
+            player.attributes.vision.canSeeInvisible) {
+          playerVisibleArea = playerVision;
+        } else {
           playerVisibleArea = Path.combine(
               PathOperation.difference, playerVision, mapInfo.grass);
-        } else {
-          playerVisibleArea = playerVision;
         }
 
         visibleArea =

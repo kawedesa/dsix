@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/building/building.dart';
+import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
@@ -41,6 +42,18 @@ class MyApp extends StatelessWidget {
               .snapshots()
               .map((game) => Game.fromMap(game.data())),
         ),
+
+        //BATTLELOG
+        StreamProvider<List<BattleLog>>(
+            initialData: const [],
+            create: (context) => database
+                .collection('game')
+                .doc('gameID')
+                .collection('battleLog')
+                .snapshots()
+                .map((querySnapshot) => querySnapshot.docs
+                    .map((battleLog) => BattleLog.fromMap(battleLog.data()))
+                    .toList())),
 
         //PLAYERS
         StreamProvider<List<Player>>(

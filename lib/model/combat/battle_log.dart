@@ -1,24 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dsix/model/combat/attack.dart';
+import 'package:dsix/model/combat/damage.dart';
 import 'package:dsix/model/combat/position.dart';
+import 'package:dsix/model/combat/range.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 
 class BattleLog {
-  String id;
+  int id;
   String message;
-  Npc? selectedNpc;
-  Player? selectedPlayer;
-  Attack attack;
+  Target attacker;
   AttackInfo attackInfo;
   List<Target> targets;
 
   BattleLog({
     required this.id,
     required this.message,
-    this.selectedNpc,
-    this.selectedPlayer,
-    required this.attack,
+    required this.attacker,
     required this.attackInfo,
     required this.targets,
   });
@@ -27,11 +24,9 @@ class BattleLog {
 
   factory BattleLog.empty() {
     return BattleLog(
-      id: '',
+      id: 0,
       message: '',
-      selectedNpc: null,
-      selectedPlayer: null,
-      attack: Attack.empty(),
+      attacker: Target.empty(),
       attackInfo: AttackInfo.empty(),
       targets: [],
     );
@@ -45,11 +40,9 @@ class BattleLog {
     }
 
     return BattleLog(
-      id: '',
-      message: '',
-      selectedNpc: null,
-      selectedPlayer: null,
-      attack: Attack.fromMap(data?['attack']),
+      id: data?['id'],
+      message: data?['message'],
+      attacker: Target.fromMap(data?['attacker']),
       attackInfo: AttackInfo.fromMap(data?['attackInfo']),
       targets: getTargets,
     );
@@ -61,21 +54,65 @@ class BattleLog {
     return {
       'id': id,
       'message': message,
-      'selectedNpc': (selectedNpc == null) ? null : selectedNpc!.toMap(),
-      'selectedPlayer':
-          (selectedPlayer == null) ? null : selectedPlayer!.toMap(),
-      'attack': attack.toMap(),
+      'attacker': attacker.toMap(),
       'attackInfo': attackInfo.toMap(),
       'targets': targetToMap,
     };
   }
 
-  void createNewBattleLog() {}
+  void setAttacker(Npc? npc, Player? player) {
+    if (npc != null) {
+      attacker = Target(
+          id: npc.id.toString(),
+          type: 'npc',
+          position: npc.position,
+          damage: 0);
+    }
+
+    if (player != null) {
+      attacker = Target(
+          id: player.id.toString(),
+          type: 'player',
+          position: player.position,
+          damage: 0);
+    }
+  }
+
+  void addTarget(String targetId, String type, Position position, int damage) {
+    targets.add(
+        Target(id: targetId, type: type, position: position, damage: damage));
+  }
+
+  void setAttackInfo(String name, double angle, double distance,
+      Position actionCenter, Damage damage, Range range) {
+    attackInfo = AttackInfo(
+        name: name,
+        angle: angle,
+        distance: distance,
+        actionCenter: actionCenter,
+        damage: damage,
+        range: range);
+  }
+
+  void newBattleLog() {
+    id = DateTime.now().millisecondsSinceEpoch;
+    set();
+  }
+
+  void reset() {
+    id = 0;
+    message = '';
+    attacker = Target.empty();
+
+    attackInfo = AttackInfo.empty();
+    targets = [];
+  }
+
   void update() async {
     await database
         .collection('game')
         .doc('gameID')
-        .collection('npcs')
+        .collection('battleLog')
         .doc(id.toString())
         .set(toMap());
   }
@@ -84,47 +121,57 @@ class BattleLog {
     await database
         .collection('game')
         .doc('gameID')
-        .collection('npcs')
+        .collection('battleLog')
         .doc(id.toString())
         .set(toMap());
   }
 }
 
 class AttackInfo {
-  String id;
-  String type;
-  Position position;
-  int damage;
+  String name;
+  double angle;
+  double distance;
+  Position actionCenter;
+  Damage damage;
+  Range range;
   AttackInfo(
-      {required this.id,
-      required this.type,
-      required this.position,
-      required this.damage});
+      {required this.name,
+      required this.angle,
+      required this.distance,
+      required this.actionCenter,
+      required this.damage,
+      required this.range});
 
   factory AttackInfo.empty() {
     return AttackInfo(
-      id: '',
-      type: '',
-      position: Position.empty(),
-      damage: 0,
+      name: '',
+      angle: 0,
+      distance: 0,
+      actionCenter: Position.empty(),
+      damage: Damage.empty(),
+      range: Range.empty(),
     );
   }
 
   factory AttackInfo.fromMap(Map<String, dynamic>? data) {
     return AttackInfo(
-      id: data?['id'],
-      type: data?['type'],
-      position: Position.fromMap(data?['position']),
-      damage: data?['damage'],
+      name: data?['name'],
+      angle: data?['angle'],
+      distance: data?['distance'],
+      actionCenter: Position.fromMap(data?['actionCenter']),
+      damage: Damage.fromMap(data?['damage']),
+      range: Range.fromMap(data?['range']),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'type': type,
-      'position': position.toMap(),
-      'damage': damage,
+      'name': name,
+      'angle': angle,
+      'distance': distance,
+      'actionCenter': actionCenter.toMap(),
+      'damage': damage.toMap(),
+      'range': range.toMap(),
     };
   }
 }

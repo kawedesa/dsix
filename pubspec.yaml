@@ -79,7 +79,7 @@ flutter:
     - 'assets/images/ui/'
     - 'assets/images/items/'
     - 'assets/images/maps/'
-    - 'assets/animations/ui/'
+    - 'assets/animations/'
     
   
   fonts:

@@ -15,7 +15,7 @@ import 'npc.dart';
 class NpcList {
   static Npc zombie = Npc(
     id: 0,
-    xp: 25,
+    xp: 4,
     name: 'zombie',
     size: 10,
     life: Life(current: 16, max: 16),
@@ -25,7 +25,7 @@ class NpcList {
     ),
     power: Power(attribute: 0),
     movement: Movement(attribute: -1),
-    vision: Vision(attribute: -1, tempVision: 0),
+    vision: Vision(attribute: -1, tempVision: 0, canSeeInvisible: false),
     position: Position.empty(),
     attacks: [
       Attack(
@@ -39,8 +39,8 @@ class NpcList {
         damage: Damage(pDamage: 1, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 5,
-          max: 7.5,
-          width: 7.5,
+          max: 8,
+          width: 16,
           shape: 'cone',
         ),
         onHitEffect: Effect.empty(),
@@ -52,7 +52,7 @@ class NpcList {
 
   static Npc giantBat = Npc(
     id: 0,
-    xp: 25,
+    xp: 4,
     name: 'giant bat',
     size: 10,
     life: Life(current: 8, max: 8),
@@ -62,7 +62,7 @@ class NpcList {
     ),
     power: Power(attribute: 0),
     movement: Movement(attribute: 0),
-    vision: Vision(attribute: 0, tempVision: 0),
+    vision: Vision(attribute: 0, tempVision: 0, canSeeInvisible: false),
     position: Position.empty(),
     attacks: [
       Attack(
@@ -78,7 +78,7 @@ class NpcList {
 
   static Npc skeleton = Npc(
     id: 0,
-    xp: 25,
+    xp: 4,
     name: 'skeleton',
     size: 10,
     life: Life(current: 8, max: 8),
@@ -88,7 +88,7 @@ class NpcList {
     ),
     power: Power(attribute: 1),
     movement: Movement(attribute: -1),
-    vision: Vision(attribute: -1, tempVision: 0),
+    vision: Vision(attribute: -1, tempVision: 0, canSeeInvisible: false),
     position: Position.empty(),
     attacks: [
       Attack(
@@ -96,8 +96,8 @@ class NpcList {
         damage: Damage(pDamage: 2, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 5,
-          max: 12.5,
-          width: 20,
+          max: 10,
+          width: 18,
           shape: 'cone',
         ),
         onHitEffect: Effect.empty(),
@@ -109,7 +109,7 @@ class NpcList {
 
   static Npc skeletonMage = Npc(
     id: 0,
-    xp: 50,
+    xp: 10,
     name: 'skeleton mage',
     size: 10,
     life: Life(current: 8, max: 8),
@@ -119,7 +119,7 @@ class NpcList {
     ),
     power: Power(attribute: 1),
     movement: Movement(attribute: 0),
-    vision: Vision(attribute: 2, tempVision: 0),
+    vision: Vision(attribute: 2, tempVision: 0, canSeeInvisible: false),
     position: Position.empty(),
     attacks: [
       Attack(
@@ -151,7 +151,7 @@ class NpcList {
 
   static Npc giantFrog = Npc(
     id: 0,
-    xp: 50,
+    xp: 10,
     name: 'giant frog',
     size: 10,
     life: Life(current: 16, max: 16),
@@ -161,7 +161,7 @@ class NpcList {
     ),
     power: Power(attribute: 1),
     movement: Movement(attribute: 2),
-    vision: Vision(attribute: 1, tempVision: 0),
+    vision: Vision(attribute: 1, tempVision: 0, canSeeInvisible: false),
     position: Position.empty(),
     attacks: [
       Attack(
@@ -187,7 +187,7 @@ class NpcList {
 
   static Npc goblin = Npc(
     id: 0,
-    xp: 50,
+    xp: 10,
     name: 'goblin',
     size: 10,
     life: Life(current: 8, max: 8),
@@ -197,7 +197,7 @@ class NpcList {
     ),
     power: Power(attribute: 2),
     movement: Movement(attribute: 0),
-    vision: Vision(attribute: 2, tempVision: 0),
+    vision: Vision(attribute: 2, tempVision: 0, canSeeInvisible: false),
     position: Position.empty(),
     attacks: [
       Attack(
@@ -224,7 +224,7 @@ class NpcList {
   );
   static Npc beast = Npc(
     id: 0,
-    xp: 50,
+    xp: 10,
     name: 'beast',
     size: 10,
     life: Life(current: 16, max: 16),
@@ -234,7 +234,7 @@ class NpcList {
     ),
     power: Power(attribute: 2),
     movement: Movement(attribute: 1),
-    vision: Vision(attribute: 1, tempVision: 0),
+    vision: Vision(attribute: 1, tempVision: 0, canSeeInvisible: false),
     position: Position.empty(),
     attacks: [
       Attack(
@@ -265,7 +265,7 @@ class NpcList {
 
   static Npc explosiveLizzard = Npc(
     id: 0,
-    xp: 50,
+    xp: 10,
     name: 'explosive lizzard',
     size: 10,
     life: Life(current: 8, max: 8),
@@ -275,7 +275,7 @@ class NpcList {
     ),
     power: Power(attribute: 3),
     movement: Movement(attribute: 2),
-    vision: Vision(attribute: 1, tempVision: 0),
+    vision: Vision(attribute: 1, tempVision: 0, canSeeInvisible: false),
     position: Position.empty(),
     attacks: [
       Attack(
@@ -296,7 +296,7 @@ class NpcList {
 
   static Npc wraith = Npc(
     id: 0,
-    xp: 100,
+    xp: 14,
     name: 'wraith',
     size: 10,
     life: Life(current: 16, max: 16),
@@ -306,7 +306,7 @@ class NpcList {
     ),
     power: Power(attribute: 2),
     movement: Movement(attribute: 1),
-    vision: Vision(attribute: 1, tempVision: 0),
+    vision: Vision(attribute: 1, tempVision: 0, canSeeInvisible: false),
     position: Position.empty(),
     attacks: [
       Attack(
@@ -344,7 +344,7 @@ class NpcList {
 
   static Npc golen = Npc(
     id: 0,
-    xp: 100,
+    xp: 14,
     name: 'golen',
     size: 10,
     life: Life(current: 24, max: 24),
@@ -354,7 +354,7 @@ class NpcList {
     ),
     power: Power(attribute: 1),
     movement: Movement(attribute: 3),
-    vision: Vision(attribute: 0, tempVision: 0),
+    vision: Vision(attribute: 0, tempVision: 0, canSeeInvisible: false),
     position: Position.empty(),
     attacks: [
       Attack(

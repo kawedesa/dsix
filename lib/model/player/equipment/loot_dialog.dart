@@ -1,9 +1,7 @@
-import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/equipment/bag_slot.dart';
 import 'package:dsix/model/player/equipment/loot_slot.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';

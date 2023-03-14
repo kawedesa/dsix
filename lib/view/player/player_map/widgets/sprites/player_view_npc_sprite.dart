@@ -1,6 +1,5 @@
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/shared/app_images.dart';
-import 'package:dsix/shared/app_widgets/animation/damage_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -19,30 +18,6 @@ class PlayerViewNpcSprite extends StatefulWidget {
 }
 
 class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
-  int? lifeChecker;
-  List<Widget> animations = [];
-
-  Widget lifeAnimation() {
-    lifeChecker ??= widget.npc.life.current;
-
-    if (lifeChecker != widget.npc.life.current) {
-      int damage = widget.npc.life.current - lifeChecker!;
-
-      animations.add(DamageAnimation(damage: damage));
-    }
-    lifeChecker = widget.npc.life.current;
-
-    return Align(
-      alignment: Alignment.center,
-      child: Padding(
-        padding: EdgeInsets.only(bottom: widget.npc.size * 2),
-        child: Stack(
-          children: animations,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -75,7 +50,6 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
                 ),
               ),
             ),
-            lifeAnimation(),
           ],
         ),
       ),

@@ -122,6 +122,7 @@ class Game {
     deleteSpawners();
     deleteNpcs();
     deleteBuildings();
+    deleteBattleLog();
     round++;
     turn.reset();
     phase = 'creation';
@@ -150,6 +151,7 @@ class Game {
     deleteSpawners();
     deleteNpcs();
     deleteBuildings();
+    deleteBattleLog();
   }
 
   void deleteAllPlayers() async {
@@ -218,6 +220,23 @@ class Game {
     });
 
     buildingBatch.commit();
+  }
+
+  void deleteBattleLog() async {
+    var battleLogBatch = database.batch();
+
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('battleLog')
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        battleLogBatch.delete(ds.reference);
+      }
+    });
+
+    battleLogBatch.commit();
   }
 
   void update() async {

@@ -1,3 +1,4 @@
+import 'package:dsix/shared/app_animations.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class _DialogButtonState extends State<DialogButton> {
             child: Stack(
               children: [
                 const RiveAnimation.asset(
-                  'assets/animations/ui/buttonAnimation.riv',
+                  AppAnimations.buttonReflex,
                   fit: BoxFit.fill,
                 ),
                 Center(

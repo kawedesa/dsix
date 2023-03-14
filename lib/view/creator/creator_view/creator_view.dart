@@ -82,9 +82,13 @@ class _CreatorViewState extends State<CreatorView> {
                     });
                   },
                   icon: AppImages.settings,
-                  iconColor: AppColors.uiColorDark,
+                  iconColor: (_creatorVM.selectedPage == 0)
+                      ? AppColors.uiColorLight
+                      : AppColors.uiColorDark,
                   color: Colors.transparent,
-                  borderColor: AppColors.uiColorDark,
+                  borderColor: (_creatorVM.selectedPage == 0)
+                      ? AppColors.uiColorLight
+                      : AppColors.uiColorDark,
                   size: 0.05),
               AppBarCircularButton(
                   onTap: () {
@@ -94,9 +98,13 @@ class _CreatorViewState extends State<CreatorView> {
                     });
                   },
                   icon: AppImages.map,
-                  iconColor: AppColors.uiColorDark,
+                  iconColor: (_creatorVM.selectedPage == 1)
+                      ? AppColors.uiColorLight
+                      : AppColors.uiColorDark,
                   color: Colors.transparent,
-                  borderColor: AppColors.uiColorDark,
+                  borderColor: (_creatorVM.selectedPage == 1)
+                      ? AppColors.uiColorLight
+                      : AppColors.uiColorDark,
                   size: 0.05),
               const AppSeparatorHorizontal(value: 0.05),
             ],

@@ -142,6 +142,7 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                 buttonText: 'choose',
                 onTap: () {
                   selectedNpc!.id = DateTime.now().millisecondsSinceEpoch;
+                  user.deselect();
                   user.selectNpc(selectedNpc!);
                   user.startPlacingNpc();
                   Navigator.pop(context);

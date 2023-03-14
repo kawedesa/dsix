@@ -1,5 +1,6 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/combat/attack.dart';
+import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/combat/combat.dart';
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/game/game.dart';
@@ -12,6 +13,7 @@ import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
 import 'package:dsix/shared/app_widgets/map/action_area_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/attack_button.dart';
+import 'package:dsix/shared/app_widgets/map/map_animation/map_animation.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/vision_grid.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
@@ -64,7 +66,7 @@ class CreatorMapActionMode extends StatefulWidget {
 class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
   final CreatorMapActionModeController _creatorMapController =
       CreatorMapActionModeController();
-
+  final MapAnimation _mapAnimation = MapAnimation();
   void refresh() {
     setState(() {});
   }
@@ -76,6 +78,10 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
     final buildings = Provider.of<List<Building>>(context);
+
+    final battleLog = Provider.of<List<BattleLog>>(context);
+    _mapAnimation.checkBattleLog(battleLog);
+    _mapAnimation.checkNpcTurn(game.turn);
 
     return SizedBox(
       width: double.infinity,
@@ -122,6 +128,8 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   ),
                   _creatorMapController
                       .placeHereTarget(user.placeHere.getOffset()),
+                  _mapAnimation.displayAttackAnimations(),
+                  _mapAnimation.displayDamageAnimations(),
                 ],
               ),
             ),
@@ -135,6 +143,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
               npcs, players, user.selectedNpc, refresh),
           _creatorMapController.actionButtons(context, widget.mapInfo, npcs,
               players, user.selectedNpc, user.placingSomething, refresh),
+          _mapAnimation.displayTurnAnimations(),
           Align(
               alignment: Alignment.topLeft,
               child: InGameMenu(
@@ -249,11 +258,11 @@ class CreatorMapActionModeController {
         Path npcVision = Path.combine(PathOperation.difference,
             npc.getVisionArea(), VisionGrid().getGrid(npc.position));
 
-        if (npc.position.tile != 'grass') {
+        if (npc.position.tile == 'grass' || npc.vision.canSeeInvisible) {
+          npcVisibleArea = npcVision;
+        } else {
           npcVisibleArea =
               Path.combine(PathOperation.difference, npcVision, mapInfo.grass);
-        } else {
-          npcVisibleArea = npcVision;
         }
 
         visibleArea =

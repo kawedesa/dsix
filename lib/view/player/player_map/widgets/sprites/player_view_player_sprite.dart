@@ -3,7 +3,6 @@ import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_widgets/animation/damage_animation.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/player_effects_ui.dart';
 import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
@@ -111,7 +110,6 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                     ),
                   ),
                 ),
-                _controller.lifeAnimation(widget.player),
               ],
             ),
           ),
@@ -144,30 +142,6 @@ class PlayerSpriteController {
           mapInfo.getTile(tempPosition.newPosition.getOffset());
       player.changePosition(tempPosition.newPosition);
     }
-  }
-
-  int? lifeChecker;
-  List<Widget> animations = [];
-
-  Widget lifeAnimation(Player player) {
-    lifeChecker ??= player.life.current;
-
-    if (lifeChecker != player.life.current) {
-      int damage = player.life.current - lifeChecker!;
-
-      animations.add(DamageAnimation(damage: damage));
-    }
-    lifeChecker = player.life.current;
-
-    return Align(
-      alignment: Alignment.center,
-      child: Padding(
-        padding: EdgeInsets.only(bottom: player.size * 2),
-        child: Stack(
-          children: animations,
-        ),
-      ),
-    );
   }
 }
 
