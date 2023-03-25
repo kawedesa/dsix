@@ -15,13 +15,19 @@ class Combat {
   Position actionCenter = Position.empty();
   Offset mousePosition = Offset.zero;
   BattleLog battleLog = BattleLog.empty();
+  Player? selectedPlayer;
+  Npc? selectedNpc;
 
-  void startAttack(Position inputCenter, Position actionCenter, Attack attack) {
+  void startAttack(Position inputCenter, Position actionCenter, Attack attack,
+      Player? selectedPlayer, Npc? selectedNpc) {
+    battleLog.reset();
+    this.selectedPlayer = selectedPlayer;
+    this.selectedNpc = selectedNpc;
     this.inputCenter = inputCenter;
     this.actionCenter = actionCenter;
     this.attack = attack;
     isAttacking = true;
-    battleLog.reset();
+    battleLog.setAttacker(selectedNpc, selectedPlayer);
   }
 
   void setMousePosition(Offset position) {
@@ -34,6 +40,8 @@ class Combat {
     inputCenter = Position.empty();
     actionCenter = Position.empty();
     mousePosition = Offset.zero;
+    selectedNpc = null;
+    selectedPlayer = null;
     resetActionArea();
     battleLog.reset();
   }
@@ -58,80 +66,49 @@ class Combat {
         attack.damage, attack.range);
   }
 
-  void confirmPlayerAttack(
-      List<Npc> npcs, List<Player> players, Player selectedPlayer) {
-    battleLog.setAttacker(null, selectedPlayer);
-
-    for (Npc npc in npcs) {
-      if (actionArea.insideArea(npc.position)) {
-        int damageTaken = 0;
-
-        npc.receiveAttack(attack, (damage) {
-          damageTaken = damage;
-        });
-        battleLog.addTarget(
-            npc.id.toString(), 'npc', npc.position, damageTaken);
-
-//TODO COMEBACK TO FIX
-        // selectedPlayer
-        //     .receiveEffect(npc.effects.passiveEffects.onBeingHitEffect);
-
-        if (npc.life.isDead()) {
-          npc.createLoot();
-        }
-      }
-    }
-
-    for (Player player in players) {
-      if (actionArea.insideArea(player.position)) {
-        int damageTaken = 0;
-
-        player.receiveAttack(attack, (damage) {
-          damageTaken = damage;
-        });
-        battleLog.addTarget(player.id, 'player', player.position, damageTaken);
-
-        // selectedPlayer
-        //     .receiveEffect(player.effects.passiveEffects.onBeingHitEffect);
-      }
-    }
-
+  void confirmAttack(List<Npc> npcs, List<Player> players) {
+    attackNpcs(npcs);
+    attackPlayers(players);
     battleLog.newBattleLog();
   }
 
-  void confirmNpcAttack(
-      List<Npc> npcs, List<Player> players, Npc? selectedNpc) {
-    battleLog.setAttacker(selectedNpc, null);
-
+  void attackNpcs(List<Npc> npcs) {
     for (Npc npc in npcs) {
       if (actionArea.insideArea(npc.position)) {
-        int damageTaken = 0;
+        int damage = 0;
 
-        npc.receiveAttack(attack, (damage) {
-          damageTaken = damage;
-        });
-        battleLog.addTarget(
-            npc.id.toString(), 'npc', npc.position, damageTaken);
-        // selectedNpc!.receiveEffect(npc.effects.passiveEffects.onBeingHitEffect);
+        applyOnBeignHitEffects(npc.effects.onBeignHitEffects);
+        damage = npc.receiveAttack(attack);
+
+        battleLog.addTarget(npc.id.toString(), 'npc', npc.position, damage);
 
         if (npc.life.isDead()) {
           npc.createLoot();
         }
       }
     }
+  }
 
+  void attackPlayers(List<Player> players) {
     for (Player player in players) {
       if (actionArea.insideArea(player.position)) {
-        int damageTaken = 0;
+        int damage = 0;
 
-        player.receiveAttack(attack, (damage) {
-          damageTaken = damage;
-        });
-        battleLog.addTarget(player.id, 'player', player.position, damageTaken);
-        // selectedNpc!
-        //     .receiveEffect(player.effects.passiveEffects.onBeingHitEffect);
+        applyOnBeignHitEffects(player.effects.onBeignHitEffects);
+        damage = player.receiveAttack(attack);
+
+        battleLog.addTarget(player.id, 'player', player.position, damage);
       }
     }
-    battleLog.newBattleLog();
+  }
+
+  void applyOnBeignHitEffects(List<String> effects) {
+    if (selectedNpc != null) {
+      selectedNpc!.receiveEffects(effects);
+    }
+
+    if (selectedPlayer != null) {
+      selectedPlayer!.receiveEffects(effects);
+    }
   }
 }

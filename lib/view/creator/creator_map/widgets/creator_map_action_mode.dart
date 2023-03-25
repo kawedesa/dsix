@@ -139,8 +139,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
           SelectedNpcUi(),
           // ignore: prefer_const_constructors
           SelectedBuildingUi(),
-          _creatorMapController.getAttackInput(
-              npcs, players, user.selectedNpc, refresh),
+          _creatorMapController.getAttackInput(npcs, players, refresh),
           _creatorMapController.actionButtons(context, widget.mapInfo, npcs,
               players, user.selectedNpc, user.placingSomething, refresh),
           _mapAnimation.displayTurnAnimations(),
@@ -328,10 +327,11 @@ class CreatorMapActionModeController {
             darkColor: AppColors.uiColorDark,
             startAttack: () {
               combat.startAttack(
-                mapInfo.getPlayerOnScreenPosition(selectedNpc.position),
-                selectedNpc.position,
-                selectedNpc.attack(attack),
-              );
+                  mapInfo.getPlayerOnScreenPosition(selectedNpc.position),
+                  selectedNpc.position,
+                  selectedNpc.attack(attack),
+                  null,
+                  selectedNpc);
               refresh();
             },
             cancelAttack: () {
@@ -360,8 +360,8 @@ class CreatorMapActionModeController {
     );
   }
 
-  Widget getAttackInput(List<Npc> npcs, List<Player> players, Npc? selectedNpc,
-      Function refresh) {
+  Widget getAttackInput(
+      List<Npc> npcs, List<Player> players, Function refresh) {
     Widget mouseInputWidget = MouseInput(
       active: combat.isAttacking,
       getMouseOffset: (mouseOffset) {
@@ -370,7 +370,7 @@ class CreatorMapActionModeController {
         refresh();
       },
       onTap: () {
-        combat.confirmNpcAttack(npcs, players, selectedNpc);
+        combat.confirmAttack(npcs, players);
         combat.cancelAction();
         refresh();
       },

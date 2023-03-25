@@ -1,16 +1,21 @@
 import 'package:dsix/model/combat/effect/effect.dart';
-import 'package:dsix/model/combat/effect/passive_effects.dart';
 
 class EffectController {
   List<Effect> currentEffects;
-  PassiveEffects passiveEffects;
-  EffectController(
-      {required this.currentEffects, required this.passiveEffects});
+  List<String> onBeignHitEffects;
+  List<String> onDeathEffects;
+
+  EffectController({
+    required this.currentEffects,
+    required this.onBeignHitEffects,
+    required this.onDeathEffects,
+  });
 
   factory EffectController.empty() {
     return EffectController(
       currentEffects: [],
-      passiveEffects: PassiveEffects.empty(),
+      onBeignHitEffects: [],
+      onDeathEffects: [],
     );
   }
 
@@ -21,9 +26,22 @@ class EffectController {
       getCurrentEffects.add(Effect.fromMap(effect));
     }
 
+    List<String> getOnBeignHitEffects = [];
+    List<dynamic> onBeignHitEffectsMap = data?['onBeignHitEffects'];
+    for (var effect in onBeignHitEffectsMap) {
+      getOnBeignHitEffects.add(effect);
+    }
+
+    List<String> getOnDeathEffects = [];
+    List<dynamic> onDeathEffectsMap = data?['onDeathEffects'];
+    for (var effect in onDeathEffectsMap) {
+      getOnDeathEffects.add(effect);
+    }
+
     return EffectController(
       currentEffects: getCurrentEffects,
-      passiveEffects: PassiveEffects.fromMap(data?['passiveEffects']),
+      onBeignHitEffects: getOnBeignHitEffects,
+      onDeathEffects: getOnDeathEffects,
     );
   }
 
@@ -32,7 +50,8 @@ class EffectController {
 
     return {
       'currentEffects': effectsToMap,
-      'passiveEffects': passiveEffects.toMap(),
+      'onBeignHitEffects': onBeignHitEffects,
+      'onDeathEffects': onDeathEffects,
     };
   }
 

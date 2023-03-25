@@ -3,9 +3,7 @@ import 'package:dsix/model/combat/attribute/movement.dart';
 import 'package:dsix/model/combat/attribute/power.dart';
 import 'package:dsix/model/combat/attribute/vision.dart';
 import 'package:dsix/model/combat/damage.dart';
-import 'package:dsix/model/combat/effect/effect.dart';
 import 'package:dsix/model/combat/effect/effect_controller.dart';
-import 'package:dsix/model/combat/effect/passive_effects.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/range.dart';
 import '../combat/armor.dart';
@@ -32,7 +30,7 @@ class NpcList {
         name: 'bite',
         damage: Damage(pDamage: 3, mDamage: 0, rawDamage: 0),
         range: Range(min: 6, max: 0, width: 4, shape: 'circle'),
-        onHitEffect: Effect.empty(),
+        effects: [],
       ),
       Attack(
         name: 'slash',
@@ -43,7 +41,7 @@ class NpcList {
           width: 16,
           shape: 'cone',
         ),
-        onHitEffect: Effect.empty(),
+        effects: [],
       ),
     ],
     effects: EffectController.empty(),
@@ -69,7 +67,7 @@ class NpcList {
         name: 'bite',
         damage: Damage(pDamage: 2, mDamage: 0, rawDamage: 0),
         range: Range(min: 6, max: 0, width: 4, shape: 'circle'),
-        onHitEffect: Effect.empty(),
+        effects: [],
       ),
     ],
     effects: EffectController.empty(),
@@ -100,7 +98,7 @@ class NpcList {
           width: 18,
           shape: 'cone',
         ),
-        onHitEffect: Effect.empty(),
+        effects: [],
       ),
     ],
     effects: EffectController.empty(),
@@ -131,7 +129,7 @@ class NpcList {
           width: 10,
           shape: 'circle',
         ),
-        onHitEffect: Effect.empty(),
+        effects: [],
       ),
       Attack(
         name: 'shot',
@@ -142,7 +140,7 @@ class NpcList {
           width: 5,
           shape: 'rectangle',
         ),
-        onHitEffect: Effect.empty(),
+        effects: [],
       ),
     ],
     effects: EffectController.empty(),
@@ -173,12 +171,7 @@ class NpcList {
           width: 5,
           shape: 'rectangle',
         ),
-        onHitEffect: Effect(
-          name: 'poison',
-          description: 'it burns',
-          value: 1,
-          countdown: 1,
-        ),
+        effects: ['poison'],
       ),
     ],
     effects: EffectController.empty(),
@@ -209,14 +202,13 @@ class NpcList {
           width: 7.5,
           shape: 'cone',
         ),
-        onHitEffect:
-            Effect(name: 'bleed', description: '', value: 1, countdown: 1),
+        effects: ['bleed'],
       ),
       Attack(
         name: 'shot',
         damage: Damage(pDamage: 3, mDamage: 0, rawDamage: 0),
         range: Range(min: 20, max: 50, width: 5, shape: 'rectangle'),
-        onHitEffect: Effect.empty(),
+        effects: [],
       ),
     ],
     effects: EffectController.empty(),
@@ -246,19 +238,13 @@ class NpcList {
           width: 20,
           shape: 'cone',
         ),
-        onHitEffect: Effect.empty(),
+        effects: [],
       ),
     ],
     effects: EffectController(
       currentEffects: [],
-      passiveEffects: PassiveEffects(
-          onBeingHitEffect: Effect(
-            name: 'thorn',
-            description: 'spiky',
-            value: 1,
-            countdown: 0,
-          ),
-          afterAttackEffect: Effect.empty()),
+      onBeignHitEffects: ['thorn'],
+      onDeathEffects: [],
     ),
     loot: [],
   );
@@ -287,7 +273,7 @@ class NpcList {
           width: 10,
           shape: 'circle',
         ),
-        onHitEffect: Effect.empty(),
+        effects: [],
       ),
     ],
     effects: EffectController.empty(),
@@ -313,31 +299,19 @@ class NpcList {
         name: 'drain',
         damage: Damage(pDamage: 0, mDamage: 2, rawDamage: 0),
         range: Range(min: 0.05, max: 5, width: 0, shape: 'torus'),
-        onHitEffect: Effect(
-          name: 'drain',
-          description: 'steals the soul',
-          value: 1,
-          countdown: 0,
-        ),
+        effects: ['drain'],
       ),
       Attack(
         name: 'dark bolt',
         damage: Damage(pDamage: 0, mDamage: 3, rawDamage: 0),
         range: Range(min: 5, max: 30, width: 5, shape: 'rectangle'),
-        onHitEffect: Effect.empty(),
+        effects: [],
       ),
     ],
     effects: EffectController(
       currentEffects: [],
-      passiveEffects: PassiveEffects(
-        onBeingHitEffect: Effect.empty(),
-        afterAttackEffect: Effect(
-          name: 'heal',
-          description: '',
-          value: 1,
-          countdown: 0,
-        ),
-      ),
+      onBeignHitEffects: [],
+      onDeathEffects: [],
     ),
     loot: [],
   );
@@ -365,7 +339,7 @@ class NpcList {
           rawDamage: 0,
         ),
         range: Range(min: 5, max: 50, width: 20, shape: 'rectangle'),
-        onHitEffect: Effect.empty(),
+        effects: [],
       ),
     ],
     effects: EffectController.empty(),

@@ -108,7 +108,7 @@ class Npc {
     return npcAttack;
   }
 
-  void receiveAttack(Attack attack, Function(int) getDamage) {
+  int receiveAttack(Attack attack) {
     int leftOverArmor = 0;
 
     int pDamage = attack.damage.pDamage - armor.pArmor;
@@ -123,67 +123,52 @@ class Npc {
     }
 
     int leftOverRawDamage = attack.damage.rawDamage - leftOverArmor;
-
-    // int leftOverDamageAfterTempArmor =
-    //     leftOverRawDamage - attributes.defense.tempDefense;
-
-    // attributes.defense.reduceTempArmor(leftOverRawDamage);
-
-    // if (leftOverDamageAfterTempArmor < 1) {
-    //   leftOverDamageAfterTempArmor = 0;
-    // }
-
     int totalDamage = pDamage + mDamage + leftOverRawDamage;
 
     if (totalDamage > 0) {
-      receiveEffect(attack.onHitEffect);
       life.receiveDamage(totalDamage);
-      getDamage(totalDamage);
+      receiveEffects(attack.effects);
     }
 
     update();
+
+    return totalDamage;
   }
 
-  void createLoot() {
-    loot = Shop().createRandomLoot(xp);
-    update();
-  }
-
-  void addItemToLoot(Item item) {
-    loot.add(item);
-    update();
-  }
-
-  void removeItemFromLoot(Item item) {
-    loot.remove(item);
-    update();
-  }
-
-  void receiveEffect(Effect incomingEffect) {
-    for (Effect effect in effects.currentEffects) {
-      if (effect.name == incomingEffect.name && effect.countdown > 0) {
-        effect.countdown++;
-        update();
-        return;
+  void receiveEffects(List<String> incomingEffects) {
+    for (String effect in incomingEffects) {
+      int checker = 0;
+      for (Effect checkEffect in effects.currentEffects) {
+        if (checkEffect.name == effect && checkEffect.countdown > 0) {
+          checkEffect.countdown++;
+          checker++;
+        }
+      }
+      if (checker == 0) {
+        applyNewEffect(effect);
       }
     }
 
-    applyNewEffect(incomingEffect);
     update();
   }
 
-  void applyNewEffect(Effect effect) {
-    switch (effect.name) {
+  void applyNewEffect(String effect) {
+    switch (effect) {
       case 'poison':
-        effects.currentEffects.add(effect);
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
-      case 'thorn':
-        life.receiveDamage(effect.value);
-        break;
+
       case 'bleed':
-        effects.currentEffects.add(effect);
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
     }
+  }
+
+  void passTurn() {
+    checkEffects();
+    update();
   }
 
   void checkEffects() {
@@ -214,11 +199,18 @@ class Npc {
     }
   }
 
-  void passTurn() {
-    checkEffects();
+  void createLoot() {
+    loot = Shop().createRandomLoot(xp);
+    update();
+  }
 
-    // attributes.defense.resetTempDefense();
-    // attributes.vision.resetTempVision();
+  void addItemToLoot(Item item) {
+    loot.add(item);
+    update();
+  }
+
+  void removeItemFromLoot(Item item) {
+    loot.remove(item);
     update();
   }
 

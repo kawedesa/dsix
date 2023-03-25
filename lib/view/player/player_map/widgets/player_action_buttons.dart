@@ -71,12 +71,13 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
                           },
                           startAttack: () {
                             widget.combat.startAttack(
-                              widget.mapInfo.getPlayerOnScreenPosition(
-                                  widget.user.player.position),
-                              widget.user.player.position,
-                              widget.user.player.attack(widget.user.player
-                                  .equipment.mainHandSlot.item.attack),
-                            );
+                                widget.mapInfo.getPlayerOnScreenPosition(
+                                    widget.user.player.position),
+                                widget.user.player.position,
+                                widget.user.player.attack(widget.user.player
+                                    .equipment.mainHandSlot.item.attack),
+                                widget.user.player,
+                                null);
 
                             widget.changePlayerMode();
                             selectAction(1);
@@ -134,6 +135,8 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
                               widget.user.player.position,
                               widget.user.player.attack(widget.user.player
                                   .equipment.offHandSlot.item.attack),
+                              widget.user.player,
+                              null,
                             );
                             widget.changePlayerMode();
                             selectAction(2);

@@ -157,8 +157,8 @@ class PlayerMapVM {
         refresh: refresh);
   }
 
-  Widget getAttackInput(List<Npc> npcs, List<Player> players,
-      Player selectedPlayer, Function refresh) {
+  Widget getAttackInput(
+      List<Npc> npcs, List<Player> players, Function refresh) {
     Widget attackInputWidget = const SizedBox();
 
     attackInputWidget = MouseInput(
@@ -169,7 +169,7 @@ class PlayerMapVM {
         refresh();
       },
       onTap: () {
-        combat.confirmPlayerAttack(npcs, players, selectedPlayer);
+        combat.confirmAttack(npcs, players);
         cancelAction();
         refresh();
       },

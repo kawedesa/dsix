@@ -141,7 +141,7 @@ class Player {
     return playerAttack;
   }
 
-  void receiveAttack(Attack attack, Function(int) getDamage) {
+  int receiveAttack(Attack attack) {
     int leftOverArmor = 0;
 
     int pDamage = attack.damage.pDamage - equipment.getTotalArmor().pArmor;
@@ -169,37 +169,41 @@ class Player {
     int totalDamage = pDamage + mDamage + leftOverDamageAfterTempArmor;
 
     if (totalDamage > 0) {
-      receiveEffect(attack.onHitEffect);
       life.receiveDamage(totalDamage);
-      getDamage(totalDamage);
+      receiveEffects(attack.effects);
     }
 
     update();
+    return totalDamage;
   }
 
-  void receiveEffect(Effect incomingEffect) {
-    for (Effect effect in effects.currentEffects) {
-      if (effect.name == incomingEffect.name && effect.countdown > 0) {
-        effect.countdown++;
-        update();
-        return;
+  void receiveEffects(List<String> incomingEffects) {
+    for (String effect in incomingEffects) {
+      int checker = 0;
+      for (Effect checkEffect in effects.currentEffects) {
+        if (checkEffect.name == effect && checkEffect.countdown > 0) {
+          checkEffect.countdown++;
+          checker++;
+        }
+      }
+      if (checker == 0) {
+        applyNewEffect(effect);
       }
     }
 
-    applyNewEffect(incomingEffect);
     update();
   }
 
-  void applyNewEffect(Effect effect) {
-    switch (effect.name) {
+  void applyNewEffect(String effect) {
+    switch (effect) {
       case 'poison':
-        effects.currentEffects.add(effect);
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
-      case 'thorn':
-        life.receiveDamage(effect.value);
-        break;
+
       case 'bleed':
-        effects.currentEffects.add(effect);
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
     }
   }
