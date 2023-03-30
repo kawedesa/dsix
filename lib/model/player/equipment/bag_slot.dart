@@ -41,11 +41,11 @@ class _BagSlotState extends State<BagSlot> {
       }
     }, onAccept: (equipment) {
       if (equipment.item.name == 'gold') {
-        user.player.equipment.getGold(equipment.item.value);
+        user.player.equipment.addGold(equipment.item.value);
         snackbarKey.currentState?.showSnackBar(AppSnackBar().getSnackBar(
             '+\$${equipment.item.value}'.toUpperCase(), user.color));
       } else {
-        user.player.equipment.addToBag(equipment);
+        user.player.addToBag(equipment);
       }
 
       user.player.update();
@@ -86,8 +86,8 @@ class _BagSlotState extends State<BagSlot> {
                 equipmentSlot: EquipmentSlot(
                     name: 'bag', item: user.player.equipment.bag[index]),
                 onDragComplete: () {
-                  user.player.equipment
-                      .removeItemfromBag(user.player.equipment.bag[index]);
+                  user.player.equipment.bag
+                      .remove(user.player.equipment.bag[index]);
                   user.player.update();
                   widget.refresh();
                 },
@@ -97,14 +97,12 @@ class _BagSlotState extends State<BagSlot> {
                 },
                 sellItem: () {
                   try {
-                    user.player.equipment.sellItem(EquipmentSlot(
+                    user.player.sellItem(EquipmentSlot(
                         name: 'bag', item: user.player.equipment.bag[index]));
                   } on ItemSoldException catch (e) {
                     snackbarKey.currentState?.showSnackBar(AppSnackBar()
                         .getSnackBar(e.itemValue.toUpperCase(), user.color));
                   }
-
-                  user.player.update();
                   widget.refresh();
                 },
                 useItem: () {},

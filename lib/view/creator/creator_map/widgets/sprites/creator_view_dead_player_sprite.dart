@@ -1,7 +1,10 @@
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
 class CreatorViewDeadPlayerSprite extends StatefulWidget {
@@ -31,10 +34,19 @@ class _CreatorViewDeadPlayerSpriteState
           child: SizedBox(
             width: widget.player.size,
             height: widget.player.size,
-            child: PlayerSpriteImage(
-                isDead: widget.player.life.isDead(),
-                color: widget.color,
-                race: widget.player.race),
+            child: Stack(
+              children: [
+                SvgPicture.asset(
+                  AppImages.grave,
+                  width: AppLayout.shortest(context) * 0.5,
+                ),
+                SvgPicture.asset(
+                  AppImages.graveColor,
+                  color: widget.color,
+                  width: AppLayout.shortest(context) * 0.5,
+                ),
+              ],
+            ),
           ),
         ));
   }

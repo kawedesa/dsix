@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PlayerSpriteImage extends StatefulWidget {
-  final bool isDead;
   final Color color;
   final String race;
+  final String sex;
 
   const PlayerSpriteImage(
-      {Key? key, required this.isDead, required this.color, required this.race})
+      {Key? key, required this.color, required this.race, required this.sex})
       : super(key: key);
 
   @override
@@ -17,49 +17,17 @@ class PlayerSpriteImage extends StatefulWidget {
 }
 
 class _PlayerSpriteImageState extends State<PlayerSpriteImage> {
-  String bodyImage() {
-    String selectedImage = '';
-
-    switch (widget.race) {
-      case 'dwarf':
-        selectedImage = AppImages.dwarfBody;
-        break;
-      case 'orc':
-        selectedImage = AppImages.orcBody;
-        break;
-      case 'elf':
-        selectedImage = AppImages.elfBody;
-        break;
-    }
-
-    return selectedImage;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return (widget.isDead)
-        ? Stack(
-            children: [
-              SvgPicture.asset(
-                AppImages.grave,
-                width: AppLayout.shortest(context) * 0.5,
-              ),
-              SvgPicture.asset(
-                AppImages.graveColor,
-                color: widget.color,
-                width: AppLayout.shortest(context) * 0.5,
-              ),
-            ],
-          )
-        : Stack(
-            children: [
-              SvgPicture.asset(
-                bodyImage(),
-                width: AppLayout.shortest(context) * 0.5,
-              ),
-              PlayerSpriteHead(race: widget.race),
-            ],
-          );
+    return Stack(
+      children: [
+        SvgPicture.asset(
+          AppImages().getPlayerBodySprite(widget.race, widget.sex),
+          width: AppLayout.shortest(context) * 0.5,
+        ),
+        PlayerSpriteHead(race: widget.race, sex: widget.sex),
+      ],
+    );
   }
 }
 
@@ -67,12 +35,14 @@ class PlayerSpriteHead extends StatefulWidget {
   final Duration duration;
   final double deltaY;
   final String race;
+  final String sex;
 
   const PlayerSpriteHead({
     super.key,
     this.duration = const Duration(milliseconds: 500),
     this.deltaY = 0.75,
     required this.race,
+    required this.sex,
   });
 
   @override
@@ -82,24 +52,6 @@ class PlayerSpriteHead extends StatefulWidget {
 class _PlayerSpriteHeadState extends State<PlayerSpriteHead>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
-
-  String headImage() {
-    String selectedImage = '';
-
-    switch (widget.race) {
-      case 'dwarf':
-        selectedImage = AppImages.dwarfHead;
-        break;
-      case 'orc':
-        selectedImage = AppImages.orcHead;
-        break;
-      case 'elf':
-        selectedImage = AppImages.elfHead;
-        break;
-    }
-
-    return selectedImage;
-  }
 
   @override
   void initState() {
@@ -138,7 +90,7 @@ class _PlayerSpriteHeadState extends State<PlayerSpriteHead>
         child: child,
       ),
       child: SvgPicture.asset(
-        headImage(),
+        AppImages().getPlayerHeadSprite(widget.race, widget.sex),
         width: AppLayout.shortest(context) * 0.5,
       ),
     );

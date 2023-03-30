@@ -1,6 +1,5 @@
 import 'package:dsix/model/combat/armor.dart';
 import 'package:dsix/model/item/item.dart';
-import 'package:dsix/shared/app_exceptions.dart';
 import 'equipment_slot.dart';
 
 class PlayerEquipment {
@@ -104,20 +103,12 @@ class PlayerEquipment {
     }
   }
 
-  void getGold(int value) {
+  void addGold(int value) {
     gold += value;
   }
 
-  void equip(EquipmentSlot slot, Item item) {
-    if (item.itemSlot == 'two hands') {
-      unequip(mainHandSlot);
-      unequip(offHandSlot);
-      mainHandSlot.item = item;
-      offHandSlot.item = item;
-    } else {
-      unequip(slot);
-      slot.item = item;
-    }
+  void removeGold(int value) {
+    gold -= value;
   }
 
   void switchEquipments() {
@@ -126,57 +117,20 @@ class PlayerEquipment {
     offHandSlot.item = tempItem;
   }
 
-  void addToBag(EquipmentSlot slot) {
-    if (slot.name == 'loot') {
-      currentWeight += slot.item.weight;
-      bag.add(slot.item);
-      return;
-    }
-    unequip(slot);
+  void removeItemWeight(int weight) {
+    currentWeight -= weight;
   }
 
-  void unequip(EquipmentSlot slot) {
-    if (slot.isEmpty()) {
-      return;
-    }
-
-    if (slot.item.itemSlot == 'two hands') {
-      bag.add(mainHandSlot.item);
-      mainHandSlot.unequip();
-      offHandSlot.unequip();
-      return;
-    }
-    bag.add(slot.item);
-    slot.unequip();
+  void addItemWeight(int weight) {
+    currentWeight += weight;
   }
 
-  void removeItemWeight(Item item) {
-    currentWeight -= item.weight;
-  }
-
-  void removeItemfromBag(Item item) {
-    bag.remove(item);
-  }
-
-  void buyItem(Item item) {
-    gold -= item.value;
-    currentWeight += item.weight;
+  void addItemToBag(Item item) {
     bag.add(item);
   }
 
-  void sellItem(EquipmentSlot slot) {
-    Item tempItem = slot.item;
-    int itemValue = tempItem.value ~/ 2;
-
-    if (slot.name != 'bag') {
-      unequip(slot);
-    }
-
-    gold += itemValue;
-    currentWeight -= tempItem.weight;
-    removeItemfromBag(tempItem);
-
-    throw ItemSoldException('+ \$$itemValue');
+  void removeItemFromBag(Item item) {
+    bag.remove(item);
   }
 
   void useItem(EquipmentSlot slot) {}

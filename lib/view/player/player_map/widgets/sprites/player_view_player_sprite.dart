@@ -71,9 +71,10 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                         width: widget.player.size,
                         height: widget.player.size,
                         child: PlayerSpriteImage(
-                            isDead: widget.player.life.isDead(),
-                            color: widget.color,
-                            race: widget.player.race)),
+                          color: widget.color,
+                          race: widget.player.race,
+                          sex: widget.player.sex,
+                        )),
                   ),
                 ),
                 Align(

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/item/shop.dart';
 import 'package:dsix/model/user.dart';
@@ -15,7 +14,6 @@ import 'package:flutter_svg/svg.dart';
 import '../../../model/player/player.dart';
 
 class ShopVM {
-  final database = FirebaseFirestore.instance;
   final Shop _shop = Shop();
   int selectedMenu = 0;
   String menuTitle = 'melee';
@@ -186,18 +184,8 @@ class ShopVM {
     if (player.equipment.tooHeavy(item.weight)) {
       throw TooHeavyException();
     }
-    player.equipment.buyItem(item);
-    updatePlayer(player);
+    player.buyItem(item);
 
     throw ItemBoughtException('- \$${item.value}');
-  }
-
-  void updatePlayer(Player player) async {
-    await database
-        .collection('game')
-        .doc('gameID')
-        .collection('players')
-        .doc(player.id)
-        .update(player.toMap());
   }
 }

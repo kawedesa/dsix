@@ -6,30 +6,50 @@ class Item {
   String description;
   String itemSlot;
   String type;
-  Attack attack;
-  // Damage damage;
+  bool needsReload;
+  bool isLoaded;
+  List<String> effects;
+  List<Attack> attacks;
   Armor armor;
   int weight;
   int value;
-  // Range range;
+
   Item({
     required this.name,
     required this.description,
     required this.itemSlot,
     required this.type,
-    required this.attack,
+    required this.needsReload,
+    required this.isLoaded,
+    required this.effects,
+    required this.attacks,
     required this.armor,
     required this.weight,
     required this.value,
   });
 
   factory Item.fromMap(Map<String, dynamic>? data) {
+    List<String> getEffects = [];
+    List<dynamic> effectsMap = data?['effects'];
+    for (var effect in effectsMap) {
+      getEffects.add(effect);
+    }
+
+    List<Attack> getAttacks = [];
+    List<dynamic> attacksMap = data?['attacks'];
+    for (var attack in attacksMap) {
+      getAttacks.add(Attack.fromMap(attack));
+    }
+
     return Item(
       name: data?['name'],
       description: data?['description'],
       itemSlot: data?['itemSlot'],
       type: data?['type'],
-      attack: Attack.fromMap(data?['attack']),
+      needsReload: data?['needsReload'],
+      isLoaded: data?['isLoaded'],
+      effects: getEffects,
+      attacks: getAttacks,
       armor: Armor.fromMap(data?['armor']),
       weight: data?['weight'],
       value: data?['value'],
@@ -37,12 +57,17 @@ class Item {
   }
 
   Map<String, dynamic> toMap() {
+    var attacksToMap = attacks.map((attack) => attack.toMap()).toList();
+
     return {
       'name': name,
       'description': description,
       'itemSlot': itemSlot,
       'type': type,
-      'attack': attack.toMap(),
+      'needsReload': needsReload,
+      'isLoaded': isLoaded,
+      'effects': effects,
+      'attacks': attacksToMap,
       'armor': armor.toMap(),
       'weight': weight,
       'value': value,
@@ -55,7 +80,10 @@ class Item {
       description: '',
       itemSlot: '',
       type: '',
-      attack: Attack.empty(),
+      needsReload: false,
+      isLoaded: false,
+      effects: [],
+      attacks: [],
       armor: Armor.empty(),
       weight: 0,
       value: 0,

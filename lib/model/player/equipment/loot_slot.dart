@@ -29,7 +29,7 @@ class _LootSlotState extends State<LootSlot> {
       }
     }, onAccept: (equipment) {
       widget.npc.addItemToLoot(equipment.item);
-      user.player.equipment.removeItemWeight(equipment.item);
+      user.player.equipment.removeItemWeight(equipment.item.weight);
       user.player.update();
       widget.refresh();
     }, builder: (

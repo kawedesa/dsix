@@ -26,8 +26,7 @@ class InventoryVM {
         if (equipment == user.player.equipment.offHandSlot) {
           user.player.equipment.switchEquipments();
         } else {
-          user.player.equipment
-              .equip(user.player.equipment.mainHandSlot, equipment.item);
+          user.player.equip(user.player.equipment.mainHandSlot, equipment.item);
         }
         user.player.update();
         refresh();
@@ -45,13 +44,12 @@ class InventoryVM {
       },
       sellItem: () {
         try {
-          user.player.equipment.sellItem(user.player.equipment.mainHandSlot);
+          user.player.sellItem(user.player.equipment.mainHandSlot);
         } on ItemSoldException catch (e) {
           snackbarKey.currentState?.showSnackBar(
               AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
 
-        user.player.update();
         refresh();
       },
       useItem: () {},
@@ -64,8 +62,7 @@ class InventoryVM {
       equipmentSlot: user.player.equipment.headSlot,
       onDragComplete: () {},
       onAccept: (equipment) {
-        user.player.equipment
-            .equip(user.player.equipment.headSlot, equipment.item);
+        user.player.equip(user.player.equipment.headSlot, equipment.item);
         user.player.update();
         refresh();
       },
@@ -81,13 +78,12 @@ class InventoryVM {
       },
       sellItem: () {
         try {
-          user.player.equipment.sellItem(user.player.equipment.headSlot);
+          user.player.sellItem(user.player.equipment.headSlot);
         } on ItemSoldException catch (e) {
           snackbarKey.currentState?.showSnackBar(
               AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
 
-        user.player.update();
         refresh();
       },
       useItem: () {},
@@ -100,8 +96,7 @@ class InventoryVM {
       equipmentSlot: user.player.equipment.bodySlot,
       onDragComplete: () {},
       onAccept: (equipment) {
-        user.player.equipment
-            .equip(user.player.equipment.bodySlot, equipment.item);
+        user.player.equip(user.player.equipment.bodySlot, equipment.item);
         user.player.update();
         refresh();
       },
@@ -117,13 +112,12 @@ class InventoryVM {
       },
       sellItem: () {
         try {
-          user.player.equipment.sellItem(user.player.equipment.bodySlot);
+          user.player.sellItem(user.player.equipment.bodySlot);
         } on ItemSoldException catch (e) {
           snackbarKey.currentState?.showSnackBar(
               AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
 
-        user.player.update();
         refresh();
       },
       useItem: () {},
@@ -139,8 +133,7 @@ class InventoryVM {
         if (equipment == user.player.equipment.mainHandSlot) {
           user.player.equipment.switchEquipments();
         } else {
-          user.player.equipment
-              .equip(user.player.equipment.offHandSlot, equipment.item);
+          user.player.equip(user.player.equipment.offHandSlot, equipment.item);
         }
         user.player.update();
         refresh();
@@ -158,13 +151,12 @@ class InventoryVM {
       },
       sellItem: () {
         try {
-          user.player.equipment.sellItem(user.player.equipment.offHandSlot);
+          user.player.sellItem(user.player.equipment.offHandSlot);
         } on ItemSoldException catch (e) {
           snackbarKey.currentState?.showSnackBar(
               AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
 
-        user.player.update();
         refresh();
       },
       useItem: () {},
@@ -177,8 +169,7 @@ class InventoryVM {
       equipmentSlot: user.player.equipment.handSlot,
       onDragComplete: () {},
       onAccept: (equipment) {
-        user.player.equipment
-            .equip(user.player.equipment.handSlot, equipment.item);
+        user.player.equip(user.player.equipment.handSlot, equipment.item);
         user.player.update();
         refresh();
       },
@@ -194,13 +185,12 @@ class InventoryVM {
       },
       sellItem: () {
         try {
-          user.player.equipment.sellItem(user.player.equipment.handSlot);
+          user.player.sellItem(user.player.equipment.handSlot);
         } on ItemSoldException catch (e) {
           snackbarKey.currentState?.showSnackBar(
               AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
 
-        user.player.update();
         refresh();
       },
       useItem: () {},
@@ -213,8 +203,7 @@ class InventoryVM {
       equipmentSlot: user.player.equipment.feetSlot,
       onDragComplete: () {},
       onAccept: (equipment) {
-        user.player.equipment
-            .equip(user.player.equipment.feetSlot, equipment.item);
+        user.player.equip(user.player.equipment.feetSlot, equipment.item);
         user.player.update();
         refresh();
       },
@@ -230,12 +219,12 @@ class InventoryVM {
       },
       sellItem: () {
         try {
-          user.player.equipment.sellItem(user.player.equipment.feetSlot);
+          user.player.sellItem(user.player.equipment.feetSlot);
         } on ItemSoldException catch (e) {
           snackbarKey.currentState?.showSnackBar(
               AppSnackBar().getSnackBar(e.itemValue.toUpperCase(), user.color));
         }
-        user.player.update();
+
         refresh();
       },
       useItem: () {},

@@ -76,48 +76,48 @@ class _ItemDialogState extends State<ItemDialog> {
         const AppSeparatorVertical(value: 0.0125),
       );
     }
-    if (widget.item.attack.damage.pDamage != 0) {
-      itemAttributes.add(Row(
-        children: [
-          AppCircularButton(
-              icon: AppImages.pDamage,
-              iconColor: widget.darkColor,
-              color: widget.color,
-              borderColor: widget.color,
-              size: 0.025),
-          const AppSeparatorHorizontal(value: 0.01),
-          AppText(
-              text: widget.item.attack.damage.pDamage.toString(),
-              fontSize: 0.015,
-              letterSpacing: 0.002,
-              color: Colors.white),
-        ],
-      ));
-      itemAttributes.add(
-        const AppSeparatorVertical(value: 0.0125),
-      );
-    }
-    if (widget.item.attack.damage.mDamage != 0) {
-      itemAttributes.add(Row(
-        children: [
-          AppCircularButton(
-              icon: AppImages.mDamage,
-              iconColor: widget.darkColor,
-              color: widget.color,
-              borderColor: widget.color,
-              size: 0.025),
-          const AppSeparatorHorizontal(value: 0.01),
-          AppText(
-              text: widget.item.attack.damage.mDamage.toString(),
-              fontSize: 0.015,
-              letterSpacing: 0.002,
-              color: Colors.white),
-        ],
-      ));
-      itemAttributes.add(
-        const AppSeparatorVertical(value: 0.0125),
-      );
-    }
+    // if (widget.item.attack.damage.pDamage != 0) {
+    //   itemAttributes.add(Row(
+    //     children: [
+    //       AppCircularButton(
+    //           icon: AppImages.pDamage,
+    //           iconColor: widget.darkColor,
+    //           color: widget.color,
+    //           borderColor: widget.color,
+    //           size: 0.025),
+    //       const AppSeparatorHorizontal(value: 0.01),
+    //       AppText(
+    //           text: widget.item.attack.damage.pDamage.toString(),
+    //           fontSize: 0.015,
+    //           letterSpacing: 0.002,
+    //           color: Colors.white),
+    //     ],
+    //   ));
+    //   itemAttributes.add(
+    //     const AppSeparatorVertical(value: 0.0125),
+    //   );
+    // }
+    // if (widget.item.attack.damage.mDamage != 0) {
+    //   itemAttributes.add(Row(
+    //     children: [
+    //       AppCircularButton(
+    //           icon: AppImages.mDamage,
+    //           iconColor: widget.darkColor,
+    //           color: widget.color,
+    //           borderColor: widget.color,
+    //           size: 0.025),
+    //       const AppSeparatorHorizontal(value: 0.01),
+    //       AppText(
+    //           text: widget.item.attack.damage.mDamage.toString(),
+    //           fontSize: 0.015,
+    //           letterSpacing: 0.002,
+    //           color: Colors.white),
+    //     ],
+    //   ));
+    //   itemAttributes.add(
+    //     const AppSeparatorVertical(value: 0.0125),
+    //   );
+    // }
     itemAttributes.add(Row(
       children: [
         AppCircularButton(

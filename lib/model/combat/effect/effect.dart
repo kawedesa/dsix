@@ -36,4 +36,12 @@ class Effect {
       'countdown': countdown,
     };
   }
+
+  void decreaseCountdown() {
+    countdown--;
+  }
+
+  void increaseCountdown() {
+    countdown++;
+  }
 }

@@ -4,8 +4,11 @@ import 'package:dsix/model/combat/attribute/attribute.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/combat/effect/effect.dart';
 import 'package:dsix/model/combat/effect/effect_controller.dart';
+import 'package:dsix/model/item/item.dart';
+import 'package:dsix/model/player/equipment/equipment_slot.dart';
 import 'package:dsix/model/player/equipment/player_equipment.dart';
 import 'package:dsix/model/combat/life.dart';
+import 'package:dsix/shared/app_exceptions.dart';
 import 'package:flutter/material.dart';
 import '../combat/position.dart';
 
@@ -13,6 +16,7 @@ class Player {
   String id;
   String name;
   String race;
+  String sex;
   double size;
   Life life;
   Position position;
@@ -25,6 +29,7 @@ class Player {
       {required this.id,
       required this.name,
       required this.race,
+      required this.sex,
       required this.size,
       required this.life,
       required this.position,
@@ -40,6 +45,7 @@ class Player {
       id: '',
       name: '',
       race: '',
+      sex: '',
       size: 0,
       life: Life.empty(),
       position: Position.empty(),
@@ -55,6 +61,7 @@ class Player {
       id: id,
       name: '',
       race: '',
+      sex: '',
       size: 15,
       life: Life.empty(),
       position: Position.empty(),
@@ -70,6 +77,7 @@ class Player {
       'id': id,
       'name': name,
       'race': race,
+      'sex': sex,
       'size': size,
       'life': life.toMap(),
       'position': position.toMap(),
@@ -85,6 +93,7 @@ class Player {
       id: data?['id'],
       name: data?['name'],
       race: data?['race'],
+      sex: data?['sex'],
       size: data?['size'],
       life: Life.fromMap(data?['life']),
       position: Position.fromMap(data?['position']),
@@ -95,11 +104,13 @@ class Player {
     );
   }
 
-  void setRace(String race) {
+  void setRace(String race, String sex) {
     this.race = race;
+    this.sex = sex;
     life.setLife(race);
     attributes.setAttribute(race);
     equipment.setWeight(race);
+    update();
   }
 
   void chooseName(String name) {
@@ -112,6 +123,21 @@ class Player {
   }
 
   void iAmNotReady() {
+    ready = false;
+    update();
+  }
+
+  void passTurn() {
+    checkEffects();
+    attributes.defense.resetTempDefense();
+    attributes.vision.resetTempVision();
+    update();
+  }
+
+  void newRound() {
+    position.reset();
+    life.reset();
+    effects.reset();
     ready = false;
     update();
   }
@@ -130,6 +156,18 @@ class Player {
 
   void changePosition(Position newPosition) {
     position = newPosition;
+    update();
+  }
+
+  void defend() {
+    attributes.defense.defend();
+
+    update();
+  }
+
+  void look() {
+    attributes.vision.look();
+
     update();
   }
 
@@ -181,8 +219,8 @@ class Player {
     for (String effect in incomingEffects) {
       int checker = 0;
       for (Effect checkEffect in effects.currentEffects) {
-        if (checkEffect.name == effect && checkEffect.countdown > 0) {
-          checkEffect.countdown++;
+        if (checkEffect.name == effect) {
+          checkEffect.increaseCountdown();
           checker++;
         }
       }
@@ -226,33 +264,82 @@ class Player {
   void triggerEffects(Effect effect) {
     switch (effect.name) {
       case 'poison':
-        effect.countdown--;
+        effect.decreaseCountdown();
         life.receiveDamage(effect.value);
         break;
       case 'bleed':
-        effect.countdown--;
+        effect.decreaseCountdown();
         life.receiveDamage(effect.value);
         break;
     }
   }
 
-  void passTurn() {
-    checkEffects();
-    attributes.defense.resetTempDefense();
-    attributes.vision.resetTempVision();
+  //EQUIPMENT
+
+  void equip(EquipmentSlot slot, Item item) {
+    if (item.itemSlot == 'two hands') {
+      unequip(equipment.mainHandSlot);
+      unequip(equipment.offHandSlot);
+      //TODO addItemEffect
+      equipment.mainHandSlot.equip(item);
+      equipment.offHandSlot.equip(item);
+    } else {
+      unequip(slot);
+      //TODO addItemEffect
+      slot.equip(item);
+    }
+  }
+
+  void unequip(EquipmentSlot slot) {
+    if (slot.isEmpty()) {
+      return;
+    }
+
+    if (slot.item.itemSlot == 'two hands') {
+      //TODO removeItemEffect
+      equipment.addItemToBag(equipment.mainHandSlot.item);
+      equipment.mainHandSlot.unequip();
+      equipment.offHandSlot.unequip();
+      return;
+    }
+    //TODO removeItemEffect
+    equipment.addItemToBag(slot.item);
+    slot.unequip();
+  }
+
+  void addItemEffects(List<String> effects) {}
+
+  void removeItemEffects(List<String> effects) {}
+
+  void addToBag(EquipmentSlot slot) {
+    if (slot.name == 'loot') {
+      equipment.addItemWeight(slot.item.weight);
+      equipment.addItemToBag(slot.item);
+      return;
+    }
+    unequip(slot);
+  }
+
+  void buyItem(Item item) {
+    equipment.removeGold(item.value);
+    equipment.addItemWeight(item.weight);
+    equipment.addItemToBag(item);
     update();
   }
 
-  void defend() {
-    attributes.defense.defend();
+  void sellItem(EquipmentSlot slot) {
+    Item tempItem = slot.item;
+    int itemValue = tempItem.value ~/ 2;
 
+    if (slot.name != 'bag') {
+      unequip(slot);
+    }
+
+    equipment.addGold(itemValue);
+    equipment.removeItemWeight(tempItem.weight);
+    equipment.removeItemFromBag(tempItem);
     update();
-  }
-
-  void look() {
-    attributes.vision.look();
-
-    update();
+    throw ItemSoldException('+ \$$itemValue');
   }
 
   Path getVisionArea() {
@@ -260,14 +347,6 @@ class Player {
       ..addOval(Rect.fromCircle(
           center: Offset(position.dx, position.dy),
           radius: attributes.vision.getRange() / 2));
-  }
-
-  void newRound() {
-    position.reset();
-    life.reset();
-    effects.reset();
-    ready = false;
-    update();
   }
 
   void set() async {

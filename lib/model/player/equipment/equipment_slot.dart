@@ -40,9 +40,8 @@ class EquipmentSlot {
     return false;
   }
 
-  void equip(EquipmentSlot equipmentSlot) {
-    name = equipmentSlot.name;
-    item = equipmentSlot.item;
+  void equip(Item item) {
+    this.item = item;
   }
 
   void unequip() {

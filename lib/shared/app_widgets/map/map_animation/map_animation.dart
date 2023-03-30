@@ -32,17 +32,19 @@ class MapAnimation {
     if (turn.currentTurn != 'npc') {
       return;
     }
-
     currentTurn = turn.count;
     turnAnimation.add(const TurnAnimation());
   }
 
   Widget displayTurnAnimations() {
-    return TransparentPointer(
-        transparent: true,
-        child: Stack(
-          children: turnAnimation,
-        ));
+    return Align(
+      alignment: const Alignment(0, -0.75),
+      child: TransparentPointer(
+          transparent: true,
+          child: Stack(
+            children: turnAnimation,
+          )),
+    );
   }
 
   //BATTLE ANIMATIONS

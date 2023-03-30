@@ -13,6 +13,7 @@ import '../../../shared/app_widgets/button/app_circular_button.dart';
 class RaceVM {
   final database = FirebaseFirestore.instance;
   PlayerRace selectedRace = AvailablePlayerRaces().getAvailableRaces().first;
+  String selectedSex = 'female';
 
   int raceIndex = 0;
   List<PlayerRace> availablePlayerRaces =
@@ -31,9 +32,17 @@ class RaceVM {
     selectedRace = availablePlayerRaces[raceIndex];
   }
 
+  void changeSex() {
+    if (selectedSex == 'female') {
+      selectedSex = 'male';
+    } else {
+      selectedSex = 'female';
+    }
+  }
+
   void setRace(context, User user) async {
-    user.player.setRace(selectedRace.name);
-    user.player.update();
+    user.player.setRace(selectedRace.name, selectedSex);
+
     goToAttributeView(context);
   }
 

@@ -85,18 +85,39 @@ class _RaceViewState extends State<RaceView> {
                       child: Stack(
                         children: [
                           Align(
-                            alignment: Alignment.topCenter,
-                            child: AppTitle(
-                              title: _raceVM.selectedRace.name,
-                              color: user.color,
+                            alignment: const Alignment(0.0, -1.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AppCircularButton(
+                                  color: Colors.transparent,
+                                  borderColor: user.color,
+                                  icon: (_raceVM.selectedSex == 'female')
+                                      ? AppImages.female
+                                      : AppImages.male,
+                                  iconColor: user.color,
+                                  size: 0.04,
+                                  onTap: () {
+                                    setState(() {
+                                      _raceVM.changeSex();
+                                    });
+                                  },
+                                ),
+                                const AppSeparatorHorizontal(value: 0.01),
+                                AppTitle(
+                                  title: _raceVM.selectedRace.name,
+                                  color: user.color,
+                                ),
+                              ],
                             ),
                           ),
                           Align(
                               alignment: Alignment.bottomCenter,
                               child: PlayerSpriteImage(
-                                  isDead: false,
                                   color: user.color,
-                                  race: _raceVM.selectedRace.name)),
+                                  race: _raceVM.selectedRace.name,
+                                  sex: _raceVM.selectedSex)),
                         ],
                       ),
                     ),

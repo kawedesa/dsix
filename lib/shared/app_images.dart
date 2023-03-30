@@ -8,6 +8,8 @@ class AppImages {
   static const right = 'assets/images/ui/right.svg';
   static const locked = 'assets/images/ui/locked.svg';
   static const unlocked = 'assets/images/ui/unlocked.svg';
+  static const male = 'assets/images/ui/male.svg';
+  static const female = 'assets/images/ui/female.svg';
 
   static const power = 'assets/images/ui/power.svg';
   static const defense = 'assets/images/ui/defense.svg';
@@ -268,15 +270,91 @@ class AppImages {
   static const chestOpen = 'assets/images/sprites/objects/chestOpen.svg';
 
   //PLAYERS
+  //DWARF
+  static const maleDwarfBody =
+      'assets/images/sprites/players/maleDwarfBody.svg';
+  static const maleDwarfHead =
+      'assets/images/sprites/players/maleDwarfHead.svg';
+  static const femaleDwarfBody =
+      'assets/images/sprites/players/femaleDwarfBody.svg';
+  static const femaleDwarfHead =
+      'assets/images/sprites/players/femaleDwarfHead.svg';
 
-  static const dwarfBody = 'assets/images/sprites/players/dwarfBody.svg';
-  static const dwarfHead = 'assets/images/sprites/players/dwarfHead.svg';
+  //ORC
+  static const maleOrcBody = 'assets/images/sprites/players/maleOrcBody.svg';
+  static const maleOrcHead = 'assets/images/sprites/players/maleOrcHead.svg';
+  static const femaleOrcBody =
+      'assets/images/sprites/players/femaleOrcBody.svg';
+  static const femaleOrcHead =
+      'assets/images/sprites/players/femaleOrcHead.svg';
 
-  static const orcBody = 'assets/images/sprites/players/orcBody.svg';
-  static const orcHead = 'assets/images/sprites/players/orcHead.svg';
+  //ELF
+  static const maleElfBody = 'assets/images/sprites/players/maleElfBody.svg';
+  static const maleElfHead = 'assets/images/sprites/players/maleElfHead.svg';
+  static const femaleElfBody =
+      'assets/images/sprites/players/femaleElfBody.svg';
+  static const femaleElfHead =
+      'assets/images/sprites/players/femaleElfHead.svg';
 
-  static const elfBody = 'assets/images/sprites/players/elfBody.svg';
-  static const elfHead = 'assets/images/sprites/players/elfHead.svg';
+  String getPlayerBodySprite(String race, String sex) {
+    String selectedSprite = '';
+
+    switch (race) {
+      case 'dwarf':
+        if (sex == 'female') {
+          selectedSprite = AppImages.femaleDwarfBody;
+        } else {
+          selectedSprite = AppImages.maleDwarfBody;
+        }
+
+        break;
+      case 'orc':
+        if (sex == 'female') {
+          selectedSprite = AppImages.femaleOrcBody;
+        } else {
+          selectedSprite = AppImages.maleOrcBody;
+        }
+        break;
+      case 'elf':
+        if (sex == 'female') {
+          selectedSprite = AppImages.femaleElfBody;
+        } else {
+          selectedSprite = AppImages.maleElfBody;
+        }
+    }
+
+    return selectedSprite;
+  }
+
+  String getPlayerHeadSprite(String race, String sex) {
+    String selectedSprite = '';
+
+    switch (race) {
+      case 'dwarf':
+        if (sex == 'female') {
+          selectedSprite = AppImages.femaleDwarfHead;
+        } else {
+          selectedSprite = AppImages.maleDwarfHead;
+        }
+
+        break;
+      case 'orc':
+        if (sex == 'female') {
+          selectedSprite = AppImages.femaleOrcHead;
+        } else {
+          selectedSprite = AppImages.maleOrcHead;
+        }
+        break;
+      case 'elf':
+        if (sex == 'female') {
+          selectedSprite = AppImages.femaleElfHead;
+        } else {
+          selectedSprite = AppImages.maleElfHead;
+        }
+    }
+
+    return selectedSprite;
+  }
 
   //NPCS
   static const zombie = 'assets/images/sprites/npcs/zombie.svg';

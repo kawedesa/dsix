@@ -12,6 +12,7 @@ import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:dsix/view/player/inventory/inventory_vm.dart';
 import 'package:dsix/view/player/inventory/widgets/attributes_info_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class InventoryView extends StatefulWidget {
@@ -57,12 +58,25 @@ class _InventoryViewState extends State<InventoryView> {
                 children: [
                   Align(
                     alignment: const Alignment(0, -0.4),
-                    child: SizedBox(
-                        height: AppLayout.avarage(context) * 0.25,
-                        child: PlayerSpriteImage(
-                            isDead: user.player.life.isDead(),
-                            color: user.color,
-                            race: user.player.race)),
+                    child: (user.player.life.isDead())
+                        ? Stack(
+                            children: [
+                              SvgPicture.asset(
+                                AppImages.grave,
+                              ),
+                              SvgPicture.asset(
+                                AppImages.graveColor,
+                                color: user.color,
+                              ),
+                            ],
+                          )
+                        : SizedBox(
+                            height: AppLayout.avarage(context) * 0.25,
+                            child: PlayerSpriteImage(
+                              color: user.color,
+                              race: user.player.race,
+                              sex: user.player.sex,
+                            )),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

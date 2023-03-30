@@ -57,9 +57,10 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
                       width: widget.player.size,
                       height: widget.player.size,
                       child: PlayerSpriteImage(
-                          isDead: widget.player.life.isDead(),
-                          color: widget.color,
-                          race: widget.player.race)),
+                        color: widget.color,
+                        race: widget.player.race,
+                        sex: widget.player.sex,
+                      )),
                 ),
               ),
               Align(

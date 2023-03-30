@@ -75,7 +75,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
                                     widget.user.player.position),
                                 widget.user.player.position,
                                 widget.user.player.attack(widget.user.player
-                                    .equipment.mainHandSlot.item.attack),
+                                    .equipment.mainHandSlot.item.attacks[0]),
                                 widget.user.player,
                                 null);
 
@@ -134,7 +134,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
                                   widget.user.player.position),
                               widget.user.player.position,
                               widget.user.player.attack(widget.user.player
-                                  .equipment.offHandSlot.item.attack),
+                                  .equipment.offHandSlot.item.attacks[0]),
                               widget.user.player,
                               null,
                             );
