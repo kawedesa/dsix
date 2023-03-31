@@ -6,11 +6,12 @@ class Item {
   String description;
   String itemSlot;
   String type;
-  bool needsReload;
   bool isLoaded;
+  bool needsReload;
   List<String> effects;
   List<Attack> attacks;
   Armor armor;
+  int numberOfUses;
   int weight;
   int value;
 
@@ -19,11 +20,12 @@ class Item {
     required this.description,
     required this.itemSlot,
     required this.type,
-    required this.needsReload,
     required this.isLoaded,
+    required this.needsReload,
     required this.effects,
     required this.attacks,
     required this.armor,
+    required this.numberOfUses,
     required this.weight,
     required this.value,
   });
@@ -46,11 +48,12 @@ class Item {
       description: data?['description'],
       itemSlot: data?['itemSlot'],
       type: data?['type'],
-      needsReload: data?['needsReload'],
       isLoaded: data?['isLoaded'],
+      needsReload: data?['needsReload'],
       effects: getEffects,
       attacks: getAttacks,
       armor: Armor.fromMap(data?['armor']),
+      numberOfUses: data?['numberOfUses'],
       weight: data?['weight'],
       value: data?['value'],
     );
@@ -64,11 +67,12 @@ class Item {
       'description': description,
       'itemSlot': itemSlot,
       'type': type,
-      'needsReload': needsReload,
       'isLoaded': isLoaded,
+      'needsReload': needsReload,
       'effects': effects,
       'attacks': attacksToMap,
       'armor': armor.toMap(),
+      'numberOfUses': numberOfUses,
       'weight': weight,
       'value': value,
     };
@@ -80,11 +84,12 @@ class Item {
       description: '',
       itemSlot: '',
       type: '',
-      needsReload: false,
       isLoaded: false,
+      needsReload: false,
       effects: [],
       attacks: [],
       armor: Armor.empty(),
+      numberOfUses: 0,
       weight: 0,
       value: 0,
     );

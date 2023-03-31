@@ -10,6 +10,7 @@ class AppImages {
   static const unlocked = 'assets/images/ui/unlocked.svg';
   static const male = 'assets/images/ui/male.svg';
   static const female = 'assets/images/ui/female.svg';
+  static const difficulty = 'assets/images/ui/difficulty.svg';
 
   static const power = 'assets/images/ui/power.svg';
   static const defense = 'assets/images/ui/defense.svg';
@@ -88,21 +89,21 @@ class AppImages {
   static const gold = 'assets/images/items/gold.svg';
 
   //Light Weapons
+  static const batton = 'assets/images/items/batton.svg';
   static const dagger = 'assets/images/items/dagger.svg';
-  static const magicDagger = 'assets/images/items/magicDagger.svg';
-  static const baton = 'assets/images/items/baton.svg';
+  static const flail = 'assets/images/items/flail.svg';
+  static const gladius = 'assets/images/items/gladius.svg';
   static const mace = 'assets/images/items/mace.svg';
-  static const claw = 'assets/images/items/claw.svg';
-  static const axe = 'assets/images/items/axe.svg';
-  static const magicAxe = 'assets/images/items/magicAxe.svg';
-  static const shortSword = 'assets/images/items/shortSword.svg';
-  static const shortSpear = 'assets/images/items/shortSpear.svg';
-  static const rapier = 'assets/images/items/rapier.svg';
-  static const sword = 'assets/images/items/sword.svg';
   static const morningStar = 'assets/images/items/morningStar.svg';
+  static const nunchaku = 'assets/images/items/nunchaku.svg';
+  static const poisonDagger = 'assets/images/items/poisonDagger.svg';
+  static const rapier = 'assets/images/items/rapier.svg';
   static const saber = 'assets/images/items/saber.svg';
-  static const longSword = 'assets/images/items/longSword.svg';
-  static const magicSword = 'assets/images/items/magicSword.svg';
+  static const sharpFist = 'assets/images/items/sharpFist.svg';
+  static const shortSpear = 'assets/images/items/shortSpear.svg';
+  static const shortSword = 'assets/images/items/shortSword.svg';
+  static const talon = 'assets/images/items/talon.svg';
+  static const woodAxe = 'assets/images/items/woodAxe.svg';
 
   //Heavy Weapons
   static const longSpear = 'assets/images/items/longSpear.svg';
@@ -178,25 +179,72 @@ class AppImages {
         itemIcon = gold;
         break;
 
-      //MELEE
+      //LIGHT WEAPONS
+      case 'batton':
+        itemIcon = batton;
+        break;
+      case 'dagger':
+        itemIcon = dagger;
+        break;
+      case 'flail':
+        itemIcon = flail;
+        break;
+      case 'gladius':
+        itemIcon = gladius;
+        break;
       case 'mace':
         itemIcon = mace;
-        break;
-      case 'magic dagger':
-        itemIcon = magicDagger;
-        break;
-      case 'short sword':
-        itemIcon = shortSword;
-        break;
-      case 'short spear':
-        itemIcon = shortSpear;
-        break;
-      case 'magic sword':
-        itemIcon = magicSword;
         break;
       case 'morning star':
         itemIcon = morningStar;
         break;
+      case 'nunchaku':
+        itemIcon = nunchaku;
+        break;
+      case 'poison dagger':
+        itemIcon = poisonDagger;
+        break;
+      case 'rapier':
+        itemIcon = rapier;
+        break;
+      case 'saber':
+        itemIcon = saber;
+        break;
+      case 'sharp fist':
+        itemIcon = sharpFist;
+        break;
+      case 'short spear':
+        itemIcon = shortSpear;
+        break;
+      case 'short sword':
+        itemIcon = shortSword;
+        break;
+      case 'talon':
+        itemIcon = talon;
+        break;
+      case 'wood axe':
+        itemIcon = woodAxe;
+        break;
+
+      // //MELEE
+      // case 'mace':
+      //   itemIcon = mace;
+      //   break;
+      // case 'magic dagger':
+      //   itemIcon = magicDagger;
+      //   break;
+      // case 'short sword':
+      //   itemIcon = shortSword;
+      //   break;
+      // case 'short spear':
+      //   itemIcon = shortSpear;
+      //   break;
+      // case 'magic sword':
+      //   itemIcon = magicSword;
+      //   break;
+      // case 'morning star':
+      //   itemIcon = morningStar;
+      //   break;
 
       //RANGED
 

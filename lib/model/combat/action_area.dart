@@ -11,6 +11,7 @@ class ActionArea {
 
   void setArea(double angle, double distance, Position center, Range range) {
     double maxRange = distance * range.max;
+    double maxWidth = distance * range.width;
 
     switch (range.shape) {
       case 'rectangle':
@@ -24,12 +25,9 @@ class ActionArea {
         Path attackShape = Path();
         attackShape = Path();
         attackShape.moveTo(0, 0);
-        attackShape.lineTo(math.sqrt(2) / 2 * (maxRange + range.min),
-            math.sqrt(2) / 2 * (maxRange + range.min));
-        attackShape.arcToPoint(
-            Offset(-math.sqrt(2) / 2 * (maxRange + range.min),
-                math.sqrt(2) / 2 * (maxRange + range.min)),
-            radius: Radius.circular(maxRange + range.min));
+        attackShape.lineTo(range.width / 2, range.max);
+        attackShape.arcToPoint(Offset(-range.width / 2, range.max),
+            radius: Radius.circular(range.width / 2 + range.max / 2));
         attackShape.close();
 
         Path minDistanceShape = Path()
@@ -65,6 +63,24 @@ class ActionArea {
             Path.combine(PathOperation.difference, maxRangeShape, adjShape);
 
         area = Path.combine(PathOperation.difference, tempShape, minRangeShape);
+
+        break;
+
+      case 'triangle':
+        Path attackShape = Path();
+        attackShape = Path();
+        attackShape.moveTo(0, 0);
+        attackShape.lineTo(range.width / 2, 0);
+        attackShape.lineTo(0, range.max);
+        attackShape.lineTo(-range.width / 2, 0);
+        attackShape.close();
+
+        Path minDistanceShape = Path()
+          ..addOval(
+              Rect.fromCircle(center: const Offset(0, 0), radius: range.min));
+
+        area = Path.combine(
+            PathOperation.difference, attackShape, minDistanceShape);
 
         break;
     }
@@ -160,6 +176,24 @@ class ActionArea {
 
         getArea =
             Path.combine(PathOperation.difference, tempShape, minRangeShape);
+
+        break;
+
+      case 'triangle':
+        Path attackShape = Path();
+        attackShape = Path();
+        attackShape.moveTo(0, 0);
+        attackShape.lineTo(info.range.width / 2, 0);
+        attackShape.lineTo(0, info.range.max);
+        attackShape.lineTo(-info.range.width / 2, 0);
+        attackShape.close();
+
+        Path minDistanceShape = Path()
+          ..addOval(Rect.fromCircle(
+              center: const Offset(0, 0), radius: info.range.min));
+
+        getArea = Path.combine(
+            PathOperation.difference, attackShape, minDistanceShape);
 
         break;
     }

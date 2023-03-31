@@ -16,7 +16,7 @@ import '../../../model/player/player.dart';
 class ShopVM {
   final Shop _shop = Shop();
   int selectedMenu = 0;
-  String menuTitle = 'melee';
+  String menuTitle = 'light weapons';
   List<Item> fullItemList = [];
   List<Item> itemList = [];
   int selectedItemIndex = 0;
@@ -26,7 +26,7 @@ class ShopVM {
     switch (menuIndex) {
       case 0:
         selectedMenu = 0;
-        menuTitle = 'melee';
+        menuTitle = 'light weapons';
         break;
       case 1:
         selectedMenu = 1;
@@ -46,8 +46,8 @@ class ShopVM {
   void setShopMenu() {
     fullItemList = [];
     switch (menuTitle) {
-      case 'melee':
-        for (Item item in _shop.meleeWeapons) {
+      case 'light weapons':
+        for (Item item in _shop.lightWeapons) {
           fullItemList.add(item);
         }
         break;

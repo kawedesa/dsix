@@ -137,7 +137,7 @@ class _NewGameDialogState extends State<NewGameDialog> {
                             sliderDescription: 'normal',
                             color: AppColors.uiColor,
                             iconColor: AppColors.uiColorDark,
-                            icon: AppImages.sword,
+                            icon: AppImages.difficulty,
                             value: difficulty,
                             add: () {
                               setState(() {
