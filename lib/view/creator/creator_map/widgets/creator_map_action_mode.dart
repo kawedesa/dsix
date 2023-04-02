@@ -120,11 +120,17 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   ),
                   Stack(
                     children: _creatorMapController.createPlayerSprites(
-                        widget.mapInfo, players, npcs),
+                        widget.mapInfo,
+                        players,
+                        npcs,
+                        _creatorMapController.combat.actionArea.area),
                   ),
                   Stack(
                     children: _creatorMapController.createNpcSprites(
-                        widget.mapInfo, npcs, refresh),
+                        widget.mapInfo,
+                        npcs,
+                        _creatorMapController.combat.actionArea.area,
+                        refresh),
                   ),
                   _creatorMapController
                       .placeHereTarget(user.placeHere.getOffset()),
@@ -199,7 +205,7 @@ class CreatorMapActionModeController {
 
 //NPCS
   List<Widget> createNpcSprites(
-      MapInfo mapInfo, List<Npc> npcs, Function refresh) {
+      MapInfo mapInfo, List<Npc> npcs, Path attackArea, Function refresh) {
     List<Widget> npcSprites = [];
 
     for (Npc npc in npcs) {
@@ -211,6 +217,7 @@ class CreatorMapActionModeController {
         npcSprites.add(CreatorViewActionNpcSprite(
           npc: npc,
           mapInfo: mapInfo,
+          beingAttacked: attackArea.contains(npc.position.getOffset()),
           refresh: () {
             refresh();
           },
@@ -223,7 +230,7 @@ class CreatorMapActionModeController {
 
 //PLAYERS
   List<Widget> createPlayerSprites(
-      MapInfo mapInfo, List<Player> players, List<Npc> npcs) {
+      MapInfo mapInfo, List<Player> players, List<Npc> npcs, Path attackArea) {
     List<Widget> playerSprites = [];
 
     Path npcVisibleArea = getNpcsVisibleArea(mapInfo, npcs);
@@ -238,6 +245,7 @@ class CreatorMapActionModeController {
         } else {
           playerSprites.add(CreatorViewPlayerSprite(
             player: player,
+            beingAttacked: attackArea.contains(player.position.getOffset()),
             color: AppColors().getPlayerColor(player.id),
           ));
         }

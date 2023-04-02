@@ -15,11 +15,13 @@ import 'package:transparent_pointer/transparent_pointer.dart';
 class CreatorViewActionNpcSprite extends StatefulWidget {
   final Npc npc;
   final MapInfo mapInfo;
+  final bool beingAttacked;
   final Function() refresh;
   const CreatorViewActionNpcSprite({
     super.key,
     required this.npc,
     required this.mapInfo,
+    required this.beingAttacked,
     required this.refresh,
   });
 
@@ -58,6 +60,7 @@ class _CreatorViewActionNpcSpriteState
                     transparent: true,
                     child: NpcSpriteVisionRange(
                       selected: _controller.isSelected,
+                      beingAttacked: widget.beingAttacked,
                       range: widget.npc.vision.getRange(),
                     ),
                   ),
@@ -68,6 +71,7 @@ class _CreatorViewActionNpcSpriteState
                     transparent: true,
                     child: NpcSpriteMoveRange(
                       selected: _controller.isSelected,
+                      beingAttacked: widget.beingAttacked,
                       maxRange: widget.npc.movement.maxRange(),
                       distanceMoved: _controller.tempPosition.distanceMoved,
                     ),
@@ -153,8 +157,7 @@ class NpcSpriteController {
   }
 
   void endMove(Npc npc, MapInfo mapInfo) {
-    if (tempPosition.distanceMoved < npc.movement.maxRange() &&
-        tempPosition.distanceMoved > 4) {
+    if (tempPosition.distanceMoved < npc.movement.maxRange()) {
       tempPosition.newPosition.tile =
           mapInfo.getTile(tempPosition.newPosition.getOffset());
       npc.changePosition(tempPosition.newPosition);
@@ -167,12 +170,14 @@ class NpcSpriteController {
 // ignore: must_be_immutable
 class NpcSpriteMoveRange extends StatelessWidget {
   final bool selected;
+  final bool beingAttacked;
   final double maxRange;
   final double distanceMoved;
 
   const NpcSpriteMoveRange({
     Key? key,
     required this.selected,
+    required this.beingAttacked,
     required this.maxRange,
     required this.distanceMoved,
   }) : super(key: key);
@@ -186,12 +191,12 @@ class NpcSpriteMoveRange extends StatelessWidget {
         rangeColor = AppColors.uiColorLight.withAlpha(25);
       }
 
-      if (distanceMoved > 0 && distanceMoved < 4) {
-        rangeColor = AppColors.negative.withAlpha(25);
+      if (distanceMoved > maxRange) {
+        rangeColor = AppColors.cancel.withAlpha(200);
       }
 
-      if (distanceMoved > maxRange) {
-        rangeColor = AppColors.negative.withAlpha(25);
+      if (beingAttacked) {
+        rangeColor = AppColors.cancel.withAlpha(200);
       }
 
       return rangeColor;
@@ -204,12 +209,12 @@ class NpcSpriteMoveRange extends StatelessWidget {
         rangeColor = AppColors.uiColorLight.withAlpha(200);
       }
 
-      if (distanceMoved > 0 && distanceMoved < 4) {
-        rangeColor = AppColors.negative.withAlpha(100);
+      if (distanceMoved > maxRange) {
+        rangeColor = AppColors.cancel;
       }
 
-      if (distanceMoved > maxRange) {
-        rangeColor = AppColors.negative.withAlpha(100);
+      if (beingAttacked) {
+        rangeColor = AppColors.cancel;
       }
 
       return rangeColor;
@@ -250,12 +255,15 @@ class NpcSpriteMoveRange extends StatelessWidget {
 
 // ignore: must_be_immutable
 class NpcSpriteVisionRange extends StatelessWidget {
-  final double range;
   final bool selected;
+  final bool beingAttacked;
+  final double range;
+
   const NpcSpriteVisionRange({
     Key? key,
-    required this.range,
     required this.selected,
+    required this.beingAttacked,
+    required this.range,
   }) : super(key: key);
 
   @override
@@ -263,9 +271,11 @@ class NpcSpriteVisionRange extends StatelessWidget {
     return DottedBorder(
       borderType: BorderType.Circle,
       dashPattern: const [3, 6],
-      color: (selected)
-          ? AppColors.uiColorLight.withAlpha(200)
-          : Colors.transparent,
+      color: (beingAttacked)
+          ? AppColors.cancel.withAlpha(200)
+          : (selected)
+              ? AppColors.uiColorLight.withAlpha(200)
+              : Colors.transparent,
       strokeWidth: 0.3,
       child: AnimatedContainer(
         curve: Curves.fastLinearToSlowEaseIn,

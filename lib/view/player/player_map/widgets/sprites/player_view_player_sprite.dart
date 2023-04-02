@@ -137,8 +137,7 @@ class PlayerSpriteController {
   }
 
   void endMove(Player player, MapInfo mapInfo) {
-    if (tempPosition.distanceMoved < player.attributes.movement.maxRange() &&
-        tempPosition.distanceMoved > 4) {
+    if (tempPosition.distanceMoved < player.attributes.movement.maxRange()) {
       tempPosition.newPosition.tile =
           mapInfo.getTile(tempPosition.newPosition.getOffset());
       player.changePosition(tempPosition.newPosition);
@@ -168,10 +167,8 @@ class PlayerSpriteMoveRange extends StatelessWidget {
       if (distanceMoved == 0) {
         rangeColor = color;
       }
-      if (distanceMoved > 0 && distanceMoved < 4) {
-        rangeColor = AppColors.negative;
-      }
-      if (distanceMoved > 4 && distanceMoved < maxRange) {
+
+      if (distanceMoved < maxRange) {
         rangeColor = rangeColor;
       }
       if (distanceMoved > maxRange) {

@@ -61,9 +61,10 @@ class Combat {
       distance = 1;
     }
 
-    actionArea.setArea(angle, distance, actionCenter, attack.range);
     battleLog.setAttackInfo(attack.name, angle, distance, actionCenter,
         attack.damage, attack.range);
+
+    actionArea.setArea(battleLog.attackInfo);
   }
 
   void confirmAttack(List<Npc> npcs, List<Player> players) {

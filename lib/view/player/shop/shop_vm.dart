@@ -30,14 +30,22 @@ class ShopVM {
         break;
       case 1:
         selectedMenu = 1;
-        menuTitle = 'ranged';
+        menuTitle = 'heavy weapons';
         break;
       case 2:
         selectedMenu = 2;
-        menuTitle = 'armor';
+        menuTitle = 'ranged weapons';
         break;
       case 3:
         selectedMenu = 3;
+        menuTitle = 'magic weapons';
+        break;
+      case 4:
+        selectedMenu = 4;
+        menuTitle = 'armor';
+        break;
+      case 5:
+        selectedMenu = 5;
         menuTitle = 'consumables';
         break;
     }
@@ -51,10 +59,18 @@ class ShopVM {
           fullItemList.add(item);
         }
         break;
-      case 'ranged':
+      case 'heavy weapons':
+        for (Item item in _shop.heavyWeapons) {
+          fullItemList.add(item);
+        }
+        break;
+      case 'ranged weapons':
         for (Item item in _shop.rangedWeapons) {
           fullItemList.add(item);
         }
+        break;
+      case 'magic weapons':
+        //TODO magic weapons
         break;
       case 'armor':
         for (Item item in _shop.armor) {

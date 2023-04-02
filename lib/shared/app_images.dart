@@ -81,12 +81,7 @@ class AppImages {
   static const offHandSlot = 'assets/images/ui/offHandSlot.svg';
 
   //Item
-
   static const punch = 'assets/images/items/punch.svg';
-
-  //VALUABLES
-
-  static const gold = 'assets/images/items/gold.svg';
 
   //Light Weapons
   static const batton = 'assets/images/items/batton.svg';
@@ -106,29 +101,33 @@ class AppImages {
   static const woodAxe = 'assets/images/items/woodAxe.svg';
 
   //Heavy Weapons
-  static const longSpear = 'assets/images/items/longSpear.svg';
-  static const quarterstaff = 'assets/images/items/quarterstaff.svg';
-  static const doubleSword = 'assets/images/items/doubleSword.svg';
-  static const trident = 'assets/images/items/trident.svg';
-  static const battleAxe = 'assets/images/items/battleAxe.svg';
-  static const halberd = 'assets/images/items/halberd.svg';
+  static const giantClub = 'assets/images/items/giantClub.svg';
   static const warHammer = 'assets/images/items/warHammer.svg';
+  static const katana = 'assets/images/items/katana.svg';
+  static const longSword = 'assets/images/items/longSword.svg';
+  static const battleAxe = 'assets/images/items/battleAxe.svg';
+  static const doubleSword = 'assets/images/items/doubleSword.svg';
+  static const quarterstaff = 'assets/images/items/quarterstaff.svg';
+  static const trident = 'assets/images/items/trident.svg';
+  static const longSpear = 'assets/images/items/longSpear.svg';
   static const greatSword = 'assets/images/items/greatSword.svg';
+  static const halberd = 'assets/images/items/halberd.svg';
+  static const longAxe = 'assets/images/items/longAxe.svg';
 
   //Ranged Weapons
-  static const blowgun = 'assets/images/items/blowgun.svg';
   static const boomerang = 'assets/images/items/boomerang.svg';
-  static const javelins = 'assets/images/items/javelins.svg';
-  static const grenades = 'assets/images/items/grenades.svg';
-  static const shortBow = 'assets/images/items/shortBow.svg';
-  static const kunai = 'assets/images/items/kunai.svg';
-  static const handCrossbow = 'assets/images/items/handCrossbow.svg';
-  static const longBow = 'assets/images/items/longBow.svg';
-  static const greatBow = 'assets/images/items/greatBow.svg';
-  static const lightCrossbow = 'assets/images/items/lightCrossbow.svg';
+  static const compositeBow = 'assets/images/items/compositeBow.svg';
   static const handCannon = 'assets/images/items/handCannon.svg';
+  static const handCrossbow = 'assets/images/items/handCrossbow.svg';
   static const heavyCrossbow = 'assets/images/items/heavyCrossbow.svg';
+  static const javelins = 'assets/images/items/javelins.svg';
+  static const kunai = 'assets/images/items/kunai.svg';
+  static const lightCrossbow = 'assets/images/items/lightCrossbow.svg';
+  static const longBow = 'assets/images/items/longBow.svg';
   static const musket = 'assets/images/items/musket.svg';
+  static const poisonDart = 'assets/images/items/poisonDart.svg';
+  static const shortBow = 'assets/images/items/shortBow.svg';
+  static const whip = 'assets/images/items/whip.svg';
 
   //Magic Weapons
   static const magicOrb = 'assets/images/items/magicOrb.svg';
@@ -165,6 +164,9 @@ class AppImages {
   static const ward = 'assets/images/items/ward.svg';
   static const food = 'assets/images/items/food.svg';
   static const healingPotion = 'assets/images/items/healingPotion.svg';
+
+  //VALUABLES
+  static const gold = 'assets/images/items/gold.svg';
 
   String getItemIcon(String item) {
     String itemIcon = '';
@@ -226,45 +228,83 @@ class AppImages {
         itemIcon = woodAxe;
         break;
 
-      // //MELEE
-      // case 'mace':
-      //   itemIcon = mace;
-      //   break;
-      // case 'magic dagger':
-      //   itemIcon = magicDagger;
-      //   break;
-      // case 'short sword':
-      //   itemIcon = shortSword;
-      //   break;
-      // case 'short spear':
-      //   itemIcon = shortSpear;
-      //   break;
-      // case 'magic sword':
-      //   itemIcon = magicSword;
-      //   break;
-      // case 'morning star':
-      //   itemIcon = morningStar;
-      //   break;
+      //HEAVY WEAPONS
+      case 'giant club':
+        itemIcon = giantClub;
+        break;
+      case 'war hammer':
+        itemIcon = warHammer;
+        break;
+      case 'katana':
+        itemIcon = katana;
+        break;
+      case 'long sword':
+        itemIcon = longSword;
+        break;
+      case 'battle axe':
+        itemIcon = battleAxe;
+        break;
+      case 'double sword':
+        itemIcon = doubleSword;
+        break;
+      case 'quarterstaff':
+        itemIcon = quarterstaff;
+        break;
+      case 'trident':
+        itemIcon = trident;
+        break;
+      case 'long spear':
+        itemIcon = longSpear;
+        break;
+      case 'great sword':
+        itemIcon = greatSword;
+        break;
+      case 'halberd':
+        itemIcon = halberd;
+        break;
+      case 'long axe':
+        itemIcon = longAxe;
+        break;
 
       //RANGED
-
-      case 'magic orb':
-        itemIcon = magicOrb;
+      case 'boomerang':
+        itemIcon = boomerang;
         break;
-      case 'grenades':
-        itemIcon = grenades;
+      case 'composite bow':
+        itemIcon = compositeBow;
         break;
-      case 'wand':
-        itemIcon = wand;
+      case 'hand cannon':
+        itemIcon = handCannon;
         break;
-      case 'short bow':
-        itemIcon = shortBow;
+      case 'hand crossbow':
+        itemIcon = handCrossbow;
+        break;
+      case 'heavy crossbow':
+        itemIcon = heavyCrossbow;
+        break;
+      case 'javelins':
+        itemIcon = javelins;
+        break;
+      case 'kunai':
+        itemIcon = kunai;
+        break;
+      case 'light crossbow':
+        itemIcon = lightCrossbow;
         break;
       case 'long bow':
         itemIcon = longBow;
         break;
       case 'musket':
         itemIcon = musket;
+        break;
+      case 'poison dart':
+        itemIcon = poisonDart;
+        break;
+      case 'short bow':
+        itemIcon = shortBow;
+        break;
+      case 'whip':
+        itemIcon = whip;
         break;
 
       //ARMOR

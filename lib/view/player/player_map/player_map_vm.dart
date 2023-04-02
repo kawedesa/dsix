@@ -21,7 +21,7 @@ class PlayerMapVM {
   //SPRITES
   //NPC
   Widget createNpcSprites(context, MapInfo mapInfo, List<Npc> npcs,
-      List<Player> players, Function() refresh) {
+      List<Player> players, Path attackArea, Function() refresh) {
     List<Widget> npcSprites = [];
 
     Path playersVisibleArea = getPlayersVisibleArea(mapInfo, players);
@@ -45,6 +45,7 @@ class PlayerMapVM {
         } else {
           npcSprites.add(PlayerViewNpcSprite(
             npc: npc,
+            beingAttacked: attackArea.contains(npc.position.getOffset()),
             onTap: () {},
           ));
         }

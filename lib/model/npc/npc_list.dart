@@ -298,7 +298,7 @@ class NpcList {
       Attack(
         name: 'drain',
         damage: Damage(pDamage: 0, mDamage: 2, rawDamage: 0),
-        range: Range(min: 0.05, max: 5, width: 0, shape: 'torus'),
+        range: Range(min: 0.05, max: 5, width: 0, shape: 'ring'),
         effects: ['drain'],
       ),
       Attack(
