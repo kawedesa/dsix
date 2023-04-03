@@ -7,6 +7,7 @@ import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
+import 'package:dsix/shared/app_widgets/map/ui/effects_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -46,12 +47,12 @@ class _CreatorViewActionNpcSpriteState
         update: (context, _, tempPosition) => tempPosition!..panEnd(),
         child: Positioned(
           left: _controller.tempPosition.newPosition.dx -
-              (widget.npc.vision.getRange() / 2),
+              (widget.npc.attributes.vision.getRange() / 2),
           top: _controller.tempPosition.newPosition.dy -
-              (widget.npc.vision.getRange() / 2),
+              (widget.npc.attributes.vision.getRange() / 2),
           child: SizedBox(
-            width: widget.npc.vision.getRange(),
-            height: widget.npc.vision.getRange(),
+            width: widget.npc.attributes.vision.getRange(),
+            height: widget.npc.attributes.vision.getRange(),
             child: Stack(
               children: [
                 Align(
@@ -61,7 +62,7 @@ class _CreatorViewActionNpcSpriteState
                     child: NpcSpriteVisionRange(
                       selected: _controller.isSelected,
                       beingAttacked: widget.beingAttacked,
-                      range: widget.npc.vision.getRange(),
+                      range: widget.npc.attributes.vision.getRange(),
                     ),
                   ),
                 ),
@@ -72,11 +73,20 @@ class _CreatorViewActionNpcSpriteState
                     child: NpcSpriteMoveRange(
                       selected: _controller.isSelected,
                       beingAttacked: widget.beingAttacked,
-                      maxRange: widget.npc.movement.maxRange(),
+                      maxRange: widget.npc.attributes.movement.maxRange(),
                       distanceMoved: _controller.tempPosition.distanceMoved,
                     ),
                   ),
                 ),
+                Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: widget.npc.size * 2),
+                      child: EffectsUi(
+                          effects: widget.npc.effects.currentEffects,
+                          tempArmor: widget.npc.attributes.defense.tempArmor,
+                          tempVision: widget.npc.attributes.vision.tempVision),
+                    )),
                 Align(
                   alignment: Alignment.center,
                   child: GestureDetector(
@@ -152,12 +162,13 @@ class NpcSpriteController {
   }
 
   Offset getPosition(Npc npc) {
-    return Offset(tempPosition.newPosition.dx - npc.vision.getRange() / 2,
-        tempPosition.newPosition.dy - npc.vision.getRange() / 2);
+    return Offset(
+        tempPosition.newPosition.dx - npc.attributes.vision.getRange() / 2,
+        tempPosition.newPosition.dy - npc.attributes.vision.getRange() / 2);
   }
 
   void endMove(Npc npc, MapInfo mapInfo) {
-    if (tempPosition.distanceMoved < npc.movement.maxRange()) {
+    if (tempPosition.distanceMoved < npc.attributes.movement.maxRange()) {
       tempPosition.newPosition.tile =
           mapInfo.getTile(tempPosition.newPosition.getOffset());
       npc.changePosition(tempPosition.newPosition);

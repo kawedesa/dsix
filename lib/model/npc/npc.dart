@@ -1,9 +1,9 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/combat/armor.dart';
 import 'package:dsix/model/combat/attack.dart';
-import 'package:dsix/model/combat/attribute/movement.dart';
-import 'package:dsix/model/combat/attribute/power.dart';
-import 'package:dsix/model/combat/attribute/vision.dart';
+import 'package:dsix/model/combat/attribute/attribute.dart';
 import 'package:dsix/model/combat/effect/effect.dart';
 import 'package:dsix/model/combat/effect/effect_controller.dart';
 import 'package:dsix/model/combat/life.dart';
@@ -19,9 +19,7 @@ class Npc {
   double size;
   Life life;
   Armor armor;
-  Power power;
-  Movement movement;
-  Vision vision;
+  Attribute attributes;
   Position position;
   List<Attack> attacks;
   EffectController effects;
@@ -34,9 +32,7 @@ class Npc {
     required this.size,
     required this.life,
     required this.armor,
-    required this.power,
-    required this.movement,
-    required this.vision,
+    required this.attributes,
     required this.position,
     required this.attacks,
     required this.effects,
@@ -55,9 +51,7 @@ class Npc {
       'size': size,
       'life': life.toMap(),
       'armor': armor.toMap(),
-      'power': power.toMap(),
-      'movement': movement.toMap(),
-      'vision': vision.toMap(),
+      'attributes': attributes.toMap(),
       'position': position.toMap(),
       'attacks': attacksToMap,
       'effects': effects.toMap(),
@@ -85,14 +79,19 @@ class Npc {
       size: data?['size'] * 1.0,
       life: Life.fromMap(data?['life']),
       armor: Armor.fromMap(data?['armor']),
-      power: Power.fromMap(data?['power']),
-      movement: Movement.fromMap(data?['movement']),
-      vision: Vision.fromMap(data?['vision']),
+      attributes: Attribute.fromMap(data?['attributes']),
       position: Position.fromMap(data?['position']),
       attacks: getAttacks,
       effects: EffectController.fromMap(data?['effects']),
       loot: getLoot,
     );
+  }
+
+  void passTurn() {
+    checkEffects();
+    attributes.defense.resetTempDefense();
+    attributes.vision.resetTempVision();
+    update();
   }
 
   void changePosition(Position newPosition) {
@@ -103,20 +102,42 @@ class Npc {
   Attack attack(Attack attack) {
     Attack npcAttack = attack;
 
-    npcAttack.damage.rawDamage = power.getRawDamage();
+    npcAttack.damage.rawDamage = attributes.power.getRawDamage();
 
     return npcAttack;
   }
 
   int receiveAttack(Attack attack) {
+    int pArmor = armor.pArmor;
+    int mArmor = armor.mArmor;
     int leftOverArmor = 0;
 
-    int pDamage = attack.damage.pDamage - armor.pArmor;
+    if (effects.isVulnerable()) {
+      pArmor = pArmor ~/ 2;
+      mArmor = mArmor ~/ 2;
+    }
+
+    if (attack.damage.pierce > 0) {
+      pArmor -= attack.damage.pierce;
+      mArmor -= attack.damage.pierce;
+
+      if (pArmor < 0) {
+        pArmor = 0;
+      }
+      if (mArmor < 0) {
+        mArmor = 0;
+      }
+    }
+
+    int pDamage = attack.damage.pDamage - pArmor;
+
     if (pDamage < 0) {
       leftOverArmor += pDamage.abs() ~/ 2;
       pDamage = 0;
     }
-    int mDamage = attack.damage.mDamage - armor.mArmor;
+
+    int mDamage = attack.damage.mDamage - mArmor;
+
     if (mDamage < 0) {
       leftOverArmor += mDamage.abs() ~/ 2;
       mDamage = 0;
@@ -128,9 +149,10 @@ class Npc {
     if (totalDamage > 0) {
       life.receiveDamage(totalDamage);
       receiveEffects(attack.effects);
+    } else {
+      totalDamage = 0;
+      update();
     }
-
-    update();
 
     return totalDamage;
   }
@@ -163,12 +185,20 @@ class Npc {
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
-    }
-  }
+      case 'vulnerable':
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 0, countdown: 1));
+        break;
 
-  void passTurn() {
-    checkEffects();
-    update();
+      case 'stun':
+        attributes.movement.removeAttribute();
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 0, countdown: 1));
+        break;
+      case 'thorn':
+        life.receiveDamage(1);
+        break;
+    }
   }
 
   void checkEffects() {
@@ -182,25 +212,61 @@ class Npc {
     }
 
     for (Effect effect in effectsToRemove) {
-      effects.removeEffect(effect);
+      removeEffects(effect);
     }
   }
 
   void triggerEffects(Effect effect) {
     switch (effect.name) {
       case 'poison':
-        effect.countdown--;
+        effect.decreaseCountdown();
         life.receiveDamage(effect.value);
         break;
       case 'bleed':
-        effect.countdown--;
+        effect.decreaseCountdown();
         life.receiveDamage(effect.value);
+        break;
+      case 'vulnerable':
+        effect.decreaseCountdown();
+        break;
+      case 'stun':
+        effect.decreaseCountdown();
+        break;
+    }
+  }
+
+  void removeEffects(Effect effect) {
+    switch (effect.name) {
+      case 'poison':
+        effects.removeEffect(effect);
+        break;
+      case 'bleed':
+        effects.removeEffect(effect);
+        break;
+      case 'vulnerable':
+        effects.removeEffect(effect);
+        break;
+      case 'stun':
+        attributes.movement.addAttribute();
+        effects.removeEffect(effect);
         break;
     }
   }
 
   void createLoot() {
-    loot = Shop().createRandomLoot(xp);
+    int lootValue = 0;
+    switch (xp) {
+      case 4:
+        lootValue = 50 + (Random().nextDouble() * 100).toInt();
+        break;
+      case 10:
+        lootValue = 100 + (Random().nextDouble() * 150).toInt();
+        break;
+      case 14:
+        lootValue = 150 + (Random().nextDouble() * 200).toInt();
+        break;
+    }
+    loot = Shop().createRandomLoot(lootValue);
     update();
   }
 
@@ -218,7 +284,7 @@ class Npc {
     Path area = Path()
       ..addOval(Rect.fromCircle(
           center: Offset(position.dx, position.dy),
-          radius: vision.getRange() / 2));
+          radius: attributes.vision.getRange() / 2));
 
     return area;
   }

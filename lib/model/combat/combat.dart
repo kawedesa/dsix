@@ -76,9 +76,11 @@ class Combat {
   void attackNpcs(List<Npc> npcs) {
     for (Npc npc in npcs) {
       if (actionArea.insideArea(npc.position)) {
-        int damage = 0;
+        if (attack.type == 'melee') {
+          applyOnBeignHitEffects(npc.effects.onBeignHitEffects);
+        }
 
-        applyOnBeignHitEffects(npc.effects.onBeignHitEffects);
+        int damage = 0;
         damage = npc.receiveAttack(attack);
 
         battleLog.addTarget(npc.id.toString(), 'npc', npc.position, damage);
@@ -93,9 +95,11 @@ class Combat {
   void attackPlayers(List<Player> players) {
     for (Player player in players) {
       if (actionArea.insideArea(player.position)) {
-        int damage = 0;
+        if (attack.type == 'melee') {
+          applyOnBeignHitEffects(player.effects.onBeignHitEffects);
+        }
 
-        applyOnBeignHitEffects(player.effects.onBeignHitEffects);
+        int damage = 0;
         damage = player.receiveAttack(attack);
 
         battleLog.addTarget(player.id, 'player', player.position, damage);
@@ -105,11 +109,24 @@ class Combat {
 
   void applyOnBeignHitEffects(List<String> effects) {
     if (selectedNpc != null) {
+      int checkLife = selectedNpc!.life.current;
+
       selectedNpc!.receiveEffects(effects);
+      int damage = checkLife - selectedNpc!.life.current;
+      if (damage > 0) {
+        battleLog.addTarget(
+            selectedNpc!.id.toString(), 'npc', selectedNpc!.position, damage);
+      }
     }
 
     if (selectedPlayer != null) {
+      int checkLife = selectedPlayer!.life.current;
       selectedPlayer!.receiveEffects(effects);
+      int damage = checkLife - selectedPlayer!.life.current;
+      if (damage > 0) {
+        battleLog.addTarget(selectedPlayer!.id.toString(), 'player',
+            selectedPlayer!.position, damage);
+      }
     }
   }
 }

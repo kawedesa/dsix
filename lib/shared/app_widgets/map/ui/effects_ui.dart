@@ -1,8 +1,54 @@
 import 'package:dsix/model/combat/effect/effect.dart';
-import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+class EffectsUi extends StatelessWidget {
+  final List<Effect> effects;
+  final int tempArmor;
+  final int tempVision;
+  const EffectsUi(
+      {super.key,
+      required this.effects,
+      required this.tempArmor,
+      required this.tempVision});
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> effectsIcons = [];
+
+    if (tempArmor != 0) {
+      effectsIcons.add(SpriteEffects(
+          effect: Effect(
+        name: 'tempArmor',
+        description: '',
+        value: tempArmor,
+        countdown: 0,
+      )));
+    }
+    if (tempVision != 0) {
+      effectsIcons.add(SpriteEffects(
+          effect: Effect(
+        name: 'tempVision',
+        description: '',
+        value: tempVision,
+        countdown: 0,
+      )));
+    }
+    for (Effect effect in effects) {
+      effectsIcons.add(SpriteEffects(effect: effect));
+    }
+
+    return SizedBox(
+      width: 3.1 * effectsIcons.length,
+      height: 3.1 * effectsIcons.length,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: effectsIcons,
+      ),
+    );
+  }
+}
 
 class SpriteEffects extends StatelessWidget {
   final Effect effect;
@@ -17,6 +63,12 @@ class SpriteEffects extends StatelessWidget {
         displayNumber = effect.countdown;
         break;
       case 'bleed':
+        displayNumber = effect.countdown;
+        break;
+      case 'vulnerable':
+        displayNumber = effect.countdown;
+        break;
+      case 'stun':
         displayNumber = effect.countdown;
         break;
       case 'tempArmor':
@@ -36,7 +88,6 @@ class SpriteEffects extends StatelessWidget {
             alignment: Alignment.center,
             child: SvgPicture.asset(
               AppImages().getEffectIcon(effect.name),
-              color: AppColors().getEffectColor(effect.name),
             ),
           ),
           Align(

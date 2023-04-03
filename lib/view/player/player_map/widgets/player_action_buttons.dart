@@ -3,7 +3,7 @@ import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
-import 'package:dsix/shared/app_widgets/map/attack_button.dart';
+import 'package:dsix/shared/app_widgets/map/ui/attack_button.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:flutter/material.dart';
 

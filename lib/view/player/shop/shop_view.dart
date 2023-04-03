@@ -45,7 +45,7 @@ class _ShopViewState extends State<ShopView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppCircularButton(
-                  icon: AppImages.meleeWeaponMenu,
+                  icon: AppImages.menuLightWeapon,
                   iconColor: user.darkColor,
                   borderColor: (_shopVM.selectedMenu == 0)
                       ? user.lightColor
@@ -59,7 +59,7 @@ class _ShopViewState extends State<ShopView> {
                   },
                 ),
                 AppCircularButton(
-                  icon: AppImages.rangedWeaponMenu,
+                  icon: AppImages.menuHeavyWeapon,
                   iconColor: user.darkColor,
                   borderColor: (_shopVM.selectedMenu == 1)
                       ? user.lightColor
@@ -73,7 +73,7 @@ class _ShopViewState extends State<ShopView> {
                   },
                 ),
                 AppCircularButton(
-                  icon: AppImages.armorMenu,
+                  icon: AppImages.menuRangedWeapon,
                   iconColor: user.darkColor,
                   borderColor: (_shopVM.selectedMenu == 2)
                       ? user.lightColor
@@ -87,7 +87,7 @@ class _ShopViewState extends State<ShopView> {
                   },
                 ),
                 AppCircularButton(
-                  icon: AppImages.consumableMenu,
+                  icon: AppImages.menuMagicWeapon,
                   iconColor: user.darkColor,
                   borderColor: (_shopVM.selectedMenu == 3)
                       ? user.lightColor
@@ -97,6 +97,34 @@ class _ShopViewState extends State<ShopView> {
                   onTap: () {
                     setState(() {
                       _shopVM.changeMenu(3);
+                    });
+                  },
+                ),
+                AppCircularButton(
+                  icon: AppImages.menuArmor,
+                  iconColor: user.darkColor,
+                  borderColor: (_shopVM.selectedMenu == 4)
+                      ? user.lightColor
+                      : user.color,
+                  color: user.color,
+                  size: 0.04,
+                  onTap: () {
+                    setState(() {
+                      _shopVM.changeMenu(4);
+                    });
+                  },
+                ),
+                AppCircularButton(
+                  icon: AppImages.menuConsumable,
+                  iconColor: user.darkColor,
+                  borderColor: (_shopVM.selectedMenu == 5)
+                      ? user.lightColor
+                      : user.color,
+                  color: user.color,
+                  size: 0.04,
+                  onTap: () {
+                    setState(() {
+                      _shopVM.changeMenu(5);
                     });
                   },
                 ),

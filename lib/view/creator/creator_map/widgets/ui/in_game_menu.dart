@@ -1,3 +1,5 @@
+import 'package:dsix/model/combat/battle_log.dart';
+import 'package:dsix/model/combat/combat.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
@@ -13,6 +15,7 @@ import 'package:provider/provider.dart';
 
 class InGameMenu extends StatefulWidget {
   final bool active;
+
   final Function() refresh;
   const InGameMenu({super.key, required this.active, required this.refresh});
 
@@ -22,17 +25,30 @@ class InGameMenu extends StatefulWidget {
 
 class _InGameMenuState extends State<InGameMenu> {
   void passTurn(Game game, List<Npc> npcs, List<Player> players) {
-    game.passTurn();
+    BattleLog battleLog = BattleLog.empty();
 
     if (game.turn.currentTurn == 'player') {
       for (Player player in players) {
+        int checkLife = player.life.current;
         player.passTurn();
+        int damage = checkLife - player.life.current;
+        if (damage > 0) {
+          battleLog.addTarget(player.id, 'player', player.position, damage);
+        }
       }
     } else {
       for (Npc npc in npcs) {
+        int checkLife = npc.life.current;
         npc.passTurn();
+        int damage = checkLife - npc.life.current;
+        if (damage > 0) {
+          battleLog.addTarget(npc.id.toString(), 'npc', npc.position, damage);
+        }
       }
     }
+
+    game.passTurn();
+    battleLog.newBattleLog();
   }
 
   @override

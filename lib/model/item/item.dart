@@ -5,9 +5,6 @@ class Item {
   String name;
   String description;
   String itemSlot;
-  String type;
-  bool isLoaded;
-  bool needsReload;
   List<String> effects;
   List<Attack> attacks;
   Armor armor;
@@ -19,9 +16,6 @@ class Item {
     required this.name,
     required this.description,
     required this.itemSlot,
-    required this.type,
-    required this.isLoaded,
-    required this.needsReload,
     required this.effects,
     required this.attacks,
     required this.armor,
@@ -47,9 +41,6 @@ class Item {
       name: data?['name'],
       description: data?['description'],
       itemSlot: data?['itemSlot'],
-      type: data?['type'],
-      isLoaded: data?['isLoaded'],
-      needsReload: data?['needsReload'],
       effects: getEffects,
       attacks: getAttacks,
       armor: Armor.fromMap(data?['armor']),
@@ -66,9 +57,6 @@ class Item {
       'name': name,
       'description': description,
       'itemSlot': itemSlot,
-      'type': type,
-      'isLoaded': isLoaded,
-      'needsReload': needsReload,
       'effects': effects,
       'attacks': attacksToMap,
       'armor': armor.toMap(),
@@ -83,9 +71,6 @@ class Item {
       name: 'empty',
       description: '',
       itemSlot: '',
-      type: '',
-      isLoaded: false,
-      needsReload: false,
       effects: [],
       attacks: [],
       armor: Armor.empty(),

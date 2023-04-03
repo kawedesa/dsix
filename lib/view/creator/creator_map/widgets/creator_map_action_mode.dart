@@ -12,7 +12,7 @@ import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
 import 'package:dsix/shared/app_widgets/map/action_area_sprite.dart';
-import 'package:dsix/shared/app_widgets/map/attack_button.dart';
+import 'package:dsix/shared/app_widgets/map/ui/attack_button.dart';
 import 'package:dsix/shared/app_widgets/map/map_animation/map_animation.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/vision_grid.dart';
@@ -265,7 +265,8 @@ class CreatorMapActionModeController {
         Path npcVision = Path.combine(PathOperation.difference,
             npc.getVisionArea(), VisionGrid().getGrid(npc.position));
 
-        if (npc.position.tile == 'grass' || npc.vision.canSeeInvisible) {
+        if (npc.position.tile == 'grass' ||
+            npc.attributes.vision.canSeeInvisible) {
           npcVisibleArea = npcVision;
         } else {
           npcVisibleArea =

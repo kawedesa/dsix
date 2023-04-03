@@ -1,6 +1,6 @@
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_widgets/map/map_text.dart';
+import 'package:dsix/shared/app_widgets/map/ui/map_text.dart';
 import 'package:flutter/material.dart';
 
 class DamageAnimation extends StatefulWidget {

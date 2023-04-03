@@ -70,7 +70,9 @@ class ShopVM {
         }
         break;
       case 'magic weapons':
-        //TODO magic weapons
+        for (Item item in _shop.magicWeapons) {
+          fullItemList.add(item);
+        }
         break;
       case 'armor':
         for (Item item in _shop.armor) {
@@ -78,7 +80,7 @@ class ShopVM {
         }
         break;
       case 'consumables':
-        for (Item item in _shop.consumable) {
+        for (Item item in _shop.consumables) {
           fullItemList.add(item);
         }
         break;

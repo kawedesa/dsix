@@ -1,10 +1,11 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:dsix/model/combat/effect/effect.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
-import 'package:dsix/shared/app_widgets/map/player_effects_ui.dart';
+import 'package:dsix/shared/app_widgets/map/ui/effects_ui.dart';
 import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +63,16 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                       distanceMoved: _controller.tempPosition.distanceMoved,
                       color: widget.color),
                 ),
-                PlayerEffectUi(player: widget.player),
+                Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: widget.player.size * 2),
+                      child: EffectsUi(
+                          effects: widget.player.effects.currentEffects,
+                          tempArmor: widget.player.attributes.defense.tempArmor,
+                          tempVision:
+                              widget.player.attributes.vision.tempVision),
+                    )),
                 Align(
                   alignment: Alignment.center,
                   child: Padding(
@@ -164,9 +174,17 @@ class PlayerSpriteMoveRange extends StatelessWidget {
     Color getColor() {
       Color rangeColor = color;
 
-      if (distanceMoved == 0) {
-        rangeColor = color;
+      if (distanceMoved < maxRange) {
+        rangeColor = rangeColor.withAlpha(25);
       }
+      if (distanceMoved > maxRange) {
+        rangeColor = AppColors.negative.withAlpha(200);
+      }
+      return rangeColor;
+    }
+
+    Color getStrokeColor() {
+      Color rangeColor = color;
 
       if (distanceMoved < maxRange) {
         rangeColor = rangeColor;
@@ -201,10 +219,10 @@ class PlayerSpriteMoveRange extends StatelessWidget {
       width: getRange(),
       height: getRange(),
       decoration: BoxDecoration(
-        color: getColor().withAlpha(25),
+        color: getColor(),
         shape: BoxShape.circle,
         border: Border.all(
-          color: getColor(),
+          color: getStrokeColor(),
           width: 0.3,
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_widgets/map/ui/effects_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,11 +25,12 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: widget.npc.position.dx - widget.npc.vision.getRange() / 2,
-      top: widget.npc.position.dy - widget.npc.vision.getRange() / 2,
+      left:
+          widget.npc.position.dx - widget.npc.attributes.vision.getRange() / 2,
+      top: widget.npc.position.dy - widget.npc.attributes.vision.getRange() / 2,
       child: SizedBox(
-        width: widget.npc.vision.getRange(),
-        height: widget.npc.vision.getRange(),
+        width: widget.npc.attributes.vision.getRange(),
+        height: widget.npc.attributes.vision.getRange(),
         child: Stack(
           children: [
             Align(
@@ -55,6 +57,15 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
                       ),
               ),
             ),
+            Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: widget.npc.size * 2),
+                  child: EffectsUi(
+                      effects: widget.npc.effects.currentEffects,
+                      tempArmor: widget.npc.attributes.defense.tempArmor,
+                      tempVision: widget.npc.attributes.vision.tempVision),
+                )),
             Align(
               alignment: Alignment.center,
               child: GestureDetector(

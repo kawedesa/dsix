@@ -1,6 +1,6 @@
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_widgets/map/player_effects_ui.dart';
+import 'package:dsix/shared/app_widgets/map/ui/effects_ui.dart';
 import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
@@ -62,6 +62,15 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
                 ),
               ),
               Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: widget.player.size * 2),
+                    child: EffectsUi(
+                        effects: widget.player.effects.currentEffects,
+                        tempArmor: widget.player.attributes.defense.tempArmor,
+                        tempVision: widget.player.attributes.vision.tempVision),
+                  )),
+              Align(
                 alignment: Alignment.center,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: widget.player.size),
@@ -96,7 +105,6 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
                   ),
                 ),
               ),
-              PlayerEffectUi(player: widget.player),
             ],
           ),
         ),

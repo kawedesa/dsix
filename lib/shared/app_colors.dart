@@ -12,32 +12,6 @@ class AppColors {
   static const cancel = Color.fromARGB(255, 193, 23, 8);
   static const delete = Color.fromARGB(255, 193, 23, 8);
 
-//EFFECTS
-
-  static const poison = Color.fromARGB(255, 83, 117, 20);
-  static const positiveEffects = Color.fromARGB(255, 34, 32, 32);
-  static const negativeEffects = Color.fromARGB(255, 124, 24, 13);
-
-  Color getEffectColor(String effect) {
-    Color color = uiColor;
-
-    switch (effect) {
-      case 'tempVision':
-        color = positiveEffects;
-        break;
-      case 'tempArmor':
-        color = positiveEffects;
-        break;
-      case 'poison':
-        color = poison;
-        break;
-      case 'bleed':
-        color = negativeEffects;
-        break;
-    }
-    return color;
-  }
-
 //PLAYERS
 //Pink
 

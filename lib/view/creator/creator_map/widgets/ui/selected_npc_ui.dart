@@ -1,9 +1,9 @@
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
-import 'package:dsix/shared/app_widgets/map/life_bar.dart';
+import 'package:dsix/shared/app_widgets/map/ui/life_bar.dart';
 import 'package:dsix/shared/app_widgets/map/map_circular_button.dart';
-import 'package:dsix/shared/app_widgets/map/map_text.dart';
+import 'package:dsix/shared/app_widgets/map/ui/map_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

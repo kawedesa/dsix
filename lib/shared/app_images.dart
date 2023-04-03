@@ -27,26 +27,34 @@ class AppImages {
   static const minRange = 'assets/images/ui/minRange.svg';
   static const maxRange = 'assets/images/ui/maxRange.svg';
 
-  static const tempVision = 'assets/images/ui/tempVision.svg';
-  static const tempArmor = 'assets/images/ui/tempArmor.svg';
-  static const poison = 'assets/images/ui/poison.svg';
-  static const bleed = 'assets/images/ui/poison.svg';
+  static const effectTempVision = 'assets/images/ui/effectTempVision.svg';
+  static const effectTempArmor = 'assets/images/ui/effectTempArmor.svg';
+  static const effectPoison = 'assets/images/ui/effectPoison.svg';
+  static const effectBleed = 'assets/images/ui/effectBleed.svg';
+  static const effectVulnerable = 'assets/images/ui/effectVulnerable.svg';
+  static const effectStun = 'assets/images/ui/effectStun.svg';
 
   String getEffectIcon(String effect) {
     String effectIcon = '';
 
     switch (effect) {
       case 'bleed':
-        effectIcon = bleed;
+        effectIcon = effectBleed;
         break;
       case 'poison':
-        effectIcon = poison;
+        effectIcon = effectPoison;
         break;
       case 'tempArmor':
-        effectIcon = tempArmor;
+        effectIcon = effectTempArmor;
         break;
       case 'tempVision':
-        effectIcon = tempVision;
+        effectIcon = effectTempVision;
+        break;
+      case 'vulnerable':
+        effectIcon = effectVulnerable;
+        break;
+      case 'stun':
+        effectIcon = effectStun;
         break;
     }
 
@@ -55,7 +63,6 @@ class AppImages {
 
   static const minus = 'assets/images/ui/minus.svg';
   static const plus = 'assets/images/ui/plus.svg';
-
   static const settings = 'assets/images/ui/settings.svg';
   static const map = 'assets/images/ui/map.svg';
   static const profile = 'assets/images/ui/profile.svg';
@@ -65,10 +72,12 @@ class AppImages {
   static const turn = 'assets/images/ui/turn.svg';
 
   static const shop = 'assets/images/ui/shop.svg';
-  static const meleeWeaponMenu = 'assets/images/ui/meleeWeaponMenu.svg';
-  static const rangedWeaponMenu = 'assets/images/ui/rangedWeaponMenu.svg';
-  static const armorMenu = 'assets/images/ui/armorMenu.svg';
-  static const consumableMenu = 'assets/images/ui/consumableMenu.svg';
+  static const menuLightWeapon = 'assets/images/ui/menuLightWeapon.svg';
+  static const menuHeavyWeapon = 'assets/images/ui/menuHeavyWeapon.svg';
+  static const menuRangedWeapon = 'assets/images/ui/menuRangedWeapon.svg';
+  static const menuMagicWeapon = 'assets/images/ui/menuMagicWeapon.svg';
+  static const menuArmor = 'assets/images/ui/menuArmor.svg';
+  static const menuConsumable = 'assets/images/ui/menuConsumable.svg';
   static const empty = 'assets/images/ui/empty.svg';
 
   //Inventory
@@ -265,6 +274,9 @@ class AppImages {
       case 'long axe':
         itemIcon = longAxe;
         break;
+      case 'whip':
+        itemIcon = whip;
+        break;
 
       //RANGED
       case 'boomerang':
@@ -302,9 +314,6 @@ class AppImages {
         break;
       case 'short bow':
         itemIcon = shortBow;
-        break;
-      case 'whip':
-        itemIcon = whip;
         break;
 
       //ARMOR

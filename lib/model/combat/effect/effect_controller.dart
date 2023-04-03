@@ -70,4 +70,14 @@ class EffectController {
   void reset() {
     currentEffects = [];
   }
+
+  bool isVulnerable() {
+    bool check = false;
+    for (Effect effect in currentEffects) {
+      if (effect.name == 'vulnerable') {
+        check = true;
+      }
+    }
+    return check;
+  }
 }

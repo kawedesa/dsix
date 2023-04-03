@@ -180,14 +180,36 @@ class Player {
   }
 
   int receiveAttack(Attack attack) {
+    int pArmor = equipment.getTotalArmor().pArmor;
+    int mArmor = equipment.getTotalArmor().mArmor;
     int leftOverArmor = 0;
 
-    int pDamage = attack.damage.pDamage - equipment.getTotalArmor().pArmor;
+    if (effects.isVulnerable()) {
+      pArmor = pArmor ~/ 2;
+      mArmor = mArmor ~/ 2;
+    }
+
+    if (attack.damage.pierce > 0) {
+      pArmor -= attack.damage.pierce;
+      mArmor -= attack.damage.pierce;
+
+      if (pArmor < 0) {
+        pArmor = 0;
+      }
+      if (mArmor < 0) {
+        mArmor = 0;
+      }
+    }
+
+    int pDamage = attack.damage.pDamage - pArmor;
+
     if (pDamage < 0) {
       leftOverArmor += pDamage.abs() ~/ 2;
       pDamage = 0;
     }
-    int mDamage = attack.damage.mDamage - equipment.getTotalArmor().mArmor;
+
+    int mDamage = attack.damage.mDamage - mArmor;
+
     if (mDamage < 0) {
       leftOverArmor += mDamage.abs() ~/ 2;
       mDamage = 0;
@@ -196,7 +218,7 @@ class Player {
     int leftOverRawDamage = attack.damage.rawDamage - leftOverArmor;
 
     int leftOverDamageAfterTempArmor =
-        leftOverRawDamage - attributes.defense.tempDefense;
+        leftOverRawDamage - attributes.defense.tempArmor;
 
     attributes.defense.reduceTempArmor(leftOverRawDamage);
 
@@ -209,9 +231,11 @@ class Player {
     if (totalDamage > 0) {
       life.receiveDamage(totalDamage);
       receiveEffects(attack.effects);
+    } else {
+      totalDamage = 0;
+      update();
     }
 
-    update();
     return totalDamage;
   }
 
@@ -243,6 +267,20 @@ class Player {
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
+      case 'vulnerable':
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 0, countdown: 1));
+        break;
+
+      case 'stun':
+        attributes.movement.removeAttribute();
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 0, countdown: 1));
+        break;
+
+      case 'thorn':
+        life.receiveDamage(1);
+        break;
     }
   }
 
@@ -257,7 +295,7 @@ class Player {
     }
 
     for (Effect effect in effectsToRemove) {
-      effects.removeEffect(effect);
+      removeEffects(effect);
     }
   }
 
@@ -271,6 +309,30 @@ class Player {
         effect.decreaseCountdown();
         life.receiveDamage(effect.value);
         break;
+      case 'vulnerable':
+        effect.decreaseCountdown();
+        break;
+      case 'stun':
+        effect.decreaseCountdown();
+        break;
+    }
+  }
+
+  void removeEffects(Effect effect) {
+    switch (effect.name) {
+      case 'poison':
+        effects.removeEffect(effect);
+        break;
+      case 'bleed':
+        effects.removeEffect(effect);
+        break;
+      case 'vulnerable':
+        effects.removeEffect(effect);
+        break;
+      case 'stun':
+        attributes.movement.addAttribute();
+        effects.removeEffect(effect);
+        break;
     }
   }
 
@@ -280,12 +342,13 @@ class Player {
     if (item.itemSlot == 'two hands') {
       unequip(equipment.mainHandSlot);
       unequip(equipment.offHandSlot);
-      //TODO addItemEffect
+      addItemEffects(item.effects);
       equipment.mainHandSlot.equip(item);
       equipment.offHandSlot.equip(item);
     } else {
       unequip(slot);
-      //TODO addItemEffect
+      addItemEffects(item.effects);
+
       slot.equip(item);
     }
   }
@@ -296,20 +359,24 @@ class Player {
     }
 
     if (slot.item.itemSlot == 'two hands') {
-      //TODO removeItemEffect
+      removeItemEffects(slot.item.effects);
       equipment.addItemToBag(equipment.mainHandSlot.item);
       equipment.mainHandSlot.unequip();
       equipment.offHandSlot.unequip();
       return;
     }
-    //TODO removeItemEffect
+    removeItemEffects(slot.item.effects);
     equipment.addItemToBag(slot.item);
     slot.unequip();
   }
 
-  void addItemEffects(List<String> effects) {}
+  void addItemEffects(List<String> effects) {
+    //TODO addItemEffects
+  }
 
-  void removeItemEffects(List<String> effects) {}
+  void removeItemEffects(List<String> effects) {
+    //TODO removeItemEffects
+  }
 
   void addToBag(EquipmentSlot slot) {
     if (slot.name == 'loot') {

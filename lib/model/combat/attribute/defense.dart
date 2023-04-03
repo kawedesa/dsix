@@ -4,29 +4,29 @@ import 'package:dsix/model/combat/effect/effect.dart';
 
 class Defense {
   int attribute;
-  int tempDefense;
+  int tempArmor;
 
   Defense({
     required this.attribute,
-    required this.tempDefense,
+    required this.tempArmor,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'attribute': attribute,
-      'tempDefense': tempDefense,
+      'tempArmor': tempArmor,
     };
   }
 
   factory Defense.fromMap(Map<String, dynamic>? data) {
     return Defense(
       attribute: data?['attribute'],
-      tempDefense: data?['tempDefense'],
+      tempArmor: data?['tempArmor'],
     );
   }
 
   factory Defense.empty() {
-    return Defense(attribute: 0, tempDefense: 0);
+    return Defense(attribute: 0, tempArmor: 0);
   }
 
   void setAttribute(int value) {
@@ -67,22 +67,17 @@ class Defense {
       tempResult = 1;
     }
 
-    tempDefense += tempResult;
-  }
-
-  Effect getTempArmorEffect() {
-    return Effect(
-        name: 'tempArmor', description: '', value: tempDefense, countdown: 0);
+    tempArmor += tempResult;
   }
 
   void reduceTempArmor(int value) {
-    tempDefense -= value;
-    if (tempDefense < 1) {
-      tempDefense = 0;
+    tempArmor -= value;
+    if (tempArmor < 1) {
+      tempArmor = 0;
     }
   }
 
   void resetTempDefense() {
-    tempDefense = 0;
+    tempArmor = 0;
   }
 }

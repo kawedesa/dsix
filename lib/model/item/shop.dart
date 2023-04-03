@@ -6,21 +6,9 @@ import 'dart:math';
 import 'item.dart';
 
 class Shop {
-  List<Item> createRandomLoot(int xp) {
-    int lootValue = 0;
-    switch (xp) {
-      case 4:
-        lootValue = 50 + (Random().nextDouble() * 100).toInt();
-        break;
-      case 10:
-        lootValue = 100 + (Random().nextDouble() * 150).toInt();
-        break;
-      case 14:
-        lootValue = 150 + (Random().nextDouble() * 200).toInt();
-        break;
-    }
-
+  List<Item> createRandomLoot(int value) {
     List<Item> loot = [];
+    int lootValue = value;
     int currentValue = 0;
 
     while (currentValue < lootValue) {
@@ -30,10 +18,7 @@ class Shop {
         Item gold = Item(
             name: 'gold',
             description: 'shiny',
-            itemSlot: '',
-            type: 'gold',
-            needsReload: false,
-            isLoaded: false,
+            itemSlot: 'gold',
             effects: [],
             attacks: [],
             armor: Armor.empty(),
@@ -56,48 +41,50 @@ class Shop {
   }
 
   Item randomItem() {
-    late Item newItem;
-    late int randomItem;
+    Item newItem = Item.empty();
+    int randomItem = 0;
     switch (randomItemCategory()) {
-      case 'lightWeapons':
-        randomItem = Random().nextInt(lightWeapons.length);
+      case 'light weapons':
+        randomItem = Random().nextInt(lightWeapons.length - 1);
         newItem = lightWeapons[randomItem];
         break;
 
-      case 'heavyWeapons':
-        randomItem = Random().nextInt(heavyWeapons.length);
+      case 'heavy weapons':
+        randomItem = Random().nextInt(heavyWeapons.length - 1);
         newItem = heavyWeapons[randomItem];
         break;
 
-      case 'rangedWeapons':
-        randomItem = Random().nextInt(rangedWeapons.length);
+      case 'ranged weapons':
+        randomItem = Random().nextInt(rangedWeapons.length - 1);
         newItem = rangedWeapons[randomItem];
         break;
 
-      case 'armor':
-        randomItem = Random().nextInt(armor.length);
-        newItem = armor[randomItem];
-        break;
-      case 'ancient':
-        randomItem = Random().nextInt(ancient.length);
-        newItem = ancient[randomItem];
-        break;
-      case 'consumable':
-        randomItem = Random().nextInt(consumable.length);
-        newItem = consumable[randomItem];
-        break;
+      // case 'magic weapons':
+      //   randomItem = Random().nextInt(magicWeapons.length - 1);
+      //   newItem = rangedWeapons[randomItem];
+      //   break;
+
+      // case 'armor':
+      //   randomItem = Random().nextInt(armor.length - 1);
+      //   newItem = armor[randomItem];
+      //   break;
+
+      // case 'consumables':
+      //   randomItem = Random().nextInt(consumables.length - 1);
+      //   newItem = consumables[randomItem];
+      //   break;
     }
     return newItem;
   }
 
   String randomItemCategory() {
     List<String> category = [
-      'lightWeapons',
-      'heavyWeapons',
-      'rangedWeapons',
-      'armor',
-      // 'ancient',
-      // 'consumable',
+      'light weapons',
+      'heavy weapons',
+      'ranged weapons',
+      // 'magic weapons',
+      // 'armor',
+      // 'consumables',
     ];
     int randomCategory = Random().nextInt(category.length);
     return category[randomCategory];
@@ -108,92 +95,116 @@ class Shop {
       name: 'batton',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      isLoaded: false,
-      needsReload: false,
       effects: [],
       attacks: [
         Attack(
           name: 'jab',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 0,
             width: 3.5,
             shape: 'circle',
           ),
-          effects: [],
+          effects: ['stun'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'dagger',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'slash',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
             max: 8,
             width: 16,
             shape: 'cone',
           ),
-          effects: [],
+          effects: ['bleed'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
+    ),
+    Item(
+      name: 'whip',
+      description: '',
+      itemSlot: 'one hand',
+      effects: [],
+      attacks: [
+        Attack(
+          name: 'whip',
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          range: Range(
+            min: 23,
+            max: 10,
+            width: 3.5,
+            shape: 'circle',
+          ),
+          effects: [],
+          isLoaded: false,
+          needsReload: false,
+        ),
+      ],
+      armor: Armor(pArmor: 0, mArmor: 0),
+      numberOfUses: 100,
+      weight: 0,
+      value: 100,
     ),
     Item(
       name: 'flail',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 12,
             max: 13,
             width: 22,
             shape: 'cone',
           ),
-          effects: [],
+          effects: ['vulnerable'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'gladius',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'slash',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 5,
             max: 10,
@@ -201,129 +212,129 @@ class Shop {
             shape: 'cone',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'mace',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      isLoaded: false,
-      needsReload: false,
       effects: [],
       attacks: [
         Attack(
           name: 'crush',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 0,
             width: 3.5,
             shape: 'circle',
           ),
-          effects: [],
+          effects: ['vulnerable'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'morning star',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'crush',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 0,
             width: 3.5,
             shape: 'circle',
           ),
-          effects: [],
+          effects: ['vulnerable'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'nunchaku',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'slash',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
             max: 6,
             width: 18,
             shape: 'cone',
           ),
-          effects: [],
+          effects: ['stun'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'poison dagger',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'slash',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
             max: 8,
             width: 16,
             shape: 'cone',
           ),
-          effects: [],
+          effects: ['bleed', 'poison', 'poison'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'rapier',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'slash',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 5,
             max: 20,
@@ -331,77 +342,77 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'saber',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'slash',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 5,
             max: 10,
             width: 20,
             shape: 'cone',
           ),
-          effects: [],
+          effects: ['bleed', 'bleed'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'sharp fist',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'slash',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
             max: 10,
             width: 10,
             shape: 'cone',
           ),
-          effects: [],
+          effects: ['stun'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'short spear',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'thrust',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 25,
@@ -409,25 +420,25 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'short sword',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'slash',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 5,
             max: 10,
@@ -435,51 +446,51 @@ class Shop {
             shape: 'cone',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'talon',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'thrust',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
             max: 15,
             width: 7,
             shape: 'triangle',
           ),
-          effects: [],
+          effects: ['bleed'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'wood axe',
       description: '',
       itemSlot: 'one hand',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 10,
             max: 11,
@@ -487,12 +498,14 @@ class Shop {
             shape: 'cone',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
   ];
 
@@ -501,125 +514,132 @@ class Shop {
       name: 'giant club',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'slam',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 6,
             max: 28,
             width: 8,
             shape: 'cone',
           ),
-          effects: [],
+          effects: ['stun', 'vulnerable'],
+          isLoaded: false,
+          needsReload: false,
         ),
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 16,
             width: 25,
             shape: 'cone',
           ),
-          effects: [],
+          effects: ['stun', 'vulnerable'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'war hammer',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 14.5,
             max: 15.5,
             width: 32,
             shape: 'cone',
           ),
-          effects: [],
+          effects: ['stun', 'vulnerable'],
+          isLoaded: false,
+          needsReload: false,
         ),
         Attack(
           name: 'slam',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 18,
             max: 0,
             width: 3.5,
             shape: 'circle',
           ),
-          effects: [],
+          effects: ['stun', 'vulnerable'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'katana',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 10,
             width: 30,
             shape: 'cone',
           ),
-          effects: [],
+          effects: ['bleed', 'bleed', 'bleed'],
+          isLoaded: false,
+          needsReload: false,
         ),
         Attack(
           name: 'thrust',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 25,
             width: 7,
             shape: 'triangle',
           ),
-          effects: [],
+          effects: ['bleed', 'bleed', 'bleed'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'long sword',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 10,
@@ -627,10 +647,13 @@ class Shop {
             shape: 'cone',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
         Attack(
           name: 'thrust',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 25,
@@ -638,25 +661,25 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'battle axe',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 9,
             max: 15,
@@ -664,10 +687,13 @@ class Shop {
             shape: 'cone',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
         Attack(
           name: 'slam',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 13,
             max: 7,
@@ -675,25 +701,25 @@ class Shop {
             shape: 'diamond',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'double sword',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 10,
             max: 11,
@@ -701,10 +727,13 @@ class Shop {
             shape: 'cone',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
         Attack(
           name: 'thrust',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 22.5,
@@ -712,62 +741,65 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'quarterstaff',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 10,
             max: 11,
             width: 20,
             shape: 'cone',
           ),
-          effects: [],
+          effects: ['stun'],
+          isLoaded: false,
+          needsReload: false,
         ),
         Attack(
           name: 'slam',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 5,
             max: 18,
             width: 4,
             shape: 'rectangle',
           ),
-          effects: [],
+          effects: ['stun'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'trident',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'thrust',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 40,
@@ -775,25 +807,25 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'long spear',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'thrust',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 40,
@@ -801,25 +833,25 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'great sword',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 10,
             max: 20,
@@ -827,10 +859,13 @@ class Shop {
             shape: 'cone',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
         Attack(
           name: 'slam',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 8,
             max: 30,
@@ -838,25 +873,25 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'halberd',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'thrust',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 18,
             max: 38,
@@ -864,10 +899,13 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 20,
             max: 24,
@@ -875,25 +913,25 @@ class Shop {
             shape: 'cone',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'long axe',
       description: '',
       itemSlot: 'two hands',
-      type: 'melee',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'swing',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 22,
             max: 18,
@@ -901,10 +939,13 @@ class Shop {
             shape: 'cone',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
         Attack(
           name: 'slam',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'melee',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 20,
             max: 7,
@@ -912,12 +953,14 @@ class Shop {
             shape: 'diamond',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
   ];
 
@@ -926,14 +969,12 @@ class Shop {
       name: 'boomerang',
       description: '',
       itemSlot: 'one hand',
-      type: 'ranged',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'throw',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 20,
             max: 19,
@@ -941,25 +982,25 @@ class Shop {
             shape: 'ring offset',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'kunai',
       description: '',
       itemSlot: 'one hand',
-      type: 'ranged',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'throw',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 30,
@@ -967,51 +1008,51 @@ class Shop {
             shape: 'circle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
-      numberOfUses: 5,
+      numberOfUses: 3,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'poison dart',
       description: '',
       itemSlot: 'one hand',
-      type: 'ranged',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'shot',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 20,
             width: 3.5,
             shape: 'circle',
           ),
-          effects: [],
+          effects: ['poison', 'poison', 'poison'],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'javelins',
       description: '',
       itemSlot: 'one hand',
-      type: 'ranged',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'throw',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 30,
@@ -1019,51 +1060,25 @@ class Shop {
             shape: 'circle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
-      numberOfUses: 5,
+      numberOfUses: 3,
       weight: 0,
-      value: 0,
-    ),
-    Item(
-      name: 'whip',
-      description: '',
-      itemSlot: 'one hand',
-      type: 'ranged',
-      needsReload: false,
-      isLoaded: false,
-      effects: [],
-      attacks: [
-        Attack(
-          name: 'whip',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
-          range: Range(
-            min: 23,
-            max: 10,
-            width: 3.5,
-            shape: 'circle',
-          ),
-          effects: [],
-        ),
-      ],
-      armor: Armor(pArmor: 0, mArmor: 0),
-      numberOfUses: 100,
-      weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'short bow',
       description: '',
       itemSlot: 'two hands',
-      type: 'ranged',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'shot',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 35,
             max: 48,
@@ -1071,25 +1086,25 @@ class Shop {
             shape: 'circle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'composite bow',
       description: '',
       itemSlot: 'two hands',
-      type: 'ranged',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'shot',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 23,
             max: 60,
@@ -1097,25 +1112,25 @@ class Shop {
             shape: 'circle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'long bow',
       description: '',
       itemSlot: 'two hands',
-      type: 'ranged',
-      needsReload: false,
-      isLoaded: false,
       effects: [],
       attacks: [
         Attack(
           name: 'shot',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 50,
             max: 60,
@@ -1123,51 +1138,51 @@ class Shop {
             shape: 'circle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'hand cannon',
       description: '',
       itemSlot: 'one hand',
-      type: 'ranged',
-      needsReload: true,
-      isLoaded: true,
       effects: [],
       attacks: [
         Attack(
           name: 'shot',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
-            min: 15,
-            max: 30,
-            width: 3.5,
-            shape: 'circle',
+            min: 6,
+            max: 28,
+            width: 8,
+            shape: 'cone',
           ),
           effects: [],
+          isLoaded: true,
+          needsReload: true,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'hand crossbow',
       description: '',
       itemSlot: 'one hand',
-      type: 'ranged',
-      needsReload: true,
-      isLoaded: true,
       effects: [],
       attacks: [
         Attack(
           name: 'shot',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 30,
@@ -1175,25 +1190,25 @@ class Shop {
             shape: 'circle',
           ),
           effects: [],
+          isLoaded: true,
+          needsReload: true,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'light crossbow',
       description: '',
       itemSlot: 'two hands',
-      type: 'ranged',
-      needsReload: true,
-      isLoaded: true,
       effects: [],
       attacks: [
         Attack(
           name: 'shot',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 80,
@@ -1201,25 +1216,25 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: true,
+          needsReload: true,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'heavy crossbow',
       description: '',
       itemSlot: 'two hands',
-      type: 'ranged',
-      needsReload: true,
-      isLoaded: true,
       effects: [],
       attacks: [
         Attack(
           name: 'shot',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 100,
@@ -1227,25 +1242,25 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: true,
+          needsReload: true,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
     Item(
       name: 'musket',
       description: '',
       itemSlot: 'two hands',
-      type: 'ranged',
-      needsReload: true,
-      isLoaded: true,
       effects: [],
       attacks: [
         Attack(
           name: 'shot',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 80,
@@ -1253,10 +1268,13 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: true,
+          needsReload: true,
         ),
         Attack(
           name: 'thrust',
-          damage: Damage(pDamage: 0, mDamage: 0, rawDamage: 0),
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 25,
@@ -1264,14 +1282,18 @@ class Shop {
             shape: 'triangle',
           ),
           effects: [],
+          isLoaded: false,
+          needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
       weight: 0,
-      value: 0,
+      value: 100,
     ),
   ];
+
+  List<Item> magicWeapons = [];
 
   List<Item> armor = [
     // Item(
@@ -1438,7 +1460,7 @@ class Shop {
     //   name: 'ancient sword',
     //   description: '',
     //   itemSlot: 'one hand',
-    //   type: 'melee',
+    //
     //   pDamage: 3,
     //   pArmor: 0,
     //   mDamage: 2,
@@ -1453,7 +1475,7 @@ class Shop {
     //   name: 'ancient war axe',
     //   description: '',
     //   itemSlot: 'two hands',
-    //   type: 'melee',
+    //
     //   pDamage: 6,
     //   pArmor: 0,
     //   mDamage: 2,
@@ -1468,7 +1490,7 @@ class Shop {
     //   name: 'ancient bow',
     //   description: '',
     //   itemSlot: 'two hands',
-    //   type: 'ranged',
+    //
     //   pDamage: 4,
     //   pArmor: 0,
     //   mDamage: 2,
@@ -1483,7 +1505,7 @@ class Shop {
     //   name: 'ancient spellbook',
     //   description: '',
     //   itemSlot: 'one hand',
-    //   type: 'ranged',
+    //
     //   pDamage: 0,
     //   pArmor: 0,
     //   mDamage: 6,
@@ -1570,7 +1592,7 @@ class Shop {
     // ),
   ];
 
-  List<Item> consumable = [
+  List<Item> consumables = [
     // Item(
     //   icon: AppImages.ward,
     //   name: 'ward',

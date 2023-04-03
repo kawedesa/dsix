@@ -1,12 +1,17 @@
 class Damage {
+  int pierce;
   int pDamage;
   int mDamage;
   int rawDamage;
   Damage(
-      {required this.pDamage, required this.mDamage, required this.rawDamage});
+      {required this.pierce,
+      required this.pDamage,
+      required this.mDamage,
+      required this.rawDamage});
 
   factory Damage.empty() {
     return Damage(
+      pierce: 0,
       pDamage: 0,
       mDamage: 0,
       rawDamage: 0,
@@ -15,6 +20,7 @@ class Damage {
 
   factory Damage.fromMap(Map<String, dynamic>? data) {
     return Damage(
+      pierce: data?['pierce'],
       pDamage: data?['pDamage'],
       mDamage: data?['mDamage'],
       rawDamage: data?['rawDamage'],
@@ -23,25 +29,10 @@ class Damage {
 
   Map<String, dynamic> toMap() {
     return {
+      'pierce': pierce,
       'pDamage': pDamage,
       'mDamage': mDamage,
       'rawDamage': rawDamage,
     };
   }
-
-  // void increaseDamage(Damage damage) {
-  //   pDamage += damage.pDamage;
-  //   mDamage += damage.mDamage;
-  // }
-
-  // void decreaseDamage(Damage damage) {
-  //   pDamage -= damage.pDamage;
-  //   mDamage -= damage.mDamage;
-  //   if (pDamage < 0) {
-  //     pDamage = 0;
-  //   }
-  //   if (mDamage < 0) {
-  //     mDamage = 0;
-  //   }
-  // }
 }

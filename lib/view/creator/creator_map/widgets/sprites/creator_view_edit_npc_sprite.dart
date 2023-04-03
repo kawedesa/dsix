@@ -56,12 +56,12 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
         update: (context, _, tempPosition) => tempPosition!..panEnd(),
         child: Positioned(
           left: _controller.tempPosition.newPosition.dx -
-              (widget.npc.vision.getRange() / 2),
+              (widget.npc.attributes.vision.getRange() / 2),
           top: _controller.tempPosition.newPosition.dy -
-              (widget.npc.vision.getRange() / 2),
+              (widget.npc.attributes.vision.getRange() / 2),
           child: SizedBox(
-            width: widget.npc.vision.getRange(),
-            height: widget.npc.vision.getRange(),
+            width: widget.npc.attributes.vision.getRange(),
+            height: widget.npc.attributes.vision.getRange(),
             child: Stack(
               children: [
                 Align(
@@ -154,8 +154,9 @@ class NpcSpriteController {
   }
 
   Offset getPosition(TempPosition tempPosition, Npc npc) {
-    return Offset(tempPosition.newPosition.dx - npc.vision.getRange() / 2,
-        tempPosition.newPosition.dy - npc.vision.getRange() / 2);
+    return Offset(
+        tempPosition.newPosition.dx - npc.attributes.vision.getRange() / 2,
+        tempPosition.newPosition.dy - npc.attributes.vision.getRange() / 2);
   }
 
   void endMove(Npc npc, MapInfo mapInfo) {
