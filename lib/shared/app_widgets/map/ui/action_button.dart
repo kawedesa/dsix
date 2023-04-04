@@ -2,31 +2,31 @@ import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:flutter/material.dart';
 
-class AttackButton extends StatefulWidget {
+class ActionButton extends StatefulWidget {
   final String icon;
   final Color color;
   final Color darkColor;
-  final bool isAttacking;
-  final Function() startAttack;
-  final Function() cancelAttack;
-  final Function() resetAttack;
+  final bool isTakingAction;
+  final Function() startAction;
+  final Function() resetAction;
+  final Function() resetArea;
 
-  const AttackButton({
+  const ActionButton({
     super.key,
     required this.icon,
     required this.color,
     required this.darkColor,
-    required this.isAttacking,
-    required this.startAttack,
-    required this.cancelAttack,
-    required this.resetAttack,
+    required this.isTakingAction,
+    required this.startAction,
+    required this.resetAction,
+    required this.resetArea,
   });
 
   @override
-  State<AttackButton> createState() => _AttackButtonState();
+  State<ActionButton> createState() => _ActionButtonState();
 }
 
-class _AttackButtonState extends State<AttackButton> {
+class _ActionButtonState extends State<ActionButton> {
   bool active = false;
   bool reset = false;
 
@@ -56,7 +56,7 @@ class _AttackButtonState extends State<AttackButton> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.isAttacking == false) {
+    if (widget.isTakingAction == false) {
       active = false;
       reset = false;
     }
@@ -68,6 +68,7 @@ class _AttackButtonState extends State<AttackButton> {
             reset = true;
           });
         }
+        //TODO implementar increase the size when hover
       },
       onExit: (details) {
         if (active) {
@@ -80,7 +81,7 @@ class _AttackButtonState extends State<AttackButton> {
         if (active) {
           setState(() {
             reset = true;
-            widget.resetAttack();
+            widget.resetArea();
           });
         }
       },
@@ -96,11 +97,11 @@ class _AttackButtonState extends State<AttackButton> {
             if (active) {
               active = false;
               reset = false;
-              widget.cancelAttack();
+              widget.resetAction();
             } else {
               active = true;
               reset = true;
-              widget.startAttack();
+              widget.startAction();
             }
           });
         },

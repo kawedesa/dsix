@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:dsix/model/combat/effect/effect.dart';
-
 class Defense {
   int attribute;
   int tempArmor;

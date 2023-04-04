@@ -1,4 +1,5 @@
 import 'package:dsix/model/building/building.dart';
+import 'package:dsix/model/combat/combat.dart';
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
@@ -17,6 +18,9 @@ class User {
     lightColor = AppColors.uiColorLight;
     darkColor = AppColors.uiColorDark;
   }
+
+  //COMBAT
+  Combat combat = Combat();
 
   //PLAYER
 
@@ -58,6 +62,32 @@ class User {
         this.player = player;
       }
     }
+  }
+
+  void setPlayerMode(String turn) {
+    if (turn == 'npc') {
+      playerWaitMode();
+    }
+
+    if (turn == 'player') {
+      if (playerMode == 'wait') {
+        playerMode = 'stand';
+      }
+    }
+  }
+
+  String playerMode = 'stand';
+
+  void playerActionMode() {
+    playerMode = 'action';
+  }
+
+  void playerStandMode() {
+    playerMode = 'stand';
+  }
+
+  void playerWaitMode() {
+    playerMode = 'wait';
   }
 
   //PLACE SOMETHING ON SCREEN

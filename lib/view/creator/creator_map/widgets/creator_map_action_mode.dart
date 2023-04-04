@@ -1,7 +1,6 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/combat/battle_log.dart';
-import 'package:dsix/model/combat/combat.dart';
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
@@ -12,7 +11,7 @@ import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_radial_menu.dart';
 import 'package:dsix/shared/app_widgets/map/action_area_sprite.dart';
-import 'package:dsix/shared/app_widgets/map/ui/attack_button.dart';
+import 'package:dsix/shared/app_widgets/map/ui/action_button.dart';
 import 'package:dsix/shared/app_widgets/map/map_animation/map_animation.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/vision_grid.dart';
@@ -116,20 +115,20 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                         buildings, refresh),
                   ),
                   ActionAreaSprite(
-                    area: _creatorMapController.combat.actionArea.area,
+                    area: user.combat.actionArea.area,
                   ),
                   Stack(
                     children: _creatorMapController.createPlayerSprites(
                         widget.mapInfo,
                         players,
                         npcs,
-                        _creatorMapController.combat.actionArea.area),
+                        user.combat.actionArea.area),
                   ),
                   Stack(
                     children: _creatorMapController.createNpcSprites(
                         widget.mapInfo,
                         npcs,
-                        _creatorMapController.combat.actionArea.area,
+                        user.combat.actionArea.area,
                         refresh),
                   ),
                   _creatorMapController
@@ -145,9 +144,9 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
           SelectedNpcUi(),
           // ignore: prefer_const_constructors
           SelectedBuildingUi(),
-          _creatorMapController.getAttackInput(npcs, players, refresh),
-          _creatorMapController.actionButtons(context, widget.mapInfo, npcs,
-              players, user.selectedNpc, user.placingSomething, refresh),
+          _creatorMapController.getAttackInput(user, npcs, players, refresh),
+          _creatorMapController.actionButtons(
+              context, user, widget.mapInfo, npcs, players, refresh),
           _mapAnimation.displayTurnAnimations(),
           Align(
               alignment: Alignment.topLeft,
@@ -157,6 +156,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   refresh();
                 },
               )),
+          //TODO JUNTAR ESSES MOUSEINPUTS AO INGAME MENU (SITUAÇÃO SIMILAR AO ACTION BUTTON DO PLAYER)
           MouseInput(
               active: (user.placingSomething == 'building') ? true : false,
               getMouseOffset: (mouseOffset) {
@@ -311,43 +311,35 @@ class CreatorMapActionModeController {
   }
 
 //COMBAT
-
-  Combat combat = Combat();
-
-  Widget actionButtons(
-      context,
-      MapInfo mapInfo,
-      List<Npc> npcs,
-      List<Player> players,
-      Npc? selectedNpc,
-      String placingSomething,
-      Function refresh) {
-    if (selectedNpc == null) {
+//TODO CREATE NPC ACTION BUTTONS CLASS
+  Widget actionButtons(context, User user, MapInfo mapInfo, List<Npc> npcs,
+      List<Player> players, Function refresh) {
+    if (user.selectedNpc == null) {
       return const SizedBox();
     }
     List<Widget> abilityButtons = [];
 
-    for (Attack attack in selectedNpc.attacks) {
+    for (Attack attack in user.selectedNpc!.attacks) {
       abilityButtons.add(
-        AttackButton(
-            isAttacking: combat.isAttacking,
+        ActionButton(
+            isTakingAction: user.combat.isTakingAction,
             icon: AppImages().getItemIcon('empty'),
             color: AppColors.uiColor,
             darkColor: AppColors.uiColorDark,
-            startAttack: () {
-              combat.startAttack(
-                  mapInfo.getPlayerOnScreenPosition(selectedNpc.position),
-                  selectedNpc.position,
-                  selectedNpc.attack(attack),
+            startAction: () {
+              user.combat.startAttack(
+                  mapInfo.getPlayerOnScreenPosition(user.selectedNpc!.position),
+                  user.selectedNpc!.position,
+                  user.selectedNpc!.attack(attack),
                   null,
-                  selectedNpc);
+                  user.selectedNpc!);
               refresh();
             },
-            cancelAttack: () {
-              combat.cancelAction();
+            resetAction: () {
+              user.combat.resetAction();
             },
-            resetAttack: () {
-              combat.resetActionArea();
+            resetArea: () {
+              user.combat.resetArea();
               refresh();
             }),
       );
@@ -369,18 +361,19 @@ class CreatorMapActionModeController {
     );
   }
 
+  //LEVAR ISSO AQUI PRA ACTION BUTTON CLASS
   Widget getAttackInput(
-      List<Npc> npcs, List<Player> players, Function refresh) {
+      User user, List<Npc> npcs, List<Player> players, Function refresh) {
     Widget mouseInputWidget = MouseInput(
-      active: combat.isAttacking,
+      active: user.combat.isTakingAction,
       getMouseOffset: (mouseOffset) {
-        combat.setMousePosition(mouseOffset);
-        combat.setActionArea();
+        user.combat.setMousePosition(mouseOffset);
+        user.combat.setActionArea();
         refresh();
       },
       onTap: () {
-        combat.confirmAttack(npcs, players);
-        combat.cancelAction();
+        user.combat.confirmAttack(npcs, players);
+        user.combat.resetAction();
         refresh();
       },
     );

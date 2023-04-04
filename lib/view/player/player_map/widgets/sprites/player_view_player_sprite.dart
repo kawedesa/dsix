@@ -1,8 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:dsix/model/combat/effect/effect.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
+import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/ui/effects_ui.dart';
@@ -13,17 +13,7 @@ import 'package:transparent_pointer/transparent_pointer.dart';
 
 class PlayerViewPlayerSprite extends StatefulWidget {
   final MapInfo mapInfo;
-  final Color color;
-  final Player player;
-  final String playerMode;
-  final Function() onTap;
-  const PlayerViewPlayerSprite(
-      {super.key,
-      required this.mapInfo,
-      required this.color,
-      required this.player,
-      required this.playerMode,
-      required this.onTap});
+  const PlayerViewPlayerSprite({super.key, required this.mapInfo});
 
   @override
   State<PlayerViewPlayerSprite> createState() => _PlayerViewPlayerSpriteState();
@@ -34,56 +24,57 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
 
   @override
   Widget build(BuildContext context) {
-    _controller.initializePosition(widget.player);
+    final user = Provider.of<User>(context);
+
+    _controller.initializePosition(user.player);
 
     return ChangeNotifierProxyProvider<Spawner, TempPosition>(
       create: (context) => _controller.tempPosition,
       update: (context, _, tempPosition) => tempPosition!..panEnd(),
       child: Positioned(
-        left: _controller.getPosition(widget.player).dx,
-        top: _controller.getPosition(widget.player).dy,
+        left: _controller.getPosition(user.player).dx,
+        top: _controller.getPosition(user.player).dy,
         child: TransparentPointer(
           transparent: true,
           child: SizedBox(
-            width: widget.player.attributes.vision.getRange(),
-            height: widget.player.attributes.vision.getRange(),
+            width: user.player.attributes.vision.getRange(),
+            height: user.player.attributes.vision.getRange(),
             child: Stack(
               children: [
                 Align(
                   alignment: Alignment.center,
                   child: PlayerSpriteVisionRange(
-                      range: widget.player.attributes.vision.getRange(),
-                      color: widget.color),
+                      range: user.player.attributes.vision.getRange(),
+                      color: user.color),
                 ),
                 Align(
                   alignment: Alignment.center,
                   child: PlayerSpriteMoveRange(
-                      playerMode: widget.playerMode,
-                      maxRange: widget.player.attributes.movement.maxRange(),
+                      playerMode: user.playerMode,
+                      maxRange: user.player.attributes.movement.maxRange(),
                       distanceMoved: _controller.tempPosition.distanceMoved,
-                      color: widget.color),
+                      color: user.color),
                 ),
                 Align(
                     alignment: Alignment.center,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: widget.player.size * 2),
+                      padding: EdgeInsets.only(bottom: user.player.size * 2),
                       child: EffectsUi(
-                          effects: widget.player.effects.currentEffects,
-                          tempArmor: widget.player.attributes.defense.tempArmor,
-                          tempVision:
-                              widget.player.attributes.vision.tempVision),
+                          effects: user.player.effects.currentEffects,
+                          tempArmor: user.player.attributes.defense.tempArmor,
+                          tempVision: user.player.attributes.vision.tempVision),
                     )),
                 Align(
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: widget.player.size),
+                    padding: EdgeInsets.only(bottom: user.player.size),
                     child: SizedBox(
-                        width: widget.player.size,
-                        height: widget.player.size,
+                        width: user.player.size,
+                        height: user.player.size,
                         child: PlayerSpriteImage(
-                          color: widget.color,
-                          race: widget.player.race,
-                          sex: widget.player.sex,
+                          color: user.color,
+                          race: user.player.race,
+                          sex: user.player.sex,
                         )),
                   ),
                 ),
@@ -92,9 +83,6 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                   child: TransparentPointer(
                     transparent: false,
                     child: GestureDetector(
-                      onTap: () {
-                        widget.onTap();
-                      },
                       onPanStart: (details) {
                         _controller.drag = true;
                       },
@@ -105,16 +93,16 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                       },
                       onPanEnd: (details) {
                         setState(() {
-                          _controller.endMove(widget.player, widget.mapInfo);
+                          _controller.endMove(user.player, widget.mapInfo);
                           _controller.drag = false;
                         });
                       },
                       child: Padding(
                         padding:
-                            EdgeInsets.only(bottom: widget.player.size / 1.2),
+                            EdgeInsets.only(bottom: user.player.size / 1.2),
                         child: Container(
-                          width: widget.player.size / 4,
-                          height: widget.player.size / 2,
+                          width: user.player.size / 4,
+                          height: user.player.size / 2,
                           color: Colors.transparent,
                         ),
                       ),

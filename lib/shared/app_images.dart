@@ -358,6 +358,57 @@ class AppImages {
     return itemIcon;
   }
 
+  //ACTIONS
+  static const actionCrush = 'assets/images/ui/actionCrush.svg';
+  static const actionJab = 'assets/images/ui/actionJab.svg';
+  static const actionReload = 'assets/images/ui/actionReload.svg';
+  static const actionShot = 'assets/images/ui/actionShot.svg';
+  static const actionSlam = 'assets/images/ui/actionSlam.svg';
+  static const actionSlash = 'assets/images/ui/actionSwing.svg';
+  static const actionSwing = 'assets/images/ui/actionSwing.svg';
+  static const actionThrow = 'assets/images/ui/actionThrow.svg';
+  static const actionThrust = 'assets/images/ui/actionThrust.svg';
+  static const actionWhip = 'assets/images/ui/actionWhip.svg';
+
+  String getActionIcon(String action) {
+    String actionIcon = '';
+
+    switch (action) {
+      case 'crush':
+        actionIcon = actionCrush;
+        break;
+      case 'jab':
+        actionIcon = actionJab;
+        break;
+      case 'reload':
+        actionIcon = actionReload;
+        break;
+      case 'shot':
+        actionIcon = actionShot;
+        break;
+      case 'slam':
+        actionIcon = actionSlam;
+        break;
+      case 'slash':
+        actionIcon = actionSlash;
+        break;
+      case 'swing':
+        actionIcon = actionSwing;
+        break;
+      case 'throw':
+        actionIcon = actionThrow;
+        break;
+      case 'thrust':
+        actionIcon = actionThrust;
+        break;
+      case 'whip':
+        actionIcon = actionWhip;
+        break;
+    }
+
+    return actionIcon;
+  }
+
   //Sprites
   //OBJECTS
   static const grave = 'assets/images/sprites/objects/grave.svg';

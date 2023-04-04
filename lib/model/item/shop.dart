@@ -112,9 +112,9 @@ class Shop {
           needsReload: false,
         ),
       ],
-      armor: Armor(pArmor: 0, mArmor: 0),
+      armor: Armor(pArmor: 1, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
+      weight: 1,
       value: 100,
     ),
     Item(
@@ -126,7 +126,7 @@ class Shop {
         Attack(
           name: 'slash',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
             max: 8,
@@ -140,8 +140,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 1,
+      value: 150,
     ),
     Item(
       name: 'whip',
@@ -152,7 +152,7 @@ class Shop {
         Attack(
           name: 'whip',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 23,
             max: 10,
@@ -166,8 +166,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 2,
+      value: 250,
     ),
     Item(
       name: 'flail',
@@ -178,7 +178,7 @@ class Shop {
         Attack(
           name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 12,
             max: 13,
@@ -192,8 +192,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 5,
+      value: 450,
     ),
     Item(
       name: 'gladius',
@@ -204,7 +204,7 @@ class Shop {
         Attack(
           name: 'slash',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 5,
             max: 10,
@@ -218,8 +218,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 3,
+      value: 300,
     ),
     Item(
       name: 'mace',
@@ -230,7 +230,7 @@ class Shop {
         Attack(
           name: 'crush',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 0,
@@ -244,8 +244,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 2,
+      value: 200,
     ),
     Item(
       name: 'morning star',
@@ -256,7 +256,7 @@ class Shop {
         Attack(
           name: 'crush',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 0,
@@ -270,8 +270,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 4,
+      value: 400,
     ),
     Item(
       name: 'nunchaku',
@@ -280,9 +280,9 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'slash',
+          name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
             max: 6,
@@ -296,7 +296,7 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
+      weight: 1,
       value: 100,
     ),
     Item(
@@ -308,7 +308,7 @@ class Shop {
         Attack(
           name: 'slash',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
             max: 8,
@@ -322,8 +322,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 1,
+      value: 350,
     ),
     Item(
       name: 'rapier',
@@ -332,9 +332,9 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'slash',
+          name: 'thrust',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 2, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 5,
             max: 20,
@@ -348,8 +348,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 3,
+      value: 500,
     ),
     Item(
       name: 'saber',
@@ -360,7 +360,7 @@ class Shop {
         Attack(
           name: 'slash',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 5,
             max: 10,
@@ -374,8 +374,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 3,
+      value: 500,
     ),
     Item(
       name: 'sharp fist',
@@ -384,9 +384,9 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'slash',
+          name: 'jab',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
             max: 10,
@@ -412,7 +412,7 @@ class Shop {
         Attack(
           name: 'thrust',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 1, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 25,
@@ -426,8 +426,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 3,
+      value: 400,
     ),
     Item(
       name: 'short sword',
@@ -438,7 +438,7 @@ class Shop {
         Attack(
           name: 'slash',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 5,
             max: 10,
@@ -450,10 +450,10 @@ class Shop {
           needsReload: false,
         ),
       ],
-      armor: Armor(pArmor: 0, mArmor: 0),
+      armor: Armor(pArmor: 2, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 4,
+      value: 400,
     ),
     Item(
       name: 'talon',
@@ -462,24 +462,24 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'thrust',
+          name: 'jab',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 1, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
             max: 15,
             width: 7,
             shape: 'triangle',
           ),
-          effects: ['bleed'],
+          effects: [],
           isLoaded: false,
           needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 1,
+      value: 300,
     ),
     Item(
       name: 'wood axe',
@@ -490,7 +490,7 @@ class Shop {
         Attack(
           name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 10,
             max: 11,
@@ -504,8 +504,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 2,
+      value: 250,
     ),
   ];
 
@@ -517,9 +517,9 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'slam',
+          name: 'crush',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 6, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 6,
             max: 28,
@@ -533,22 +533,22 @@ class Shop {
         Attack(
           name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 16,
             width: 25,
             shape: 'cone',
           ),
-          effects: ['stun', 'vulnerable'],
+          effects: ['stun', 'knockback'],
           isLoaded: false,
           needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 12,
+      value: 400,
     ),
     Item(
       name: 'war hammer',
@@ -559,36 +559,36 @@ class Shop {
         Attack(
           name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 8, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 14.5,
             max: 15.5,
             width: 32,
             shape: 'cone',
           ),
-          effects: ['stun', 'vulnerable'],
+          effects: ['stun', 'knockback'],
           isLoaded: false,
           needsReload: false,
         ),
         Attack(
-          name: 'slam',
+          name: 'crush',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 10, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 18,
             max: 0,
             width: 3.5,
             shape: 'circle',
           ),
-          effects: ['stun', 'vulnerable'],
+          effects: ['stun', 'stun', 'vulnerable', 'vulnerable'],
           isLoaded: false,
           needsReload: false,
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 12,
+      value: 1000,
     ),
     Item(
       name: 'katana',
@@ -599,21 +599,21 @@ class Shop {
         Attack(
           name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 10,
             width: 30,
             shape: 'cone',
           ),
-          effects: ['bleed', 'bleed', 'bleed'],
+          effects: ['bleed', 'bleed'],
           isLoaded: false,
           needsReload: false,
         ),
         Attack(
           name: 'thrust',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 5, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 25,
@@ -627,8 +627,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 4,
+      value: 750,
     ),
     Item(
       name: 'long sword',
@@ -639,7 +639,7 @@ class Shop {
         Attack(
           name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 10,
@@ -653,7 +653,7 @@ class Shop {
         Attack(
           name: 'thrust',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 25,
@@ -665,10 +665,10 @@ class Shop {
           needsReload: false,
         ),
       ],
-      armor: Armor(pArmor: 0, mArmor: 0),
+      armor: Armor(pArmor: 3, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 6,
+      value: 600,
     ),
     Item(
       name: 'battle axe',
@@ -679,7 +679,7 @@ class Shop {
         Attack(
           name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 9,
             max: 15,
@@ -693,7 +693,7 @@ class Shop {
         Attack(
           name: 'slam',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 6, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 13,
             max: 7,
@@ -707,8 +707,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 8,
+      value: 600,
     ),
     Item(
       name: 'double sword',
@@ -719,7 +719,7 @@ class Shop {
         Attack(
           name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 10,
             max: 11,
@@ -733,7 +733,7 @@ class Shop {
         Attack(
           name: 'thrust',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 1, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 22.5,
@@ -747,8 +747,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 6,
+      value: 650,
     ),
     Item(
       name: 'quarterstaff',
@@ -766,14 +766,14 @@ class Shop {
             width: 20,
             shape: 'cone',
           ),
-          effects: ['stun'],
+          effects: ['knockback'],
           isLoaded: false,
           needsReload: false,
         ),
         Attack(
           name: 'slam',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 5,
             max: 18,
@@ -785,10 +785,10 @@ class Shop {
           needsReload: false,
         ),
       ],
-      armor: Armor(pArmor: 0, mArmor: 0),
+      armor: Armor(pArmor: 3, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 5,
+      value: 500,
     ),
     Item(
       name: 'trident',
@@ -799,7 +799,7 @@ class Shop {
         Attack(
           name: 'thrust',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 2, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 40,
@@ -813,8 +813,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 6,
+      value: 800,
     ),
     Item(
       name: 'long spear',
@@ -825,7 +825,7 @@ class Shop {
         Attack(
           name: 'thrust',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 1, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 40,
@@ -837,10 +837,10 @@ class Shop {
           needsReload: false,
         ),
       ],
-      armor: Armor(pArmor: 0, mArmor: 0),
+      armor: Armor(pArmor: 1, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 5,
+      value: 650,
     ),
     Item(
       name: 'great sword',
@@ -851,7 +851,7 @@ class Shop {
         Attack(
           name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 7, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 10,
             max: 20,
@@ -865,7 +865,7 @@ class Shop {
         Attack(
           name: 'slam',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 9, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 8,
             max: 30,
@@ -879,8 +879,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 10,
+      value: 900,
     ),
     Item(
       name: 'halberd',
@@ -891,7 +891,7 @@ class Shop {
         Attack(
           name: 'thrust',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 1, pDamage: 5, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 18,
             max: 38,
@@ -905,7 +905,7 @@ class Shop {
         Attack(
           name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 20,
             max: 24,
@@ -919,8 +919,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 8,
+      value: 850,
     ),
     Item(
       name: 'long axe',
@@ -931,7 +931,7 @@ class Shop {
         Attack(
           name: 'swing',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 22,
             max: 18,
@@ -945,7 +945,7 @@ class Shop {
         Attack(
           name: 'slam',
           type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 20,
             max: 7,
@@ -959,8 +959,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 7,
+      value: 450,
     ),
   ];
 
@@ -988,8 +988,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 1,
+      value: 200,
     ),
     Item(
       name: 'kunai',
@@ -1000,7 +1000,7 @@ class Shop {
         Attack(
           name: 'throw',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 30,
@@ -1014,8 +1014,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 3,
-      weight: 0,
-      value: 100,
+      weight: 1,
+      value: 150,
     ),
     Item(
       name: 'poison dart',
@@ -1040,8 +1040,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 1,
+      value: 350,
     ),
     Item(
       name: 'javelins',
@@ -1052,7 +1052,7 @@ class Shop {
         Attack(
           name: 'throw',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 30,
@@ -1066,8 +1066,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 3,
-      weight: 0,
-      value: 100,
+      weight: 2,
+      value: 300,
     ),
     Item(
       name: 'short bow',
@@ -1078,7 +1078,7 @@ class Shop {
         Attack(
           name: 'shot',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 35,
             max: 48,
@@ -1092,8 +1092,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 4,
+      value: 400,
     ),
     Item(
       name: 'composite bow',
@@ -1104,7 +1104,7 @@ class Shop {
         Attack(
           name: 'shot',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 23,
             max: 60,
@@ -1118,8 +1118,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 4,
+      value: 550,
     ),
     Item(
       name: 'long bow',
@@ -1130,7 +1130,7 @@ class Shop {
         Attack(
           name: 'shot',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 5, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 50,
             max: 60,
@@ -1144,8 +1144,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 6,
+      value: 700,
     ),
     Item(
       name: 'hand cannon',
@@ -1156,7 +1156,7 @@ class Shop {
         Attack(
           name: 'shot',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 6,
             max: 28,
@@ -1170,8 +1170,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 2,
+      value: 400,
     ),
     Item(
       name: 'hand crossbow',
@@ -1182,7 +1182,7 @@ class Shop {
         Attack(
           name: 'shot',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 30,
@@ -1196,8 +1196,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 2,
+      value: 300,
     ),
     Item(
       name: 'light crossbow',
@@ -1208,7 +1208,7 @@ class Shop {
         Attack(
           name: 'shot',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 80,
@@ -1222,8 +1222,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 4,
+      value: 500,
     ),
     Item(
       name: 'heavy crossbow',
@@ -1234,7 +1234,7 @@ class Shop {
         Attack(
           name: 'shot',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 6, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 100,
@@ -1248,8 +1248,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 8,
+      value: 800,
     ),
     Item(
       name: 'musket',
@@ -1260,7 +1260,7 @@ class Shop {
         Attack(
           name: 'shot',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 0, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 80,
@@ -1274,7 +1274,7 @@ class Shop {
         Attack(
           name: 'thrust',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 1, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 7,
             max: 25,
@@ -1288,8 +1288,8 @@ class Shop {
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
       numberOfUses: 100,
-      weight: 0,
-      value: 100,
+      weight: 6,
+      value: 650,
     ),
   ];
 

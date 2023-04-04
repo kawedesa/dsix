@@ -10,7 +10,7 @@ import 'battle_log.dart';
 class Combat {
   ActionArea actionArea = ActionArea();
   Attack attack = Attack.empty();
-  bool isAttacking = false;
+  bool isTakingAction = false;
   Position inputCenter = Position.empty();
   Position actionCenter = Position.empty();
   Offset mousePosition = Offset.zero;
@@ -26,7 +26,7 @@ class Combat {
     this.inputCenter = inputCenter;
     this.actionCenter = actionCenter;
     this.attack = attack;
-    isAttacking = true;
+    isTakingAction = true;
     battleLog.setAttacker(selectedNpc, selectedPlayer);
   }
 
@@ -34,19 +34,19 @@ class Combat {
     mousePosition = position;
   }
 
-  void cancelAction() {
+  void resetAction() {
     attack = Attack.empty();
-    isAttacking = false;
+    isTakingAction = false;
     inputCenter = Position.empty();
     actionCenter = Position.empty();
     mousePosition = Offset.zero;
     selectedNpc = null;
     selectedPlayer = null;
-    resetActionArea();
+    resetArea();
     battleLog.reset();
   }
 
-  void resetActionArea() {
+  void resetArea() {
     actionArea.reset();
   }
 

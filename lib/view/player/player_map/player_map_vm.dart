@@ -1,12 +1,9 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
-import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/vision_grid.dart';
 import 'package:dsix/model/player/equipment/loot_dialog.dart';
-import 'package:dsix/view/player/player_map/widgets/player_action_buttons.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_building_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_npc_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_player_sprite.dart';
@@ -14,7 +11,6 @@ import 'package:dsix/view/player/player_map/widgets/sprites/player_view_npc_spri
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_other_player_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_player_sprite.dart';
 import 'package:flutter/material.dart';
-import '../../../model/combat/combat.dart';
 import '../../../model/npc/npc.dart';
 
 class PlayerMapVM {
@@ -113,13 +109,8 @@ class PlayerMapVM {
     } else {
       playerSprites.add(PlayerViewPlayerSprite(
         mapInfo: mapInfo,
-        player: player,
-        color: AppColors().getPlayerColor(player.id),
-        playerMode: playerMode,
-        onTap: () {},
       ));
     }
-
     return Stack(
       children: playerSprites,
     );
@@ -140,47 +131,5 @@ class PlayerMapVM {
     return Stack(
       children: buildingSprites,
     );
-  }
-
-  Combat combat = Combat();
-  String playerMode = 'stand';
-
-  Widget actionButtons(MapInfo mapInfo, User user, Function() refresh) {
-    return PlayerActioButtons(
-        mapInfo: mapInfo,
-        user: user,
-        playerMode: playerMode,
-        combat: combat,
-        cancelAction: cancelAction,
-        changePlayerMode: () {
-          playerMode = 'attack';
-        },
-        refresh: refresh);
-  }
-
-  Widget getAttackInput(
-      List<Npc> npcs, List<Player> players, Function refresh) {
-    Widget attackInputWidget = const SizedBox();
-
-    attackInputWidget = MouseInput(
-      active: (playerMode == 'attack'),
-      getMouseOffset: (mouseOffset) {
-        combat.setMousePosition(mouseOffset);
-        combat.setActionArea();
-        refresh();
-      },
-      onTap: () {
-        combat.confirmAttack(npcs, players);
-        cancelAction();
-        refresh();
-      },
-    );
-
-    return attackInputWidget;
-  }
-
-  void cancelAction() {
-    playerMode = 'stand';
-    combat.cancelAction();
   }
 }

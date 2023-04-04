@@ -1,5 +1,4 @@
 import 'package:dsix/model/combat/battle_log.dart';
-import 'package:dsix/model/combat/combat.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
