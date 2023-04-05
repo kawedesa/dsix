@@ -67,10 +67,6 @@ class EffectController {
     currentEffects.remove(effect);
   }
 
-  void reset() {
-    currentEffects = [];
-  }
-
   bool isVulnerable() {
     bool check = false;
     for (Effect effect in currentEffects) {

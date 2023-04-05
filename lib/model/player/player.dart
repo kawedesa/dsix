@@ -137,8 +137,8 @@ class Player {
   void newRound() {
     position.reset();
     life.reset();
-    effects.reset();
     ready = false;
+    resetEffects();
     update();
   }
 
@@ -180,8 +180,8 @@ class Player {
   }
 
   int receiveAttack(Attack attack) {
-    int pArmor = equipment.getTotalArmor().pArmor;
-    int mArmor = equipment.getTotalArmor().mArmor;
+    int pArmor = equipment.getPArmor();
+    int mArmor = equipment.getMArmor();
     int leftOverArmor = 0;
 
     if (effects.isVulnerable()) {
@@ -217,18 +217,16 @@ class Player {
 
     int leftOverRawDamage = attack.damage.rawDamage - leftOverArmor;
 
-    int leftOverDamageAfterTempArmor =
-        leftOverRawDamage - attributes.defense.tempArmor;
-
-    attributes.defense.reduceTempArmor(leftOverRawDamage);
-
-    if (leftOverDamageAfterTempArmor < 1) {
-      leftOverDamageAfterTempArmor = 0;
+    if (leftOverRawDamage < 0) {
+      leftOverRawDamage = 0;
     }
 
-    int totalDamage = pDamage + mDamage + leftOverDamageAfterTempArmor;
+    int totalDamage = pDamage + mDamage + leftOverRawDamage;
 
-    if (totalDamage > 0) {
+    int totalDamageAfterTempArmor = totalDamage - attributes.defense.tempArmor;
+    attributes.defense.reduceTempArmor(totalDamage);
+
+    if (totalDamageAfterTempArmor > 0) {
       life.receiveDamage(totalDamage);
       receiveEffects(attack.effects);
     } else {
@@ -334,6 +332,14 @@ class Player {
         effects.removeEffect(effect);
         break;
     }
+  }
+
+  void resetEffects() {
+    for (Effect effect in effects.currentEffects) {
+      effect.reset();
+    }
+    checkEffects();
+    update();
   }
 
   //EQUIPMENT

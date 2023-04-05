@@ -44,4 +44,8 @@ class Effect {
   void increaseCountdown() {
     countdown++;
   }
+
+  void reset() {
+    countdown = 0;
+  }
 }

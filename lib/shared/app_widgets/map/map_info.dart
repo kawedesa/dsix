@@ -95,7 +95,7 @@ class MapInfo {
     }
   }
 
-  Position getPlayerOnScreenPosition(Position position) {
+  Position getOnScreenPosition(Position position) {
     return Position(
         dx: (position.dx * minZoom) +
             (getCanvasPosition().dx * minZoom) -

@@ -1,4 +1,5 @@
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/map/ui/effects_ui.dart';
 import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +8,13 @@ import 'package:transparent_pointer/transparent_pointer.dart';
 class PlayerViewOtherPlayerSprite extends StatefulWidget {
   final Player player;
   final Color color;
+  final bool beingAttacked;
   final Function() onTap;
   const PlayerViewOtherPlayerSprite(
       {super.key,
       required this.player,
       required this.color,
+      required this.beingAttacked,
       required this.onTap});
 
   @override
@@ -40,14 +43,23 @@ class _PlayerViewOtherPlayerSpriteState
                 child: Container(
                   width: 7,
                   height: 7,
-                  decoration: BoxDecoration(
-                    color: widget.color.withAlpha(25),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: widget.color,
-                      width: 0.3,
-                    ),
-                  ),
+                  decoration: (widget.beingAttacked)
+                      ? BoxDecoration(
+                          color: AppColors.cancel.withAlpha(200),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.cancel,
+                            width: 0.3,
+                          ),
+                        )
+                      : BoxDecoration(
+                          color: widget.color.withAlpha(25),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: widget.color,
+                            width: 0.3,
+                          ),
+                        ),
                 ),
               ),
               Align(

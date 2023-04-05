@@ -1,5 +1,4 @@
 import 'package:dsix/model/building/building.dart';
-import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/spawner/spawner.dart';
@@ -11,7 +10,6 @@ import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_building_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_edit_npc_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_spawner_sprite.dart';
-import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/view/creator/creator_map/widgets/ui/game_creation_menu.dart';
 import 'package:dsix/view/creator/creator_map/widgets/ui/selected_building_ui.dart';
 import 'package:dsix/view/creator/creator_map/widgets/ui/selected_npc_ui.dart';
@@ -20,30 +18,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class CreatorMapEditMode extends StatefulWidget {
-  final MapInfo mapInfo;
-  final Npc? selectedNpc;
-  final Function(Npc) selectNpc;
-  final Function() duplicateNpc;
-  final Function(Position) createNpc;
-  final Building? selectedBuilding;
-  final Function(Building) selectBuilding;
-  final Function() duplicateBuilding;
-  final Function(Position) createBuilding;
-  final Function() deselect;
-
-  const CreatorMapEditMode(
-      {Key? key,
-      required this.mapInfo,
-      required this.selectedNpc,
-      required this.selectNpc,
-      required this.duplicateNpc,
-      required this.createNpc,
-      required this.selectedBuilding,
-      required this.selectBuilding,
-      required this.duplicateBuilding,
-      required this.createBuilding,
-      required this.deselect})
-      : super(key: key);
+  const CreatorMapEditMode({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CreatorMapEditMode> createState() => _CreatorMapEditModeState();
@@ -71,14 +48,14 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
       child: Stack(
         children: [
           InteractiveViewer(
-            transformationController: widget.mapInfo.canvasController,
+            transformationController: user.mapInfo.canvasController,
             constrained: false,
             panEnabled: true,
-            maxScale: widget.mapInfo.minZoom,
-            minScale: widget.mapInfo.minZoom,
+            maxScale: user.mapInfo.minZoom,
+            minScale: user.mapInfo.minZoom,
             child: SizedBox(
-              width: widget.mapInfo.mapSize,
-              height: widget.mapInfo.mapSize,
+              width: user.mapInfo.mapSize,
+              height: user.mapInfo.mapSize,
               child: Stack(
                 children: [
                   SvgPicture.asset(
@@ -98,8 +75,7 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
                     buildings,
                     refresh,
                   ),
-                  _creatorMapController.createNpcSprites(
-                      widget.mapInfo, npcs, refresh),
+                  _creatorMapController.createNpcSprites(user, npcs, refresh),
                   _creatorMapController
                       .placeHereTarget(user.placeHere.getOffset()),
                 ],
@@ -111,31 +87,10 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
           // ignore: prefer_const_constructors
           SelectedBuildingUi(),
           GameCreationMenu(
-            active: (user.placingSomething == 'false') ? true : false,
             refresh: () {
               refresh();
             },
           ),
-          MouseInput(
-              active: (user.placingSomething == 'building') ? true : false,
-              getMouseOffset: (mouseOffset) {
-                user.setPlaceHere(mouseOffset, widget.mapInfo);
-                refresh();
-              },
-              onTap: () {
-                user.createBuilding();
-                user.resetPlacing();
-              }),
-          MouseInput(
-              active: (user.placingSomething == 'npc') ? true : false,
-              getMouseOffset: (mouseOffset) {
-                user.setPlaceHere(mouseOffset, widget.mapInfo);
-                refresh();
-              },
-              onTap: () {
-                user.createNpc();
-                user.resetPlacing();
-              }),
         ],
       ),
     );
@@ -178,13 +133,13 @@ class CreatorMapEditModeController {
   }
 
 //NPC
-  Widget createNpcSprites(MapInfo mapInfo, List<Npc> npcs, Function refresh) {
+  Widget createNpcSprites(User user, List<Npc> npcs, Function refresh) {
     List<Widget> npcSprites = [];
 
     for (Npc npc in npcs) {
       npcSprites.add(CreatorViewEditNpcSprite(
         npc: npc,
-        mapInfo: mapInfo,
+        selected: user.checkSelectedNpc(npc.id),
         refresh: () {
           refresh();
         },

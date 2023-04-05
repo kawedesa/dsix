@@ -75,7 +75,7 @@ class Combat {
 
   void attackNpcs(List<Npc> npcs) {
     for (Npc npc in npcs) {
-      if (actionArea.insideArea(npc.position)) {
+      if (actionArea.insideArea(npc.position) && npc.life.isAlive()) {
         if (attack.type == 'melee') {
           applyOnBeignHitEffects(npc.effects.onBeignHitEffects);
         }
@@ -86,6 +86,7 @@ class Combat {
         battleLog.addTarget(npc.id.toString(), 'npc', npc.position, damage);
 
         if (npc.life.isDead()) {
+          npc.resetEffects();
           npc.createLoot();
         }
       }
@@ -94,7 +95,7 @@ class Combat {
 
   void attackPlayers(List<Player> players) {
     for (Player player in players) {
-      if (actionArea.insideArea(player.position)) {
+      if (actionArea.insideArea(player.position) && player.life.isAlive()) {
         if (attack.type == 'melee') {
           applyOnBeignHitEffects(player.effects.onBeignHitEffects);
         }
@@ -103,6 +104,10 @@ class Combat {
         damage = player.receiveAttack(attack);
 
         battleLog.addTarget(player.id, 'player', player.position, damage);
+
+        if (player.life.isDead()) {
+          player.resetEffects();
+        }
       }
     }
   }

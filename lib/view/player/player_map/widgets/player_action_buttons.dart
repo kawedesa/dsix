@@ -23,6 +23,28 @@ class PlayerActioButtons extends StatefulWidget {
 }
 
 class _PlayerActioButtonsState extends State<PlayerActioButtons> {
+  Widget createActionButtons(User user) {
+    List<Widget> actionButtons = [];
+    List<Widget> mainHandActionButtons = createMainHandActionButtons(user);
+    List<Widget> offHandActionButtons = createOffHandActionButtons(user);
+
+    for (Widget button in mainHandActionButtons) {
+      actionButtons.add(button);
+    }
+
+    actionButtons.add(createDefendActionButton(user));
+    actionButtons.add(createLookActionButton(user));
+
+    for (Widget button in offHandActionButtons) {
+      actionButtons.add(button);
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: actionButtons,
+    );
+  }
+
   Widget createDefendActionButton(User user) {
     return AppCircularButton(
       icon: AppImages.defense,
@@ -51,7 +73,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
     );
   }
 
-  Widget createMainHandActionButtons(User user) {
+  List<Widget> createMainHandActionButtons(User user) {
     List<Widget> mainHandActionButtons = [];
 
     for (Attack attack in user.player.equipment.mainHandSlot.item.attacks) {
@@ -62,9 +84,9 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
         isTakingAction: user.combat.isTakingAction,
         startAction: () {
           user.combat.startAttack(
-              widget.mapInfo.getPlayerOnScreenPosition(user.player.position),
+              widget.mapInfo.getOnScreenPosition(user.player.position),
               user.player.position,
-              attack,
+              user.player.attack(attack),
               user.player,
               null);
 
@@ -82,18 +104,14 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       ));
     }
 
-    return Row(
-      children: mainHandActionButtons,
-    );
+    return mainHandActionButtons;
   }
 
-  Widget createOffHandActionButtons(User user) {
+  List<Widget> createOffHandActionButtons(User user) {
     List<Widget> offHandActionButtons = [];
 
     if (user.player.equipment.offHandSlot.item.itemSlot == 'two hands') {
-      return Row(
-        children: offHandActionButtons,
-      );
+      return offHandActionButtons;
     }
 
     for (Attack attack in user.player.equipment.offHandSlot.item.attacks) {
@@ -104,9 +122,9 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
         isTakingAction: user.combat.isTakingAction,
         startAction: () {
           user.combat.startAttack(
-              widget.mapInfo.getPlayerOnScreenPosition(user.player.position),
+              widget.mapInfo.getOnScreenPosition(user.player.position),
               user.player.position,
-              attack,
+              user.player.attack(attack),
               user.player,
               null);
 
@@ -124,9 +142,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       ));
     }
 
-    return Row(
-      children: offHandActionButtons,
-    );
+    return offHandActionButtons;
   }
 
   Widget getAttackInput(
@@ -170,18 +186,9 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
               : Align(
                   alignment: const Alignment(0, 0.50),
                   child: SizedBox(
-                    width: AppLayout.shortest(context) * 0.50,
-                    height: AppLayout.shortest(context) * 0.1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        createMainHandActionButtons(user),
-                        createDefendActionButton(user),
-                        createLookActionButton(user),
-                        createOffHandActionButtons(user)
-                      ],
-                    ),
-                  )),
+                      width: AppLayout.shortest(context) * 0.50,
+                      height: AppLayout.shortest(context) * 0.1,
+                      child: createActionButtons(user))),
         ],
       ),
     );

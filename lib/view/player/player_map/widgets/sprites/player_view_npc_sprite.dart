@@ -36,8 +36,8 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
             Align(
               alignment: Alignment.center,
               child: Container(
-                width: 7,
-                height: 7,
+                width: 10,
+                height: 10,
                 decoration: (widget.beingAttacked)
                     ? BoxDecoration(
                         color: AppColors.cancel.withAlpha(200),
@@ -48,10 +48,10 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
                         ),
                       )
                     : BoxDecoration(
-                        color: AppColors.uiColor.withAlpha(25),
+                        color: AppColors.uiColorDark.withAlpha(25),
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: AppColors.uiColor,
+                          color: AppColors.uiColorDark.withAlpha(100),
                           width: 0.3,
                         ),
                       ),

@@ -12,12 +12,12 @@ import 'package:provider/provider.dart';
 
 class CreatorViewEditNpcSprite extends StatefulWidget {
   final Npc npc;
-  final MapInfo mapInfo;
+  final bool selected;
   final Function() refresh;
   const CreatorViewEditNpcSprite({
     super.key,
     required this.npc,
-    required this.mapInfo,
+    required this.selected,
     required this.refresh,
   });
 
@@ -30,7 +30,7 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
   final NpcSpriteController _controller = NpcSpriteController();
 
   Color getColor() {
-    if (_controller.isSelected) {
+    if (widget.selected) {
       return AppColors.uiColorLight.withAlpha(75);
     } else {
       return AppColors.uiColorDark.withAlpha(25);
@@ -38,7 +38,7 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
   }
 
   Color getStrokeColor() {
-    if (_controller.isSelected) {
+    if (widget.selected) {
       return AppColors.uiColorLight.withAlpha(200);
     } else {
       return AppColors.uiColorDark.withAlpha(100);
@@ -48,7 +48,7 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    _controller.checkSelected(widget.npc, user.selectedNpc);
+
     _controller.initializeTempPosition(widget.npc.position);
 
     return ChangeNotifierProxyProvider<Spawner, TempPosition>(
@@ -83,7 +83,7 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: () {
-                      if (_controller.isSelected) {
+                      if (widget.selected) {
                         user.deselect();
                       } else {
                         user.deselect();
@@ -103,7 +103,7 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
                       });
                     },
                     onPanEnd: (details) {
-                      _controller.endMove(widget.npc, widget.mapInfo);
+                      _controller.endMove(widget.npc, user.mapInfo);
 
                       widget.refresh();
                     },
@@ -132,20 +132,6 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
 class NpcSpriteController {
   final TempPosition tempPosition = TempPosition();
   bool drag = false;
-  bool isSelected = false;
-
-  void checkSelected(Npc npc, Npc? selectedNpc) {
-    if (selectedNpc == null) {
-      isSelected = false;
-      return;
-    }
-
-    if (npc.id == selectedNpc.id) {
-      isSelected = true;
-      return;
-    }
-    isSelected = false;
-  }
 
   void initializeTempPosition(Position originalPosition) {
     if (drag == false) {

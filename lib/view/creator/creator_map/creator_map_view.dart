@@ -1,6 +1,5 @@
-import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/game/game.dart';
-import 'package:dsix/model/npc/npc.dart';
+import 'package:dsix/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'creator_map_vm.dart';
@@ -21,95 +20,12 @@ class _CreatorMapViewState extends State<CreatorMapView> {
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
-    final npcs = Provider.of<List<Npc>>(context);
-    final buildings = Provider.of<List<Building>>(context);
+    final user = Provider.of<User>(context);
 
-    _creatorMapVM.mapInfo.setMapInfo(context, game.map);
-    _creatorMapVM.updateSelectedNpc(npcs);
-    _creatorMapVM.updateSelectedBuilding(buildings);
+    user.mapInfo.setMapInfo(context, game.map);
 
     return (game.phase == 'action')
-        ? CreatorMapActionMode(
-            mapInfo: _creatorMapVM.mapInfo,
-            selectedNpc: _creatorMapVM.selectedNpc,
-            selectNpc: (npc) {
-              setState(() {
-                _creatorMapVM.deselectBuilding();
-                _creatorMapVM.deselectNpc();
-                _creatorMapVM.selectNpc(npc);
-              });
-            },
-            duplicateNpc: () {
-              _creatorMapVM.duplicateNpc();
-            },
-            createNpc: (position) {
-              setState(() {
-                _creatorMapVM.createNpc(position);
-              });
-            },
-            selectedBuilding: _creatorMapVM.selectedBuilding,
-            selectBuilding: (building) {
-              setState(() {
-                _creatorMapVM.deselectBuilding();
-                _creatorMapVM.deselectNpc();
-                _creatorMapVM.selectBuilding(building);
-              });
-            },
-            duplicateBuilding: () {
-              _creatorMapVM.duplicateBuilding();
-            },
-            createBuilding: (position) {
-              setState(() {
-                _creatorMapVM.createBuilding(position);
-              });
-            },
-            deselect: () {
-              setState(() {
-                _creatorMapVM.deselectNpc();
-                _creatorMapVM.deselectBuilding();
-              });
-            },
-          )
-        : CreatorMapEditMode(
-            mapInfo: _creatorMapVM.mapInfo,
-            selectedNpc: _creatorMapVM.selectedNpc,
-            selectNpc: (npc) {
-              setState(() {
-                _creatorMapVM.deselectBuilding();
-                _creatorMapVM.deselectNpc();
-                _creatorMapVM.selectNpc(npc);
-              });
-            },
-            duplicateNpc: () {
-              _creatorMapVM.duplicateNpc();
-            },
-            createNpc: (position) {
-              setState(() {
-                _creatorMapVM.createNpc(position);
-              });
-            },
-            selectedBuilding: _creatorMapVM.selectedBuilding,
-            selectBuilding: (building) {
-              setState(() {
-                _creatorMapVM.deselectBuilding();
-                _creatorMapVM.deselectNpc();
-                _creatorMapVM.selectBuilding(building);
-              });
-            },
-            duplicateBuilding: () {
-              _creatorMapVM.duplicateBuilding();
-            },
-            createBuilding: (position) {
-              setState(() {
-                _creatorMapVM.createBuilding(position);
-              });
-            },
-            deselect: () {
-              setState(() {
-                _creatorMapVM.deselectNpc();
-                _creatorMapVM.deselectBuilding();
-              });
-            },
-          );
+        ? const CreatorMapActionMode()
+        : const CreatorMapEditMode();
   }
 }

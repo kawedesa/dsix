@@ -99,6 +99,18 @@ class Npc {
     update();
   }
 
+  void defend() {
+    attributes.defense.defend();
+
+    update();
+  }
+
+  void look() {
+    attributes.vision.look();
+
+    update();
+  }
+
   Attack attack(Attack attack) {
     Attack npcAttack = attack;
 
@@ -144,9 +156,17 @@ class Npc {
     }
 
     int leftOverRawDamage = attack.damage.rawDamage - leftOverArmor;
+
+    if (leftOverRawDamage < 0) {
+      leftOverRawDamage = 0;
+    }
+
     int totalDamage = pDamage + mDamage + leftOverRawDamage;
 
-    if (totalDamage > 0) {
+    int totalDamageAfterTempArmor = totalDamage - attributes.defense.tempArmor;
+    attributes.defense.reduceTempArmor(totalDamage);
+
+    if (totalDamageAfterTempArmor > 0) {
       life.receiveDamage(totalDamage);
       receiveEffects(attack.effects);
     } else {
@@ -251,6 +271,14 @@ class Npc {
         effects.removeEffect(effect);
         break;
     }
+  }
+
+  void resetEffects() {
+    for (Effect effect in effects.currentEffects) {
+      effect.reset();
+    }
+    checkEffects();
+    update();
   }
 
   void createLoot() {

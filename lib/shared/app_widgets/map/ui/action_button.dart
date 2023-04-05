@@ -88,7 +88,7 @@ class _ActionButtonState extends State<ActionButton> {
       child: AppCircularButton(
         color: widget.color.withAlpha(175),
         icon: widget.icon,
-        iconSize: 0.75,
+        iconSize: 1,
         iconColor: getDetailColor().withAlpha(225),
         borderColor: getDetailColor().withAlpha(225),
         size: 0.04,

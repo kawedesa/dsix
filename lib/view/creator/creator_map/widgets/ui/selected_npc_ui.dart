@@ -18,7 +18,7 @@ class SelectedNpcUi extends StatelessWidget {
 
     return Align(
       alignment: const Alignment(0.0, -0.9),
-      child: (user.selectedNpc == null)
+      child: (user.npc == null)
           ? const SizedBox()
           : Container(
               width: 300,
@@ -37,7 +37,7 @@ class SelectedNpcUi extends StatelessWidget {
                     Align(
                       alignment: Alignment.topCenter,
                       child: MapText(
-                        text: user.selectedNpc!.name.toUpperCase(),
+                        text: user.npc!.name.toUpperCase(),
                         fontSize: 18,
                         isBold: false,
                       ),
@@ -45,7 +45,7 @@ class SelectedNpcUi extends StatelessWidget {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: LifeBar(
-                        life: user.selectedNpc!.life,
+                        life: user.npc!.life,
                         width: 260,
                         height: 12,
                       ),
@@ -60,7 +60,7 @@ class SelectedNpcUi extends StatelessWidget {
                             borderSize: 3,
                             size: 20.0,
                             onTap: () {
-                              user.selectedNpc!.delete();
+                              user.npc!.delete();
                               user.deselect();
                             })),
                     Align(

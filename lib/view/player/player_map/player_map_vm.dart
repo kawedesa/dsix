@@ -1,5 +1,6 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/vision_grid.dart';
@@ -16,8 +17,8 @@ import '../../../model/npc/npc.dart';
 class PlayerMapVM {
   //SPRITES
   //NPC
-  Widget createNpcSprites(context, MapInfo mapInfo, List<Npc> npcs,
-      List<Player> players, Path attackArea, Function() refresh) {
+  Widget createNpcSprites(context, User user, MapInfo mapInfo, List<Npc> npcs,
+      List<Player> players, Function() refresh) {
     List<Widget> npcSprites = [];
 
     Path playersVisibleArea = getPlayersVisibleArea(mapInfo, players);
@@ -41,7 +42,8 @@ class PlayerMapVM {
         } else {
           npcSprites.add(PlayerViewNpcSprite(
             npc: npc,
-            beingAttacked: attackArea.contains(npc.position.getOffset()),
+            beingAttacked:
+                user.combat.actionArea.area.contains(npc.position.getOffset()),
             onTap: () {},
           ));
         }
@@ -79,13 +81,13 @@ class PlayerMapVM {
   }
 
   //PLAYERS
-  Widget createPlayerSprites(MapInfo mapInfo, List<Player> players,
-      Player player, Function() refresh) {
+  Widget createPlayerSprites(
+      User user, MapInfo mapInfo, List<Player> players, Function() refresh) {
     List<Widget> playerSprites = [];
 
     //OTHER PLAYERS
     for (Player otherPlayer in players) {
-      if (otherPlayer != player) {
+      if (otherPlayer != user.player) {
         if (otherPlayer.life.isDead()) {
           playerSprites.add(PlayerViewDeadPlayerSprite(
             player: otherPlayer,
@@ -95,20 +97,23 @@ class PlayerMapVM {
           playerSprites.add(PlayerViewOtherPlayerSprite(
               player: otherPlayer,
               color: AppColors().getPlayerColor(otherPlayer.id),
+              beingAttacked: user.combat.actionArea.area
+                  .contains(otherPlayer.position.getOffset()),
               onTap: () {}));
         }
       }
     }
 
     //PLAYER
-    if (player.life.isDead()) {
+    if (user.player.life.isDead()) {
       playerSprites.add(PlayerViewDeadPlayerSprite(
-        player: player,
-        color: AppColors().getPlayerColor(player.id),
+        player: user.player,
+        color: AppColors().getPlayerColor(user.player.id),
       ));
     } else {
       playerSprites.add(PlayerViewPlayerSprite(
-        mapInfo: mapInfo,
+        beingAttacked: user.combat.actionArea.area
+            .contains(user.player.position.getOffset()),
       ));
     }
     return Stack(

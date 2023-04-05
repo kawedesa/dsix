@@ -13,11 +13,17 @@ class User {
   Color lightColor = Colors.transparent;
   Color darkColor = Colors.transparent;
 
+  Npc? npc;
+  String npcMode = 'stand';
+
   void selectCreator() {
     color = AppColors.uiColor;
     lightColor = AppColors.uiColorLight;
     darkColor = AppColors.uiColorDark;
   }
+
+  //MAPINFO
+  MapInfo mapInfo = MapInfo.empty();
 
   //COMBAT
   Combat combat = Combat();
@@ -94,7 +100,7 @@ class User {
   String placingSomething = 'false';
   Position placeHere = Position.empty();
 
-  void setPlaceHere(Offset mouseOffset, MapInfo mapInfo) {
+  void setPlaceHere(Offset mouseOffset) {
     placeHere = Position(
         dx: mouseOffset.dx / mapInfo.minZoom - mapInfo.getCanvasPosition().dx,
         dy: mouseOffset.dy / mapInfo.minZoom -
@@ -119,36 +125,68 @@ class User {
   }
 
   //NPC
-
-  Npc? selectedNpc;
-
-  void updateSelectedNpc(List<Npc> npcs) {
-    if (selectedNpc == null) {
+  void updateNpc(List<Npc> npcs) {
+    if (npc == null) {
       return;
     }
 
     for (Npc npc in npcs) {
-      if (selectedNpc!.id == npc.id) {
-        selectedNpc = npc;
+      if (npc.id == this.npc!.id) {
+        this.npc = npc;
       }
     }
   }
 
+  bool checkSelectedNpc(int id) {
+    if (npc == null) {
+      return false;
+    }
+
+    if (id == npc!.id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void setNpcMode(String turn) {
+    if (turn == 'player') {
+      npcWaitMode();
+    }
+
+    if (turn == 'npc') {
+      if (npcMode == 'wait') {
+        npcMode = 'stand';
+      }
+    }
+  }
+
+  void npcActionMode() {
+    npcMode = 'action';
+  }
+
+  void npcStandMode() {
+    npcMode = 'stand';
+  }
+
+  void npcWaitMode() {
+    npcMode = 'wait';
+  }
+
   void selectNpc(Npc npc) {
     if (npc.life.isDead()) {
-      selectedNpc = null;
       return;
     }
-    selectedNpc = npc;
+    this.npc = npc;
   }
 
   void deselect() {
-    selectedNpc = null;
+    npc = null;
     selectedBuilding = null;
   }
 
   bool somethingIsSelected() {
-    if (selectedNpc == null && selectedBuilding == null) {
+    if (npc == null && selectedBuilding == null) {
       return false;
     } else {
       return true;
@@ -156,16 +194,16 @@ class User {
   }
 
   void duplicateNpc() {
-    Npc newNpc = selectedNpc!;
+    Npc newNpc = npc!;
     newNpc.id = DateTime.now().millisecondsSinceEpoch;
     newNpc.position.dx += 5;
     newNpc.set();
-    selectedNpc = newNpc;
+    npc = newNpc;
   }
 
   void createNpc() {
-    selectedNpc!.changePosition(placeHere);
-    selectedNpc!.set();
+    npc!.changePosition(placeHere);
+    npc!.set();
   }
 
   //BUILDING

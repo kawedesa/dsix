@@ -15,13 +15,14 @@ import 'package:transparent_pointer/transparent_pointer.dart';
 
 class CreatorViewActionNpcSprite extends StatefulWidget {
   final Npc npc;
-  final MapInfo mapInfo;
+  final bool selected;
   final bool beingAttacked;
   final Function() refresh;
+
   const CreatorViewActionNpcSprite({
     super.key,
     required this.npc,
-    required this.mapInfo,
+    required this.selected,
     required this.beingAttacked,
     required this.refresh,
   });
@@ -39,7 +40,6 @@ class _CreatorViewActionNpcSpriteState
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    _controller.checkSelected(widget.npc, user.selectedNpc);
     _controller.initializeTempPosition(widget.npc.position);
 
     return ChangeNotifierProxyProvider<Spawner, TempPosition>(
@@ -60,8 +60,9 @@ class _CreatorViewActionNpcSpriteState
                   child: TransparentPointer(
                     transparent: true,
                     child: NpcSpriteVisionRange(
-                      selected: _controller.isSelected,
+                      selected: widget.selected,
                       beingAttacked: widget.beingAttacked,
+                      npcMode: user.npcMode,
                       range: widget.npc.attributes.vision.getRange(),
                     ),
                   ),
@@ -71,8 +72,9 @@ class _CreatorViewActionNpcSpriteState
                   child: TransparentPointer(
                     transparent: true,
                     child: NpcSpriteMoveRange(
-                      selected: _controller.isSelected,
+                      selected: widget.selected,
                       beingAttacked: widget.beingAttacked,
+                      npcMode: user.npcMode,
                       maxRange: widget.npc.attributes.movement.maxRange(),
                       distanceMoved: _controller.tempPosition.distanceMoved,
                     ),
@@ -89,46 +91,77 @@ class _CreatorViewActionNpcSpriteState
                     )),
                 Align(
                   alignment: Alignment.center,
-                  child: GestureDetector(
-                    onTap: () {
-                      if (_controller.isSelected) {
-                        user.deselect();
-                      } else {
-                        user.deselect();
-                        user.selectNpc(widget.npc);
-                      }
-                      widget.refresh();
-                    },
-                    onPanStart: (details) {
-                      _controller.drag = true;
-                      user.selectNpc(widget.npc);
-                      widget.refresh();
-                    },
-                    onPanUpdate: (details) {
-                      setState(() {
-                        _controller.tempPosition
-                            .panUpdate(details.delta, 'tile');
-                      });
-                    },
-                    onPanEnd: (details) {
-                      _controller.endMove(widget.npc, widget.mapInfo);
-
-                      widget.refresh();
-                    },
-                    child: SizedBox(
-                      width: widget.npc.size,
-                      height: widget.npc.size,
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: SvgPicture.asset(
-                          AppImages().getNpcIcon(
-                            widget.npc.name,
-                          ),
-                          color: Colors.black,
+                  child: SizedBox(
+                    width: widget.npc.size,
+                    height: widget.npc.size,
+                    child: Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: SvgPicture.asset(
+                        AppImages().getNpcIcon(
+                          widget.npc.name,
                         ),
+                        color: Colors.black,
                       ),
                     ),
                   ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: (user.npcMode == 'wait')
+                      ? GestureDetector(
+                          onTap: () {
+                            if (user.checkSelectedNpc(widget.npc.id)) {
+                              user.deselect();
+                            } else {
+                              user.deselect();
+                              user.selectNpc(widget.npc);
+                            }
+                            widget.refresh();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 0),
+                            child: Container(
+                              width: widget.npc.size / 2,
+                              height: widget.npc.size / 2,
+                              color: Colors.transparent,
+                            ),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            if (user.checkSelectedNpc(widget.npc.id)) {
+                              user.deselect();
+                            } else {
+                              user.deselect();
+                              user.selectNpc(widget.npc);
+                            }
+                            widget.refresh();
+                          },
+                          onPanStart: (details) {
+                            _controller.drag = true;
+                            user.selectNpc(widget.npc);
+                            widget.refresh();
+                          },
+                          onPanUpdate: (details) {
+                            setState(() {
+                              _controller.tempPosition
+                                  .panUpdate(details.delta, 'tile');
+                            });
+                          },
+                          onPanEnd: (details) {
+                            _controller.endMove(widget.npc, user.mapInfo);
+
+                            widget.refresh();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 0),
+                            child: Container(
+                              width: widget.npc.size / 2,
+                              height: widget.npc.size / 2,
+                              color: Colors.transparent,
+                            ),
+                          ),
+                        ),
                 ),
               ],
             ),
@@ -140,20 +173,6 @@ class _CreatorViewActionNpcSpriteState
 class NpcSpriteController {
   final TempPosition tempPosition = TempPosition();
   bool drag = false;
-  bool isSelected = false;
-
-  void checkSelected(Npc npc, Npc? selectedNpc) {
-    if (selectedNpc == null) {
-      isSelected = false;
-      return;
-    }
-
-    if (npc.id == selectedNpc.id) {
-      isSelected = true;
-      return;
-    }
-    isSelected = false;
-  }
 
   void initializeTempPosition(Position originalPosition) {
     if (drag == false) {
@@ -178,10 +197,10 @@ class NpcSpriteController {
   }
 }
 
-// ignore: must_be_immutable
 class NpcSpriteMoveRange extends StatelessWidget {
   final bool selected;
   final bool beingAttacked;
+  final String npcMode;
   final double maxRange;
   final double distanceMoved;
 
@@ -189,6 +208,7 @@ class NpcSpriteMoveRange extends StatelessWidget {
     Key? key,
     required this.selected,
     required this.beingAttacked,
+    required this.npcMode,
     required this.maxRange,
     required this.distanceMoved,
   }) : super(key: key);
@@ -234,14 +254,14 @@ class NpcSpriteMoveRange extends StatelessWidget {
     double getRange() {
       double range = 0;
 
-      switch (selected) {
-        case true:
-          range =
-              (maxRange - distanceMoved < 10) ? 10 : maxRange - distanceMoved;
-          break;
-        case false:
-          range = 10;
-          break;
+      if (selected) {
+        range = (maxRange - distanceMoved < 10) ? 10 : maxRange - distanceMoved;
+      } else {
+        range = 10;
+      }
+
+      if (npcMode == 'wait') {
+        range = 10;
       }
 
       return range;
@@ -264,16 +284,17 @@ class NpcSpriteMoveRange extends StatelessWidget {
   }
 }
 
-// ignore: must_be_immutable
 class NpcSpriteVisionRange extends StatelessWidget {
   final bool selected;
   final bool beingAttacked;
+  final String npcMode;
   final double range;
 
   const NpcSpriteVisionRange({
     Key? key,
     required this.selected,
     required this.beingAttacked,
+    required this.npcMode,
     required this.range,
   }) : super(key: key);
 
@@ -291,8 +312,8 @@ class NpcSpriteVisionRange extends StatelessWidget {
       child: AnimatedContainer(
         curve: Curves.fastLinearToSlowEaseIn,
         duration: const Duration(milliseconds: 700),
-        width: (selected) ? range : 0,
-        height: (selected) ? range : 0,
+        width: (selected && npcMode != 'wait') ? range : 0,
+        height: (selected && npcMode != 'wait') ? range : 0,
       ),
     );
   }

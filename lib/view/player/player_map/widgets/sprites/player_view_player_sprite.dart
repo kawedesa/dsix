@@ -12,8 +12,11 @@ import 'package:provider/provider.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
 class PlayerViewPlayerSprite extends StatefulWidget {
-  final MapInfo mapInfo;
-  const PlayerViewPlayerSprite({super.key, required this.mapInfo});
+  final bool beingAttacked;
+  const PlayerViewPlayerSprite({
+    super.key,
+    required this.beingAttacked,
+  });
 
   @override
   State<PlayerViewPlayerSprite> createState() => _PlayerViewPlayerSpriteState();
@@ -51,6 +54,7 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                   alignment: Alignment.center,
                   child: PlayerSpriteMoveRange(
                       playerMode: user.playerMode,
+                      beingAttacked: widget.beingAttacked,
                       maxRange: user.player.attributes.movement.maxRange(),
                       distanceMoved: _controller.tempPosition.distanceMoved,
                       color: user.color),
@@ -80,34 +84,34 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: TransparentPointer(
-                    transparent: false,
-                    child: GestureDetector(
-                      onPanStart: (details) {
-                        _controller.drag = true;
-                      },
-                      onPanUpdate: (details) {
-                        setState(() {
-                          _controller.tempPosition.panUpdate(details.delta, '');
-                        });
-                      },
-                      onPanEnd: (details) {
-                        setState(() {
-                          _controller.endMove(user.player, widget.mapInfo);
-                          _controller.drag = false;
-                        });
-                      },
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(bottom: user.player.size / 1.2),
-                        child: Container(
-                          width: user.player.size / 4,
-                          height: user.player.size / 2,
-                          color: Colors.transparent,
+                  child: (user.playerMode == 'wait')
+                      ? const SizedBox()
+                      : GestureDetector(
+                          onPanStart: (details) {
+                            _controller.drag = true;
+                          },
+                          onPanUpdate: (details) {
+                            setState(() {
+                              _controller.tempPosition
+                                  .panUpdate(details.delta, '');
+                            });
+                          },
+                          onPanEnd: (details) {
+                            setState(() {
+                              _controller.endMove(user.player, user.mapInfo);
+                              _controller.drag = false;
+                            });
+                          },
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(bottom: user.player.size / 1.2),
+                            child: Container(
+                              width: user.player.size / 4,
+                              height: user.player.size / 2,
+                              color: Colors.transparent,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                 ),
               ],
             ),
@@ -148,12 +152,14 @@ class PlayerSpriteMoveRange extends StatelessWidget {
   final String playerMode;
   final double maxRange;
   final double distanceMoved;
+  final bool beingAttacked;
   final Color color;
   const PlayerSpriteMoveRange({
     Key? key,
     required this.playerMode,
     required this.maxRange,
     required this.distanceMoved,
+    required this.beingAttacked,
     required this.color,
   }) : super(key: key);
 
@@ -168,6 +174,10 @@ class PlayerSpriteMoveRange extends StatelessWidget {
       if (distanceMoved > maxRange) {
         rangeColor = AppColors.negative.withAlpha(200);
       }
+
+      if (beingAttacked) {
+        rangeColor = AppColors.negative.withAlpha(200);
+      }
       return rangeColor;
     }
 
@@ -180,6 +190,11 @@ class PlayerSpriteMoveRange extends StatelessWidget {
       if (distanceMoved > maxRange) {
         rangeColor = AppColors.negative;
       }
+
+      if (beingAttacked) {
+        rangeColor = AppColors.negative;
+      }
+
       return rangeColor;
     }
 
@@ -190,7 +205,7 @@ class PlayerSpriteMoveRange extends StatelessWidget {
         case 'stand':
           range = (maxRange - distanceMoved < 7) ? 7 : maxRange - distanceMoved;
           break;
-        case 'menu':
+        case 'wait':
           range = 7;
           break;
         case 'attack':

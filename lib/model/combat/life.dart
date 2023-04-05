@@ -60,6 +60,14 @@ class Life {
     }
   }
 
+  bool isAlive() {
+    if (current > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void reset() {
     current = max;
   }
