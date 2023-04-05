@@ -1,22 +1,27 @@
 import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:flutter/material.dart';
 
 class ActionButton extends StatefulWidget {
+  final int id;
   final String icon;
   final Color color;
   final Color darkColor;
-  final bool isTakingAction;
+  final bool selected;
+  final bool hide;
   final Function() startAction;
   final Function() resetAction;
   final Function() resetArea;
 
   const ActionButton({
     super.key,
+    required this.id,
     required this.icon,
     required this.color,
     required this.darkColor,
-    required this.isTakingAction,
+    required this.selected,
+    required this.hide,
     required this.startAction,
     required this.resetAction,
     required this.resetArea,
@@ -27,15 +32,19 @@ class ActionButton extends StatefulWidget {
 }
 
 class _ActionButtonState extends State<ActionButton> {
-  bool active = false;
   bool reset = false;
+  bool hover = false;
 
   Color getDetailColor() {
     if (reset) {
       return AppColors.negative;
     }
 
-    if (active) {
+    if (widget.selected) {
+      return Colors.white;
+    }
+
+    if (hover) {
       return Colors.white;
     } else {
       return widget.darkColor;
@@ -47,65 +56,66 @@ class _ActionButtonState extends State<ActionButton> {
       return AppColors.negative;
     }
 
-    if (active) {
+    if (widget.selected) {
+      return Colors.white;
+    }
+
+    if (hover) {
       return Colors.white;
     } else {
       return widget.color;
     }
   }
 
+  double getSize() {
+    if (hover) {
+      return 0.035;
+    } else {
+      return 0.03;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (widget.isTakingAction == false) {
-      active = false;
-      reset = false;
-    }
-
-    return MouseRegion(
-      onEnter: (details) {
-        if (active) {
-          setState(() {
-            reset = true;
-          });
-        }
-        //TODO implementar increase the size when hover
-      },
-      onExit: (details) {
-        if (active) {
-          setState(() {
-            reset = false;
-          });
-        }
-      },
-      onHover: (details) {
-        if (active) {
-          setState(() {
-            reset = true;
-            widget.resetArea();
-          });
-        }
-      },
-      child: AppCircularButton(
-        color: widget.color.withAlpha(175),
-        icon: widget.icon,
-        iconSize: 1,
-        iconColor: getDetailColor().withAlpha(225),
-        borderColor: getDetailColor().withAlpha(225),
-        size: 0.04,
-        onTap: () {
-          setState(() {
-            if (active) {
-              active = false;
-              reset = false;
-              widget.resetAction();
-            } else {
-              active = true;
-              reset = true;
-              widget.startAction();
-            }
-          });
-        },
-      ),
-    );
+    return (widget.hide)
+        ? SizedBox(
+            width: AppLayout.avarage(context) * 0.03,
+            height: AppLayout.avarage(context) * 0.03,
+          )
+        : MouseRegion(
+            onEnter: (details) {
+              if (widget.selected) {
+                reset = true;
+                widget.resetArea();
+              }
+              hover = true;
+              setState(() {});
+            },
+            onExit: (details) {
+              if (widget.selected) {
+                reset = false;
+              }
+              hover = false;
+              setState(() {});
+            },
+            onHover: (details) {},
+            child: AppCircularButton(
+              color: widget.color.withAlpha(175),
+              icon: widget.icon,
+              iconSize: 1,
+              iconColor: getDetailColor().withAlpha(225),
+              borderColor: getDetailColor().withAlpha(225),
+              size: getSize(),
+              onTap: () {
+                setState(() {
+                  if (widget.selected) {
+                    widget.resetAction();
+                  } else {
+                    widget.startAction();
+                  }
+                });
+              },
+            ),
+          );
   }
 }

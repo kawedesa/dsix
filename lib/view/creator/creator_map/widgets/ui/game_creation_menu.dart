@@ -84,7 +84,7 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
                   user.resetPlacing();
                 }
               }),
-          (user.placingSomething == 'false')
+          (user.placingSomething == 'true')
               ? const SizedBox()
               : Align(
                   alignment: const Alignment(0, 0.5),

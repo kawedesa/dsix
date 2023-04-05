@@ -4,87 +4,133 @@ import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
+import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/ui/action_button.dart';
-import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PlayerActioButtons extends StatefulWidget {
-  final MapInfo mapInfo;
   final Function() refresh;
 
-  const PlayerActioButtons(
-      {super.key, required this.mapInfo, required this.refresh});
+  const PlayerActioButtons({super.key, required this.refresh});
 
   @override
   State<PlayerActioButtons> createState() => _PlayerActioButtonsState();
 }
 
 class _PlayerActioButtonsState extends State<PlayerActioButtons> {
-  Widget createActionButtons(User user) {
-    List<Widget> actionButtons = [];
-    List<Widget> mainHandActionButtons = createMainHandActionButtons(user);
-    List<Widget> offHandActionButtons = createOffHandActionButtons(user);
+  void refresh() {
+    setState(() {});
+  }
 
-    for (Widget button in mainHandActionButtons) {
-      actionButtons.add(button);
+  int selectedButtonId = 0;
+  void selectActionButton(int id) {
+    selectedButtonId = id;
+  }
+
+  void deselectActionButton() {
+    selectedButtonId = 0;
+  }
+
+  bool checkSelectedButton(int id) {
+    if (id == selectedButtonId) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool hideButton(User user, int id) {
+    if (user.playerMode == 'wait') {
+      return true;
     }
 
-    actionButtons.add(createDefendActionButton(user));
-    actionButtons.add(createLookActionButton(user));
+    if (user.player.life.isDead()) {
+      return true;
+    }
 
-    for (Widget button in offHandActionButtons) {
+    if (id != selectedButtonId && selectedButtonId != 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Widget createActionButtons(User user) {
+    List<Widget> actionButtons = [];
+    List<Widget> itemActionButtons = createItemActionButtons(user);
+
+    actionButtons.add(const AppSeparatorHorizontal(value: 0.05));
+    actionButtons.add(createDefendActionButton(user));
+    actionButtons.add(const AppSeparatorHorizontal(value: 0.05));
+    actionButtons.add(createLookActionButton(user));
+    actionButtons.add(const AppSeparatorHorizontal(value: 0.05));
+    for (Widget button in itemActionButtons) {
       actionButtons.add(button);
+      actionButtons.add(const AppSeparatorHorizontal(value: 0.05));
     }
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: actionButtons,
     );
   }
 
   Widget createDefendActionButton(User user) {
-    return AppCircularButton(
-      icon: AppImages.defense,
-      iconColor: user.darkColor.withAlpha(225),
-      color: user.color.withAlpha(175),
-      borderColor: user.darkColor.withAlpha(225),
-      size: 0.04,
-      onTap: () {
-        user.player.defend();
-        widget.refresh();
-      },
-    );
+    int id = 1;
+    return ActionButton(
+        id: id,
+        icon: AppImages.defense,
+        color: user.color.withAlpha(175),
+        darkColor: user.darkColor.withAlpha(225),
+        selected: checkSelectedButton(id),
+        hide: hideButton(user, id),
+        startAction: () {
+          user.player.defend();
+          widget.refresh();
+        },
+        resetAction: () {},
+        resetArea: () {});
   }
 
   Widget createLookActionButton(User user) {
-    return AppCircularButton(
-      icon: AppImages.vision,
-      iconColor: user.darkColor.withAlpha(225),
-      color: user.color.withAlpha(175),
-      borderColor: user.darkColor.withAlpha(225),
-      size: 0.04,
-      onTap: () {
-        user.player.look();
-        widget.refresh();
-      },
-    );
+    int id = 2;
+    return ActionButton(
+        id: id,
+        icon: AppImages.vision,
+        color: user.color.withAlpha(175),
+        darkColor: user.darkColor.withAlpha(225),
+        selected: checkSelectedButton(id),
+        hide: hideButton(user, id),
+        startAction: () {
+          user.player.look();
+          widget.refresh();
+        },
+        resetAction: () {},
+        resetArea: () {});
   }
 
-  List<Widget> createMainHandActionButtons(User user) {
-    List<Widget> mainHandActionButtons = [];
+  List<Widget> createItemActionButtons(User user) {
+    List<Widget> itemAttackButtons = [];
 
-    for (Attack attack in user.player.equipment.mainHandSlot.item.attacks) {
-      mainHandActionButtons.add(ActionButton(
+    for (int i = 0;
+        i < user.player.equipment.mainHandSlot.item.attacks.length;
+        i++) {
+      Attack attack = user.player.equipment.mainHandSlot.item.attacks[i];
+      int id = 3 + i;
+
+      itemAttackButtons.add(ActionButton(
+        id: id,
         icon: AppImages().getActionIcon(attack.name),
-        color: user.color,
-        darkColor: user.darkColor,
-        isTakingAction: user.combat.isTakingAction,
+        color: user.color.withAlpha(175),
+        darkColor: user.darkColor.withAlpha(225),
+        selected: checkSelectedButton(id),
+        hide: hideButton(user, id),
         startAction: () {
+          selectActionButton(id);
           user.combat.startAttack(
-              widget.mapInfo.getOnScreenPosition(user.player.position),
+              user.mapInfo.getOnScreenPosition(user.player.position),
               user.player.position,
               user.player.attack(attack),
               user.player,
@@ -94,6 +140,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
           widget.refresh();
         },
         resetAction: () {
+          deselectActionButton();
           user.combat.resetAction();
           user.playerStandMode();
         },
@@ -104,25 +151,27 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       ));
     }
 
-    return mainHandActionButtons;
-  }
-
-  List<Widget> createOffHandActionButtons(User user) {
-    List<Widget> offHandActionButtons = [];
-
-    if (user.player.equipment.offHandSlot.item.itemSlot == 'two hands') {
-      return offHandActionButtons;
+    if (user.player.equipment.mainHandSlot.item.itemSlot == 'two hands') {
+      return itemAttackButtons;
     }
 
-    for (Attack attack in user.player.equipment.offHandSlot.item.attacks) {
-      offHandActionButtons.add(ActionButton(
+    for (int i = 0;
+        i < user.player.equipment.offHandSlot.item.attacks.length;
+        i++) {
+      Attack attack = user.player.equipment.offHandSlot.item.attacks[i];
+      int id = 3 + i + user.player.equipment.mainHandSlot.item.attacks.length;
+
+      itemAttackButtons.add(ActionButton(
+        id: id,
         icon: AppImages().getActionIcon(attack.name),
-        color: user.color,
-        darkColor: user.darkColor,
-        isTakingAction: user.combat.isTakingAction,
+        color: user.color.withAlpha(175),
+        darkColor: user.darkColor.withAlpha(225),
+        selected: checkSelectedButton(id),
+        hide: hideButton(user, id),
         startAction: () {
+          selectActionButton(id);
           user.combat.startAttack(
-              widget.mapInfo.getOnScreenPosition(user.player.position),
+              user.mapInfo.getOnScreenPosition(user.player.position),
               user.player.position,
               user.player.attack(attack),
               user.player,
@@ -132,6 +181,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
           widget.refresh();
         },
         resetAction: () {
+          deselectActionButton();
           user.combat.resetAction();
           user.playerStandMode();
         },
@@ -142,32 +192,28 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       ));
     }
 
-    return offHandActionButtons;
+    return itemAttackButtons;
   }
 
-  Widget getAttackInput(
-      User user, List<Npc> npcs, List<Player> players, Function refresh) {
-    Widget attackInputWidget = const SizedBox();
-
-    attackInputWidget = MouseInput(
-      active: user.combat.isTakingAction,
+  Widget getAttackInput(User user, List<Npc> npcs, List<Player> players) {
+    Widget attackInputWidget = MouseInput(
+      active: (user.playerMode == 'action') ? true : false,
       getMouseOffset: (mouseOffset) {
         user.combat.setMousePosition(mouseOffset);
         user.combat.setActionArea();
-        refresh();
+        widget.refresh();
       },
       onTap: () {
+        deselectActionButton();
         user.combat.confirmAttack(npcs, players);
         user.combat.resetAction();
         user.playerStandMode();
-        refresh();
+        widget.refresh();
       },
     );
 
     return attackInputWidget;
   }
-
-  //TODO VOLTAR AQUI PARA IMPLEMENTAR OS BOTOES QUE SOMEN QUANDO O PLAYER ESTA ATACANDO
 
   @override
   Widget build(BuildContext context) {
@@ -180,15 +226,10 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       height: double.infinity,
       child: Stack(
         children: [
-          getAttackInput(user, npcs, players, widget.refresh),
-          (user.player.life.isDead() || user.playerMode == 'wait')
-              ? const SizedBox()
-              : Align(
-                  alignment: const Alignment(0, 0.50),
-                  child: SizedBox(
-                      width: AppLayout.shortest(context) * 0.50,
-                      height: AppLayout.shortest(context) * 0.1,
-                      child: createActionButtons(user))),
+          getAttackInput(user, npcs, players),
+          Align(
+              alignment: const Alignment(0, 0.50),
+              child: createActionButtons(user)),
         ],
       ),
     );

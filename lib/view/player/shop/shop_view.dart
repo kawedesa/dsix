@@ -3,6 +3,7 @@ import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
+import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/text/app_title.dart';
 import 'package:dsix/view/player/shop/shop_vm.dart';
@@ -131,22 +132,14 @@ class _ShopViewState extends State<ShopView> {
               ],
             ),
           ),
-          const AppSeparatorVertical(
-            value: 0.01,
-          ),
+          const AppSeparatorVertical(value: 0.01),
           AppLineDividerHorizontal(color: user.color, value: 4),
-          const AppSeparatorVertical(
-            value: 0.02,
-          ),
-          AppTitle(
-            title: _shopVM.menuTitle,
-            color: user.color,
-          ),
+          const AppSeparatorVertical(value: 0.02),
           SizedBox(
-            width: AppLayout.width(context) * 0.8,
             height: AppLayout.height(context) * 0.6,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppCircularButton(
                     color: Colors.transparent,
@@ -159,7 +152,9 @@ class _ShopViewState extends State<ShopView> {
                       });
                     },
                     size: 0.075),
+                const AppSeparatorHorizontal(value: 0.05),
                 _shopVM.getItems(context, user, widget.refresh),
+                const AppSeparatorHorizontal(value: 0.05),
                 AppCircularButton(
                     color: Colors.transparent,
                     borderColor: user.color,

@@ -6,7 +6,7 @@ import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_snackbar.dart';
-import 'package:dsix/shared/app_widgets/dialog/shop_dialog.dart';
+import 'package:dsix/view/player/shop/shop_dialog.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -95,14 +95,14 @@ class ShopVM {
     }
     itemList = [];
 
-    if (fullItemList.length < 6) {
+    if (fullItemList.length < 4) {
       for (Item item in fullItemList) {
         itemList.add(item);
       }
       return;
     }
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 3; i++) {
       int itemIndex = selectedItemIndex + i;
 
       if (itemIndex > fullItemList.length - 1) {
@@ -133,64 +133,171 @@ class ShopVM {
   Widget getItems(context, User user, Function refresh) {
     List<Widget> menu = [];
 
-    for (Item item in itemList) {
-      menu.add(GestureDetector(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return ShopDialog(
-                item: item,
+    menu.add(GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ShopDialog(
+              item: itemList[0],
+              color: user.color,
+              darkColor: user.darkColor,
+              buyItem: () {
+                try {
+                  Navigator.pop(context);
+                  buyItem(itemList[0], user.player);
+                } on NotEnoughMoneyException catch (e) {
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar(e.message.toUpperCase(), user.color));
+                } on TooHeavyException catch (e) {
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar(e.message.toUpperCase(), user.color));
+                } on ItemBoughtException catch (e) {
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar(e.itemValue.toUpperCase(), user.color));
+                }
+                refresh();
+              },
+            );
+          },
+        );
+      },
+      child: SizedBox(
+        width: AppLayout.avarage(context) * 0.125,
+        height: AppLayout.avarage(context) * 0.125,
+        child: Stack(
+          children: [
+            SvgPicture.asset(
+              AppImages().getItemIcon(itemList[0].name),
+              color: Colors.white,
+              width: AppLayout.avarage(context) * 0.125,
+              height: AppLayout.avarage(context) * 0.125,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AppText(
+                text: itemList[0].value.toString(),
                 color: user.color,
-                darkColor: user.darkColor,
-                buyItem: () {
-                  try {
-                    Navigator.pop(context);
-                    buyItem(item, user.player);
-                  } on NotEnoughMoneyException catch (e) {
-                    snackbarKey.currentState?.showSnackBar(AppSnackBar()
-                        .getSnackBar(e.message.toUpperCase(), user.color));
-                  } on TooHeavyException catch (e) {
-                    snackbarKey.currentState?.showSnackBar(AppSnackBar()
-                        .getSnackBar(e.message.toUpperCase(), user.color));
-                  } on ItemBoughtException catch (e) {
-                    snackbarKey.currentState?.showSnackBar(AppSnackBar()
-                        .getSnackBar(e.itemValue.toUpperCase(), user.color));
-                  }
-                  refresh();
-                },
-              );
-            },
-          );
-        },
-        child: SizedBox(
-          width: AppLayout.avarage(context) * 0.125,
-          height: AppLayout.avarage(context) * 0.175,
-          child: Stack(
-            children: [
-              SvgPicture.asset(
-                AppImages().getItemIcon(item.name),
-                color: Colors.white,
-                width: AppLayout.avarage(context) * 0.125,
-                height: AppLayout.avarage(context) * 0.125,
+                fontSize: 0.02,
+                letterSpacing: 0.004,
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: AppText(
-                  text: item.value.toString(),
-                  color: user.color,
-                  fontSize: 0.02,
-                  letterSpacing: 0.004,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ));
-    }
+      ),
+    ));
+
+    menu.add(GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ShopDialog(
+              item: itemList[1],
+              color: user.color,
+              darkColor: user.darkColor,
+              buyItem: () {
+                try {
+                  Navigator.pop(context);
+                  buyItem(itemList[1], user.player);
+                } on NotEnoughMoneyException catch (e) {
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar(e.message.toUpperCase(), user.color));
+                } on TooHeavyException catch (e) {
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar(e.message.toUpperCase(), user.color));
+                } on ItemBoughtException catch (e) {
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar(e.itemValue.toUpperCase(), user.color));
+                }
+                refresh();
+              },
+            );
+          },
+        );
+      },
+      child: SizedBox(
+        width: AppLayout.avarage(context) * 0.3,
+        height: AppLayout.avarage(context) * 0.3,
+        child: Stack(
+          children: [
+            SvgPicture.asset(
+              AppImages().getItemIcon(itemList[1].name),
+              width: AppLayout.avarage(context) * 0.3,
+              height: AppLayout.avarage(context) * 0.3,
+              color: Colors.white,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AppText(
+                text: itemList[1].value.toString(),
+                color: user.color,
+                fontSize: 0.05,
+                letterSpacing: 0.004,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ));
+
+    menu.add(GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ShopDialog(
+              item: itemList[2],
+              color: user.color,
+              darkColor: user.darkColor,
+              buyItem: () {
+                try {
+                  Navigator.pop(context);
+                  buyItem(itemList[2], user.player);
+                } on NotEnoughMoneyException catch (e) {
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar(e.message.toUpperCase(), user.color));
+                } on TooHeavyException catch (e) {
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar(e.message.toUpperCase(), user.color));
+                } on ItemBoughtException catch (e) {
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar(e.itemValue.toUpperCase(), user.color));
+                }
+                refresh();
+              },
+            );
+          },
+        );
+      },
+      child: SizedBox(
+        width: AppLayout.avarage(context) * 0.125,
+        height: AppLayout.avarage(context) * 0.125,
+        child: Stack(
+          children: [
+            SvgPicture.asset(
+              AppImages().getItemIcon(itemList[2].name),
+              color: Colors.white,
+              width: AppLayout.avarage(context) * 0.125,
+              height: AppLayout.avarage(context) * 0.125,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: AppText(
+                text: itemList[2].value.toString(),
+                color: user.color,
+                fontSize: 0.02,
+                letterSpacing: 0.004,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ));
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: menu,
     );
   }

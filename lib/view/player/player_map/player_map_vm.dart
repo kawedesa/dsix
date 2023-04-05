@@ -17,11 +17,11 @@ import '../../../model/npc/npc.dart';
 class PlayerMapVM {
   //SPRITES
   //NPC
-  Widget createNpcSprites(context, User user, MapInfo mapInfo, List<Npc> npcs,
+  Widget createNpcSprites(context, User user, List<Npc> npcs,
       List<Player> players, Function() refresh) {
     List<Widget> npcSprites = [];
 
-    Path playersVisibleArea = getPlayersVisibleArea(mapInfo, players);
+    Path playersVisibleArea = getPlayersVisibleArea(user.mapInfo, players);
 
     for (Npc npc in npcs) {
       if (playersVisibleArea.contains(npc.position.getOffset())) {
@@ -82,7 +82,7 @@ class PlayerMapVM {
 
   //PLAYERS
   Widget createPlayerSprites(
-      User user, MapInfo mapInfo, List<Player> players, Function() refresh) {
+      User user, List<Player> players, Function() refresh) {
     List<Widget> playerSprites = [];
 
     //OTHER PLAYERS

@@ -764,7 +764,7 @@ class Shop {
             min: 10,
             max: 11,
             width: 20,
-            shape: 'cone',
+            shape: 'double cone',
           ),
           effects: ['knockback'],
           isLoaded: false,

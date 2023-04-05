@@ -5,11 +5,11 @@ import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../app_images.dart';
-import '../button/app_circular_button.dart';
-import '../layout/app_separator_horizontal.dart';
-import '../layout/app_separator_vertical.dart';
-import '../text/app_text.dart';
+import '../../../shared/app_images.dart';
+import '../../../shared/app_widgets/button/app_circular_button.dart';
+import '../../../shared/app_widgets/layout/app_separator_horizontal.dart';
+import '../../../shared/app_widgets/layout/app_separator_vertical.dart';
+import '../../../shared/app_widgets/text/app_text.dart';
 
 class ShopDialog extends StatefulWidget {
   final Color color;
@@ -76,48 +76,7 @@ class _ShopDialogState extends State<ShopDialog> {
         const AppSeparatorVertical(value: 0.0125),
       );
     }
-    // if (widget.item.attack.damage.pDamage != 0) {
-    //   itemAttributes.add(Row(
-    //     children: [
-    //       AppCircularButton(
-    //           icon: AppImages.pDamage,
-    //           iconColor: widget.darkColor,
-    //           color: widget.color,
-    //           borderColor: widget.color,
-    //           size: 0.025),
-    //       const AppSeparatorHorizontal(value: 0.01),
-    //       AppText(
-    //           text: widget.item.attack.damage.pDamage.toString(),
-    //           fontSize: 0.015,
-    //           letterSpacing: 0.002,
-    //           color: Colors.white),
-    //     ],
-    //   ));
-    //   itemAttributes.add(
-    //     const AppSeparatorVertical(value: 0.0125),
-    //   );
-    // }
-    // if (widget.item.attack.damage.mDamage != 0) {
-    //   itemAttributes.add(Row(
-    //     children: [
-    //       AppCircularButton(
-    //           icon: AppImages.mDamage,
-    //           iconColor: widget.darkColor,
-    //           color: widget.color,
-    //           borderColor: widget.color,
-    //           size: 0.025),
-    //       const AppSeparatorHorizontal(value: 0.01),
-    //       AppText(
-    //           text: widget.item.attack.damage.mDamage.toString(),
-    //           fontSize: 0.015,
-    //           letterSpacing: 0.002,
-    //           color: Colors.white),
-    //     ],
-    //   ));
-    //   itemAttributes.add(
-    //     const AppSeparatorVertical(value: 0.0125),
-    //   );
-    // }
+
     itemAttributes.add(Row(
       children: [
         AppCircularButton(
@@ -162,12 +121,12 @@ class _ShopDialogState extends State<ShopDialog> {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: AppLayout.shortest(context) * 0.5,
+        width: AppLayout.avarage(context) * 0.35,
         decoration: BoxDecoration(
           color: widget.color,
           border: Border.all(
             color: widget.color,
-            width: AppLayout.shortest(context) * 0.005,
+            width: AppLayout.avarage(context) * 0.004,
           ),
         ),
         child: Column(
@@ -184,32 +143,25 @@ class _ShopDialogState extends State<ShopDialog> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const AppSeparatorVertical(value: 0.01),
-                  Stack(
-                    children: [
-                      Align(
-                        alignment: const Alignment(0.5, 0),
-                        child: SvgPicture.asset(
+                  SizedBox(
+                    child: Stack(
+                      children: [
+                        SvgPicture.asset(
                           AppImages().getItemIcon(widget.item.name),
-                          width: AppLayout.shortest(context) * 0.3,
-                          height: AppLayout.shortest(context) * 0.3,
+                          width: AppLayout.avarage(context) * 0.35,
+                          height: AppLayout.avarage(context) * 0.35,
                           color: Colors.white,
                         ),
-                      ),
-                      Align(
-                        alignment: const Alignment(-0.9, 0.0),
-                        child: SizedBox(
-                          width: AppLayout.shortest(context) * 0.2,
-                          height: AppLayout.shortest(context) * 0.3,
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
                             children: getItemAttributes(),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  const AppSeparatorVertical(value: 0.01),
                   DialogButton(
                       color: widget.color,
                       buttonText: 'buy',

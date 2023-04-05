@@ -3,8 +3,6 @@ import 'package:dsix/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'creator_map_vm.dart';
-import 'widgets/creator_map_action_mode.dart';
-import 'widgets/creator_map_edit_mode.dart';
 
 class CreatorMapView extends StatefulWidget {
   final Function() refresh;
@@ -24,8 +22,6 @@ class _CreatorMapViewState extends State<CreatorMapView> {
 
     user.mapInfo.setMapInfo(context, game.map);
 
-    return (game.phase == 'action')
-        ? const CreatorMapActionMode()
-        : const CreatorMapEditMode();
+    return _creatorMapVM.getMapView(game.phase);
   }
 }

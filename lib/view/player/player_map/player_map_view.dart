@@ -6,7 +6,6 @@ import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/map/action_area_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/map_animation/map_animation.dart';
-import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,7 +24,6 @@ class PlayerMapView extends StatefulWidget {
 
 class _PlayerMapViewState extends State<PlayerMapView> {
   final PlayerMapVM _playerMapVM = PlayerMapVM();
-  final MapInfo _mapInfo = MapInfo.empty();
   final MapAnimation _mapAnimation = MapAnimation();
 
   void refresh() {
@@ -41,9 +39,9 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     final buildings = Provider.of<List<Building>>(context);
     final battleLog = Provider.of<List<BattleLog>>(context);
 
-    _mapInfo.setMapInfo(context, game.map);
     _mapAnimation.checkBattleLog(battleLog);
     _mapAnimation.checkPlayerTurn(game.turn);
+    user.mapInfo.setMapInfo(context, game.map);
     user.updatePlayer(players);
     user.setPlayerMode(game.turn.currentTurn);
 
@@ -53,11 +51,11 @@ class _PlayerMapViewState extends State<PlayerMapView> {
       child: Stack(
         children: [
           InteractiveViewer(
-            transformationController: _mapInfo.canvasController,
+            transformationController: user.mapInfo.canvasController,
             constrained: false,
             panEnabled: true,
-            maxScale: _mapInfo.minZoom,
-            minScale: _mapInfo.minZoom,
+            maxScale: user.mapInfo.minZoom,
+            minScale: user.mapInfo.minZoom,
             child: SizedBox(
               width: 320,
               height: 320,
@@ -73,9 +71,8 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     area: user.combat.actionArea.area,
                   ),
                   _playerMapVM.createNpcSprites(
-                      context, user, _mapInfo, npcs, players, refresh),
-                  _playerMapVM.createPlayerSprites(
-                      user, _mapInfo, players, refresh),
+                      context, user, npcs, players, refresh),
+                  _playerMapVM.createPlayerSprites(user, players, refresh),
                   _mapAnimation.displayAttackAnimations(),
                   _mapAnimation.displayDamageAnimations(),
                 ],
@@ -83,7 +80,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
             ),
           ),
           _mapAnimation.displayTurnAnimations(),
-          PlayerActioButtons(mapInfo: _mapInfo, refresh: refresh),
+          PlayerActioButtons(refresh: refresh),
         ],
       ),
     );
