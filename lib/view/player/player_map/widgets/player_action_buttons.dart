@@ -3,7 +3,6 @@ import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
-import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/ui/action_button.dart';
@@ -20,10 +19,6 @@ class PlayerActioButtons extends StatefulWidget {
 }
 
 class _PlayerActioButtonsState extends State<PlayerActioButtons> {
-  void refresh() {
-    setState(() {});
-  }
-
   int selectedButtonId = 0;
   void selectActionButton(int id) {
     selectedButtonId = id;
@@ -120,35 +115,15 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       Attack attack = user.player.equipment.mainHandSlot.item.attacks[i];
       int id = 3 + i;
 
-      itemAttackButtons.add(ActionButton(
-        id: id,
-        icon: AppImages().getActionIcon(attack.name),
-        color: user.color.withAlpha(175),
-        darkColor: user.darkColor.withAlpha(225),
-        selected: checkSelectedButton(id),
-        hide: hideButton(user, id),
-        startAction: () {
-          selectActionButton(id);
-          user.combat.startAttack(
-              user.mapInfo.getOnScreenPosition(user.player.position),
-              user.player.position,
-              user.player.attack(attack),
-              user.player,
-              null);
-
-          user.playerActionMode();
-          widget.refresh();
-        },
-        resetAction: () {
-          deselectActionButton();
-          user.combat.resetAction();
-          user.playerStandMode();
-        },
-        resetArea: () {
-          user.combat.resetArea();
-          widget.refresh();
-        },
-      ));
+      if (attack.needsReload) {
+        if (attack.isLoaded) {
+          itemAttackButtons.add(createAttackButton(id, user, attack));
+        } else {
+          itemAttackButtons.add(createReloadButton(id, user, attack));
+        }
+      } else {
+        itemAttackButtons.add(createAttackButton(id, user, attack));
+      }
     }
 
     if (user.player.equipment.mainHandSlot.item.itemSlot == 'two hands') {
@@ -161,38 +136,67 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       Attack attack = user.player.equipment.offHandSlot.item.attacks[i];
       int id = 3 + i + user.player.equipment.mainHandSlot.item.attacks.length;
 
-      itemAttackButtons.add(ActionButton(
-        id: id,
-        icon: AppImages().getActionIcon(attack.name),
-        color: user.color.withAlpha(175),
-        darkColor: user.darkColor.withAlpha(225),
-        selected: checkSelectedButton(id),
-        hide: hideButton(user, id),
-        startAction: () {
-          selectActionButton(id);
-          user.combat.startAttack(
-              user.mapInfo.getOnScreenPosition(user.player.position),
-              user.player.position,
-              user.player.attack(attack),
-              user.player,
-              null);
-
-          user.playerActionMode();
-          widget.refresh();
-        },
-        resetAction: () {
-          deselectActionButton();
-          user.combat.resetAction();
-          user.playerStandMode();
-        },
-        resetArea: () {
-          user.combat.resetArea();
-          widget.refresh();
-        },
-      ));
+      if (attack.needsReload) {
+        if (attack.isLoaded) {
+          itemAttackButtons.add(createAttackButton(id, user, attack));
+        } else {
+          itemAttackButtons.add(createReloadButton(id, user, attack));
+        }
+      } else {
+        itemAttackButtons.add(createAttackButton(id, user, attack));
+      }
     }
 
     return itemAttackButtons;
+  }
+
+  Widget createAttackButton(int id, User user, Attack attack) {
+    return ActionButton(
+      id: id,
+      icon: AppImages().getActionIcon(attack.name),
+      color: user.color.withAlpha(175),
+      darkColor: user.darkColor.withAlpha(225),
+      selected: checkSelectedButton(id),
+      hide: hideButton(user, id),
+      startAction: () {
+        selectActionButton(id);
+        user.combat.startAttack(
+            user.mapInfo.getOnScreenPosition(user.player.position),
+            user.player.position,
+            user.player.attack(attack),
+            user.player,
+            null);
+
+        user.playerActionMode();
+        widget.refresh();
+      },
+      resetAction: () {
+        deselectActionButton();
+        user.combat.resetAction();
+        user.playerStandMode();
+        widget.refresh();
+      },
+      resetArea: () {
+        user.combat.resetArea();
+        widget.refresh();
+      },
+    );
+  }
+
+  Widget createReloadButton(int id, User user, Attack attack) {
+    return ActionButton(
+      id: id,
+      icon: AppImages().getActionIcon('reload'),
+      color: user.color.withAlpha(175),
+      darkColor: user.darkColor.withAlpha(225),
+      selected: checkSelectedButton(id),
+      hide: hideButton(user, id),
+      startAction: () {
+        user.player.reload(attack);
+      },
+      resetAction: () {},
+      resetArea: () {},
+    );
   }
 
   Widget getAttackInput(User user, List<Npc> npcs, List<Player> players) {

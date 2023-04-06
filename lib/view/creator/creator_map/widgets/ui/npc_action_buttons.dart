@@ -4,7 +4,6 @@ import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
-import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/ui/action_button.dart';
@@ -117,38 +116,66 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
       Attack attack = user.npc!.attacks[i];
       int id = 3 + i;
 
-      npcAttackButtons.add(ActionButton(
-        id: id,
-        icon: AppImages().getActionIcon(attack.name),
-        color: AppColors.uiColor.withAlpha(175),
-        darkColor: AppColors.uiColorDark.withAlpha(225),
-        selected: checkSelectedButton(id),
-        hide: hideButton(user, id),
-        startAction: () {
-          selectActionButton(id);
-          user.combat.startAttack(
-              user.mapInfo.getOnScreenPosition(user.npc!.position),
-              user.npc!.position,
-              user.npc!.attack(attack),
-              null,
-              user.npc!);
-
-          user.npcActionMode();
-          widget.refresh();
-        },
-        resetAction: () {
-          deselectActionButton();
-          user.combat.resetAction();
-          user.npcStandMode();
-        },
-        resetArea: () {
-          user.combat.resetArea();
-          widget.refresh();
-        },
-      ));
+      if (attack.needsReload) {
+        if (attack.isLoaded) {
+          npcAttackButtons.add(createAttackButton(id, user, attack));
+        } else {
+          npcAttackButtons.add(createReloadButton(id, user, attack));
+        }
+      } else {
+        npcAttackButtons.add(createAttackButton(id, user, attack));
+      }
     }
 
     return npcAttackButtons;
+  }
+
+  Widget createAttackButton(int id, User user, Attack attack) {
+    return ActionButton(
+      id: id,
+      icon: AppImages().getActionIcon(attack.name),
+      color: AppColors.uiColor.withAlpha(175),
+      darkColor: AppColors.uiColorDark.withAlpha(225),
+      selected: checkSelectedButton(id),
+      hide: hideButton(user, id),
+      startAction: () {
+        selectActionButton(id);
+        user.combat.startAttack(
+            user.mapInfo.getOnScreenPosition(user.npc!.position),
+            user.npc!.position,
+            user.npc!.attack(attack),
+            null,
+            user.npc!);
+
+        user.npcActionMode();
+        widget.refresh();
+      },
+      resetAction: () {
+        deselectActionButton();
+        user.combat.resetAction();
+        user.npcStandMode();
+      },
+      resetArea: () {
+        user.combat.resetArea();
+        widget.refresh();
+      },
+    );
+  }
+
+  Widget createReloadButton(int id, User user, Attack attack) {
+    return ActionButton(
+      id: id,
+      icon: AppImages().getActionIcon('reload'),
+      color: AppColors.uiColor.withAlpha(175),
+      darkColor: AppColors.uiColorDark.withAlpha(225),
+      selected: checkSelectedButton(id),
+      hide: hideButton(user, id),
+      startAction: () {
+        user.npc!.reload(attack);
+      },
+      resetAction: () {},
+      resetArea: () {},
+    );
   }
 
   Widget getAttackInput(User user, List<Npc> npcs, List<Player> players) {

@@ -83,22 +83,21 @@ class _ActionButtonState extends State<ActionButton> {
             height: AppLayout.avarage(context) * 0.03,
           )
         : MouseRegion(
-            onEnter: (details) {
+            onEnter: (details) {},
+            onExit: (details) {
+              reset = false;
+              hover = false;
+              setState(() {});
+            },
+            onHover: (details) {
               if (widget.selected) {
                 reset = true;
                 widget.resetArea();
               }
+
               hover = true;
               setState(() {});
             },
-            onExit: (details) {
-              if (widget.selected) {
-                reset = false;
-              }
-              hover = false;
-              setState(() {});
-            },
-            onHover: (details) {},
             child: AppCircularButton(
               color: widget.color.withAlpha(175),
               icon: widget.icon,
@@ -107,13 +106,14 @@ class _ActionButtonState extends State<ActionButton> {
               borderColor: getDetailColor().withAlpha(225),
               size: getSize(),
               onTap: () {
-                setState(() {
-                  if (widget.selected) {
-                    widget.resetAction();
-                  } else {
-                    widget.startAction();
-                  }
-                });
+                if (widget.selected) {
+                  widget.resetAction();
+                  hover = false;
+                  reset = false;
+                } else {
+                  widget.startAction();
+                }
+                setState(() {});
               },
             ),
           );

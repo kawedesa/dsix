@@ -1184,7 +1184,7 @@ class Shop {
           type: 'ranged',
           damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
-            min: 15,
+            min: 5,
             max: 30,
             width: 3.5,
             shape: 'circle',
@@ -1210,7 +1210,7 @@ class Shop {
           type: 'ranged',
           damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
           range: Range(
-            min: 15,
+            min: 7,
             max: 80,
             width: 7,
             shape: 'triangle',
@@ -1236,7 +1236,7 @@ class Shop {
           type: 'ranged',
           damage: Damage(pierce: 0, pDamage: 6, mDamage: 0, rawDamage: 0),
           range: Range(
-            min: 15,
+            min: 7,
             max: 100,
             width: 7,
             shape: 'triangle',
@@ -1262,7 +1262,7 @@ class Shop {
           type: 'ranged',
           damage: Damage(pierce: 0, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
-            min: 15,
+            min: 5,
             max: 80,
             width: 7,
             shape: 'triangle',

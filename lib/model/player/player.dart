@@ -179,6 +179,16 @@ class Player {
     return playerAttack;
   }
 
+  void reload(Attack attack) {
+    attack.reload();
+    update();
+  }
+
+  void unload(Attack attack) {
+    attack.unload();
+    update();
+  }
+
   int receiveAttack(Attack attack) {
     int pArmor = equipment.getPArmor();
     int mArmor = equipment.getMArmor();

@@ -245,9 +245,9 @@ class NpcList {
         type: 'melee',
         damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
         range: Range(
-          min: 5,
-          max: 5,
-          width: 7.5,
+          min: 3.5,
+          max: 8,
+          width: 16,
           shape: 'cone',
         ),
         effects: ['bleed'],

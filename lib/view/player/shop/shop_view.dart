@@ -5,7 +5,6 @@ import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
-import 'package:dsix/shared/app_widgets/text/app_title.dart';
 import 'package:dsix/view/player/shop/shop_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

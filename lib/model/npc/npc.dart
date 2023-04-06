@@ -119,6 +119,16 @@ class Npc {
     return npcAttack;
   }
 
+  void unload(Attack attack) {
+    attack.unload();
+    update();
+  }
+
+  void reload(Attack attack) {
+    attack.reload();
+    update();
+  }
+
   int receiveAttack(Attack attack) {
     int pArmor = armor.pArmor;
     int mArmor = armor.mArmor;

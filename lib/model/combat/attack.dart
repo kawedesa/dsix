@@ -60,4 +60,12 @@ class Attack {
       'needsReload': needsReload,
     };
   }
+
+  void reload() {
+    isLoaded = true;
+  }
+
+  void unload() {
+    isLoaded = false;
+  }
 }

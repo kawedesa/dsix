@@ -68,9 +68,20 @@ class Combat {
   }
 
   void confirmAttack(List<Npc> npcs, List<Player> players) {
+    unloadAttack();
     attackNpcs(npcs);
     attackPlayers(players);
     battleLog.newBattleLog();
+  }
+
+  void unloadAttack() {
+    if (selectedPlayer != null) {
+      selectedPlayer!.unload(attack);
+    }
+
+    if (selectedNpc != null) {
+      selectedNpc!.unload(attack);
+    }
   }
 
   void attackNpcs(List<Npc> npcs) {
