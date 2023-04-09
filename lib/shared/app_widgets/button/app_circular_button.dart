@@ -9,6 +9,7 @@ class AppCircularButton extends StatefulWidget {
   final Color borderColor;
   final Color? iconColor;
   final Function()? onTap;
+  final Function()? onDoubleTap;
   final double size;
   final double? borderSize;
   final String? icon;
@@ -20,6 +21,7 @@ class AppCircularButton extends StatefulWidget {
     required this.borderColor,
     this.iconColor,
     this.onTap,
+    this.onDoubleTap,
     required this.size,
     this.borderSize,
     this.icon,
@@ -101,6 +103,9 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                   child: GestureDetector(
                     onTap: () =>
                         (widget.onTap != null) ? widget.onTap!() : () {},
+                    onDoubleTap: () => (widget.onDoubleTap != null)
+                        ? widget.onDoubleTap!()
+                        : () {},
                   ),
                 ),
               ],

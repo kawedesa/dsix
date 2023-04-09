@@ -9,6 +9,7 @@ import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:transparent_pointer/transparent_pointer.dart';
 
 class CreatorViewEditNpcSprite extends StatefulWidget {
   final Npc npc;
@@ -67,14 +68,30 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
                 Align(
                   alignment: Alignment.center,
                   child: Container(
-                    width: 10,
-                    height: 10,
+                    width: 7,
+                    height: 7,
                     decoration: BoxDecoration(
                       color: getColor(),
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: getStrokeColor(),
                         width: 0.3,
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: widget.npc.size),
+                    child: TransparentPointer(
+                      transparent: true,
+                      child: SvgPicture.asset(
+                        AppImages().getNpcIcon(
+                          widget.npc.name,
+                        ),
+                        width: widget.npc.size,
+                        height: widget.npc.size,
                       ),
                     ),
                   ),
@@ -107,17 +124,12 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
 
                       widget.refresh();
                     },
-                    child: SizedBox(
-                      width: widget.npc.size,
-                      height: widget.npc.size,
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: SvgPicture.asset(
-                          AppImages().getNpcIcon(
-                            widget.npc.name,
-                          ),
-                          color: Colors.black,
-                        ),
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: widget.npc.size / 2),
+                      child: Container(
+                        width: widget.npc.size / 2,
+                        height: widget.npc.size / 2,
+                        color: Colors.transparent,
                       ),
                     ),
                   ),

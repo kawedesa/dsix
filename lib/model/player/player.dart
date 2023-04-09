@@ -353,6 +353,45 @@ class Player {
   }
 
   //EQUIPMENT
+  void quickEquip(EquipmentSlot slot) {
+    if (slot.name != 'bag') {
+      unequip(slot);
+      update();
+    }
+
+    switch (slot.item.itemSlot) {
+      case 'one hand':
+        if (equipment.mainHandSlot.isEquipped() &&
+            equipment.offHandSlot.isEmpty()) {
+          removeItemFromBag(slot.item);
+          equip(equipment.offHandSlot, slot.item);
+        } else {
+          removeItemFromBag(slot.item);
+          equip(equipment.mainHandSlot, slot.item);
+        }
+        break;
+      case 'two hands':
+        removeItemFromBag(slot.item);
+        equip(equipment.mainHandSlot, slot.item);
+        break;
+      case 'head':
+        removeItemFromBag(slot.item);
+        equip(equipment.headSlot, slot.item);
+        break;
+      case 'body':
+        removeItemFromBag(slot.item);
+        equip(equipment.bodySlot, slot.item);
+        break;
+      case 'hands':
+        removeItemFromBag(slot.item);
+        equip(equipment.handSlot, slot.item);
+        break;
+      case 'feet':
+        removeItemFromBag(slot.item);
+        equip(equipment.feetSlot, slot.item);
+        break;
+    }
+  }
 
   void equip(EquipmentSlot slot, Item item) {
     if (item.itemSlot == 'two hands') {
@@ -367,6 +406,14 @@ class Player {
 
       slot.equip(item);
     }
+    update();
+  }
+
+  void switchEquipments() {
+    Item tempItem = equipment.mainHandSlot.item;
+    equipment.mainHandSlot.item = equipment.offHandSlot.item;
+    equipment.offHandSlot.item = tempItem;
+    update();
   }
 
   void unequip(EquipmentSlot slot) {
@@ -394,13 +441,24 @@ class Player {
     //TODO removeItemEffects
   }
 
-  void addToBag(EquipmentSlot slot) {
+  void addItemToBag(EquipmentSlot slot) {
     if (slot.name == 'loot') {
       equipment.addItemWeight(slot.item.weight);
       equipment.addItemToBag(slot.item);
       return;
     }
     unequip(slot);
+    update();
+  }
+
+  void removeItemFromBag(Item item) {
+    equipment.removeItemFromBag(item);
+    update();
+  }
+
+  void addGold(int value) {
+    equipment.addGold(value);
+    update();
   }
 
   void buyItem(Item item) {

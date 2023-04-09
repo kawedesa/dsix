@@ -25,8 +25,8 @@ class _PlayerViewDeadNpcSpriteState extends State<PlayerViewDeadNpcSprite> {
       left: widget.npc.position.dx - (widget.npc.size / 2),
       top: widget.npc.position.dy - (widget.npc.size / 2),
       child: SizedBox(
-        width: widget.npc.size,
-        height: widget.npc.size,
+        width: 10,
+        height: 10,
         child: Align(
           alignment: Alignment.topCenter,
           child: GestureDetector(

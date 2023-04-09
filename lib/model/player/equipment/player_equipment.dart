@@ -111,12 +111,6 @@ class PlayerEquipment {
     gold -= value;
   }
 
-  void switchEquipments() {
-    Item tempItem = mainHandSlot.item;
-    mainHandSlot.item = offHandSlot.item;
-    offHandSlot.item = tempItem;
-  }
-
   void removeItemWeight(int weight) {
     currentWeight -= weight;
   }

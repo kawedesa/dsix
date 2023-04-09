@@ -40,6 +40,13 @@ class EquipmentSlot {
     return false;
   }
 
+  bool isEquipped() {
+    if (item.name != 'empty') {
+      return true;
+    }
+    return false;
+  }
+
   void equip(Item item) {
     this.item = item;
   }

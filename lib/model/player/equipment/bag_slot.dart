@@ -1,6 +1,5 @@
 import 'package:dsix/model/player/equipment/equipment_slot.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_exceptions.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_snackbar.dart';
@@ -27,11 +26,9 @@ class _BagSlotState extends State<BagSlot> {
       if (equipment!.name == 'bag') {
         return false;
       }
-
       if (equipment.name != 'loot') {
         return true;
       }
-
       if (user.player.equipment.tooHeavy(equipment.item.weight)) {
         snackbarKey.currentState?.showSnackBar(
             AppSnackBar().getSnackBar('too heavy'.toUpperCase(), user.color));
@@ -41,14 +38,12 @@ class _BagSlotState extends State<BagSlot> {
       }
     }, onAccept: (equipment) {
       if (equipment.item.name == 'gold') {
-        user.player.equipment.addGold(equipment.item.value);
+        user.player.addGold(equipment.item.value);
         snackbarKey.currentState?.showSnackBar(AppSnackBar().getSnackBar(
             '+\$${equipment.item.value}'.toUpperCase(), user.color));
       } else {
-        user.player.addToBag(equipment);
+        user.player.addItemToBag(equipment);
       }
-
-      user.player.update();
       widget.refresh();
     }, builder: (
       BuildContext context,
@@ -79,6 +74,7 @@ class _BagSlotState extends State<BagSlot> {
             crossAxisCount: 6,
             children: List.generate(user.player.equipment.bag.length, (index) {
               return InventorySlot(
+                player: user.player,
                 color: user.color,
                 darkColor: user.darkColor,
                 icon: AppImages()
@@ -86,26 +82,14 @@ class _BagSlotState extends State<BagSlot> {
                 equipmentSlot: EquipmentSlot(
                     name: 'bag', item: user.player.equipment.bag[index]),
                 onDragComplete: () {
-                  user.player.equipment.bag
-                      .remove(user.player.equipment.bag[index]);
-                  user.player.update();
+                  user.player
+                      .removeItemFromBag(user.player.equipment.bag[index]);
                   widget.refresh();
                 },
                 onAccept: (equipment) {},
                 onWillAccept: (equipment) {
                   return false;
                 },
-                sellItem: () {
-                  try {
-                    user.player.sellItem(EquipmentSlot(
-                        name: 'bag', item: user.player.equipment.bag[index]));
-                  } on ItemSoldException catch (e) {
-                    snackbarKey.currentState?.showSnackBar(AppSnackBar()
-                        .getSnackBar(e.itemValue.toUpperCase(), user.color));
-                  }
-                  widget.refresh();
-                },
-                useItem: () {},
               );
             }),
           ),

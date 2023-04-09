@@ -145,18 +145,28 @@ class AppImages {
   static const magicStaff = 'assets/images/items/magicStaff.svg';
 
   //Armor
+  static const strawHat = 'assets/images/items/strawHat.svg';
+  static const hood = 'assets/images/items/hood.svg';
   static const helmet = 'assets/images/items/helmet.svg';
-  static const gloves = 'assets/images/items/gloves.svg';
+  static const fullHemlet = 'assets/images/items/fullHelmet.svg';
+  static const shortGloves = 'assets/images/items/shortGloves.svg';
+  static const leatherGloves = 'assets/images/items/leatherGloves.svg';
+  static const gauntlet = 'assets/images/items/gauntlet.svg';
+  static const spikyGauntlet = 'assets/images/items/spikyGauntlet.svg';
   static const boots = 'assets/images/items/boots.svg';
+  static const heavyBoots = 'assets/images/items/heavyBoots.svg';
+  static const sandals = 'assets/images/items/sandals.svg';
+  static const shoes = 'assets/images/items/shoes.svg';
   static const lightArmor = 'assets/images/items/lightArmor.svg';
-  static const buckler = 'assets/images/items/buckler.svg';
-  static const magicSandals = 'assets/images/items/magicSandals.svg';
-  static const lightShield = 'assets/images/items/lightShield.svg';
-  static const magicRobe = 'assets/images/items/magicRobe.svg';
-  static const heavyShield = 'assets/images/items/heavyShield.svg';
-  static const fullHelmet = 'assets/images/items/fullHelmet.svg';
-  static const magicShield = 'assets/images/items/magicShield.svg';
   static const heavyArmor = 'assets/images/items/heavyArmor.svg';
+  static const robe = 'assets/images/items/robe.svg';
+  static const battleRobe = 'assets/images/items/battleRobe.svg';
+  static const woodenShield = 'assets/images/items/woodenShield.svg';
+  static const spikyShield = 'assets/images/items/spikyShield.svg';
+  static const magicShield = 'assets/images/items/magicShield.svg';
+  static const heavyShield = 'assets/images/items/heavyShield.svg';
+  static const protectiveCharm = 'assets/images/items/protectiveCharm.svg';
+  static const dreamCatcher = 'assets/images/items/dreamCatcher.svg';
 
   //Ancient
   static const ancientGloves = 'assets/images/items/ancientGloves.svg';
@@ -278,7 +288,7 @@ class AppImages {
         itemIcon = whip;
         break;
 
-      //RANGED
+      //RANGED WEAPONS
       case 'boomerang':
         itemIcon = boomerang;
         break;
@@ -317,41 +327,71 @@ class AppImages {
         break;
 
       //ARMOR
-      case 'boots':
-        itemIcon = boots;
-        break;
-      case 'gloves':
-        itemIcon = gloves;
-        break;
-      case 'buckler':
-        itemIcon = buckler;
-        break;
-      case 'magic sandals':
-        itemIcon = magicSandals;
+      case 'straw hat':
+        itemIcon = strawHat;
         break;
       case 'helmet':
         itemIcon = helmet;
         break;
-      case 'light shield':
-        itemIcon = lightShield;
+      case 'hood':
+        itemIcon = hood;
         break;
-      case 'magic robe':
-        itemIcon = magicRobe;
+      case 'full helmet':
+        itemIcon = fullHemlet;
+        break;
+      case 'short gloves':
+        itemIcon = shortGloves;
+        break;
+      case 'leather gloves':
+        itemIcon = leatherGloves;
+        break;
+      case 'gauntlet':
+        itemIcon = gauntlet;
+        break;
+      case 'spiky gauntlet':
+        itemIcon = spikyGauntlet;
+        break;
+      case 'boots':
+        itemIcon = boots;
+        break;
+      case 'heavy boots':
+        itemIcon = heavyBoots;
+        break;
+      case 'sandals':
+        itemIcon = sandals;
+        break;
+      case 'shoes':
+        itemIcon = shoes;
         break;
       case 'light armor':
         itemIcon = lightArmor;
         break;
-      case 'heavy shield':
-        itemIcon = heavyShield;
+      case 'heavy armor':
+        itemIcon = heavyArmor;
         break;
-      case 'full helmet':
-        itemIcon = fullHelmet;
+      case 'robe':
+        itemIcon = robe;
+        break;
+      case 'battle robe':
+        itemIcon = battleRobe;
+        break;
+      case 'wooden shield':
+        itemIcon = woodenShield;
+        break;
+      case 'spiky shield':
+        itemIcon = spikyShield;
         break;
       case 'magic shield':
         itemIcon = magicShield;
         break;
-      case 'heavy armor':
-        itemIcon = heavyArmor;
+      case 'heavy shield':
+        itemIcon = heavyShield;
+        break;
+      case 'protective charm':
+        itemIcon = protectiveCharm;
+        break;
+      case 'dream catcher':
+        itemIcon = dreamCatcher;
         break;
     }
 
@@ -454,8 +494,8 @@ class AppImages {
         } else {
           selectedSprite = AppImages.maleDwarfBody;
         }
-
         break;
+
       case 'orc':
         if (sex == 'female') {
           selectedSprite = AppImages.femaleOrcBody;
@@ -463,6 +503,7 @@ class AppImages {
           selectedSprite = AppImages.maleOrcBody;
         }
         break;
+
       case 'elf':
         if (sex == 'female') {
           selectedSprite = AppImages.femaleElfBody;
@@ -484,8 +525,8 @@ class AppImages {
         } else {
           selectedSprite = AppImages.maleDwarfHead;
         }
-
         break;
+
       case 'orc':
         if (sex == 'female') {
           selectedSprite = AppImages.femaleOrcHead;
@@ -493,6 +534,7 @@ class AppImages {
           selectedSprite = AppImages.maleOrcHead;
         }
         break;
+
       case 'elf':
         if (sex == 'female') {
           selectedSprite = AppImages.femaleElfHead;
@@ -536,7 +578,6 @@ class AppImages {
       case 'giant frog':
         npcIcon = giantFrog;
         break;
-
       case 'goblin':
         npcIcon = goblin;
         break;
@@ -546,11 +587,9 @@ class AppImages {
       case 'explosive lizzard':
         npcIcon = explosiveLizzard;
         break;
-
       case 'wraith':
         npcIcon = wraith;
         break;
-
       case 'golen':
         npcIcon = golen;
         break;

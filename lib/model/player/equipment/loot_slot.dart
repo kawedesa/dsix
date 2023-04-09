@@ -61,6 +61,7 @@ class _LootSlotState extends State<LootSlot> {
             crossAxisCount: 6,
             children: List.generate(widget.npc.loot.length, (index) {
               return InventorySlot(
+                player: user.player,
                 color: user.color,
                 darkColor: user.darkColor,
                 icon: AppImages().getItemIcon(widget.npc.loot[index].name),
@@ -74,8 +75,6 @@ class _LootSlotState extends State<LootSlot> {
                 onWillAccept: (equipment) {
                   return false;
                 },
-                sellItem: () {},
-                useItem: () {},
               );
             }),
           ),

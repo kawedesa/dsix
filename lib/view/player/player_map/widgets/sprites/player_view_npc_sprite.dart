@@ -36,8 +36,8 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
             Align(
               alignment: Alignment.center,
               child: Container(
-                width: 10,
-                height: 10,
+                width: 7,
+                height: 7,
                 decoration: (widget.beingAttacked)
                     ? BoxDecoration(
                         color: AppColors.cancel.withAlpha(200),
@@ -60,7 +60,7 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
             Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: widget.npc.size * 2),
+                  padding: EdgeInsets.only(bottom: widget.npc.size * 1.75),
                   child: EffectsUi(
                       effects: widget.npc.effects.currentEffects,
                       tempArmor: widget.npc.attributes.defense.tempArmor,
@@ -68,23 +68,14 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
                 )),
             Align(
               alignment: Alignment.center,
-              child: GestureDetector(
-                onTap: () {},
-                onPanStart: (details) {},
-                onPanUpdate: (details) {},
-                onPanEnd: (details) {},
-                child: SizedBox(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: widget.npc.size),
+                child: SvgPicture.asset(
+                  AppImages().getNpcIcon(
+                    widget.npc.name,
+                  ),
                   width: widget.npc.size,
                   height: widget.npc.size,
-                  child: Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: SvgPicture.asset(
-                      AppImages().getNpcIcon(
-                        widget.npc.name,
-                      ),
-                      color: Colors.black,
-                    ),
-                  ),
                 ),
               ),
             ),

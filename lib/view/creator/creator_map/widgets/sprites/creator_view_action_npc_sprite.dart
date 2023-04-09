@@ -83,24 +83,28 @@ class _CreatorViewActionNpcSpriteState
                 Align(
                     alignment: Alignment.center,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: widget.npc.size * 2),
-                      child: EffectsUi(
-                          effects: widget.npc.effects.currentEffects,
-                          tempArmor: widget.npc.attributes.defense.tempArmor,
-                          tempVision: widget.npc.attributes.vision.tempVision),
+                      padding: EdgeInsets.only(bottom: widget.npc.size * 1.75),
+                      child: TransparentPointer(
+                        transparent: true,
+                        child: EffectsUi(
+                            effects: widget.npc.effects.currentEffects,
+                            tempArmor: widget.npc.attributes.defense.tempArmor,
+                            tempVision:
+                                widget.npc.attributes.vision.tempVision),
+                      ),
                     )),
                 Align(
                   alignment: Alignment.center,
-                  child: SizedBox(
-                    width: widget.npc.size,
-                    height: widget.npc.size,
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: widget.npc.size),
+                    child: TransparentPointer(
+                      transparent: true,
                       child: SvgPicture.asset(
                         AppImages().getNpcIcon(
                           widget.npc.name,
                         ),
-                        color: Colors.black,
+                        width: widget.npc.size,
+                        height: widget.npc.size,
                       ),
                     ),
                   ),
@@ -119,7 +123,8 @@ class _CreatorViewActionNpcSpriteState
                             widget.refresh();
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 0),
+                            padding:
+                                EdgeInsets.only(bottom: widget.npc.size / 2),
                             child: Container(
                               width: widget.npc.size / 2,
                               height: widget.npc.size / 2,
@@ -154,7 +159,8 @@ class _CreatorViewActionNpcSpriteState
                             widget.refresh();
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 0),
+                            padding:
+                                EdgeInsets.only(bottom: widget.npc.size / 2),
                             child: Container(
                               width: widget.npc.size / 2,
                               height: widget.npc.size / 2,
@@ -255,13 +261,13 @@ class NpcSpriteMoveRange extends StatelessWidget {
       double range = 0;
 
       if (selected) {
-        range = (maxRange - distanceMoved < 10) ? 10 : maxRange - distanceMoved;
+        range = (maxRange - distanceMoved < 7) ? 7 : maxRange - distanceMoved;
       } else {
-        range = 10;
+        range = 7;
       }
 
       if (npcMode == 'wait') {
-        range = 10;
+        range = 7;
       }
 
       return range;

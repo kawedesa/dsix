@@ -51,7 +51,7 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
             transformationController: user.mapInfo.canvasController,
             constrained: false,
             panEnabled: true,
-            maxScale: user.mapInfo.minZoom,
+            maxScale: user.mapInfo.maxZoom,
             minScale: user.mapInfo.minZoom,
             child: SizedBox(
               width: user.mapInfo.mapSize,
