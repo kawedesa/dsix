@@ -411,7 +411,7 @@ class AppImages {
   static const actionWhip = 'assets/images/ui/actionWhip.svg';
 
   String getActionIcon(String action) {
-    String actionIcon = '';
+    String actionIcon = actionJab;
 
     switch (action) {
       case 'crush':
@@ -547,55 +547,77 @@ class AppImages {
   }
 
   //NPCS
-  static const zombie = 'assets/images/sprites/npcs/zombie.svg';
-  static const giantBat = 'assets/images/sprites/npcs/giantBat.svg';
-  static const skeleton = 'assets/images/sprites/npcs/skeleton.svg';
-  static const skeletonMage = 'assets/images/sprites/npcs/skeletonMage.svg';
-  static const giantFrog = 'assets/images/sprites/npcs/giantFrog.svg';
-  static const goblin = 'assets/images/sprites/npcs/goblin.svg';
-  static const beast = 'assets/images/sprites/npcs/beast.svg';
-  static const explosiveLizzard =
-      'assets/images/sprites/npcs/explosiveLizzard.svg';
-  static const wraith = 'assets/images/sprites/npcs/wraith.svg';
-  static const golen = 'assets/images/sprites/npcs/golen.svg';
+  //ICONS
+
+  static const zombieIcon = 'assets/images/ui/npcZombie.svg';
+  static const giantBatIcon = 'assets/images/ui/npcGiantBat.svg';
+  static const skeletonIcon = 'assets/images/ui/npcSkeleton.svg';
+  static const skeletonMageIcon = 'assets/images/ui/npcSkeletonMage.svg';
+  static const giantFrogIcon = 'assets/images/ui/npcGiantFrog.svg';
+  static const goblinIcon = 'assets/images/ui/npcGoblin.svg';
 
   String getNpcIcon(String npc) {
     String npcIcon = '';
 
     switch (npc) {
       case 'zombie':
-        npcIcon = zombie;
+        npcIcon = zombieIcon;
         break;
       case 'giant bat':
-        npcIcon = giantBat;
+        npcIcon = giantBatIcon;
         break;
       case 'skeleton':
-        npcIcon = skeleton;
+        npcIcon = skeletonIcon;
         break;
       case 'skeleton mage':
-        npcIcon = skeletonMage;
+        npcIcon = skeletonMageIcon;
         break;
       case 'giant frog':
-        npcIcon = giantFrog;
+        npcIcon = giantFrogIcon;
         break;
       case 'goblin':
-        npcIcon = goblin;
-        break;
-      case 'beast':
-        npcIcon = beast;
-        break;
-      case 'explosive lizzard':
-        npcIcon = explosiveLizzard;
-        break;
-      case 'wraith':
-        npcIcon = wraith;
-        break;
-      case 'golen':
-        npcIcon = golen;
+        npcIcon = goblinIcon;
         break;
     }
 
     return npcIcon;
+  }
+
+  //SPRITES
+
+  static const zombieSprite = 'assets/images/sprites/npcs/zombie.svg';
+  static const giantBatSprite = 'assets/images/sprites/npcs/giantBat.svg';
+  static const skeletonSprite = 'assets/images/sprites/npcs/skeleton.svg';
+  static const skeletonMageSprite =
+      'assets/images/sprites/npcs/skeletonMage.svg';
+  static const giantFrogSprite = 'assets/images/sprites/npcs/giantFrog.svg';
+  static const goblinSprite = 'assets/images/sprites/npcs/goblin.svg';
+
+  String getNpcSprite(String npc) {
+    String npcSprite = '';
+
+    switch (npc) {
+      case 'zombie':
+        npcSprite = zombieSprite;
+        break;
+      case 'giant bat':
+        npcSprite = giantBatSprite;
+        break;
+      case 'skeleton':
+        npcSprite = skeletonSprite;
+        break;
+      case 'skeleton mage':
+        npcSprite = skeletonMageSprite;
+        break;
+      case 'giant frog':
+        npcSprite = giantFrogSprite;
+        break;
+      case 'goblin':
+        npcSprite = goblinSprite;
+        break;
+    }
+
+    return npcSprite;
   }
 
   //BUILDINGS

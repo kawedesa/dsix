@@ -71,7 +71,7 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
               child: Padding(
                 padding: EdgeInsets.only(bottom: widget.npc.size),
                 child: SvgPicture.asset(
-                  AppImages().getNpcIcon(
+                  AppImages().getNpcSprite(
                     widget.npc.name,
                   ),
                   width: widget.npc.size,

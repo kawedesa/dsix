@@ -100,7 +100,7 @@ class _CreatorViewActionNpcSpriteState
                     child: TransparentPointer(
                       transparent: true,
                       child: SvgPicture.asset(
-                        AppImages().getNpcIcon(
+                        AppImages().getNpcSprite(
                           widget.npc.name,
                         ),
                         width: widget.npc.size,

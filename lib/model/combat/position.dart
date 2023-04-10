@@ -12,8 +12,8 @@ class Position {
 
   factory Position.empty() {
     return Position(
-      dx: -1000,
-      dy: -1000,
+      dx: -10000,
+      dy: -10000,
       tile: '',
     );
   }
@@ -43,7 +43,7 @@ class Position {
   }
 
   void reset() {
-    dx = -1000;
-    dy = -1000;
+    dx = -10000;
+    dy = -10000;
   }
 }
