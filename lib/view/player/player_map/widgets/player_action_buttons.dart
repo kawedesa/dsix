@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PlayerActioButtons extends StatefulWidget {
-  final Function() refresh;
+  final Function() fullRefresh;
 
-  const PlayerActioButtons({super.key, required this.refresh});
+  const PlayerActioButtons({super.key, required this.fullRefresh});
 
   @override
   State<PlayerActioButtons> createState() => _PlayerActioButtonsState();
@@ -83,7 +83,6 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
         hide: hideButton(user, id),
         startAction: () {
           user.player.defend();
-          widget.refresh();
         },
         resetAction: () {},
         resetArea: () {});
@@ -100,7 +99,6 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
         hide: hideButton(user, id),
         startAction: () {
           user.player.look();
-          widget.refresh();
         },
         resetAction: () {},
         resetArea: () {});
@@ -168,17 +166,17 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
             null);
 
         user.playerActionMode();
-        widget.refresh();
+        localRefresh();
       },
       resetAction: () {
         deselectActionButton();
         user.combat.resetAction();
         user.playerStandMode();
-        widget.refresh();
+        localRefresh();
       },
       resetArea: () {
         user.combat.resetArea();
-        widget.refresh();
+        localRefresh();
       },
     );
   }
@@ -193,6 +191,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       hide: hideButton(user, id),
       startAction: () {
         user.player.reload(attack);
+        localRefresh();
       },
       resetAction: () {},
       resetArea: () {},
@@ -205,22 +204,21 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       getMouseOffset: (mouseOffset) {
         user.combat.setMousePosition(mouseOffset);
         user.combat.setActionArea();
-
-        refresh();
+        widget.fullRefresh();
       },
       onTap: () {
         deselectActionButton();
         user.combat.confirmAttack(npcs, players);
         user.combat.resetAction();
         user.playerStandMode();
-        refresh();
+        localRefresh();
       },
     );
 
     return attackInputWidget;
   }
 
-  void refresh() {
+  void localRefresh() {
     setState(() {});
   }
 

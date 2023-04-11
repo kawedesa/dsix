@@ -4,7 +4,7 @@ import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/text_dialog.dart';
 import 'package:flutter/material.dart';
 
-class AppSlider extends StatefulWidget {
+class AppSlider extends StatelessWidget {
   final double height;
   final double width;
   final int range;
@@ -31,11 +31,6 @@ class AppSlider extends StatefulWidget {
     required this.remove,
   });
 
-  @override
-  State<AppSlider> createState() => _AppSliderState();
-}
-
-class _AppSliderState extends State<AppSlider> {
   List<Widget> sliderDivision(int range) {
     List<Widget> tempList = [];
 
@@ -45,7 +40,7 @@ class _AppSliderState extends State<AppSlider> {
           child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: widget.color,
+              color: color,
             ),
           ),
         ),
@@ -62,15 +57,15 @@ class _AppSliderState extends State<AppSlider> {
       children: [
         AppCircularButton(
           icon: AppImages.minus,
-          iconColor: widget.color,
+          iconColor: color,
           color: Colors.transparent,
-          borderColor: widget.color,
+          borderColor: color,
           size: 0.075,
-          onTap: () => widget.remove(),
+          onTap: () => remove(),
         ),
         SizedBox(
-          width: widget.width,
-          height: widget.height,
+          width: width,
+          height: height,
           child: Stack(
             children: [
               Align(
@@ -82,11 +77,11 @@ class _AppSliderState extends State<AppSlider> {
                       Align(
                         alignment: Alignment.center,
                         child: SizedBox(
-                          width: widget.width - widget.height * 0.5,
+                          width: width - height * 0.5,
                           height: AppLayout.avarage(context) * 0.004,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: sliderDivision(widget.range),
+                            children: sliderDivision(range),
                           ),
                         ),
                       ),
@@ -95,7 +90,7 @@ class _AppSliderState extends State<AppSlider> {
                         child: Container(
                           height: AppLayout.avarage(context) * 0.002,
                           width: double.infinity,
-                          color: widget.color,
+                          color: color,
                         ),
                       ),
                     ],
@@ -103,21 +98,21 @@ class _AppSliderState extends State<AppSlider> {
                 ),
               ),
               Align(
-                alignment: Alignment((widget.value / widget.range) * 2.25, 0),
+                alignment: Alignment((value / range) * 2.25, 0),
                 child: AppCircularButton(
-                  icon: widget.icon,
-                  iconColor: widget.iconColor,
-                  color: widget.color,
-                  borderColor: widget.color,
+                  icon: icon,
+                  iconColor: iconColor,
+                  color: color,
+                  borderColor: color,
                   size: 0.04,
                   onTap: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return TextDialog(
-                          title: widget.sliderTitle,
-                          dialogText: widget.sliderDescription,
-                          color: widget.color,
+                          title: sliderTitle,
+                          dialogText: sliderDescription,
+                          color: color,
                         );
                       },
                     );
@@ -129,11 +124,11 @@ class _AppSliderState extends State<AppSlider> {
         ),
         AppCircularButton(
           icon: AppImages.plus,
-          iconColor: widget.color,
+          iconColor: color,
           color: Colors.transparent,
-          borderColor: widget.color,
+          borderColor: color,
           size: 0.075,
-          onTap: () => widget.add(),
+          onTap: () => add(),
         ),
       ],
     );

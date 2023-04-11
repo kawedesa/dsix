@@ -53,13 +53,13 @@ class EffectsUi extends StatelessWidget {
 class SpriteEffects extends StatelessWidget {
   final Effect effect;
   const SpriteEffects({super.key, required this.effect});
-
-  @override
-  Widget build(BuildContext context) {
+  int getDisplayValue() {
     int displayNumber = 0;
-
     switch (effect.name) {
       case 'poison':
+        displayNumber = effect.countdown;
+        break;
+      case 'burn':
         displayNumber = effect.countdown;
         break;
       case 'bleed':
@@ -71,6 +71,9 @@ class SpriteEffects extends StatelessWidget {
       case 'stun':
         displayNumber = effect.countdown;
         break;
+      case 'weaken':
+        displayNumber = effect.countdown;
+        break;
       case 'tempArmor':
         displayNumber = effect.value;
         break;
@@ -78,7 +81,11 @@ class SpriteEffects extends StatelessWidget {
         displayNumber = 0;
         break;
     }
+    return displayNumber;
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       width: 3,
       height: 3,
@@ -92,8 +99,8 @@ class SpriteEffects extends StatelessWidget {
           ),
           Align(
             alignment: const Alignment(0, 0.1),
-            child:
-                AppEffectsText(value: displayNumber, effectName: effect.name),
+            child: AppEffectsText(
+                value: getDisplayValue(), effectName: effect.name),
           ),
         ],
       ),

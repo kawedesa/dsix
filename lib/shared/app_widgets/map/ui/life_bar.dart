@@ -11,13 +11,12 @@ class LifeBar extends StatelessWidget {
       required this.life,
       required this.height,
       required this.width});
+  double currentLife() {
+    return life.current / life.max * width;
+  }
 
   @override
   Widget build(BuildContext context) {
-    double currentLife() {
-      return life.current / life.max * width;
-    }
-
     return SizedBox(
       width: width,
       height: height,

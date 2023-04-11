@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class AppRadialMenu extends StatefulWidget {
+class AppRadialMenu extends StatelessWidget {
   final List<Widget> buttonInfo;
   final double maxAngle;
 
@@ -11,30 +11,26 @@ class AppRadialMenu extends StatefulWidget {
     required this.maxAngle,
   }) : super(key: key);
 
-  @override
-  State<AppRadialMenu> createState() => _AppRadialMenuState();
-}
-
-class _AppRadialMenuState extends State<AppRadialMenu> {
-  List<Widget> createMenu() {
+  Widget createMenu() {
     List<Widget> menu = [];
 
-    for (int i = 0; i < widget.buttonInfo.length; i++) {
-      Offset buttonPosition =
-          calculateButtonPosition(i, widget.buttonInfo.length);
+    for (int i = 0; i < buttonInfo.length; i++) {
+      Offset buttonPosition = calculateButtonPosition(i, buttonInfo.length);
 
       Widget newButton = Align(
         alignment: Alignment(buttonPosition.dx, buttonPosition.dy),
-        child: widget.buttonInfo[i],
+        child: buttonInfo[i],
       );
       menu.add(newButton);
     }
 
-    return menu;
+    return Stack(
+      children: menu,
+    );
   }
 
   Offset calculateButtonPosition(int buttonIndex, int numberOfButtons) {
-    double maxAngleInRadians = (widget.maxAngle * pi) / 180;
+    double maxAngleInRadians = (maxAngle * pi) / 180;
 
     double angleValue = maxAngleInRadians / numberOfButtons;
 
@@ -58,8 +54,6 @@ class _AppRadialMenuState extends State<AppRadialMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: createMenu(),
-    );
+    return createMenu();
   }
 }

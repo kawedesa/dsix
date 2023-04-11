@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
 
-class MapCircularButton extends StatefulWidget {
+class MapCircularButton extends StatelessWidget {
   final Color color;
   final Color borderColor;
   final Color? iconColor;
@@ -26,17 +26,12 @@ class MapCircularButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MapCircularButton> createState() => _MapCircularButtonState();
-}
-
-class _MapCircularButtonState extends State<MapCircularButton> {
-  @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
       duration: const Duration(milliseconds: 400),
       tween: Tween<double>(
         begin: 0.0,
-        end: widget.size,
+        end: size,
       ),
       curve: Curves.easeOutCubic,
       builder: (_, double tweenValue, __) {
@@ -48,16 +43,14 @@ class _MapCircularButtonState extends State<MapCircularButton> {
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: widget.color,
+                    color: color,
                     border: Border.all(
-                      color: widget.borderColor,
-                      width: (widget.borderSize == null)
-                          ? 0.5
-                          : widget.borderSize!,
+                      color: borderColor,
+                      width: (borderSize == null) ? 0.5 : borderSize!,
                     ),
                   ),
                 ),
-                (widget.onTap != null)
+                (onTap != null)
                     ? const ClipOval(
                         child: RiveAnimation.asset(
                           AppAnimations.buttonReflex,
@@ -66,28 +59,28 @@ class _MapCircularButtonState extends State<MapCircularButton> {
                       )
                     : const SizedBox(),
                 Padding(
-                  padding: EdgeInsets.all(
-                      (widget.borderSize == null) ? 0.5 : widget.borderSize!),
+                  padding:
+                      EdgeInsets.all((borderSize == null) ? 0.5 : borderSize!),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: widget.color,
+                      color: color,
                     ),
                   ),
                 ),
-                (widget.icon != null)
+                (icon != null)
                     ? Align(
                         alignment: Alignment.center,
                         child: SvgPicture.asset(
-                          widget.icon!,
-                          width: (widget.iconSize == null)
+                          icon!,
+                          width: (iconSize == null)
                               ? tweenValue / 2
-                              : tweenValue * widget.iconSize!,
-                          height: (widget.iconSize == null)
+                              : tweenValue * iconSize!,
+                          height: (iconSize == null)
                               ? tweenValue / 2
-                              : tweenValue * widget.iconSize!,
-                          color: (widget.iconColor != null)
-                              ? widget.iconColor!
+                              : tweenValue * iconSize!,
+                          color: (iconColor != null)
+                              ? iconColor!
                               : Colors.transparent,
                         ))
                     : const SizedBox(),
@@ -97,8 +90,7 @@ class _MapCircularButtonState extends State<MapCircularButton> {
                     color: Colors.transparent,
                   ),
                   child: GestureDetector(
-                    onTap: () =>
-                        (widget.onTap != null) ? widget.onTap!() : () {},
+                    onTap: () => (onTap != null) ? onTap!() : () {},
                   ),
                 ),
               ],

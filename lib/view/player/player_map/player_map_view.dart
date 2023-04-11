@@ -80,7 +80,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
             ),
           ),
           _mapAnimation.displayTurnAnimations(),
-          PlayerActioButtons(refresh: refresh),
+          PlayerActioButtons(fullRefresh: refresh),
         ],
       ),
     );

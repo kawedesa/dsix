@@ -9,7 +9,7 @@ import '../layout/app_separator_horizontal.dart';
 import '../layout/app_separator_vertical.dart';
 import '../text/app_text.dart';
 
-class ItemDialog extends StatefulWidget {
+class ItemDialog extends StatelessWidget {
   final Color color;
   final Color darkColor;
   final Item item;
@@ -22,27 +22,22 @@ class ItemDialog extends StatefulWidget {
     required this.sellItem,
   });
 
-  @override
-  State<ItemDialog> createState() => _ItemDialogState();
-}
-
-class _ItemDialogState extends State<ItemDialog> {
   List<Widget> getItemAttributes() {
     List<Widget> itemAttributes = [];
 
-    if (widget.item.armor.pArmor != 0) {
+    if (item.armor.pArmor != 0) {
       itemAttributes.add(
         Row(
           children: [
             AppCircularButton(
                 icon: AppImages.pArmor,
-                iconColor: widget.darkColor,
-                color: widget.color,
-                borderColor: widget.color,
+                iconColor: darkColor,
+                color: color,
+                borderColor: color,
                 size: 0.025),
             const AppSeparatorHorizontal(value: 0.01),
             AppText(
-                text: widget.item.armor.pArmor.toString(),
+                text: item.armor.pArmor.toString(),
                 fontSize: 0.015,
                 letterSpacing: 0.002,
                 color: Colors.white),
@@ -53,18 +48,18 @@ class _ItemDialogState extends State<ItemDialog> {
         const AppSeparatorVertical(value: 0.0125),
       );
     }
-    if (widget.item.armor.mArmor != 0) {
+    if (item.armor.mArmor != 0) {
       itemAttributes.add(Row(
         children: [
           AppCircularButton(
               icon: AppImages.mArmor,
-              iconColor: widget.darkColor,
-              color: widget.color,
-              borderColor: widget.color,
+              iconColor: darkColor,
+              color: color,
+              borderColor: color,
               size: 0.025),
           const AppSeparatorHorizontal(value: 0.01),
           AppText(
-              text: widget.item.armor.mArmor.toString(),
+              text: item.armor.mArmor.toString(),
               fontSize: 0.015,
               letterSpacing: 0.002,
               color: Colors.white),
@@ -79,13 +74,13 @@ class _ItemDialogState extends State<ItemDialog> {
       children: [
         AppCircularButton(
             icon: AppImages.weight,
-            iconColor: widget.darkColor,
-            color: widget.color,
-            borderColor: widget.color,
+            iconColor: darkColor,
+            color: color,
+            borderColor: color,
             size: 0.025),
         const AppSeparatorHorizontal(value: 0.01),
         AppText(
-            text: widget.item.weight.toString(),
+            text: item.weight.toString(),
             fontSize: 0.015,
             letterSpacing: 0.002,
             color: Colors.white),
@@ -98,13 +93,13 @@ class _ItemDialogState extends State<ItemDialog> {
       children: [
         AppCircularButton(
             icon: AppImages.money,
-            iconColor: widget.darkColor,
-            color: widget.color,
-            borderColor: widget.color,
+            iconColor: darkColor,
+            color: color,
+            borderColor: color,
             size: 0.025),
         const AppSeparatorHorizontal(value: 0.01),
         AppText(
-            text: widget.item.value.toString(),
+            text: item.value.toString(),
             fontSize: 0.015,
             letterSpacing: 0.002,
             color: Colors.white),
@@ -121,9 +116,9 @@ class _ItemDialogState extends State<ItemDialog> {
       content: Container(
         width: AppLayout.avarage(context) * 0.35,
         decoration: BoxDecoration(
-          color: widget.color,
+          color: color,
           border: Border.all(
-            color: widget.color,
+            color: color,
             width: AppLayout.avarage(context) * 0.004,
           ),
         ),
@@ -132,9 +127,9 @@ class _ItemDialogState extends State<ItemDialog> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             DialogTitle(
-              color: widget.color,
-              title: widget.item.name,
-              subTitle: widget.item.itemSlot,
+              color: color,
+              title: item.name,
+              subTitle: item.itemSlot,
             ),
             Container(
               color: Colors.black,
@@ -145,7 +140,7 @@ class _ItemDialogState extends State<ItemDialog> {
                     child: Stack(
                       children: [
                         SvgPicture.asset(
-                          AppImages().getItemIcon(widget.item.name),
+                          AppImages().getItemIcon(item.name),
                           width: AppLayout.avarage(context) * 0.35,
                           height: AppLayout.avarage(context) * 0.35,
                           color: Colors.white,
