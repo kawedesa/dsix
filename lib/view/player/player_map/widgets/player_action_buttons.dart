@@ -205,18 +205,23 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       getMouseOffset: (mouseOffset) {
         user.combat.setMousePosition(mouseOffset);
         user.combat.setActionArea();
-        widget.refresh();
+
+        refresh();
       },
       onTap: () {
         deselectActionButton();
         user.combat.confirmAttack(npcs, players);
         user.combat.resetAction();
         user.playerStandMode();
-        widget.refresh();
+        refresh();
       },
     );
 
     return attackInputWidget;
+  }
+
+  void refresh() {
+    setState(() {});
   }
 
   @override

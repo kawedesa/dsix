@@ -33,6 +33,8 @@ class AppImages {
   static const effectBleed = 'assets/images/ui/effectBleed.svg';
   static const effectVulnerable = 'assets/images/ui/effectVulnerable.svg';
   static const effectStun = 'assets/images/ui/effectStun.svg';
+  static const effectWeaken = 'assets/images/ui/effectWeaken.svg';
+  static const effectBurn = 'assets/images/ui/effectBurn.svg';
 
   String getEffectIcon(String effect) {
     String effectIcon = '';
@@ -55,6 +57,12 @@ class AppImages {
         break;
       case 'stun':
         effectIcon = effectStun;
+        break;
+      case 'weaken':
+        effectIcon = effectWeaken;
+        break;
+      case 'burn':
+        effectIcon = effectBurn;
         break;
     }
 
@@ -555,6 +563,7 @@ class AppImages {
   static const skeletonMageIcon = 'assets/images/ui/npcSkeletonMage.svg';
   static const giantFrogIcon = 'assets/images/ui/npcGiantFrog.svg';
   static const goblinIcon = 'assets/images/ui/npcGoblin.svg';
+  static const basiliskIcon = 'assets/images/ui/npcBasilisk.svg';
 
   String getNpcIcon(String npc) {
     String npcIcon = '';
@@ -578,6 +587,9 @@ class AppImages {
       case 'goblin':
         npcIcon = goblinIcon;
         break;
+      case 'basilisk':
+        npcIcon = basiliskIcon;
+        break;
     }
 
     return npcIcon;
@@ -592,6 +604,7 @@ class AppImages {
       'assets/images/sprites/npcs/skeletonMage.svg';
   static const giantFrogSprite = 'assets/images/sprites/npcs/giantFrog.svg';
   static const goblinSprite = 'assets/images/sprites/npcs/goblin.svg';
+  static const basiliskSprite = 'assets/images/sprites/npcs/basilisk.svg';
 
   String getNpcSprite(String npc) {
     String npcSprite = '';
@@ -614,6 +627,9 @@ class AppImages {
         break;
       case 'goblin':
         npcSprite = goblinSprite;
+        break;
+      case 'basilisk':
+        npcSprite = basiliskSprite;
         break;
     }
 

@@ -4,7 +4,6 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/map/action_area_sprite.dart';
@@ -100,11 +99,9 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                         user, players, npcs),
                   ),
                   Stack(
-                    children: _creatorMapController.createNpcSprites(
-                        user, npcs, refresh),
+                    children:
+                        _creatorMapController.createNpcSprites(npcs, refresh),
                   ),
-                  _creatorMapController
-                      .placeHereTarget(user.placeHere.getOffset()),
                   _mapAnimation.displayAttackAnimations(),
                   _mapAnimation.displayDamageAnimations(),
                 ],
@@ -116,7 +113,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
           SelectedNpcUi(),
           // ignore: prefer_const_constructors
           SelectedBuildingUi(),
-          NpcActionButtons(refresh: refresh),
+          NpcActionButtons(fullRefresh: refresh),
           _mapAnimation.displayTurnAnimations(),
           InGameMenu(
             refresh: () {
@@ -149,7 +146,7 @@ class CreatorMapActionModeController {
   }
 
 //NPCS
-  List<Widget> createNpcSprites(User user, List<Npc> npcs, Function refresh) {
+  List<Widget> createNpcSprites(List<Npc> npcs, Function refresh) {
     List<Widget> npcSprites = [];
 
     for (Npc npc in npcs) {
@@ -160,10 +157,7 @@ class CreatorMapActionModeController {
       } else {
         npcSprites.add(CreatorViewActionNpcSprite(
           npc: npc,
-          selected: user.checkSelectedNpc(npc.id),
-          beingAttacked:
-              user.combat.actionArea.area.contains(npc.position.getOffset()),
-          refresh: () {
+          fullRefresh: () {
             refresh();
           },
         ));
@@ -184,14 +178,10 @@ class CreatorMapActionModeController {
         if (player.life.isDead()) {
           playerSprites.add(CreatorViewDeadPlayerSprite(
             player: player,
-            color: AppColors().getPlayerColor(player.id),
           ));
         } else {
           playerSprites.add(CreatorViewPlayerSprite(
             player: player,
-            beingAttacked: user.combat.actionArea.area
-                .contains(player.position.getOffset()),
-            color: AppColors().getPlayerColor(player.id),
           ));
         }
       }
@@ -205,7 +195,7 @@ class CreatorMapActionModeController {
     visibleArea.fillType = PathFillType.evenOdd;
 
     for (Npc npc in npcs) {
-      if (npc.life.isDead() == false) {
+      if (npc.life.isAlive()) {
         Path npcVisibleArea = Path();
         Path npcVision = Path.combine(PathOperation.difference,
             npc.getVisionArea(), VisionGrid().getGrid(npc.position));
@@ -223,25 +213,6 @@ class CreatorMapActionModeController {
       }
     }
     return visibleArea;
-  }
-
-  Widget placeHereTarget(Offset placeHere) {
-    return Positioned(
-      left: placeHere.dx - 2.5,
-      top: placeHere.dy - 2.5,
-      child: Container(
-        width: 5,
-        height: 5,
-        decoration: BoxDecoration(
-          color: AppColors.negative.withAlpha(50),
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: AppColors.negative.withAlpha(200),
-            width: 0.3,
-          ),
-        ),
-      ),
-    );
   }
 
   Widget displayTurn(String turn) {

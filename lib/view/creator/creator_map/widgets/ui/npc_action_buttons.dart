@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NpcActionButtons extends StatefulWidget {
-  final Function() refresh;
-  const NpcActionButtons({super.key, required this.refresh});
+  final Function() fullRefresh;
+  const NpcActionButtons({super.key, required this.fullRefresh});
 
   @override
   State<NpcActionButtons> createState() => _NpcActionButtonsState();
@@ -86,7 +86,6 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
         hide: hideButton(user, id),
         startAction: () {
           user.npc!.defend();
-          widget.refresh();
         },
         resetAction: () {},
         resetArea: () {});
@@ -103,7 +102,6 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
         hide: hideButton(user, id),
         startAction: () {
           user.npc!.look();
-          widget.refresh();
         },
         resetAction: () {},
         resetArea: () {});
@@ -148,16 +146,17 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
             user.npc!);
 
         user.npcActionMode();
-        widget.refresh();
+        localRefresh();
       },
       resetAction: () {
         deselectActionButton();
         user.combat.resetAction();
         user.npcStandMode();
+        localRefresh();
       },
       resetArea: () {
         user.combat.resetArea();
-        widget.refresh();
+        localRefresh();
       },
     );
   }
@@ -172,6 +171,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
       hide: hideButton(user, id),
       startAction: () {
         user.npc!.reload(attack);
+        localRefresh();
       },
       resetAction: () {},
       resetArea: () {},
@@ -184,18 +184,22 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
       getMouseOffset: (mouseOffset) {
         user.combat.setMousePosition(mouseOffset);
         user.combat.setActionArea();
-        widget.refresh();
+        widget.fullRefresh();
       },
       onTap: () {
         deselectActionButton();
         user.combat.confirmAttack(npcs, players);
         user.combat.resetAction();
         user.npcStandMode();
-        widget.refresh();
+        localRefresh();
       },
     );
 
     return attackInputWidget;
+  }
+
+  void localRefresh() {
+    setState(() {});
   }
 
   @override

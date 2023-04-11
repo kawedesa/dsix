@@ -13,13 +13,11 @@ import 'package:transparent_pointer/transparent_pointer.dart';
 
 class CreatorViewEditNpcSprite extends StatefulWidget {
   final Npc npc;
-  final bool selected;
-  final Function() refresh;
+  final Function() fullRefresh;
   const CreatorViewEditNpcSprite({
     super.key,
     required this.npc,
-    required this.selected,
-    required this.refresh,
+    required this.fullRefresh,
   });
 
   @override
@@ -30,20 +28,8 @@ class CreatorViewEditNpcSprite extends StatefulWidget {
 class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
   final NpcSpriteController _controller = NpcSpriteController();
 
-  Color getColor() {
-    if (widget.selected) {
-      return AppColors.uiColorLight.withAlpha(75);
-    } else {
-      return AppColors.uiColorDark.withAlpha(25);
-    }
-  }
-
-  Color getStrokeColor() {
-    if (widget.selected) {
-      return AppColors.uiColorLight.withAlpha(200);
-    } else {
-      return AppColors.uiColorDark.withAlpha(100);
-    }
+  void localRefresh() {
+    setState(() {});
   }
 
   @override
@@ -51,6 +37,7 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
     final user = Provider.of<User>(context);
 
     _controller.initializeTempPosition(widget.npc.position);
+    _controller.checkSelected(user, widget.npc);
 
     return ChangeNotifierProxyProvider<Spawner, TempPosition>(
         create: (context) => _controller.tempPosition,
@@ -67,16 +54,10 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
               children: [
                 Align(
                   alignment: Alignment.center,
-                  child: Container(
-                    width: 7,
-                    height: 7,
-                    decoration: BoxDecoration(
-                      color: getColor(),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: getStrokeColor(),
-                        width: 0.3,
-                      ),
+                  child: TransparentPointer(
+                    transparent: true,
+                    child: NpcSpriteMoveRange(
+                      selected: _controller.selected,
                     ),
                   ),
                 ),
@@ -100,29 +81,27 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: () {
-                      if (widget.selected) {
+                      if (_controller.selected) {
                         user.deselect();
                       } else {
                         user.deselect();
                         user.selectNpc(widget.npc);
                       }
-                      widget.refresh();
+                      widget.fullRefresh();
                     },
                     onPanStart: (details) {
                       _controller.drag = true;
                       user.selectNpc(widget.npc);
-                      widget.refresh();
+                      widget.fullRefresh();
                     },
                     onPanUpdate: (details) {
-                      setState(() {
-                        _controller.tempPosition
-                            .panUpdate(details.delta, 'tile');
-                      });
+                      _controller.tempPosition.panUpdate(details.delta, 'tile');
+                      localRefresh();
                     },
                     onPanEnd: (details) {
                       _controller.endMove(widget.npc, user.mapInfo);
 
-                      widget.refresh();
+                      localRefresh();
                     },
                     child: Padding(
                       padding: EdgeInsets.only(bottom: widget.npc.size / 2),
@@ -142,6 +121,14 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
 }
 
 class NpcSpriteController {
+//SELECTION
+  bool selected = false;
+  void checkSelected(User user, Npc npc) {
+    selected = user.checkSelectedNpc(npc.id);
+  }
+
+  //POSITION
+
   final TempPosition tempPosition = TempPosition();
   bool drag = false;
 
@@ -162,5 +149,52 @@ class NpcSpriteController {
         mapInfo.getTile(tempPosition.newPosition.getOffset());
     npc.changePosition(tempPosition.newPosition);
     drag = false;
+  }
+}
+
+class NpcSpriteMoveRange extends StatelessWidget {
+  final bool selected;
+
+  const NpcSpriteMoveRange({
+    Key? key,
+    required this.selected,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Color getColor() {
+      Color rangeColor = AppColors.uiColorDark.withAlpha(25);
+
+      if (selected) {
+        rangeColor = AppColors.uiColorLight.withAlpha(25);
+      }
+
+      return rangeColor;
+    }
+
+    Color getStrokeColor() {
+      Color rangeColor = AppColors.uiColorDark.withAlpha(100);
+
+      if (selected) {
+        rangeColor = AppColors.uiColorLight.withAlpha(200);
+      }
+
+      return rangeColor;
+    }
+
+    return AnimatedContainer(
+      curve: Curves.fastLinearToSlowEaseIn,
+      duration: const Duration(milliseconds: 700),
+      width: 7,
+      height: 7,
+      decoration: BoxDecoration(
+        color: getColor(),
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: getStrokeColor(),
+          width: 0.3,
+        ),
+      ),
+    );
   }
 }

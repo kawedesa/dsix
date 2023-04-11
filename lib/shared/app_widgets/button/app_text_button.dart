@@ -4,7 +4,7 @@ import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
-class AppTextButton extends StatefulWidget {
+class AppTextButton extends StatelessWidget {
   final Color color;
   final String buttonText;
   final Function()? onTap;
@@ -16,14 +16,9 @@ class AppTextButton extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<AppTextButton> createState() => _AppTextButtonState();
-}
-
-class _AppTextButtonState extends State<AppTextButton> {
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: onTap,
       child: TweenAnimationBuilder<double>(
         duration: const Duration(milliseconds: 500),
         tween: Tween(begin: 0, end: 255),
@@ -34,7 +29,7 @@ class _AppTextButtonState extends State<AppTextButton> {
             decoration: BoxDecoration(
               color: Colors.black,
               border: Border.all(
-                color: widget.color,
+                color: color,
                 width: AppLayout.avarage(context) * 0.0025,
               ),
             ),
@@ -46,10 +41,10 @@ class _AppTextButtonState extends State<AppTextButton> {
                 ),
                 Center(
                   child: AppText(
-                    text: widget.buttonText.toUpperCase(),
+                    text: buttonText.toUpperCase(),
                     fontSize: 0.015,
                     letterSpacing: 0.002,
-                    color: widget.color,
+                    color: color,
                   ),
                 ),
               ],

@@ -15,16 +15,11 @@ import 'package:transparent_pointer/transparent_pointer.dart';
 
 class CreatorViewActionNpcSprite extends StatefulWidget {
   final Npc npc;
-  final bool selected;
-  final bool beingAttacked;
-  final Function() refresh;
-
+  final Function() fullRefresh;
   const CreatorViewActionNpcSprite({
     super.key,
     required this.npc,
-    required this.selected,
-    required this.beingAttacked,
-    required this.refresh,
+    required this.fullRefresh,
   });
 
   @override
@@ -36,11 +31,17 @@ class _CreatorViewActionNpcSpriteState
     extends State<CreatorViewActionNpcSprite> {
   final NpcSpriteController _controller = NpcSpriteController();
 
+  void localRefresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
     _controller.initializeTempPosition(widget.npc.position);
+    _controller.checkSelected(user, widget.npc);
+    _controller.checkBeingAttacked(user, widget.npc);
 
     return ChangeNotifierProxyProvider<Spawner, TempPosition>(
         create: (context) => _controller.tempPosition,
@@ -60,8 +61,8 @@ class _CreatorViewActionNpcSpriteState
                   child: TransparentPointer(
                     transparent: true,
                     child: NpcSpriteVisionRange(
-                      selected: widget.selected,
-                      beingAttacked: widget.beingAttacked,
+                      selected: _controller.selected,
+                      beingAttacked: _controller.beingAttacked,
                       npcMode: user.npcMode,
                       range: widget.npc.attributes.vision.getRange(),
                     ),
@@ -72,8 +73,8 @@ class _CreatorViewActionNpcSpriteState
                   child: TransparentPointer(
                     transparent: true,
                     child: NpcSpriteMoveRange(
-                      selected: widget.selected,
-                      beingAttacked: widget.beingAttacked,
+                      selected: _controller.selected,
+                      beingAttacked: _controller.beingAttacked,
                       npcMode: user.npcMode,
                       maxRange: widget.npc.attributes.movement.maxRange(),
                       distanceMoved: _controller.tempPosition.distanceMoved,
@@ -120,7 +121,7 @@ class _CreatorViewActionNpcSpriteState
                               user.deselect();
                               user.selectNpc(widget.npc);
                             }
-                            widget.refresh();
+                            widget.fullRefresh();
                           },
                           child: Padding(
                             padding:
@@ -140,23 +141,22 @@ class _CreatorViewActionNpcSpriteState
                               user.deselect();
                               user.selectNpc(widget.npc);
                             }
-                            widget.refresh();
+                            widget.fullRefresh();
                           },
                           onPanStart: (details) {
                             _controller.drag = true;
                             user.selectNpc(widget.npc);
-                            widget.refresh();
+                            widget.fullRefresh();
                           },
                           onPanUpdate: (details) {
-                            setState(() {
-                              _controller.tempPosition
-                                  .panUpdate(details.delta, 'tile');
-                            });
+                            _controller.tempPosition
+                                .panUpdate(details.delta, 'tile');
+
+                            localRefresh();
                           },
                           onPanEnd: (details) {
                             _controller.endMove(widget.npc, user.mapInfo);
-
-                            widget.refresh();
+                            localRefresh();
                           },
                           child: Padding(
                             padding:
@@ -177,6 +177,23 @@ class _CreatorViewActionNpcSpriteState
 }
 
 class NpcSpriteController {
+  bool selected = false;
+  void checkSelected(User user, Npc npc) {
+    selected = user.checkSelectedNpc(npc.id);
+  }
+
+  //BEING ATTACKED
+  bool beingAttacked = false;
+  void checkBeingAttacked(User user, Npc npc) {
+    if (user.combat.actionArea.area.contains(npc.position.getOffset())) {
+      beingAttacked = true;
+    } else {
+      beingAttacked = false;
+    }
+  }
+
+  //WALK
+
   final TempPosition tempPosition = TempPosition();
   bool drag = false;
 
@@ -306,21 +323,23 @@ class NpcSpriteVisionRange extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DottedBorder(
-      borderType: BorderType.Circle,
-      dashPattern: const [3, 6],
-      color: (beingAttacked)
-          ? AppColors.cancel.withAlpha(200)
-          : (selected)
-              ? AppColors.uiColorLight.withAlpha(200)
-              : Colors.transparent,
-      strokeWidth: 0.3,
-      child: AnimatedContainer(
-        curve: Curves.fastLinearToSlowEaseIn,
-        duration: const Duration(milliseconds: 700),
-        width: (selected && npcMode != 'wait') ? range : 0,
-        height: (selected && npcMode != 'wait') ? range : 0,
-      ),
-    );
+    return (npcMode == 'wait' || selected == false)
+        ? const SizedBox()
+        : DottedBorder(
+            borderType: BorderType.Circle,
+            dashPattern: const [3, 6],
+            color: (beingAttacked)
+                ? AppColors.cancel.withAlpha(200)
+                : (selected)
+                    ? AppColors.uiColorLight.withAlpha(200)
+                    : Colors.transparent,
+            strokeWidth: 0.3,
+            child: AnimatedContainer(
+              curve: Curves.fastLinearToSlowEaseIn,
+              duration: const Duration(milliseconds: 700),
+              width: range,
+              height: range,
+            ),
+          );
   }
 }

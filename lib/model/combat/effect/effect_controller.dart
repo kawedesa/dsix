@@ -76,4 +76,14 @@ class EffectController {
     }
     return check;
   }
+
+  bool isWeaken() {
+    bool check = false;
+    for (Effect effect in currentEffects) {
+      if (effect.name == 'weaken') {
+        check = true;
+      }
+    }
+    return check;
+  }
 }

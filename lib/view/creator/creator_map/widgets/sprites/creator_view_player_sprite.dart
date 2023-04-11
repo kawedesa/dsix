@@ -1,40 +1,40 @@
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/map/ui/effects_ui.dart';
 import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
-class CreatorViewPlayerSprite extends StatefulWidget {
+class CreatorViewPlayerSprite extends StatelessWidget {
   final Player player;
-  final bool beingAttacked;
-  final Color color;
 
   const CreatorViewPlayerSprite({
     super.key,
     required this.player,
-    required this.beingAttacked,
-    required this.color,
   });
 
   @override
-  State<CreatorViewPlayerSprite> createState() =>
-      _CreatorViewPlayerSpriteState();
-}
-
-class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
-  @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
+    bool checkBeingAttacked(User user) {
+      if (user.combat.actionArea.area.contains(player.position.getOffset())) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     return Positioned(
-      left: widget.player.position.dx -
-          widget.player.attributes.vision.getRange() / 2,
-      top: widget.player.position.dy -
-          widget.player.attributes.vision.getRange() / 2,
+      left: player.position.dx - player.attributes.vision.getRange() / 2,
+      top: player.position.dy - player.attributes.vision.getRange() / 2,
       child: TransparentPointer(
         transparent: true,
         child: SizedBox(
-          width: widget.player.attributes.vision.getRange(),
-          height: widget.player.attributes.vision.getRange(),
+          width: player.attributes.vision.getRange(),
+          height: player.attributes.vision.getRange(),
           child: Stack(
             children: [
               Align(
@@ -42,7 +42,7 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
                 child: Container(
                   width: 7,
                   height: 7,
-                  decoration: (widget.beingAttacked)
+                  decoration: (checkBeingAttacked(user))
                       ? BoxDecoration(
                           color: AppColors.cancel.withAlpha(200),
                           shape: BoxShape.circle,
@@ -52,10 +52,12 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
                           ),
                         )
                       : BoxDecoration(
-                          color: widget.color.withAlpha(25),
+                          color: AppColors()
+                              .getPlayerColor(player.id)
+                              .withAlpha(25),
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: widget.color,
+                            color: AppColors().getPlayerColor(player.id),
                             width: 0.3,
                           ),
                         ),
@@ -64,23 +66,23 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
               Align(
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: widget.player.size * 2),
+                    padding: EdgeInsets.only(bottom: player.size * 2),
                     child: EffectsUi(
-                        effects: widget.player.effects.currentEffects,
-                        tempArmor: widget.player.attributes.defense.tempArmor,
-                        tempVision: widget.player.attributes.vision.tempVision),
+                        effects: player.effects.currentEffects,
+                        tempArmor: player.attributes.defense.tempArmor,
+                        tempVision: player.attributes.vision.tempVision),
                   )),
               Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: widget.player.size),
+                  padding: EdgeInsets.only(bottom: player.size),
                   child: SizedBox(
-                      width: widget.player.size,
-                      height: widget.player.size,
+                      width: player.size,
+                      height: player.size,
                       child: PlayerSpriteImage(
-                        color: widget.color,
-                        race: widget.player.race,
-                        sex: widget.player.sex,
+                        color: AppColors().getPlayerColor(player.id),
+                        race: player.race,
+                        sex: player.sex,
                       )),
                 ),
               ),
@@ -94,11 +96,10 @@ class _CreatorViewPlayerSpriteState extends State<CreatorViewPlayerSprite> {
                     onPanUpdate: (details) {},
                     onPanEnd: (details) {},
                     child: Padding(
-                      padding:
-                          EdgeInsets.only(bottom: widget.player.size / 1.2),
+                      padding: EdgeInsets.only(bottom: player.size / 1.2),
                       child: Container(
-                        width: widget.player.size / 4,
-                        height: widget.player.size / 2,
+                        width: player.size / 4,
+                        height: player.size / 2,
                         color: Colors.transparent,
                       ),
                     ),

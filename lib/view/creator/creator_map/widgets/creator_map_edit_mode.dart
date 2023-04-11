@@ -3,7 +3,6 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
@@ -72,12 +71,8 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
                       }),
                   _creatorMapController.createSpawnerSprites(spawners),
                   _creatorMapController.createBuildingSprites(
-                    buildings,
-                    refresh,
-                  ),
-                  _creatorMapController.createNpcSprites(user, npcs, refresh),
-                  _creatorMapController
-                      .placeHereTarget(user.placeHere.getOffset()),
+                      buildings, refresh),
+                  _creatorMapController.createNpcSprites(npcs, refresh),
                 ],
               ),
             ),
@@ -133,14 +128,13 @@ class CreatorMapEditModeController {
   }
 
 //NPC
-  Widget createNpcSprites(User user, List<Npc> npcs, Function refresh) {
+  Widget createNpcSprites(List<Npc> npcs, Function refresh) {
     List<Widget> npcSprites = [];
 
     for (Npc npc in npcs) {
       npcSprites.add(CreatorViewEditNpcSprite(
         npc: npc,
-        selected: user.checkSelectedNpc(npc.id),
-        refresh: () {
+        fullRefresh: () {
           refresh();
         },
       ));
@@ -148,25 +142,6 @@ class CreatorMapEditModeController {
 
     return Stack(
       children: npcSprites,
-    );
-  }
-
-  Widget placeHereTarget(Offset placeHere) {
-    return Positioned(
-      left: placeHere.dx - 2.5,
-      top: placeHere.dy - 2.5,
-      child: Container(
-        width: 5,
-        height: 5,
-        decoration: BoxDecoration(
-          color: AppColors.negative.withAlpha(50),
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: AppColors.negative.withAlpha(200),
-            width: 0.3,
-          ),
-        ),
-      ),
     );
   }
 }

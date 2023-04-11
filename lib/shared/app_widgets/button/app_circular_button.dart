@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
 
-class AppCircularButton extends StatefulWidget {
+class AppCircularButton extends StatelessWidget {
   final Color color;
   final Color borderColor;
   final Color? iconColor;
@@ -29,17 +29,12 @@ class AppCircularButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AppCircularButton> createState() => _AppCircularButtonState();
-}
-
-class _AppCircularButtonState extends State<AppCircularButton> {
-  @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
       duration: const Duration(milliseconds: 400),
       tween: Tween<double>(
         begin: 0.0,
-        end: AppLayout.avarage(context) * widget.size,
+        end: AppLayout.avarage(context) * size,
       ),
       curve: Curves.easeOutCubic,
       builder: (_, double tweenValue, __) {
@@ -51,16 +46,16 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: widget.color,
+                    color: color,
                     border: Border.all(
-                      color: widget.borderColor,
-                      width: (widget.borderSize == null)
+                      color: borderColor,
+                      width: (borderSize == null)
                           ? AppLayout.shortest(context) * 0.003
-                          : widget.borderSize!,
+                          : borderSize!,
                     ),
                   ),
                 ),
-                (widget.onTap != null)
+                (onTap != null)
                     ? const ClipOval(
                         child: RiveAnimation.asset(
                           AppAnimations.buttonReflex,
@@ -69,29 +64,29 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                       )
                     : const SizedBox(),
                 Padding(
-                  padding: EdgeInsets.all((widget.borderSize == null)
+                  padding: EdgeInsets.all((borderSize == null)
                       ? AppLayout.shortest(context) * 0.003
-                      : widget.borderSize!),
+                      : borderSize!),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: widget.color,
+                      color: color,
                     ),
                   ),
                 ),
-                (widget.icon != null)
+                (icon != null)
                     ? Align(
                         alignment: Alignment.center,
                         child: SvgPicture.asset(
-                          widget.icon!,
-                          width: (widget.iconSize == null)
+                          icon!,
+                          width: (iconSize == null)
                               ? tweenValue / 2
-                              : tweenValue * widget.iconSize!,
-                          height: (widget.iconSize == null)
+                              : tweenValue * iconSize!,
+                          height: (iconSize == null)
                               ? tweenValue / 2
-                              : tweenValue * widget.iconSize!,
-                          color: (widget.iconColor != null)
-                              ? widget.iconColor!
+                              : tweenValue * iconSize!,
+                          color: (iconColor != null)
+                              ? iconColor!
                               : Colors.transparent,
                         ))
                     : const SizedBox(),
@@ -101,11 +96,9 @@ class _AppCircularButtonState extends State<AppCircularButton> {
                     color: Colors.transparent,
                   ),
                   child: GestureDetector(
-                    onTap: () =>
-                        (widget.onTap != null) ? widget.onTap!() : () {},
-                    onDoubleTap: () => (widget.onDoubleTap != null)
-                        ? widget.onDoubleTap!()
-                        : () {},
+                    onTap: () => (onTap != null) ? onTap!() : () {},
+                    onDoubleTap: () =>
+                        (onDoubleTap != null) ? onDoubleTap!() : () {},
                   ),
                 ),
               ],

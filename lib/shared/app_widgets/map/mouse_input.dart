@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MouseInput extends StatefulWidget {
+class MouseInput extends StatelessWidget {
   final Function(Offset) getMouseOffset;
   final bool active;
   final Function() onTap;
@@ -11,23 +11,18 @@ class MouseInput extends StatefulWidget {
       required this.onTap});
 
   @override
-  State<MouseInput> createState() => _MouseInputState();
-}
-
-class _MouseInputState extends State<MouseInput> {
-  @override
   Widget build(BuildContext context) {
-    return (widget.active)
+    return (active)
         ? MouseRegion(
             onHover: (details) {
-              widget.getMouseOffset(Offset(
+              getMouseOffset(Offset(
                 details.position.dx,
                 details.position.dy,
               ));
             },
             child: GestureDetector(
               onTap: () {
-                widget.onTap();
+                onTap();
               },
             ),
           )

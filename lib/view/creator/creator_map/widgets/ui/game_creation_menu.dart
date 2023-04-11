@@ -11,6 +11,7 @@ import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
+import 'package:dsix/shared/app_widgets/map/place_here.dart';
 import 'package:dsix/view/creator/creator_map/widgets/ui/building_creation_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -55,6 +56,10 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
     newSpawner.set();
   }
 
+  void localRefresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
@@ -67,21 +72,26 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
       height: double.infinity,
       child: Stack(
         children: [
+          PlaceHere(
+              position:
+                  user.mapInfo.getOnScreenPosition(user.placeHere).getOffset()),
           MouseInput(
               active: (user.placingSomething == 'false') ? false : true,
               getMouseOffset: (mouseOffset) {
                 user.setPlaceHere(mouseOffset);
-                widget.refresh();
+                localRefresh();
               },
               onTap: () {
                 if (user.placingSomething == 'building') {
                   user.createBuilding();
                   user.resetPlacing();
+                  user.deselect();
                 }
 
                 if (user.placingSomething == 'npc') {
                   user.createNpc();
                   user.resetPlacing();
+                  user.deselect();
                 }
               }),
           (user.placingSomething == 'true')

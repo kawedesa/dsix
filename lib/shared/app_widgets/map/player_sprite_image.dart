@@ -3,7 +3,7 @@ import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class PlayerSpriteImage extends StatefulWidget {
+class PlayerSpriteImage extends StatelessWidget {
   final Color color;
   final String race;
   final String sex;
@@ -13,19 +13,14 @@ class PlayerSpriteImage extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<PlayerSpriteImage> createState() => _PlayerSpriteImageState();
-}
-
-class _PlayerSpriteImageState extends State<PlayerSpriteImage> {
-  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         SvgPicture.asset(
-          AppImages().getPlayerBodySprite(widget.race, widget.sex),
+          AppImages().getPlayerBodySprite(race, sex),
           width: AppLayout.shortest(context) * 0.5,
         ),
-        PlayerSpriteHead(race: widget.race, sex: widget.sex),
+        PlayerSpriteHead(race: race, sex: sex),
       ],
     );
   }

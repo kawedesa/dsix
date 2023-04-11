@@ -114,7 +114,11 @@ class Npc {
   Attack attack(Attack attack) {
     Attack npcAttack = attack;
 
-    npcAttack.damage.rawDamage = attributes.power.getRawDamage();
+    if (effects.isWeaken()) {
+      npcAttack.damage.rawDamage = attributes.power.getRawDamage() ~/ 2;
+    } else {
+      npcAttack.damage.rawDamage = attributes.power.getRawDamage();
+    }
 
     return npcAttack;
   }
@@ -210,6 +214,10 @@ class Npc {
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
+      case 'burn':
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        break;
 
       case 'bleed':
         effects.currentEffects
@@ -227,6 +235,12 @@ class Npc {
         break;
       case 'thorn':
         life.receiveDamage(1);
+        break;
+
+      case 'weaken':
+        attributes.power.removeAttribute();
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 0, countdown: 1));
         break;
     }
   }
@@ -252,6 +266,10 @@ class Npc {
         effect.decreaseCountdown();
         life.receiveDamage(effect.value);
         break;
+      case 'burn':
+        effect.decreaseCountdown();
+        life.receiveDamage(effect.value);
+        break;
       case 'bleed':
         effect.decreaseCountdown();
         life.receiveDamage(effect.value);
@@ -262,12 +280,18 @@ class Npc {
       case 'stun':
         effect.decreaseCountdown();
         break;
+      case 'weaken':
+        effect.decreaseCountdown();
+        break;
     }
   }
 
   void removeEffects(Effect effect) {
     switch (effect.name) {
       case 'poison':
+        effects.removeEffect(effect);
+        break;
+      case 'burn':
         effects.removeEffect(effect);
         break;
       case 'bleed':
@@ -278,6 +302,10 @@ class Npc {
         break;
       case 'stun':
         attributes.movement.addAttribute();
+        effects.removeEffect(effect);
+        break;
+      case 'weaken':
+        attributes.power.addAttribute();
         effects.removeEffect(effect);
         break;
     }

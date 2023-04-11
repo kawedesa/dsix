@@ -98,12 +98,8 @@ class MapInfo {
 
   Position getOnScreenPosition(Position position) {
     return Position(
-        dx: (position.dx * minZoom) +
-            (getCanvasPosition().dx * minZoom) -
-            1 * minZoom,
-        dy: (position.dy * minZoom) +
-            (getCanvasPosition().dy * minZoom) +
-            7 * minZoom,
+        dx: (position.dx * minZoom) + (getCanvasPosition().dx * minZoom),
+        dy: (position.dy * minZoom) + (getCanvasPosition().dy * minZoom),
         tile: '');
   }
 
@@ -130,3 +126,6 @@ class MapList {
     mapSize: 320,
   );
 }
+
+
+//TODO FIX ZOOM TO BE ABLE TO GET CURRENT ZOOM

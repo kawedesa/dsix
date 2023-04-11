@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
 
-class AppBarCircularButton extends StatefulWidget {
+class AppBarCircularButton extends StatelessWidget {
   final Color color;
   final Color borderColor;
   final Color? iconColor;
@@ -25,17 +25,12 @@ class AppBarCircularButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AppBarCircularButton> createState() => _AppBarCircularButtonState();
-}
-
-class _AppBarCircularButtonState extends State<AppBarCircularButton> {
-  @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
       duration: const Duration(milliseconds: 400),
       tween: Tween<double>(
         begin: 0.0,
-        end: AppLayout.height(context) * widget.size,
+        end: AppLayout.height(context) * size,
       ),
       curve: Curves.easeOutCubic,
       builder: (_, double tweenValue, __) {
@@ -47,16 +42,16 @@ class _AppBarCircularButtonState extends State<AppBarCircularButton> {
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: widget.color,
+                    color: color,
                     border: Border.all(
-                      color: widget.borderColor,
-                      width: (widget.borderSize == null)
+                      color: borderColor,
+                      width: (borderSize == null)
                           ? AppLayout.shortest(context) * 0.003
-                          : widget.borderSize!,
+                          : borderSize!,
                     ),
                   ),
                 ),
-                (widget.onTap != null)
+                (onTap != null)
                     ? const ClipOval(
                         child: RiveAnimation.asset(
                           AppAnimations.buttonReflex,
@@ -65,25 +60,25 @@ class _AppBarCircularButtonState extends State<AppBarCircularButton> {
                       )
                     : const SizedBox(),
                 Padding(
-                  padding: EdgeInsets.all((widget.borderSize == null)
+                  padding: EdgeInsets.all((borderSize == null)
                       ? AppLayout.shortest(context) * 0.003
-                      : widget.borderSize!),
+                      : borderSize!),
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: widget.color,
+                      color: color,
                     ),
                   ),
                 ),
-                (widget.icon != null)
+                (icon != null)
                     ? Align(
                         alignment: Alignment.center,
                         child: SvgPicture.asset(
-                          widget.icon!,
+                          icon!,
                           width: tweenValue / 2,
                           height: tweenValue / 2,
-                          color: (widget.iconColor != null)
-                              ? widget.iconColor!
+                          color: (iconColor != null)
+                              ? iconColor!
                               : Colors.transparent,
                         ))
                     : const SizedBox(),
@@ -93,8 +88,7 @@ class _AppBarCircularButtonState extends State<AppBarCircularButton> {
                     color: Colors.transparent,
                   ),
                   child: GestureDetector(
-                    onTap: () =>
-                        (widget.onTap != null) ? widget.onTap!() : () {},
+                    onTap: () => (onTap != null) ? onTap!() : () {},
                   ),
                 ),
               ],

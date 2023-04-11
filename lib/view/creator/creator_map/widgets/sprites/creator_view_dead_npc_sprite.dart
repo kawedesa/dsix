@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../shared/app_images.dart';
 
-class CreatorViewDeadNpcSprite extends StatefulWidget {
+class CreatorViewDeadNpcSprite extends StatelessWidget {
   final Npc npc;
   const CreatorViewDeadNpcSprite({
     super.key,
@@ -12,25 +12,17 @@ class CreatorViewDeadNpcSprite extends StatefulWidget {
   });
 
   @override
-  State<CreatorViewDeadNpcSprite> createState() =>
-      _CreatorViewDeadNpcSpriteState();
-}
-
-class _CreatorViewDeadNpcSpriteState extends State<CreatorViewDeadNpcSprite> {
-  @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: widget.npc.position.dx - (widget.npc.size / 2),
-      top: widget.npc.position.dy - (widget.npc.size / 2),
+      left: npc.position.dx - (npc.size / 2),
+      top: npc.position.dy - (npc.size / 2),
       child: SizedBox(
         width: 10,
         height: 10,
         child: Align(
           alignment: Alignment.topCenter,
           child: SvgPicture.asset(
-            (widget.npc.loot.isEmpty)
-                ? AppImages.chestOpen
-                : AppImages.chestClosed,
+            (npc.loot.isEmpty) ? AppImages.chestOpen : AppImages.chestClosed,
           ),
         ),
       ),
