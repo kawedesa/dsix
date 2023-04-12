@@ -10,8 +10,7 @@ import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_build
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_edit_npc_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_spawner_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/ui/game_creation_menu.dart';
-import 'package:dsix/view/creator/creator_map/widgets/ui/selected_building_ui.dart';
-import 'package:dsix/view/creator/creator_map/widgets/ui/selected_npc_ui.dart';
+import 'package:dsix/view/creator/creator_map/widgets/ui/creator_selection_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -78,9 +77,7 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
             ),
           ),
           // ignore: prefer_const_constructors
-          SelectedNpcUi(),
-          // ignore: prefer_const_constructors
-          SelectedBuildingUi(),
+          CreatorSelectionUi(),
           GameCreationMenu(
             refresh: () {
               refresh();
@@ -101,7 +98,7 @@ class CreatorMapEditModeController {
     for (Building building in buildings) {
       buildingSprites.add(CreatorViewBuildingSprite(
         building: building,
-        refresh: () {
+        fullRefresh: () {
           refresh();
         },
       ));

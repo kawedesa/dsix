@@ -1,10 +1,8 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/vision_grid.dart';
-import 'package:dsix/model/player/equipment/loot_dialog.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_building_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_npc_sprite.dart';
 import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_player_sprite.dart';
@@ -17,8 +15,8 @@ import '../../../model/npc/npc.dart';
 class PlayerMapVM {
   //SPRITES
   //NPC
-  Widget createNpcSprites(context, User user, List<Npc> npcs,
-      List<Player> players, Function() refresh) {
+  Widget createNpcSprites(
+      context, User user, List<Npc> npcs, List<Player> players) {
     List<Widget> npcSprites = [];
 
     Path playersVisibleArea = getPlayersVisibleArea(user.mapInfo, players);
@@ -28,23 +26,10 @@ class PlayerMapVM {
         if (npc.life.isDead()) {
           npcSprites.add(PlayerViewDeadNpcSprite(
             npc: npc,
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return LootDialog(
-                      npc: npc,
-                      refresh: refresh,
-                    );
-                  });
-            },
           ));
         } else {
           npcSprites.add(PlayerViewNpcSprite(
             npc: npc,
-            beingAttacked:
-                user.combat.actionArea.area.contains(npc.position.getOffset()),
-            onTap: () {},
           ));
         }
       }
@@ -91,15 +76,11 @@ class PlayerMapVM {
         if (otherPlayer.life.isDead()) {
           playerSprites.add(PlayerViewDeadPlayerSprite(
             player: otherPlayer,
-            color: AppColors().getPlayerColor(otherPlayer.id),
           ));
         } else {
           playerSprites.add(PlayerViewOtherPlayerSprite(
-              player: otherPlayer,
-              color: AppColors().getPlayerColor(otherPlayer.id),
-              beingAttacked: user.combat.actionArea.area
-                  .contains(otherPlayer.position.getOffset()),
-              onTap: () {}));
+            player: otherPlayer,
+          ));
         }
       }
     }
@@ -108,13 +89,10 @@ class PlayerMapVM {
     if (user.player.life.isDead()) {
       playerSprites.add(PlayerViewDeadPlayerSprite(
         player: user.player,
-        color: AppColors().getPlayerColor(user.player.id),
       ));
     } else {
-      playerSprites.add(PlayerViewPlayerSprite(
-        beingAttacked: user.combat.actionArea.area
-            .contains(user.player.position.getOffset()),
-      ));
+      // ignore: prefer_const_constructors
+      playerSprites.add(PlayerViewPlayerSprite());
     }
     return Stack(
       children: playerSprites,
@@ -127,10 +105,8 @@ class PlayerMapVM {
     List<Widget> buildingSprites = [];
     for (Building building in buildings) {
       buildingSprites.add(PlayerViewBuildingSprite(
-          building: building,
-          selected: false,
-          selectBuilding: () {},
-          deselect: () {}));
+        building: building,
+      ));
     }
 
     return Stack(

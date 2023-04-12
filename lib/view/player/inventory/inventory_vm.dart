@@ -1,7 +1,5 @@
 import 'package:dsix/model/user.dart';
-import 'package:dsix/model/player/equipment/bag_slot.dart';
 import 'package:dsix/model/player/equipment/inventory_slot.dart';
-import 'package:flutter/material.dart';
 import '../../../shared/app_images.dart';
 
 class InventoryVM {
@@ -160,9 +158,5 @@ class InventoryVM {
         }
       },
     );
-  }
-
-  Widget getBagSlots(Function() refresh) {
-    return BagSlot(refresh: refresh);
   }
 }

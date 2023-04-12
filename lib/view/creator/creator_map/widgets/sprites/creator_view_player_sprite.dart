@@ -14,18 +14,17 @@ class CreatorViewPlayerSprite extends StatelessWidget {
     super.key,
     required this.player,
   });
+  bool checkBeingAttacked(User user) {
+    if (user.combat.actionArea.area.contains(player.position.getOffset())) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-
-    bool checkBeingAttacked(User user) {
-      if (user.combat.actionArea.area.contains(player.position.getOffset())) {
-        return true;
-      } else {
-        return false;
-      }
-    }
 
     return Positioned(
       left: player.position.dx - player.attributes.vision.getRange() / 2,

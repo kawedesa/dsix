@@ -91,6 +91,7 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
                     },
                     onPanStart: (details) {
                       _controller.drag = true;
+                      user.deselect();
                       user.selectNpc(widget.npc);
                       widget.fullRefresh();
                     },
@@ -160,28 +161,28 @@ class NpcSpriteMoveRange extends StatelessWidget {
     required this.selected,
   }) : super(key: key);
 
+  Color getColor() {
+    Color rangeColor = AppColors.uiColorDark.withAlpha(25);
+
+    if (selected) {
+      rangeColor = AppColors.uiColorLight.withAlpha(25);
+    }
+
+    return rangeColor;
+  }
+
+  Color getStrokeColor() {
+    Color rangeColor = AppColors.uiColorDark.withAlpha(100);
+
+    if (selected) {
+      rangeColor = AppColors.uiColorLight.withAlpha(200);
+    }
+
+    return rangeColor;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Color getColor() {
-      Color rangeColor = AppColors.uiColorDark.withAlpha(25);
-
-      if (selected) {
-        rangeColor = AppColors.uiColorLight.withAlpha(25);
-      }
-
-      return rangeColor;
-    }
-
-    Color getStrokeColor() {
-      Color rangeColor = AppColors.uiColorDark.withAlpha(100);
-
-      if (selected) {
-        rangeColor = AppColors.uiColorLight.withAlpha(200);
-      }
-
-      return rangeColor;
-    }
-
     return AnimatedContainer(
       curve: Curves.fastLinearToSlowEaseIn,
       duration: const Duration(milliseconds: 700),

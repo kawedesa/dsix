@@ -96,6 +96,21 @@ class User {
     playerMode = 'wait';
   }
 
+  //SELECTION
+
+  void deselect() {
+    npc = null;
+    building = null;
+  }
+
+  bool somethingIsSelected() {
+    if (npc == null && building == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   //PLACE SOMETHING ON SCREEN
   String placingSomething = 'false';
   Position placeHere = Position.empty();
@@ -180,19 +195,6 @@ class User {
     this.npc = npc;
   }
 
-  void deselect() {
-    npc = null;
-    selectedBuilding = null;
-  }
-
-  bool somethingIsSelected() {
-    if (npc == null && selectedBuilding == null) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   void duplicateNpc() {
     Npc newNpc = npc!;
     newNpc.id = DateTime.now().millisecondsSinceEpoch;
@@ -208,34 +210,46 @@ class User {
 
   //BUILDING
 
-  Building? selectedBuilding;
+  Building? building;
 
   void updateSelectedBuilding(List<Building> buildings) {
-    if (selectedBuilding == null) {
+    if (building == null) {
       return;
     }
 
     for (Building building in buildings) {
-      if (selectedBuilding!.id == building.id) {
-        selectedBuilding = building;
+      if (this.building!.id == building.id) {
+        this.building = building;
       }
     }
   }
 
   void selectBuilding(Building building) {
-    selectedBuilding = building;
+    this.building = building;
+  }
+
+  bool checkSelectedBuilding(int id) {
+    if (building == null) {
+      return false;
+    }
+
+    if (building!.id == id) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void duplicateBuilding() {
-    Building newBuilding = selectedBuilding!;
+    Building newBuilding = building!;
     newBuilding.id = DateTime.now().millisecondsSinceEpoch;
     newBuilding.position.dx += 5;
     newBuilding.set();
-    selectedBuilding = newBuilding;
+    building = newBuilding;
   }
 
   void createBuilding() {
-    selectedBuilding!.changePosition(placeHere);
-    selectedBuilding!.set();
+    building!.changePosition(placeHere);
+    building!.set();
   }
 }

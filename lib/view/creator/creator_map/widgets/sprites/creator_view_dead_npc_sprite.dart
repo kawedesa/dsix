@@ -14,8 +14,8 @@ class CreatorViewDeadNpcSprite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: npc.position.dx - (npc.size / 2),
-      top: npc.position.dy - (npc.size / 2),
+      left: npc.position.dx - 5,
+      top: npc.position.dy - 10,
       child: SizedBox(
         width: 10,
         height: 10,

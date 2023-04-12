@@ -152,7 +152,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
         deselectActionButton();
         user.combat.resetAction();
         user.npcStandMode();
-        localRefresh();
+        widget.fullRefresh();
       },
       resetArea: () {
         user.combat.resetArea();

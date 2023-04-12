@@ -145,6 +145,7 @@ class _CreatorViewActionNpcSpriteState
                           },
                           onPanStart: (details) {
                             _controller.drag = true;
+                            user.deselect();
                             user.selectNpc(widget.npc);
                             widget.fullRefresh();
                           },
@@ -236,60 +237,60 @@ class NpcSpriteMoveRange extends StatelessWidget {
     required this.distanceMoved,
   }) : super(key: key);
 
+  Color getColor() {
+    Color rangeColor = AppColors.uiColorDark.withAlpha(25);
+
+    if (selected) {
+      rangeColor = AppColors.uiColorLight.withAlpha(25);
+    }
+
+    if (distanceMoved > maxRange) {
+      rangeColor = AppColors.cancel.withAlpha(200);
+    }
+
+    if (beingAttacked) {
+      rangeColor = AppColors.cancel.withAlpha(200);
+    }
+
+    return rangeColor;
+  }
+
+  Color getStrokeColor() {
+    Color rangeColor = AppColors.uiColorDark.withAlpha(100);
+
+    if (selected) {
+      rangeColor = AppColors.uiColorLight.withAlpha(200);
+    }
+
+    if (distanceMoved > maxRange) {
+      rangeColor = AppColors.cancel;
+    }
+
+    if (beingAttacked) {
+      rangeColor = AppColors.cancel;
+    }
+
+    return rangeColor;
+  }
+
+  double getRange() {
+    double range = 0;
+
+    if (selected) {
+      range = (maxRange - distanceMoved < 7) ? 7 : maxRange - distanceMoved;
+    } else {
+      range = 7;
+    }
+
+    if (npcMode == 'wait') {
+      range = 7;
+    }
+
+    return range;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Color getColor() {
-      Color rangeColor = AppColors.uiColorDark.withAlpha(25);
-
-      if (selected) {
-        rangeColor = AppColors.uiColorLight.withAlpha(25);
-      }
-
-      if (distanceMoved > maxRange) {
-        rangeColor = AppColors.cancel.withAlpha(200);
-      }
-
-      if (beingAttacked) {
-        rangeColor = AppColors.cancel.withAlpha(200);
-      }
-
-      return rangeColor;
-    }
-
-    Color getStrokeColor() {
-      Color rangeColor = AppColors.uiColorDark.withAlpha(100);
-
-      if (selected) {
-        rangeColor = AppColors.uiColorLight.withAlpha(200);
-      }
-
-      if (distanceMoved > maxRange) {
-        rangeColor = AppColors.cancel;
-      }
-
-      if (beingAttacked) {
-        rangeColor = AppColors.cancel;
-      }
-
-      return rangeColor;
-    }
-
-    double getRange() {
-      double range = 0;
-
-      if (selected) {
-        range = (maxRange - distanceMoved < 7) ? 7 : maxRange - distanceMoved;
-      } else {
-        range = 7;
-      }
-
-      if (npcMode == 'wait') {
-        range = 7;
-      }
-
-      return range;
-    }
-
     return AnimatedContainer(
       curve: Curves.fastLinearToSlowEaseIn,
       duration: const Duration(milliseconds: 700),

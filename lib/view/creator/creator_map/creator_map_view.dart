@@ -4,15 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'creator_map_vm.dart';
 
-class CreatorMapView extends StatefulWidget {
-  final Function() refresh;
-  const CreatorMapView({super.key, required this.refresh});
+class CreatorMapView extends StatelessWidget {
+  CreatorMapView({super.key});
 
-  @override
-  State<CreatorMapView> createState() => _CreatorMapViewState();
-}
-
-class _CreatorMapViewState extends State<CreatorMapView> {
   final CreatorMapVM _creatorMapVM = CreatorMapVM();
 
   @override

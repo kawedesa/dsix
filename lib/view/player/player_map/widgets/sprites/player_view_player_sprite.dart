@@ -12,10 +12,8 @@ import 'package:provider/provider.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
 class PlayerViewPlayerSprite extends StatefulWidget {
-  final bool beingAttacked;
   const PlayerViewPlayerSprite({
     super.key,
-    required this.beingAttacked,
   });
 
   @override
@@ -54,7 +52,7 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                   alignment: Alignment.center,
                   child: PlayerSpriteMoveRange(
                       playerMode: user.playerMode,
-                      beingAttacked: widget.beingAttacked,
+                      beingAttacked: _controller.checkBeingAttacked(user),
                       maxRange: user.player.attributes.movement.maxRange(),
                       distanceMoved: _controller.tempPosition.distanceMoved,
                       color: user.color),
@@ -123,6 +121,17 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
 }
 
 class PlayerSpriteController {
+  //BEING ATTACKED
+  bool checkBeingAttacked(User user) {
+    if (user.combat.actionArea.area
+        .contains(user.player.position.getOffset())) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //POSITION
   final TempPosition tempPosition = TempPosition();
   bool drag = false;
 
@@ -147,7 +156,6 @@ class PlayerSpriteController {
   }
 }
 
-// ignore: must_be_immutable
 class PlayerSpriteMoveRange extends StatelessWidget {
   final String playerMode;
   final double maxRange;
@@ -233,7 +241,6 @@ class PlayerSpriteMoveRange extends StatelessWidget {
   }
 }
 
-// ignore: must_be_immutable
 class PlayerSpriteVisionRange extends StatelessWidget {
   final double range;
   final Color color;

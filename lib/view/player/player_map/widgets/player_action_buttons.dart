@@ -172,7 +172,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
         deselectActionButton();
         user.combat.resetAction();
         user.playerStandMode();
-        localRefresh();
+        widget.fullRefresh();
       },
       resetArea: () {
         user.combat.resetArea();

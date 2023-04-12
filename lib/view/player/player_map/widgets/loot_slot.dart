@@ -1,21 +1,22 @@
+import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/equipment/equipment_slot.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/app_snackbar.dart';
 import 'package:dsix/model/player/equipment/inventory_slot.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:dsix/shared/app_globals.dart';
 
-class BagSlot extends StatefulWidget {
-  const BagSlot({super.key});
+class LootSlot extends StatefulWidget {
+  final Npc npc;
+
+  const LootSlot({super.key, required this.npc});
 
   @override
-  State<BagSlot> createState() => _BagSlotState();
+  State<LootSlot> createState() => _LootSlotState();
 }
 
-class _BagSlotState extends State<BagSlot> {
+class _LootSlotState extends State<LootSlot> {
   void localRefresh() {
     setState(() {});
   }
@@ -25,27 +26,15 @@ class _BagSlotState extends State<BagSlot> {
     final user = Provider.of<User>(context);
 
     return DragTarget<EquipmentSlot>(onWillAccept: (equipment) {
-      if (equipment!.name == 'bag') {
-        return false;
-      }
-      if (equipment.name != 'loot') {
-        return true;
-      }
-      if (user.player.equipment.tooHeavy(equipment.item.weight)) {
-        snackbarKey.currentState?.showSnackBar(
-            AppSnackBar().getSnackBar('too heavy'.toUpperCase(), user.color));
+      if (equipment!.name == 'loot') {
         return false;
       } else {
         return true;
       }
     }, onAccept: (equipment) {
-      if (equipment.item.name == 'gold') {
-        user.player.addGold(equipment.item.value);
-        snackbarKey.currentState?.showSnackBar(AppSnackBar().getSnackBar(
-            '+\$${equipment.item.value}'.toUpperCase(), user.color));
-      } else {
-        user.player.addItemToBag(equipment);
-      }
+      widget.npc.addItemToLoot(equipment.item);
+      user.player.equipment.removeItemWeight(equipment.item.weight);
+      user.player.update();
     }, builder: (
       BuildContext context,
       List<dynamic> accepted,
@@ -75,19 +64,16 @@ class _BagSlotState extends State<BagSlot> {
               shrinkWrap: true,
               physics: const ScrollPhysics(),
               crossAxisCount: 6,
-              children:
-                  List.generate(user.player.equipment.bag.length, (index) {
+              children: List.generate(widget.npc.loot.length, (index) {
                 return InventorySlot(
                   player: user.player,
                   color: user.color,
                   darkColor: user.darkColor,
-                  icon: AppImages()
-                      .getItemIcon(user.player.equipment.bag[index].name),
-                  equipmentSlot: EquipmentSlot(
-                      name: 'bag', item: user.player.equipment.bag[index]),
+                  icon: AppImages().getItemIcon(widget.npc.loot[index].name),
+                  equipmentSlot:
+                      EquipmentSlot(name: 'loot', item: widget.npc.loot[index]),
                   onDragComplete: () {
-                    user.player
-                        .removeItemFromBag(user.player.equipment.bag[index]);
+                    widget.npc.removeItemFromLoot(widget.npc.loot[index]);
                     localRefresh();
                   },
                   onAccept: (equipment) {},

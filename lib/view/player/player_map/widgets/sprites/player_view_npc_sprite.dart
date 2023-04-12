@@ -1,36 +1,38 @@
 import 'package:dsix/model/npc/npc.dart';
+import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/map/ui/effects_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
-class PlayerViewNpcSprite extends StatefulWidget {
+class PlayerViewNpcSprite extends StatelessWidget {
   final Npc npc;
-  final bool beingAttacked;
-  final Function() onTap;
 
   const PlayerViewNpcSprite({
     super.key,
     required this.npc,
-    required this.beingAttacked,
-    required this.onTap,
   });
 
-  @override
-  State<PlayerViewNpcSprite> createState() => _PlayerViewNpcSpriteState();
-}
+  bool checkBeingAttacked(User user) {
+    if (user.combat.actionArea.area.contains(npc.position.getOffset())) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return Positioned(
-      left:
-          widget.npc.position.dx - widget.npc.attributes.vision.getRange() / 2,
-      top: widget.npc.position.dy - widget.npc.attributes.vision.getRange() / 2,
+      left: npc.position.dx - npc.attributes.vision.getRange() / 2,
+      top: npc.position.dy - npc.attributes.vision.getRange() / 2,
       child: SizedBox(
-        width: widget.npc.attributes.vision.getRange(),
-        height: widget.npc.attributes.vision.getRange(),
+        width: npc.attributes.vision.getRange(),
+        height: npc.attributes.vision.getRange(),
         child: Stack(
           children: [
             Align(
@@ -38,7 +40,7 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
               child: Container(
                 width: 7,
                 height: 7,
-                decoration: (widget.beingAttacked)
+                decoration: (checkBeingAttacked(user))
                     ? BoxDecoration(
                         color: AppColors.cancel.withAlpha(200),
                         shape: BoxShape.circle,
@@ -60,22 +62,22 @@ class _PlayerViewNpcSpriteState extends State<PlayerViewNpcSprite> {
             Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: widget.npc.size * 1.75),
+                  padding: EdgeInsets.only(bottom: npc.size * 1.75),
                   child: EffectsUi(
-                      effects: widget.npc.effects.currentEffects,
-                      tempArmor: widget.npc.attributes.defense.tempArmor,
-                      tempVision: widget.npc.attributes.vision.tempVision),
+                      effects: npc.effects.currentEffects,
+                      tempArmor: npc.attributes.defense.tempArmor,
+                      tempVision: npc.attributes.vision.tempVision),
                 )),
             Align(
               alignment: Alignment.center,
               child: Padding(
-                padding: EdgeInsets.only(bottom: widget.npc.size),
+                padding: EdgeInsets.only(bottom: npc.size),
                 child: SvgPicture.asset(
                   AppImages().getNpcSprite(
-                    widget.npc.name,
+                    npc.name,
                   ),
-                  width: widget.npc.size,
-                  height: widget.npc.size,
+                  width: npc.size,
+                  height: npc.size,
                 ),
               ),
             ),

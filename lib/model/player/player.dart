@@ -472,6 +472,7 @@ class Player {
     if (slot.name == 'loot') {
       equipment.addItemWeight(slot.item.weight);
       equipment.addItemToBag(slot.item);
+      update();
       return;
     }
     unequip(slot);

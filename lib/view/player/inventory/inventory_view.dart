@@ -1,3 +1,4 @@
+import 'package:dsix/model/player/equipment/bag_slot.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
@@ -130,7 +131,8 @@ class _InventoryViewState extends State<InventoryView> {
                       const AppSeparatorVertical(value: 0.025),
                       SizedBox(
                         width: AppLayout.avarage(context) * 0.5,
-                        child: _inventoryVM.getBagSlots(widget.refresh),
+                        // ignore: prefer_const_constructors
+                        child: BagSlot(),
                       ),
                     ],
                   ),

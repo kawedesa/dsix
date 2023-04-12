@@ -1,21 +1,15 @@
-import 'package:dsix/model/game/game.dart';
-import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_exceptions.dart';
-import 'package:dsix/shared/app_globals.dart';
-import 'package:dsix/shared/app_images.dart';
-import 'package:dsix/shared/app_widgets/app_snackbar.dart';
-import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
-import 'package:dsix/shared/app_widgets/map/place_here.dart';
-import 'package:dsix/view/creator/creator_map/widgets/ui/building_creation_button.dart';
+import 'package:dsix/shared/app_widgets/map/ui/place_here.dart';
+import 'package:dsix/view/creator/creator_map/widgets/ui/button/building_creation_button.dart';
+import 'package:dsix/view/creator/creator_map/widgets/ui/button/spawner_creation_button.dart';
+import 'package:dsix/view/creator/creator_map/widgets/ui/button/start_game_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'npc_creation_button.dart';
+import 'button/npc_creation_button.dart';
 
 class GameCreationMenu extends StatefulWidget {
   final Function() refresh;
@@ -30,40 +24,12 @@ class GameCreationMenu extends StatefulWidget {
 }
 
 class _GameCreationMenuState extends State<GameCreationMenu> {
-  void startGame(Game game, List<Player> players, List<Spawner> spawners) {
-    if (spawners.isEmpty) {
-      return;
-    }
-    if (players.length != game.numberOfPlayers) {
-      return;
-    }
-
-    for (Player player in players) {
-      if (player.ready == false) {
-        throw PlayerNotReadyException(player.id);
-      }
-    }
-
-    for (Player player in players) {
-      player.spawn(spawners.first.position, spawners.first.size);
-    }
-
-    game.startGame();
-  }
-
-  void createSpawner(int id) {
-    Spawner newSpawner = Spawner.newSpawner(id, 50.0, 'players');
-    newSpawner.set();
-  }
-
   void localRefresh() {
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final game = Provider.of<Game>(context);
-    final players = Provider.of<List<Player>>(context);
     final spawners = Provider.of<List<Spawner>>(context);
     final user = Provider.of<User>(context);
 
@@ -102,65 +68,25 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const AppSeparatorVertical(value: 0.025),
-                      (spawners.isEmpty)
-                          ? AppCircularButton(
-                              onTap: () {
-                                setState(() {
-                                  createSpawner(spawners.length);
-                                });
-                              },
-                              icon: AppImages.spawner,
-                              iconColor: AppColors.uiColorLight.withAlpha(200),
-                              color: AppColors.uiColor.withAlpha(100),
-                              borderColor:
-                                  AppColors.uiColorLight.withAlpha(200),
-                              size: 0.04)
-                          : AppCircularButton(
-                              icon: AppImages.spawner,
-                              iconColor: AppColors.uiColor.withAlpha(200),
-                              color: AppColors.uiColorDark.withAlpha(100),
-                              borderColor: AppColors.uiColorDark.withAlpha(200),
-                              size: 0.04),
+                      SpawnerCreationButton(
+                          active: (spawners.isEmpty) ? true : false,
+                          fullRefresh: widget.refresh),
                       const AppSeparatorHorizontal(value: 0.025),
                       NpcCreationButton(
                         active: (spawners.isEmpty) ? false : true,
-                        refresh: () {
+                        fullRefresh: () {
                           widget.refresh();
                         },
                       ),
                       const AppSeparatorHorizontal(value: 0.025),
                       BuildingCreationButton(
                           active: (spawners.isEmpty) ? false : true,
-                          refresh: () {
+                          fullRefresh: () {
                             widget.refresh();
                           }),
                       const AppSeparatorHorizontal(value: 0.025),
-                      (spawners.isEmpty)
-                          ? AppCircularButton(
-                              icon: AppImages.confirm,
-                              iconColor: AppColors.uiColor.withAlpha(200),
-                              color: AppColors.uiColorDark.withAlpha(100),
-                              borderColor: AppColors.uiColorDark.withAlpha(200),
-                              size: 0.04)
-                          : AppCircularButton(
-                              onTap: () {
-                                setState(() {
-                                  try {
-                                    startGame(game, players, spawners);
-                                  } on PlayerNotReadyException catch (e) {
-                                    snackbarKey.currentState?.showSnackBar(
-                                        AppSnackBar().getSnackBar(
-                                            e.playerName.toUpperCase(),
-                                            AppColors.uiColor));
-                                  }
-                                });
-                              },
-                              icon: AppImages.confirm,
-                              iconColor: AppColors.uiColorLight.withAlpha(200),
-                              color: AppColors.uiColor.withAlpha(100),
-                              borderColor:
-                                  AppColors.uiColorLight.withAlpha(200),
-                              size: 0.04)
+                      StartGameButton(
+                          active: (spawners.isEmpty) ? false : true),
                     ],
                   ),
                 ),

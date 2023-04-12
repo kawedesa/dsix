@@ -1,27 +1,19 @@
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/equipment/bag_slot.dart';
-import 'package:dsix/model/player/equipment/loot_slot.dart';
+import 'package:dsix/view/player/player_map/widgets/loot_slot.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LootDialog extends StatefulWidget {
+class LootDialog extends StatelessWidget {
   final Npc npc;
-  final Function() refresh;
-
   const LootDialog({
     super.key,
     required this.npc,
-    required this.refresh,
   });
 
-  @override
-  State<LootDialog> createState() => _LootDialogState();
-}
-
-class _LootDialogState extends State<LootDialog> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -44,31 +36,15 @@ class _LootDialogState extends State<LootDialog> {
               color: user.color,
               title: 'loot',
             ),
-            Container(
-              color: Colors.black,
-              child: LootSlot(
-                npc: widget.npc,
-                refresh: () {
-                  setState(() {
-                    widget.refresh();
-                  });
-                },
-              ),
+            LootSlot(
+              npc: npc,
             ),
             DialogTitle(
               color: user.color,
               title: 'bag',
             ),
-            Container(
-              color: Colors.black,
-              child: BagSlot(
-                refresh: () {
-                  setState(() {
-                    widget.refresh();
-                  });
-                },
-              ),
-            ),
+            // ignore: prefer_const_constructors
+            BagSlot(),
           ],
         ),
       ),

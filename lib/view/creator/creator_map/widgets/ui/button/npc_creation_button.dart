@@ -2,33 +2,24 @@ import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:flutter/material.dart';
-import 'npc_creation_dialog.dart';
+import '../dialog/npc_creation_dialog.dart';
 
-class NpcCreationButton extends StatefulWidget {
+class NpcCreationButton extends StatelessWidget {
   final bool active;
-  final Function() refresh;
+  final Function() fullRefresh;
   const NpcCreationButton(
-      {super.key, required this.active, required this.refresh});
+      {super.key, required this.active, required this.fullRefresh});
 
-  @override
-  State<NpcCreationButton> createState() => _NpcCreationButtonState();
-}
-
-class _NpcCreationButtonState extends State<NpcCreationButton> {
   @override
   Widget build(BuildContext context) {
-    return (widget.active)
+    return (active)
         ? AppCircularButton(
             onTap: () {
-              setState(
-                () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const NpcCreationDialog();
-                      }).then((value) => widget.refresh());
-                },
-              );
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const NpcCreationDialog();
+                  }).then((value) => fullRefresh());
             },
             icon: AppImages.npc,
             iconColor: AppColors.uiColorLight.withAlpha(200),

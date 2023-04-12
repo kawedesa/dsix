@@ -83,7 +83,14 @@ class _ActionButtonState extends State<ActionButton> {
             height: AppLayout.avarage(context) * 0.03,
           )
         : MouseRegion(
-            onEnter: (details) {},
+            onEnter: (details) {
+              if (widget.selected) {
+                reset = true;
+                widget.resetArea();
+              }
+              hover = true;
+              setState(() {});
+            },
             onExit: (details) {
               reset = false;
               hover = false;
@@ -94,7 +101,6 @@ class _ActionButtonState extends State<ActionButton> {
                 reset = true;
                 widget.resetArea();
               }
-
               hover = true;
               setState(() {});
             },

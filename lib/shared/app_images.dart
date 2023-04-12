@@ -26,7 +26,9 @@ class AppImages {
   static const money = 'assets/images/ui/money.svg';
   static const minRange = 'assets/images/ui/minRange.svg';
   static const maxRange = 'assets/images/ui/maxRange.svg';
+  static const placeHere = 'assets/images/ui/placeHere.svg';
 
+  //EFFECTS
   static const effectTempVision = 'assets/images/ui/effectTempVision.svg';
   static const effectTempArmor = 'assets/images/ui/effectTempArmor.svg';
   static const effectPoison = 'assets/images/ui/effectPoison.svg';

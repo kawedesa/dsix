@@ -28,10 +28,10 @@ class TakeDamageException implements Exception {
   TakeDamageException(this.damage);
 }
 
-class PlayerNotReadyException implements Exception {
-  String playerName;
+class PlayersAreNotReadyException implements Exception {
+  String message = 'players are not ready';
 
-  PlayerNotReadyException(this.playerName);
+  PlayersAreNotReadyException();
 }
 
 class EndGameException implements Exception {

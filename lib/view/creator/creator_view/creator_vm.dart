@@ -30,15 +30,11 @@ class CreatorVM {
     }
   }
 
-  Widget getMapPage(String mapName, Function refresh) {
+  Widget getMapPage(String mapName) {
     if (mapName == '') {
       return const CreatorMapSelection();
     } else {
-      return CreatorMapView(
-        refresh: () {
-          refresh();
-        },
-      );
+      return CreatorMapView();
     }
   }
 }

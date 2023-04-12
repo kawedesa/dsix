@@ -48,6 +48,19 @@ class Spawner {
     update();
   }
 
+  void changeSize(double value) {
+    size += value;
+
+    if (size < 20) {
+      size = 20;
+    }
+    if (size > 120) {
+      size = 120;
+    }
+
+    update();
+  }
+
   void update() async {
     await database
         .collection('game')

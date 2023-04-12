@@ -4,7 +4,7 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
-import 'package:dsix/shared/app_widgets/map/action_area_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/ui/action_area_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/map_animation/map_animation.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,6 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     _mapAnimation.checkBattleLog(battleLog);
     _mapAnimation.checkPlayerTurn(game.turn);
     user.mapInfo.setMapInfo(context, game.map);
-    user.updatePlayer(players);
     user.setPlayerMode(game.turn.currentTurn);
 
     return SizedBox(
@@ -70,8 +69,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                   ActionAreaSprite(
                     area: user.combat.actionArea.area,
                   ),
-                  _playerMapVM.createNpcSprites(
-                      context, user, npcs, players, refresh),
+                  _playerMapVM.createNpcSprites(context, user, npcs, players),
                   _playerMapVM.createPlayerSprites(user, players, refresh),
                   _mapAnimation.displayAttackAnimations(),
                   _mapAnimation.displayDamageAnimations(),

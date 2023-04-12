@@ -62,7 +62,7 @@ class _CreatorViewState extends State<CreatorView> {
           controller: _creatorVM.pageController,
           children: [
             const GameSettings(),
-            _creatorVM.getMapPage(game.map, refresh),
+            _creatorVM.getMapPage(game.map),
           ],
         ),
       ),
@@ -77,9 +77,8 @@ class _CreatorViewState extends State<CreatorView> {
               const AppSeparatorHorizontal(value: 0.05),
               AppBarCircularButton(
                   onTap: () {
-                    setState(() {
-                      _creatorVM.changePage(0);
-                    });
+                    _creatorVM.changePage(0);
+                    refresh();
                   },
                   icon: AppImages.settings,
                   iconColor: (_creatorVM.selectedPage == 0)
@@ -92,10 +91,9 @@ class _CreatorViewState extends State<CreatorView> {
                   size: 0.05),
               AppBarCircularButton(
                   onTap: () {
-                    setState(() {
-                      _creatorVM.changePage(1);
-                      user.resetPlacing();
-                    });
+                    _creatorVM.changePage(1);
+                    user.resetPlacing();
+                    refresh();
                   },
                   icon: AppImages.map,
                   iconColor: (_creatorVM.selectedPage == 1)

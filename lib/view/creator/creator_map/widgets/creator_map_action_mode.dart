@@ -6,27 +6,23 @@ import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/map/action_area_sprite.dart';
+import 'package:dsix/shared/app_widgets/map/ui/action_area_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/map_animation/map_animation.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/shared/app_widgets/map/vision_grid.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
-
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_action_npc_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_building_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_dead_npc_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_dead_player_sprite.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_player_sprite.dart';
-
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
-import 'package:dsix/view/creator/creator_map/widgets/ui/npc_action_buttons.dart';
-import 'package:dsix/view/creator/creator_map/widgets/ui/selected_building_ui.dart';
+import 'package:dsix/view/creator/creator_map/widgets/ui/creator_selection_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
 import 'ui/in_game_menu.dart';
-import 'ui/selected_npc_ui.dart';
+import 'ui/button/npc_action_buttons.dart';
 
 class CreatorMapActionMode extends StatefulWidget {
   const CreatorMapActionMode({
@@ -109,10 +105,10 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
             ),
           ),
           _creatorMapController.displayTurn(game.turn.currentTurn),
+
           // ignore: prefer_const_constructors
-          SelectedNpcUi(),
-          // ignore: prefer_const_constructors
-          SelectedBuildingUi(),
+          CreatorSelectionUi(),
+
           NpcActionButtons(fullRefresh: refresh),
           _mapAnimation.displayTurnAnimations(),
           InGameMenu(
@@ -137,7 +133,7 @@ class CreatorMapActionModeController {
     for (Building building in buildings) {
       buildingSprites.add(CreatorViewBuildingSprite(
         building: building,
-        refresh: () {
+        fullRefresh: () {
           refresh();
         },
       ));
