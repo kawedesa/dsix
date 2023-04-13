@@ -4,7 +4,7 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/map/ui/action_area_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/map_animation/map_animation.dart';

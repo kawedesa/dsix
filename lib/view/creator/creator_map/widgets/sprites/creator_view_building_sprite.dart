@@ -4,7 +4,7 @@ import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_widgets/map/map_circular_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

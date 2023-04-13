@@ -2,7 +2,7 @@ import 'package:dsix/model/npc/npc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../../shared/app_images.dart';
+import '../../../../../shared/images/app_images.dart';
 
 class CreatorViewDeadNpcSprite extends StatelessWidget {
   final Npc npc;

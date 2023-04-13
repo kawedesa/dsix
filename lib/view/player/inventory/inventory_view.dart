@@ -1,12 +1,13 @@
 import 'package:dsix/model/player/equipment/bag_slot.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
+import 'package:dsix/shared/images/player_image.dart';
 import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
 
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
@@ -57,15 +58,11 @@ class _InventoryViewState extends State<InventoryView> {
               child: Stack(
                 children: [
                   Align(
-                    alignment: const Alignment(0, -0.4),
-                    child: SizedBox(
-                        height: AppLayout.avarage(context) * 0.25,
-                        child: PlayerSpriteImage(
-                          color: user.color,
-                          race: user.player.race,
-                          sex: user.player.sex,
-                        )),
-                  ),
+                      alignment: const Alignment(0, -0.4),
+                      child: PlayerImage(
+                          player: user.player,
+                          size: AppLayout.avarage(context) * 0.25,
+                          headMovement: AppLayout.avarage(context) * 0.002)),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

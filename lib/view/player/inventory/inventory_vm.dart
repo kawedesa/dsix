@@ -1,6 +1,6 @@
 import 'package:dsix/model/user.dart';
 import 'package:dsix/model/player/equipment/inventory_slot.dart';
-import '../../../shared/app_images.dart';
+import '../../../shared/images/app_images.dart';
 
 class InventoryVM {
   InventorySlot? mainHandSlot;

@@ -2,7 +2,7 @@ import 'package:dsix/model/player/equipment/equipment_slot.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/shared/app_exceptions.dart';
 import 'package:dsix/shared/app_globals.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_snackbar.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';

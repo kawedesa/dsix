@@ -1,8 +1,9 @@
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
+import 'package:dsix/shared/images/player_image.dart';
 import 'package:dsix/shared/app_widgets/map/player_sprite_image.dart';
 import 'package:dsix/shared/app_widgets/text/app_bar_title.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
@@ -114,10 +115,11 @@ class _RaceViewState extends State<RaceView> {
                           ),
                           Align(
                               alignment: Alignment.bottomCenter,
-                              child: PlayerSpriteImage(
-                                  color: user.color,
-                                  race: _raceVM.selectedRace.name,
-                                  sex: _raceVM.selectedSex)),
+                              child: PlayerImage(
+                                  player: user.player,
+                                  size: AppLayout.avarage(context) * 0.25,
+                                  headMovement:
+                                      AppLayout.avarage(context) * 0.002)),
                         ],
                       ),
                     ),

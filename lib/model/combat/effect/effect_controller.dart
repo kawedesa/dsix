@@ -55,6 +55,12 @@ class EffectController {
     };
   }
 
+  void resetCurrentEffects() {
+    for (Effect effect in currentEffects) {
+      effect.reset();
+    }
+  }
+
   bool markEffectToRemove(Effect effect) {
     if (effect.countdown > 0) {
       return false;
@@ -63,8 +69,12 @@ class EffectController {
     }
   }
 
-  void removeEffect(Effect effect) {
-    currentEffects.remove(effect);
+  void removeEffect(String effect) {
+    for (Effect checkEffect in currentEffects) {
+      if (checkEffect.name == effect) {
+        currentEffects.remove(checkEffect);
+      }
+    }
   }
 
   bool isVulnerable() {

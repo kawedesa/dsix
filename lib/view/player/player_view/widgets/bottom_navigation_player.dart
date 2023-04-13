@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../model/user.dart';
 import '../../../../shared/app_colors.dart';
-import '../../../../shared/app_images.dart';
+import '../../../../shared/images/app_images.dart';
 import '../../../../shared/app_widgets/layout/app_separator_horizontal.dart';
 
 class BottomNavigationPlayer extends StatelessWidget {

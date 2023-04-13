@@ -3,7 +3,7 @@ import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../app_images.dart';
+import '../../images/app_images.dart';
 import '../button/app_circular_button.dart';
 import '../layout/app_separator_horizontal.dart';
 import '../layout/app_separator_vertical.dart';

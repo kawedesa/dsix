@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:vector_math/vector_math.dart';
 
 class Position {
   double dx;
@@ -38,8 +39,31 @@ class Position {
     return Offset(dx - point.dx, dy - point.dy).distance;
   }
 
+  Position withOffset(Offset offset) {
+    return Position(
+      dx: dx + offset.dx,
+      dy: dy + offset.dy,
+      tile: tile,
+    );
+  }
+
   Offset getOffset() {
     return Offset(dx, dy);
+  }
+
+  Vector2 getVector() {
+    return Vector2(dx, dy);
+  }
+
+  void knockBack(Position actionCenter) {
+    double knockBackForce = 5.0;
+    Vector2 vector = getVector() - actionCenter.getVector();
+    vector.normalize();
+
+    Vector2 newPosition = getVector() + (vector * knockBackForce);
+
+    dx = newPosition.x;
+    dy = newPosition.y;
   }
 
   void reset() {

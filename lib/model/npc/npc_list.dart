@@ -94,8 +94,7 @@ class NpcList {
           width: 3.5,
           shape: 'circle',
         ),
-        //TODO ADD LEECH EFFECT
-        effects: [],
+        effects: ['drain'],
         isLoaded: false,
         needsReload: false,
       ),
@@ -275,7 +274,7 @@ class NpcList {
           width: 7,
           shape: 'triangle',
         ),
-        effects: [],
+        effects: ['knockback', 'kickback'],
         isLoaded: true,
         needsReload: true,
       ),

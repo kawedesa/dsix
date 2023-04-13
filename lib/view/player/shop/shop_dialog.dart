@@ -5,7 +5,7 @@ import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../shared/app_images.dart';
+import '../../../shared/images/app_images.dart';
 import '../../../shared/app_widgets/button/app_circular_button.dart';
 import '../../../shared/app_widgets/layout/app_separator_horizontal.dart';
 import '../../../shared/app_widgets/layout/app_separator_vertical.dart';

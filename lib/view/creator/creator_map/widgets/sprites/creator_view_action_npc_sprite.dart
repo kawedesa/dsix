@@ -5,8 +5,9 @@ import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
+import 'package:dsix/shared/app_widgets/map/npc_sprite_image.dart';
 import 'package:dsix/shared/app_widgets/map/ui/effects_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -94,22 +95,7 @@ class _CreatorViewActionNpcSpriteState
                                 widget.npc.attributes.vision.tempVision),
                       ),
                     )),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: widget.npc.size),
-                    child: TransparentPointer(
-                      transparent: true,
-                      child: SvgPicture.asset(
-                        AppImages().getNpcSprite(
-                          widget.npc.name,
-                        ),
-                        width: widget.npc.size,
-                        height: widget.npc.size,
-                      ),
-                    ),
-                  ),
-                ),
+                NpcSpriteImage(npc: widget.npc),
                 Align(
                   alignment: Alignment.center,
                   child: (user.npcMode == 'wait')

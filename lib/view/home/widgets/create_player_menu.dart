@@ -6,7 +6,7 @@ import '../../../model/game/game.dart';
 import '../../../model/player/player.dart';
 import '../../../model/user.dart';
 import '../../../shared/app_colors.dart';
-import '../../../shared/app_images.dart';
+import '../../../shared/images/app_images.dart';
 import '../../../shared/app_widgets/app_radial_menu.dart';
 import '../../../shared/app_widgets/button/app_circular_button.dart';
 import '../../player/race/race_view.dart';

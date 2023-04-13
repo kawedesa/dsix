@@ -3,7 +3,7 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
 import 'package:dsix/view/creator/creator_map/widgets/sprites/creator_view_building_sprite.dart';

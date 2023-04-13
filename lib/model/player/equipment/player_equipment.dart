@@ -130,23 +130,7 @@ class PlayerEquipment {
   void useItem(EquipmentSlot slot) {}
 
   Armor getTotalArmor() {
-    int pArmor = 0;
-    int mArmor = 0;
-
-    pArmor = mainHandSlot.item.armor.pArmor +
-        offHandSlot.item.armor.pArmor +
-        headSlot.item.armor.pArmor +
-        bodySlot.item.armor.pArmor +
-        handSlot.item.armor.pArmor +
-        feetSlot.item.armor.pArmor;
-    mArmor = mainHandSlot.item.armor.mArmor +
-        offHandSlot.item.armor.mArmor +
-        headSlot.item.armor.mArmor +
-        bodySlot.item.armor.mArmor +
-        handSlot.item.armor.mArmor +
-        feetSlot.item.armor.mArmor;
-
-    return Armor(pArmor: pArmor, mArmor: mArmor);
+    return Armor(pArmor: getPArmor(), mArmor: getMArmor());
   }
 
   int getPArmor() {
@@ -158,6 +142,10 @@ class PlayerEquipment {
         bodySlot.item.armor.pArmor +
         handSlot.item.armor.pArmor +
         feetSlot.item.armor.pArmor;
+
+    if (mainHandSlot.item.itemSlot == 'two hands') {
+      pArmor -= offHandSlot.item.armor.pArmor;
+    }
 
     return pArmor;
   }
@@ -171,6 +159,10 @@ class PlayerEquipment {
         bodySlot.item.armor.mArmor +
         handSlot.item.armor.mArmor +
         feetSlot.item.armor.mArmor;
+
+    if (mainHandSlot.item.itemSlot == 'two hands') {
+      mArmor -= offHandSlot.item.armor.mArmor;
+    }
 
     return mArmor;
   }

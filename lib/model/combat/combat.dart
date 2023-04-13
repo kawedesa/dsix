@@ -71,7 +71,42 @@ class Combat {
     unloadAttack();
     attackNpcs(npcs);
     attackPlayers(players);
+    applyAttackerEffects();
     battleLog.newBattleLog();
+  }
+
+  void applyAttackerEffects() {
+    for (String effect in attack.effects) {
+      switch (effect) {
+        case 'drain':
+          int healAmount = battleLog.targets.length;
+          if (selectedNpc != null) {
+            selectedNpc!.heal(healAmount);
+            battleLog.addTarget(selectedNpc!.id.toString(), 'npc',
+                selectedNpc!.position, -healAmount);
+          }
+          if (selectedPlayer != null) {
+            selectedPlayer!.heal(healAmount);
+            battleLog.addTarget(selectedPlayer!.id.toString(), 'player',
+                selectedPlayer!.position, -healAmount);
+          }
+          break;
+
+        case 'kickback':
+          if (selectedNpc != null) {
+            selectedNpc!.knockBack(actionCenter.withOffset(Offset(
+                -math.sin(battleLog.attackInfo.angle),
+                math.cos(battleLog.attackInfo.angle))));
+          }
+          if (selectedPlayer != null) {
+            selectedNpc!.knockBack(actionCenter.withOffset(Offset(
+                -math.sin(battleLog.attackInfo.angle),
+                math.cos(battleLog.attackInfo.angle))));
+          }
+
+          break;
+      }
+    }
   }
 
   void unloadAttack() {
@@ -94,7 +129,14 @@ class Combat {
         int damage = 0;
         damage = npc.receiveAttack(attack);
 
-        battleLog.addTarget(npc.id.toString(), 'npc', npc.position, damage);
+        if (damage > 0) {
+          npc.receiveEffects(attack.effects);
+          if (attack.effects.contains('knockback')) {
+            npc.knockBack(actionCenter);
+          }
+
+          battleLog.addTarget(npc.id.toString(), 'npc', npc.position, damage);
+        }
 
         if (npc.life.isDead()) {
           npc.resetEffects();
@@ -114,7 +156,13 @@ class Combat {
         int damage = 0;
         damage = player.receiveAttack(attack);
 
-        battleLog.addTarget(player.id, 'player', player.position, damage);
+        if (damage > 0) {
+          player.receiveEffects(attack.effects);
+          if (attack.effects.contains('knockback')) {
+            player.knockBack(actionCenter);
+          }
+          battleLog.addTarget(player.id, 'player', player.position, damage);
+        }
 
         if (player.life.isDead()) {
           player.resetEffects();
@@ -124,25 +172,36 @@ class Combat {
   }
 
   void applyOnBeignHitEffects(List<String> effects) {
-    if (selectedNpc != null) {
-      int checkLife = selectedNpc!.life.current;
+    applyEffectsToSelectedPlayer(effects);
+    applyEffectsToSelectedNpc(effects);
+  }
 
-      selectedNpc!.receiveEffects(effects);
-      int damage = checkLife - selectedNpc!.life.current;
-      if (damage > 0) {
-        battleLog.addTarget(
-            selectedNpc!.id.toString(), 'npc', selectedNpc!.position, damage);
-      }
+  void applyEffectsToSelectedPlayer(List<String> effects) {
+    if (selectedPlayer == null) {
+      return;
     }
 
-    if (selectedPlayer != null) {
-      int checkLife = selectedPlayer!.life.current;
-      selectedPlayer!.receiveEffects(effects);
-      int damage = checkLife - selectedPlayer!.life.current;
-      if (damage > 0) {
-        battleLog.addTarget(selectedPlayer!.id.toString(), 'player',
-            selectedPlayer!.position, damage);
-      }
+    int checkLife = selectedPlayer!.life.current;
+    selectedPlayer!.receiveEffects(effects);
+    int damage = checkLife - selectedPlayer!.life.current;
+
+    if (damage != 0) {
+      battleLog.addTarget(selectedPlayer!.id.toString(), 'player',
+          selectedPlayer!.position, damage);
+    }
+  }
+
+  void applyEffectsToSelectedNpc(List<String> effects) {
+    if (selectedNpc == null) {
+      return;
+    }
+
+    int checkLife = selectedNpc!.life.current;
+    selectedNpc!.receiveEffects(effects);
+    int damage = checkLife - selectedNpc!.life.current;
+    if (damage != 0) {
+      battleLog.addTarget(
+          selectedNpc!.id.toString(), 'npc', selectedNpc!.position, damage);
     }
   }
 }

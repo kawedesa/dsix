@@ -41,6 +41,8 @@ dependencies:
   flutter_svg: ^1.1.5
   rive: ^0.9.1
 
+  vector_math: ^2.1.4
+
 
   
 

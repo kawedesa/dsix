@@ -1,6 +1,6 @@
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

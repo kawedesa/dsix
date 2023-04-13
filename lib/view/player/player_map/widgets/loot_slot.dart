@@ -1,7 +1,7 @@
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/equipment/equipment_slot.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/model/player/equipment/inventory_slot.dart';
 import 'package:flutter/material.dart';

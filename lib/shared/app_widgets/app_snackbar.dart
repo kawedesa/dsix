@@ -5,16 +5,16 @@ class AppSnackBar {
   SnackBar getSnackBar(String text, Color color) {
     return SnackBar(
       content: SizedBox(
-          height: 100,
+          height: 50,
           child: Center(
             child: AppBarText(
               text: text,
-              fontSize: 0.03,
-              letterSpacing: 0.005,
+              fontSize: 0.02,
+              letterSpacing: 0.004,
               color: Colors.white,
             ),
           )),
-      backgroundColor: color,
+      backgroundColor: color.withAlpha(200),
     );
   }
 }

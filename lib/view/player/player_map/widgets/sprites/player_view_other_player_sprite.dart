@@ -68,22 +68,8 @@ class PlayerViewOtherPlayerSprite extends StatelessWidget {
                         tempArmor: player.attributes.defense.tempArmor,
                         tempVision: player.attributes.vision.tempVision),
                   )),
-              Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: player.size),
-                  child: TransparentPointer(
-                    transparent: true,
-                    child: SizedBox(
-                        width: player.size,
-                        height: player.size,
-                        child: PlayerSpriteImage(
-                          color: AppColors().getPlayerColor(player.id),
-                          race: player.race,
-                          sex: player.sex,
-                        )),
-                  ),
-                ),
+              PlayerSpriteImage(
+                player: player,
               ),
             ],
           ),

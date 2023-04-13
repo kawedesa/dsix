@@ -1,6 +1,6 @@
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_widgets/map/ui/life_bar.dart';
 import 'package:dsix/shared/app_widgets/map/map_circular_button.dart';
 import 'package:dsix/shared/app_widgets/map/ui/map_text.dart';

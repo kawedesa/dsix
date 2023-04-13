@@ -1,5 +1,5 @@
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_slider.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';

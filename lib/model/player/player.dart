@@ -159,6 +159,11 @@ class Player {
     update();
   }
 
+  void knockBack(Position actionCenter) {
+    position.knockBack(actionCenter);
+    update();
+  }
+
   void defend() {
     attributes.defense.defend();
 
@@ -190,6 +195,11 @@ class Player {
 
   void unload(Attack attack) {
     attack.unload();
+    update();
+  }
+
+  void heal(int healAmount) {
+    life.heal(healAmount);
     update();
   }
 
@@ -235,18 +245,18 @@ class Player {
       leftOverRawDamage = 0;
     }
 
-    int totalDamage = pDamage + mDamage + leftOverRawDamage;
+    int totalDamageAfterEquip = pDamage + mDamage + leftOverRawDamage;
 
-    int totalDamageAfterTempArmor = totalDamage - attributes.defense.tempArmor;
-    attributes.defense.reduceTempArmor(totalDamage);
+    int totalDamage = totalDamageAfterEquip - attributes.defense.tempArmor;
+    attributes.defense.reduceTempArmor(totalDamageAfterEquip);
 
-    if (totalDamageAfterTempArmor > 0) {
+    if (totalDamage > 0) {
       life.receiveDamage(totalDamage);
-      receiveEffects(attack.effects);
     } else {
       totalDamage = 0;
-      update();
     }
+
+    update();
 
     return totalDamage;
   }
@@ -270,6 +280,9 @@ class Player {
 
   void applyNewEffect(String effect) {
     switch (effect) {
+      case 'heal':
+        life.heal(1);
+        break;
       case 'poison':
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 1, countdown: 1));
@@ -302,6 +315,9 @@ class Player {
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 0, countdown: 1));
         break;
+      case 'spiky':
+        effects.onBeignHitEffects.add('thorn');
+        break;
     }
   }
 
@@ -316,7 +332,7 @@ class Player {
     }
 
     for (Effect effect in effectsToRemove) {
-      removeEffects(effect);
+      removeEffect(effect.name);
     }
   }
 
@@ -346,8 +362,8 @@ class Player {
     }
   }
 
-  void removeEffects(Effect effect) {
-    switch (effect.name) {
+  void removeEffect(String effect) {
+    switch (effect) {
       case 'poison':
         effects.removeEffect(effect);
         break;
@@ -368,13 +384,14 @@ class Player {
         attributes.power.addAttribute();
         effects.removeEffect(effect);
         break;
+      case 'spiky':
+        effects.onBeignHitEffects.remove('thorn');
+        break;
     }
   }
 
   void resetEffects() {
-    for (Effect effect in effects.currentEffects) {
-      effect.reset();
-    }
+    effects.resetCurrentEffects();
     checkEffects();
     update();
   }
@@ -461,11 +478,15 @@ class Player {
   }
 
   void addItemEffects(List<String> effects) {
-    //TODO addItemEffects
+    for (String effect in effects) {
+      applyNewEffect(effect);
+    }
   }
 
   void removeItemEffects(List<String> effects) {
-    //TODO removeItemEffects
+    for (String effect in effects) {
+      removeEffect(effect);
+    }
   }
 
   void addItemToBag(EquipmentSlot slot) {

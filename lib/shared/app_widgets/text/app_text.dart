@@ -5,12 +5,14 @@ class AppText extends StatelessWidget {
   final String text;
   final double fontSize;
   final double letterSpacing;
+  final bool? bold;
   final Color color;
   const AppText(
       {super.key,
       required this.text,
       required this.fontSize,
       required this.letterSpacing,
+      this.bold,
       required this.color});
 
   @override
@@ -21,7 +23,9 @@ class AppText extends StatelessWidget {
       style: TextStyle(
         fontSize: AppLayout.avarage(context) * fontSize,
         letterSpacing: AppLayout.avarage(context) * letterSpacing,
-        fontWeight: FontWeight.normal,
+        fontWeight: (bold != null && bold == true)
+            ? FontWeight.bold
+            : FontWeight.normal,
         fontFamily: 'Poppins',
         color: color,
       ),

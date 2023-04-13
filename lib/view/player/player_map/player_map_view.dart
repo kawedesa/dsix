@@ -3,7 +3,7 @@ import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_widgets/map/ui/action_area_sprite.dart';
 import 'package:dsix/shared/app_widgets/map/map_animation/map_animation.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';

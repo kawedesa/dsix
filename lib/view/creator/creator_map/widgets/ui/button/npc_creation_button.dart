@@ -1,5 +1,5 @@
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:flutter/material.dart';
 import '../dialog/npc_creation_dialog.dart';

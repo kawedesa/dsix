@@ -7,7 +7,7 @@ import 'package:dsix/shared/app_widgets/dialog/text_dialog.dart';
 import 'package:dsix/view/player/attribute/attribute_view.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/app_colors.dart';
-import '../../../shared/app_images.dart';
+import '../../../shared/images/app_images.dart';
 import '../../../shared/app_widgets/button/app_circular_button.dart';
 
 class RaceVM {

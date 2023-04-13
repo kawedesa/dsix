@@ -4,7 +4,7 @@ import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_exceptions.dart';
 import 'package:dsix/shared/app_globals.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_widgets/app_snackbar.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:flutter/material.dart';

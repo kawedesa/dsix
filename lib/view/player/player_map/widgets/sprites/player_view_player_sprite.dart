@@ -66,19 +66,8 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                           tempArmor: user.player.attributes.defense.tempArmor,
                           tempVision: user.player.attributes.vision.tempVision),
                     )),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: user.player.size),
-                    child: SizedBox(
-                        width: user.player.size,
-                        height: user.player.size,
-                        child: PlayerSpriteImage(
-                          color: user.color,
-                          race: user.player.race,
-                          sex: user.player.sex,
-                        )),
-                  ),
+                PlayerSpriteImage(
+                  player: user.player,
                 ),
                 Align(
                   alignment: Alignment.center,

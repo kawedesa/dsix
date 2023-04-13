@@ -18,14 +18,14 @@ class ActionArea {
   Path getArea(AttackInfo info) {
     Path getArea = Path();
 
-    double maxRange = info.distance * info.range.max;
+    double maxRangeWithDistance = info.distance * info.range.max;
 
     switch (info.range.shape) {
       case 'rectangle':
         getArea = Path()
           ..addRect(Rect.fromPoints(
               Offset(-info.range.width / 2, info.range.min),
-              Offset(info.range.width / 2, info.range.min + maxRange)));
+              Offset(info.range.width / 2, info.range.min + info.range.max)));
 
         break;
 
@@ -79,23 +79,23 @@ class ActionArea {
       case 'circle':
         getArea = Path()
           ..addOval(Rect.fromCircle(
-              center: Offset(0, maxRange + info.range.min),
+              center: Offset(0, maxRangeWithDistance + info.range.min),
               radius: info.range.width));
 
         break;
 
       case 'ring':
         Path maxRangeShape = Path()
-          ..addOval(
-              Rect.fromCircle(center: const Offset(0, 0), radius: maxRange));
+          ..addOval(Rect.fromCircle(
+              center: const Offset(0, 0), radius: maxRangeWithDistance));
 
         Path minRangeShape = Path()
           ..addOval(Rect.fromCircle(
               center: const Offset(0, 0), radius: info.range.min));
 
         Path adjShape = Path()
-          ..addRect(Rect.fromPoints(
-              Offset(-0.05, -maxRange), Offset(0.05, maxRange)));
+          ..addRect(Rect.fromPoints(Offset(-0.05, -maxRangeWithDistance),
+              Offset(0.05, maxRangeWithDistance)));
 
         Path tempShape =
             Path.combine(PathOperation.difference, maxRangeShape, adjShape);

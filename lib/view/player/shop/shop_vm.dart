@@ -3,7 +3,7 @@ import 'package:dsix/model/item/shop.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_exceptions.dart';
 import 'package:dsix/shared/app_globals.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/app_snackbar.dart';
 import 'package:dsix/view/player/shop/shop_dialog.dart';

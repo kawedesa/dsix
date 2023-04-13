@@ -2,15 +2,20 @@ import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/npc/npc_list.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_images.dart';
+import 'package:dsix/shared/app_widgets/text/app_text.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
+import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_vertical.dart';
 import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
+import 'package:dsix/shared/app_widgets/map/npc_sprite_image.dart';
 import 'package:dsix/shared/app_widgets/text/app_bar_title.dart';
+import 'package:dsix/shared/app_widgets/text/app_title.dart';
+import 'package:dsix/shared/images/npc_image.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +41,6 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: AppLayout.avarage(context) * 0.6,
         decoration: BoxDecoration(
           color: AppColors.uiColor,
           border: Border.all(
@@ -52,101 +56,122 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
               color: AppColors.uiColor,
               title: 'npc',
             ),
-            Container(
-              color: Colors.black,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: AppLayout.avarage(context) * 0.6,
-                    child: Padding(
-                      padding:
-                          EdgeInsets.all(AppLayout.avarage(context) * 0.01),
-                      child: GridView.count(
-                        shrinkWrap: true,
-                        physics: const ScrollPhysics(),
-                        crossAxisCount: 10,
-                        mainAxisSpacing: AppLayout.height(context) * 0.005,
-                        crossAxisSpacing: AppLayout.width(context) * 0.005,
-                        children: List.generate(NpcList().getNpcList().length,
-                            (index) {
-                          return GestureDetector(
-                            onTap: () {},
-                            child: (selectedNpc!.name ==
-                                    NpcList().getNpcList()[index].name)
-                                ? AppCircularButton(
-                                    color: AppColors.uiColor,
-                                    borderColor: AppColors.uiColor,
-                                    iconColor: AppColors.uiColorDark,
-                                    icon: AppImages().getNpcIcon(
-                                        NpcList().getNpcList()[index].name),
-                                    size: 0.04,
-                                    onTap: () {
-                                      setState(() {
-                                        selectedNpc =
-                                            NpcList().getNpcList()[index];
-                                      });
-                                    },
-                                  )
-                                : AppCircularButton(
-                                    color: AppColors.uiColorDark,
-                                    borderColor: AppColors.uiColor,
-                                    iconColor: AppColors.uiColor,
-                                    icon: AppImages().getNpcIcon(
-                                        NpcList().getNpcList()[index].name),
-                                    size: 0.04,
-                                    onTap: () {
-                                      setState(() {
-                                        selectedNpc =
-                                            NpcList().getNpcList()[index];
-                                      });
-                                    },
+            SizedBox(
+              width: AppLayout.avarage(context) * 0.4,
+              height: AppLayout.avarage(context) * 0.4,
+              child: Container(
+                color: Colors.black,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: AppLayout.avarage(context) * 0.4,
+                        color: AppColors.uiColor,
+                        child: ListView(
+                          children: List.generate(NpcList().getNpcList().length,
+                              (index) {
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedNpc =
+                                          NpcList().getNpcList()[index];
+                                    });
+                                  },
+                                  child: Container(
+                                    color: (selectedNpc!.name ==
+                                            NpcList().getNpcList()[index].name)
+                                        ? AppColors.uiColorLight
+                                        : AppColors.uiColor,
+                                    width: double.infinity,
+                                    height: AppLayout.avarage(context) * 0.04,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          AppText(
+                                            text: NpcList()
+                                                .getNpcList()[index]
+                                                .name
+                                                .toUpperCase(),
+                                            fontSize: 0.01,
+                                            letterSpacing: 0.0002,
+                                            color: (selectedNpc!.name ==
+                                                    NpcList()
+                                                        .getNpcList()[index]
+                                                        .name)
+                                                ? AppColors.uiColor
+                                                : Colors.black,
+                                          ),
+                                          AppText(
+                                            text:
+                                                'xp: ${NpcList().getNpcList()[index].xp}'
+                                                    .toUpperCase(),
+                                            fontSize: 0.008,
+                                            letterSpacing: 0.0002,
+                                            bold: true,
+                                            color: (selectedNpc!.name ==
+                                                    NpcList()
+                                                        .getNpcList()[index]
+                                                        .name)
+                                                ? AppColors.uiColor
+                                                : Colors.black,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                          );
-                        }),
+                                ),
+                                const AppLineDividerHorizontal(
+                                    color: Colors.black, value: 2),
+                              ],
+                            );
+                          }),
+                        ),
                       ),
                     ),
-                  ),
-                  const AppLineDividerHorizontal(
-                      color: AppColors.uiColor, value: 5),
-                  SizedBox(
-                    height: AppLayout.height(context) * 0.35,
-                    child: Row(
-                      children: [
-                        const Expanded(flex: 2, child: SizedBox()),
-                        const AppLineDividerVertical(
-                            color: AppColors.uiColor, value: 2.5),
-                        Expanded(
-                            flex: 3,
-                            child: SizedBox(
-                              child: Column(
-                                children: [
-                                  const AppSeparatorVertical(value: 0.025),
-                                  AppBarTitle(
-                                    title: selectedNpc!.name,
-                                    color: AppColors.uiColor,
-                                  ),
-                                ],
-                              ),
-                            )),
-                      ],
+                    SizedBox(
+                      width: AppLayout.avarage(context) * 0.3,
+                      height: AppLayout.avarage(context) * 0.4,
+                      child: Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          AppText(
+                              bold: true,
+                              text: selectedNpc!.name.toUpperCase(),
+                              fontSize: 0.025,
+                              letterSpacing: 0.002,
+                              color: AppColors.uiColor),
+                          NpcImage(
+                            npc: selectedNpc!,
+                            size: AppLayout.avarage(context) * 0.2,
+                          ),
+                          AppTextButton(
+                              color: AppColors.uiColor,
+                              buttonText: 'choose',
+                              onTap: () {
+                                selectedNpc!.id =
+                                    DateTime.now().millisecondsSinceEpoch;
+                                user.deselect();
+                                user.selectNpc(selectedNpc!);
+                                user.startPlacingNpc();
+                                Navigator.pop(context);
+                              }),
+                        ],
+                      )),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            DialogButton(
-                color: AppColors.uiColor,
-                buttonText: 'choose',
-                onTap: () {
-                  selectedNpc!.id = DateTime.now().millisecondsSinceEpoch;
-                  user.deselect();
-                  user.selectNpc(selectedNpc!);
-                  user.startPlacingNpc();
-                  Navigator.pop(context);
-                }),
           ],
         ),
       ),

@@ -7,7 +7,7 @@ import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
-import '../../app_images.dart';
+import '../../images/app_images.dart';
 import '../layout/app_separator_vertical.dart';
 
 class NewGameDialog extends StatefulWidget {

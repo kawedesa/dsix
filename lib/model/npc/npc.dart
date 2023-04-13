@@ -99,6 +99,11 @@ class Npc {
     update();
   }
 
+  void knockBack(Position actionCenter) {
+    position.knockBack(actionCenter);
+    update();
+  }
+
   void defend() {
     attributes.defense.defend();
 
@@ -130,6 +135,11 @@ class Npc {
 
   void reload(Attack attack) {
     attack.reload();
+    update();
+  }
+
+  void heal(int healAmount) {
+    life.heal(healAmount);
     update();
   }
 
@@ -175,18 +185,18 @@ class Npc {
       leftOverRawDamage = 0;
     }
 
-    int totalDamage = pDamage + mDamage + leftOverRawDamage;
+    int totalDamageAfterEquip = pDamage + mDamage + leftOverRawDamage;
 
-    int totalDamageAfterTempArmor = totalDamage - attributes.defense.tempArmor;
-    attributes.defense.reduceTempArmor(totalDamage);
+    int totalDamage = totalDamageAfterEquip - attributes.defense.tempArmor;
+    attributes.defense.reduceTempArmor(totalDamageAfterEquip);
 
-    if (totalDamageAfterTempArmor > 0) {
+    if (totalDamage > 0) {
       life.receiveDamage(totalDamage);
-      receiveEffects(attack.effects);
     } else {
       totalDamage = 0;
-      update();
     }
+
+    update();
 
     return totalDamage;
   }
@@ -210,6 +220,9 @@ class Npc {
 
   void applyNewEffect(String effect) {
     switch (effect) {
+      case 'heal':
+        life.heal(1);
+        break;
       case 'poison':
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 1, countdown: 1));
@@ -242,6 +255,9 @@ class Npc {
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 0, countdown: 1));
         break;
+      case 'spiky':
+        effects.onBeignHitEffects.add('thorn');
+        break;
     }
   }
 
@@ -256,7 +272,7 @@ class Npc {
     }
 
     for (Effect effect in effectsToRemove) {
-      removeEffects(effect);
+      removeEffects(effect.name);
     }
   }
 
@@ -286,8 +302,8 @@ class Npc {
     }
   }
 
-  void removeEffects(Effect effect) {
-    switch (effect.name) {
+  void removeEffects(String effect) {
+    switch (effect) {
       case 'poison':
         effects.removeEffect(effect);
         break;
@@ -308,13 +324,14 @@ class Npc {
         attributes.power.addAttribute();
         effects.removeEffect(effect);
         break;
+      case 'spiky':
+        effects.onBeignHitEffects.remove('thorn');
+        break;
     }
   }
 
   void resetEffects() {
-    for (Effect effect in effects.currentEffects) {
-      effect.reset();
-    }
+    effects.resetCurrentEffects();
     checkEffects();
     update();
   }
