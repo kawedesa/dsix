@@ -1,17 +1,17 @@
-import 'package:dsix/model/user.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/app_slider.dart';
-import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/text_dialog.dart';
-import 'package:dsix/shared/app_widgets/dialog/text_input_dialog.dart';
-import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
-import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
-import 'package:dsix/shared/app_widgets/text/app_title.dart';
+import 'package:dsix/shared/shared_widgets/app_slider.dart';
+import 'package:dsix/shared/shared_widgets/button/app_text_button.dart';
+import 'package:dsix/shared/shared_widgets/dialog/text_dialog.dart';
+import 'package:dsix/shared/shared_widgets/dialog/text_input_dialog.dart';
+import 'package:dsix/shared/shared_widgets/layout/app_separator_horizontal.dart';
+import 'package:dsix/shared/shared_widgets/layout/app_separator_vertical.dart';
+import 'package:dsix/shared/shared_widgets/text/app_title.dart';
 import 'package:dsix/view/player/attribute/attribute_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../shared/app_widgets/text/app_bar_title.dart';
+import '../../../shared/shared_widgets/text/app_bar_title.dart';
 
 class AttributeView extends StatefulWidget {
   const AttributeView({Key? key}) : super(key: key);

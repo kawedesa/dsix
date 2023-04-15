@@ -1,12 +1,12 @@
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/app_widgets/dialog/confirm_dialog.dart';
-import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
+import 'package:dsix/shared/shared_widgets/dialog/confirm_dialog.dart';
+import 'package:dsix/shared/shared_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/view/creator/game_settings/game_settings_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../model/game/game.dart';
-import '../../../shared/app_widgets/button/app_text_button.dart';
+import '../../../shared/shared_widgets/button/app_text_button.dart';
 
 class GameSettings extends StatefulWidget {
   const GameSettings({Key? key}) : super(key: key);

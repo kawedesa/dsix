@@ -1,14 +1,14 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/user.dart';
-import 'package:dsix/shared/app_widgets/map/map_info.dart';
-import 'package:dsix/shared/app_widgets/map/vision_grid.dart';
-import 'package:dsix/view/player/player_map/widgets/sprites/player_view_building_sprite.dart';
-import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_npc_sprite.dart';
-import 'package:dsix/view/player/player_map/widgets/sprites/player_view_dead_player_sprite.dart';
-import 'package:dsix/view/player/player_map/widgets/sprites/player_view_npc_sprite.dart';
-import 'package:dsix/view/player/player_map/widgets/sprites/player_view_other_player_sprite.dart';
-import 'package:dsix/view/player/player_map/widgets/sprites/player_view_player_sprite.dart';
+import 'package:dsix/model/user/user.dart';
+import 'package:dsix/model/map/map_info.dart';
+import 'package:dsix/model/map/vision_grid.dart';
+import 'package:dsix/model/map/sprites/building/player_view_building_sprite.dart';
+import 'package:dsix/model/map/sprites/npc/player_view_dead_npc_sprite.dart';
+import 'package:dsix/model/map/sprites/player/player_view_dead_player_sprite.dart';
+import 'package:dsix/model/map/sprites/npc/player_view_npc_sprite.dart';
+import 'package:dsix/model/map/sprites/player/player_view_other_player_sprite.dart';
+import 'package:dsix/model/map/sprites/player/player_view_player_sprite.dart';
 import 'package:flutter/material.dart';
 import '../../../model/npc/npc.dart';
 

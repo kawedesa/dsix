@@ -1,4 +1,4 @@
-import 'package:dsix/model/user.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:dsix/view/home/widgets/choose_player_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,9 +7,9 @@ import '../../../model/game/game.dart';
 import '../../../shared/app_colors.dart';
 import '../../../shared/images/app_images.dart';
 import '../../../shared/app_layout.dart';
-import '../../../shared/app_widgets/button/app_text_button.dart';
-import '../../../shared/app_widgets/dialog/new_game_dialog.dart';
-import '../../../shared/app_widgets/layout/app_separator_vertical.dart';
+import '../../../shared/shared_widgets/button/app_text_button.dart';
+import 'new_game_dialog.dart';
+import '../../../shared/shared_widgets/layout/app_separator_vertical.dart';
 import '../../creator/creator_view/creator_view.dart';
 import 'create_player_menu.dart';
 

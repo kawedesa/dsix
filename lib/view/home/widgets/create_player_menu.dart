@@ -1,14 +1,14 @@
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/text/app_title.dart';
+import 'package:dsix/shared/shared_widgets/text/app_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../model/game/game.dart';
 import '../../../model/player/player.dart';
-import '../../../model/user.dart';
+import '../../../model/user/user.dart';
 import '../../../shared/app_colors.dart';
 import '../../../shared/images/app_images.dart';
-import '../../../shared/app_widgets/app_radial_menu.dart';
-import '../../../shared/app_widgets/button/app_circular_button.dart';
+import '../../../shared/shared_widgets/app_radial_menu.dart';
+import '../../../shared/shared_widgets/button/app_circular_button.dart';
 import '../../player/race/race_view.dart';
 
 class CreatePlayerMenu extends StatefulWidget {

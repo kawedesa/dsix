@@ -1,22 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dsix/model/combat/armor.dart';
-import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/position.dart';
 
 class Building {
   int id;
   String name;
   double size;
-  Life life;
   Position position;
-  Armor armor;
-  Building(
-      {required this.id,
-      required this.name,
-      required this.size,
-      required this.life,
-      required this.position,
-      required this.armor});
+
+  Building({
+    required this.id,
+    required this.name,
+    required this.size,
+    required this.position,
+  });
 
   final database = FirebaseFirestore.instance;
 
@@ -25,8 +21,6 @@ class Building {
       'id': id,
       'name': name,
       'size': size,
-      'life': life.toMap(),
-      'armor': armor.toMap(),
       'position': position.toMap(),
     };
   }
@@ -36,8 +30,6 @@ class Building {
       id: data?['id'],
       name: data?['name'],
       size: data?['size'],
-      life: Life.fromMap(data?['life']),
-      armor: Armor.fromMap(data?['armor']),
       position: Position.fromMap(data?['position']),
     );
   }

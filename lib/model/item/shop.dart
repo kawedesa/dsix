@@ -1024,7 +1024,7 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'shot',
+          name: 'volley',
           type: 'ranged',
           damage: Damage(pierce: 0, pDamage: 0, mDamage: 0, rawDamage: 0),
           range: Range(
@@ -1076,7 +1076,7 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'shot',
+          name: 'volley',
           type: 'ranged',
           damage: Damage(pierce: 0, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
@@ -1128,7 +1128,7 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'shot',
+          name: 'volley',
           type: 'ranged',
           damage: Damage(pierce: 0, pDamage: 5, mDamage: 0, rawDamage: 0),
           range: Range(
@@ -1180,7 +1180,7 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'shot',
+          name: 'volley',
           type: 'ranged',
           damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(

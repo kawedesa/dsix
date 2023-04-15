@@ -79,6 +79,7 @@ class AppImages {
   static const spawner = 'assets/images/ui/spawner.svg';
   static const npc = 'assets/images/ui/npc.svg';
   static const building = 'assets/images/ui/building.svg';
+  static const object = 'assets/images/ui/object.svg';
   static const turn = 'assets/images/ui/turn.svg';
 
   static const shop = 'assets/images/ui/shop.svg';
@@ -409,6 +410,9 @@ class AppImages {
   }
 
   //ACTIONS
+  static const actionBite = 'assets/images/ui/actionBite.svg';
+  static const actionBlast = 'assets/images/ui/actionBlast.svg';
+  static const actionClaw = 'assets/images/ui/actionClaw.svg';
   static const actionCrush = 'assets/images/ui/actionCrush.svg';
   static const actionJab = 'assets/images/ui/actionJab.svg';
   static const actionReload = 'assets/images/ui/actionReload.svg';
@@ -418,12 +422,22 @@ class AppImages {
   static const actionSwing = 'assets/images/ui/actionSwing.svg';
   static const actionThrow = 'assets/images/ui/actionThrow.svg';
   static const actionThrust = 'assets/images/ui/actionThrust.svg';
+  static const actionVolley = 'assets/images/ui/actionVolley.svg';
   static const actionWhip = 'assets/images/ui/actionWhip.svg';
 
   String getActionIcon(String action) {
     String actionIcon = actionJab;
 
     switch (action) {
+      case 'bite':
+        actionIcon = actionBite;
+        break;
+      case 'blast':
+        actionIcon = actionBlast;
+        break;
+      case 'claw':
+        actionIcon = actionClaw;
+        break;
       case 'crush':
         actionIcon = actionCrush;
         break;
@@ -451,6 +465,9 @@ class AppImages {
       case 'thrust':
         actionIcon = actionThrust;
         break;
+      case 'volley':
+        actionIcon = actionVolley;
+        break;
       case 'whip':
         actionIcon = actionWhip;
         break;
@@ -460,12 +477,18 @@ class AppImages {
   }
 
   //Sprites
-  //OBJECTS
-  static const grave = 'assets/images/sprites/objects/grave.svg';
-  static const graveColor = 'assets/images/sprites/objects/graveColor.svg';
+  //PROPS
+  static const grave = 'assets/images/sprites/props/grave.svg';
+  static const graveColor = 'assets/images/sprites/props/graveColor.svg';
 
-  static const chestClosed = 'assets/images/sprites/objects/chestClosed.svg';
-  static const chestOpen = 'assets/images/sprites/objects/chestOpen.svg';
+  static const chestNormalClosed =
+      'assets/images/sprites/props/chestNormalClosed.svg';
+  static const chestNormalOpen =
+      'assets/images/sprites/props/chestNormalOpen.svg';
+  static const chestMagicClosed =
+      'assets/images/sprites/props/chestMagicClosed.svg';
+  static const chestMagicOpen =
+      'assets/images/sprites/props/chestMagicOpen.svg';
 
   //PLAYERS
   //DWARF
@@ -557,48 +580,6 @@ class AppImages {
   }
 
   //NPCS
-  //ICONS
-
-  static const zombieIcon = 'assets/images/ui/npcZombie.svg';
-  static const giantBatIcon = 'assets/images/ui/npcGiantBat.svg';
-  static const skeletonIcon = 'assets/images/ui/npcSkeleton.svg';
-  static const skeletonMageIcon = 'assets/images/ui/npcSkeletonMage.svg';
-  static const giantFrogIcon = 'assets/images/ui/npcGiantFrog.svg';
-  static const goblinIcon = 'assets/images/ui/npcGoblin.svg';
-  static const basiliskIcon = 'assets/images/ui/npcBasilisk.svg';
-
-  String getNpcIcon(String npc) {
-    String npcIcon = '';
-
-    switch (npc) {
-      case 'zombie':
-        npcIcon = zombieIcon;
-        break;
-      case 'giant bat':
-        npcIcon = giantBatIcon;
-        break;
-      case 'skeleton':
-        npcIcon = skeletonIcon;
-        break;
-      case 'skeleton mage':
-        npcIcon = skeletonMageIcon;
-        break;
-      case 'giant frog':
-        npcIcon = giantFrogIcon;
-        break;
-      case 'goblin':
-        npcIcon = goblinIcon;
-        break;
-      case 'basilisk':
-        npcIcon = basiliskIcon;
-        break;
-    }
-
-    return npcIcon;
-  }
-
-  //SPRITES
-
   static const zombieSprite = 'assets/images/sprites/npcs/zombie.svg';
   static const giantBatSprite = 'assets/images/sprites/npcs/giantBat.svg';
   static const skeletonSprite = 'assets/images/sprites/npcs/skeleton.svg';

@@ -2,17 +2,17 @@ import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/user.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/images/app_images.dart';
-import 'package:dsix/shared/app_widgets/map/ui/action_area_sprite.dart';
-import 'package:dsix/shared/app_widgets/map/map_animation/map_animation.dart';
+import 'package:dsix/model/map/sprites/action_area/action_area_sprite.dart';
+import 'package:dsix/model/map/map_animations/map_animation.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../model/npc/npc.dart';
 import '../../../shared/app_layout.dart';
-import 'widgets/player_action_buttons.dart';
+import '../../../model/map/buttons/player/player_action_buttons.dart';
 
 class PlayerMapView extends StatefulWidget {
   final Function() refresh;

@@ -4,9 +4,9 @@ import 'package:dsix/shared/app_exceptions.dart';
 import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/app_snackbar.dart';
-import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/item_dialog.dart';
+import 'package:dsix/shared/shared_widgets/app_snackbar.dart';
+import 'package:dsix/shared/shared_widgets/button/app_circular_button.dart';
+import 'package:dsix/model/item/item_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

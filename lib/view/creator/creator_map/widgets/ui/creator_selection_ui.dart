@@ -1,9 +1,9 @@
-import 'package:dsix/model/user.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/images/app_images.dart';
-import 'package:dsix/shared/app_widgets/map/ui/life_bar.dart';
-import 'package:dsix/shared/app_widgets/map/map_circular_button.dart';
-import 'package:dsix/shared/app_widgets/map/ui/map_text.dart';
+import 'package:dsix/model/map/ui/life_bar.dart';
+import 'package:dsix/model/map/buttons/map_circular_button.dart';
+import 'package:dsix/model/map/ui/map_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -110,14 +110,6 @@ class CreatorSelectionUi extends StatelessWidget {
                               text: user.building!.name.toUpperCase(),
                               fontSize: 18,
                               isBold: false,
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: LifeBar(
-                              life: user.building!.life,
-                              width: 260,
-                              height: 12,
                             ),
                           ),
                           Align(

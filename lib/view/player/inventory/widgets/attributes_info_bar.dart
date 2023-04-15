@@ -1,9 +1,9 @@
 import 'package:dsix/model/combat/attribute/attribute.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
-import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
-import 'package:dsix/shared/app_widgets/text/app_text.dart';
+import 'package:dsix/shared/shared_widgets/button/app_circular_button.dart';
+import 'package:dsix/shared/shared_widgets/layout/app_separator_horizontal.dart';
+import 'package:dsix/shared/shared_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 
 class AttributesInfoBar extends StatelessWidget {

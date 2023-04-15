@@ -1,15 +1,15 @@
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
+import 'package:dsix/shared/shared_widgets/dialog/dialog_button.dart';
+import 'package:dsix/shared/shared_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../shared/images/app_images.dart';
-import '../../../shared/app_widgets/button/app_circular_button.dart';
-import '../../../shared/app_widgets/layout/app_separator_horizontal.dart';
-import '../../../shared/app_widgets/layout/app_separator_vertical.dart';
-import '../../../shared/app_widgets/text/app_text.dart';
+import '../../../shared/shared_widgets/button/app_circular_button.dart';
+import '../../../shared/shared_widgets/layout/app_separator_horizontal.dart';
+import '../../../shared/shared_widgets/layout/app_separator_vertical.dart';
+import '../../../shared/shared_widgets/text/app_text.dart';
 
 class ShopDialog extends StatefulWidget {
   final Color color;

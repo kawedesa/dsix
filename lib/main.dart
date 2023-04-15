@@ -4,8 +4,9 @@ import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/spawner/spawner.dart';
-import 'package:dsix/model/user.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/view/home/home_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -101,6 +102,18 @@ class MyApp extends StatelessWidget {
                 .snapshots()
                 .map((querySnapshot) => querySnapshot.docs
                     .map((building) => Building.fromMap(building.data()))
+                    .toList())),
+
+        //PROPS
+        StreamProvider<List<Prop>>(
+            initialData: const [],
+            create: (context) => database
+                .collection('game')
+                .doc('gameID')
+                .collection('props')
+                .snapshots()
+                .map((querySnapshot) => querySnapshot.docs
+                    .map((prop) => Prop.fromMap(prop.data()))
                     .toList())),
       ],
       child: MaterialApp(

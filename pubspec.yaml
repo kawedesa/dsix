@@ -76,7 +76,7 @@ flutter:
   assets:
     - 'assets/images/sprites/buildings/'
     - 'assets/images/sprites/npcs/'
-    - 'assets/images/sprites/objects/'
+    - 'assets/images/sprites/props/'
     - 'assets/images/sprites/players/'
     - 'assets/images/ui/'
     - 'assets/images/items/'
@@ -85,6 +85,11 @@ flutter:
     
   
   fonts:
+  - family: FrozenGnome
+    fonts:
+    - asset: fonts/FrozenGnome.otf
+    
+
   - family: Poppins
     fonts:
     - asset: fonts/Poppins-ExtraLight.ttf

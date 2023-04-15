@@ -1,5 +1,5 @@
 import 'package:dsix/model/game/game.dart';
-import 'package:dsix/model/user.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'creator_map_vm.dart';

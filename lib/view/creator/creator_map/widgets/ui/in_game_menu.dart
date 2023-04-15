@@ -1,11 +1,11 @@
-import 'package:dsix/model/user.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
-import 'package:dsix/shared/app_widgets/map/mouse_input.dart';
-import 'package:dsix/shared/app_widgets/map/ui/place_here.dart';
-import 'package:dsix/view/creator/creator_map/widgets/ui/button/building_creation_button.dart';
-import 'package:dsix/view/creator/creator_map/widgets/ui/button/npc_creation_button.dart';
-import 'package:dsix/view/creator/creator_map/widgets/ui/button/turn_button.dart';
+import 'package:dsix/shared/shared_widgets/layout/app_separator_vertical.dart';
+import 'package:dsix/model/map/mouse_input.dart';
+import 'package:dsix/model/map/ui/place_here.dart';
+import 'package:dsix/model/map/buttons/creator/building_creation_button.dart';
+import 'package:dsix/model/map/buttons/creator/npc_creation_button.dart';
+import 'package:dsix/model/map/buttons/creator/turn_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,15 +1,15 @@
-import 'package:dsix/model/user.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/button/app_bar_circular_button.dart';
-import 'package:dsix/shared/app_widgets/layout/app_separator_horizontal.dart';
+import 'package:dsix/shared/shared_widgets/button/app_bar_circular_button.dart';
+import 'package:dsix/shared/shared_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/view/creator/creator_view/creator_vm.dart';
 import 'package:dsix/view/creator/game_settings/game_settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../model/game/game.dart';
-import '../../../shared/app_widgets/text/app_bar_title.dart';
+import '../../../shared/shared_widgets/text/app_bar_title.dart';
 
 class CreatorView extends StatefulWidget {
   const CreatorView({Key? key}) : super(key: key);
