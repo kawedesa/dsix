@@ -121,53 +121,83 @@ class Combat {
 
   void attackNpcs(List<Npc> npcs) {
     for (Npc npc in npcs) {
-      if (actionArea.insideArea(npc.position) && npc.life.isAlive()) {
-        if (attack.type == 'melee') {
-          applyOnBeignHitEffects(npc.effects.onBeignHitEffects);
-        }
-
-        int damage = 0;
-        damage = npc.receiveAttack(attack);
-
-        if (damage > 0) {
-          npc.receiveEffects(attack.effects);
-          if (attack.effects.contains('knockback')) {
-            npc.knockBack(actionCenter);
-          }
-
-          battleLog.addTarget(npc.id.toString(), 'npc', npc.position, damage);
-        }
-
-        if (npc.life.isDead()) {
-          npc.resetEffects();
-          npc.createLoot();
-        }
+      if (selectedNpc != null && npc.id == selectedNpc!.id) {
+        continue;
       }
+
+      if (npc.life.isDead()) {
+        continue;
+      }
+
+      if (npc.inActionArea(actionArea.area) == false) {
+        continue;
+      }
+
+      if (attack.type == 'melee') {
+        applyOnBeignHitEffects(npc.effects.onBeignHitEffects);
+      }
+
+      int damage = 0;
+      damage = npc.receiveAttack(attack);
+
+      if (damage < 1) {
+        continue;
+      }
+
+      npc.receiveEffects(attack.effects);
+
+      if (attack.effects.contains('knockback')) {
+        npc.knockBack(actionCenter);
+      }
+
+      battleLog.addTarget(npc.id.toString(), 'npc', npc.position, damage);
+
+      if (npc.life.isAlive()) {
+        continue;
+      }
+      npc.resetEffects();
+      npc.createLoot();
     }
   }
 
   void attackPlayers(List<Player> players) {
     for (Player player in players) {
-      if (actionArea.insideArea(player.position) && player.life.isAlive()) {
-        if (attack.type == 'melee') {
-          applyOnBeignHitEffects(player.effects.onBeignHitEffects);
-        }
-
-        int damage = 0;
-        damage = player.receiveAttack(attack);
-
-        if (damage > 0) {
-          player.receiveEffects(attack.effects);
-          if (attack.effects.contains('knockback')) {
-            player.knockBack(actionCenter);
-          }
-          battleLog.addTarget(player.id, 'player', player.position, damage);
-        }
-
-        if (player.life.isDead()) {
-          player.resetEffects();
-        }
+      if (selectedPlayer != null && player.id == selectedPlayer!.id) {
+        continue;
       }
+
+      if (player.life.isDead()) {
+        continue;
+      }
+
+      if (player.inActionArea(actionArea.area) == false) {
+        continue;
+      }
+
+      if (attack.type == 'melee') {
+        applyOnBeignHitEffects(player.effects.onBeignHitEffects);
+      }
+
+      int damage = 0;
+      damage = player.receiveAttack(attack);
+
+      if (damage < 1) {
+        continue;
+      }
+
+      player.receiveEffects(attack.effects);
+
+      if (attack.effects.contains('knockback')) {
+        player.knockBack(actionCenter);
+      }
+
+      battleLog.addTarget(
+          player.id.toString(), 'player', player.position, damage);
+
+      if (player.life.isAlive()) {
+        continue;
+      }
+      player.resetEffects();
     }
   }
 

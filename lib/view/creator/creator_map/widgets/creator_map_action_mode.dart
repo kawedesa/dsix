@@ -90,15 +90,13 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   ActionAreaSprite(
                     area: user.combat.actionArea.area,
                   ),
-                  Stack(
-                    children: _creatorMapController.createPlayerSprites(
-                        user, players, npcs),
-                  ),
-                  Stack(
-                    children:
-                        _creatorMapController.createNpcSprites(npcs, refresh),
-                  ),
                   _mapAnimation.displayAttackAnimations(),
+                  _creatorMapController.createDeadNpcSprites(npcs),
+                  _creatorMapController.createDeadPlayerSprites(
+                      user.mapInfo, players, npcs),
+                  _creatorMapController.createPlayerSprites(
+                      user.mapInfo, players, npcs),
+                  _creatorMapController.createNpcSprites(npcs, refresh),
                   _mapAnimation.displayDamageAnimations(),
                 ],
               ),
@@ -142,48 +140,87 @@ class CreatorMapActionModeController {
   }
 
 //NPCS
-  List<Widget> createNpcSprites(List<Npc> npcs, Function refresh) {
+  Widget createDeadNpcSprites(List<Npc> npcs) {
+    List<Widget> deadNpcSprites = [];
+
+    for (Npc npc in npcs) {
+      if (npc.life.isAlive()) {
+        continue;
+      }
+
+      deadNpcSprites.add(CreatorViewDeadNpcSprite(
+        npc: npc,
+      ));
+    }
+    return Stack(
+      children: deadNpcSprites,
+    );
+  }
+
+  Widget createNpcSprites(List<Npc> npcs, Function refresh) {
     List<Widget> npcSprites = [];
 
     for (Npc npc in npcs) {
       if (npc.life.isDead()) {
-        npcSprites.add(CreatorViewDeadNpcSprite(
-          npc: npc,
-        ));
-      } else {
-        npcSprites.add(CreatorViewActionNpcSprite(
-          npc: npc,
-          fullRefresh: () {
-            refresh();
-          },
-        ));
+        continue;
       }
+      npcSprites.add(CreatorViewActionNpcSprite(
+        npc: npc,
+        fullRefresh: () {
+          refresh();
+        },
+      ));
     }
-    return npcSprites;
+    return Stack(children: npcSprites);
   }
 
 //PLAYERS
-  List<Widget> createPlayerSprites(
-      User user, List<Player> players, List<Npc> npcs) {
-    List<Widget> playerSprites = [];
+  Widget createDeadPlayerSprites(
+      MapInfo mapInfo, List<Player> players, List<Npc> npcs) {
+    List<Widget> playerDeadSprites = [];
 
-    Path npcVisibleArea = getNpcsVisibleArea(user.mapInfo, npcs);
+    Path npcVisibleArea = getNpcsVisibleArea(mapInfo, npcs);
 
     for (Player player in players) {
-      if (npcVisibleArea.contains(player.position.getOffset())) {
-        if (player.life.isDead()) {
-          playerSprites.add(CreatorViewDeadPlayerSprite(
-            player: player,
-          ));
-        } else {
-          playerSprites.add(CreatorViewPlayerSprite(
-            player: player,
-          ));
-        }
+      if (!npcVisibleArea.contains(player.position.getOffset())) {
+        continue;
       }
+      if (player.life.isAlive()) {
+        continue;
+      }
+
+      playerDeadSprites.add(CreatorViewDeadPlayerSprite(
+        player: player,
+      ));
     }
 
-    return playerSprites;
+    return Stack(
+      children: playerDeadSprites,
+    );
+  }
+
+  Widget createPlayerSprites(
+      MapInfo mapInfo, List<Player> players, List<Npc> npcs) {
+    List<Widget> playerSprites = [];
+
+    Path npcVisibleArea = getNpcsVisibleArea(mapInfo, npcs);
+
+    for (Player player in players) {
+      if (!npcVisibleArea.contains(player.position.getOffset())) {
+        continue;
+      }
+      if (player.life.isDead()) {
+        continue;
+      }
+
+      playerSprites.add(CreatorViewPlayerSprite(
+        player: player,
+      ));
+    }
+
+    return Stack(
+      children: playerSprites,
+    );
   }
 
   Path getNpcsVisibleArea(MapInfo mapInfo, List<Npc> npcs) {

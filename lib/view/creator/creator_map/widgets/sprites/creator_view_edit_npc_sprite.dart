@@ -4,11 +4,9 @@ import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/npc_sprite_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
@@ -62,43 +60,32 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
                     ),
                   ),
                 ),
-                NpcSpriteImage(npc: widget.npc),
-                Align(
-                  alignment: Alignment.center,
-                  child: GestureDetector(
-                    onTap: () {
-                      if (_controller.selected) {
-                        user.deselect();
-                      } else {
-                        user.deselect();
-                        user.selectNpc(widget.npc);
-                      }
-                      widget.fullRefresh();
-                    },
-                    onPanStart: (details) {
-                      _controller.drag = true;
+                GestureDetector(
+                  onTap: () {
+                    if (_controller.selected) {
+                      user.deselect();
+                    } else {
                       user.deselect();
                       user.selectNpc(widget.npc);
-                      widget.fullRefresh();
-                    },
-                    onPanUpdate: (details) {
-                      _controller.tempPosition.panUpdate(details.delta, 'tile');
-                      localRefresh();
-                    },
-                    onPanEnd: (details) {
-                      _controller.endMove(widget.npc, user.mapInfo);
+                    }
+                    widget.fullRefresh();
+                  },
+                  onPanStart: (details) {
+                    _controller.drag = true;
+                    user.deselect();
+                    user.selectNpc(widget.npc);
+                    widget.fullRefresh();
+                  },
+                  onPanUpdate: (details) {
+                    _controller.tempPosition.panUpdate(details.delta, 'tile');
+                    localRefresh();
+                  },
+                  onPanEnd: (details) {
+                    _controller.endMove(widget.npc, user.mapInfo);
 
-                      localRefresh();
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: widget.npc.size / 2),
-                      child: Container(
-                        width: widget.npc.size / 2,
-                        height: widget.npc.size / 2,
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ),
+                    localRefresh();
+                  },
+                  child: NpcSpriteImage(npc: widget.npc),
                 ),
               ],
             ),

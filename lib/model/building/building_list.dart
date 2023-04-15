@@ -33,12 +33,30 @@ class BuildingList {
       position: Position.empty(),
       armor: Armor.empty());
 
+  static Building tower = Building(
+      id: 0,
+      name: 'tower',
+      size: 32,
+      life: Life(current: 16, max: 16),
+      position: Position.empty(),
+      armor: Armor.empty());
+
+  static Building barricade = Building(
+      id: 0,
+      name: 'barricade',
+      size: 32,
+      life: Life(current: 16, max: 16),
+      position: Position.empty(),
+      armor: Armor.empty());
+
   List<Building> getBuildingList() {
     return [
       blackTablet,
       divineAltar,
       earthAltar,
       sacrificeAltar,
+      tower,
+      barricade,
     ];
   }
 }

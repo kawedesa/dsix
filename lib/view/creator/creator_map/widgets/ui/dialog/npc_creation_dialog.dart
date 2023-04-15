@@ -3,20 +3,11 @@ import 'package:dsix/model/npc/npc_list.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_widgets/text/app_text.dart';
-import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
 import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
-import 'package:dsix/shared/app_widgets/layout/app_line_divider_vertical.dart';
-import 'package:dsix/shared/app_widgets/layout/app_separator_vertical.dart';
-import 'package:dsix/shared/app_widgets/map/npc_sprite_image.dart';
-import 'package:dsix/shared/app_widgets/text/app_bar_title.dart';
-import 'package:dsix/shared/app_widgets/text/app_title.dart';
 import 'package:dsix/shared/images/npc_image.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -162,7 +153,7 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                                     DateTime.now().millisecondsSinceEpoch;
                                 user.deselect();
                                 user.selectNpc(selectedNpc!);
-                                user.startPlacingNpc();
+                                user.startPlacingSomething('npc');
                                 Navigator.pop(context);
                               }),
                         ],

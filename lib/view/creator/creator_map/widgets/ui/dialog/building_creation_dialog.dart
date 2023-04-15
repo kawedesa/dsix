@@ -2,13 +2,13 @@ import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/building/building_list.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/images/app_images.dart';
+import 'package:dsix/shared/app_widgets/button/app_text_button.dart';
+import 'package:dsix/shared/app_widgets/layout/app_line_divider_horizontal.dart';
+import 'package:dsix/shared/app_widgets/text/app_text.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/app_widgets/button/app_circular_button.dart';
-import 'package:dsix/shared/app_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/app_widgets/dialog/dialog_title.dart';
+import 'package:dsix/shared/images/building_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class BuildingCreationDialog extends StatefulWidget {
@@ -22,24 +22,6 @@ class BuildingCreationDialog extends StatefulWidget {
 
 class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
   Building? selectedBuilding;
-  int index = 0;
-
-  void changeSelectedBuilding(int value) {
-    index += value;
-
-    if (index < 0) {
-      index = BuildingList().getBuildingList().length - 1;
-    }
-
-    if (index > BuildingList().getBuildingList().length - 1) {
-      index = 0;
-    }
-    selectBuilding();
-  }
-
-  void selectBuilding() {
-    selectedBuilding = BuildingList().getBuildingList()[index];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +32,6 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
-        width: AppLayout.avarage(context) * 0.6,
         decoration: BoxDecoration(
           color: AppColors.uiColor,
           border: Border.all(
@@ -64,68 +45,127 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
           children: [
             const DialogTitle(
               color: AppColors.uiColor,
-              title: 'buildings',
+              title: 'building',
             ),
-            Container(
-              color: Colors.black,
-              width: AppLayout.avarage(context) * 0.6,
-              height: AppLayout.avarage(context) * 0.375,
-              child: Padding(
-                padding: EdgeInsets.all(AppLayout.avarage(context) * 0.025),
-                child: Stack(
+            SizedBox(
+              width: AppLayout.avarage(context) * 0.4,
+              height: AppLayout.avarage(context) * 0.4,
+              child: Container(
+                color: Colors.black,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: AppCircularButton(
-                        icon: AppImages.left,
-                        iconColor: AppColors.uiColor,
-                        color: Colors.transparent,
-                        borderColor: AppColors.uiColor,
-                        size: 0.075,
-                        onTap: () {
-                          setState(() {
-                            changeSelectedBuilding(-1);
-                          });
-                        },
+                    Expanded(
+                      child: Container(
+                        height: AppLayout.avarage(context) * 0.4,
+                        color: AppColors.uiColor,
+                        child: ListView(
+                          children: List.generate(
+                              BuildingList().getBuildingList().length, (index) {
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedBuilding = BuildingList()
+                                          .getBuildingList()[index];
+                                    });
+                                  },
+                                  child: Container(
+                                    color: (selectedBuilding!.name ==
+                                            BuildingList()
+                                                .getBuildingList()[index]
+                                                .name)
+                                        ? AppColors.uiColorLight
+                                        : AppColors.uiColor,
+                                    width: double.infinity,
+                                    height: AppLayout.avarage(context) * 0.04,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          AppText(
+                                            text: BuildingList()
+                                                .getBuildingList()[index]
+                                                .name
+                                                .toUpperCase(),
+                                            fontSize: 0.01,
+                                            letterSpacing: 0.0002,
+                                            color: (selectedBuilding!.name ==
+                                                    BuildingList()
+                                                        .getBuildingList()[
+                                                            index]
+                                                        .name)
+                                                ? AppColors.uiColor
+                                                : Colors.black,
+                                          ),
+                                          // AppText(
+                                          //   text:
+                                          //       'xp: ${NpcList().getNpcList()[index].xp}'
+                                          //           .toUpperCase(),
+                                          //   fontSize: 0.008,
+                                          //   letterSpacing: 0.0002,
+                                          //   bold: true,
+                                          //   color: (selectedNpc!.name ==
+                                          //           NpcList()
+                                          //               .getNpcList()[index]
+                                          //               .name)
+                                          //       ? AppColors.uiColor
+                                          //       : Colors.black,
+                                          // ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const AppLineDividerHorizontal(
+                                    color: Colors.black, value: 2),
+                              ],
+                            );
+                          }),
+                        ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: SvgPicture.asset(
-                        AppImages().getBuildingIcon(selectedBuilding!.name),
-                        width: AppLayout.avarage(context) * 0.25,
-                        height: AppLayout.avarage(context) * 0.25,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: AppCircularButton(
-                        icon: AppImages.right,
-                        iconColor: AppColors.uiColor,
-                        color: Colors.transparent,
-                        borderColor: AppColors.uiColor,
-                        size: 0.075,
-                        onTap: () {
-                          setState(() {
-                            changeSelectedBuilding(1);
-                          });
-                        },
-                      ),
+                    SizedBox(
+                      width: AppLayout.avarage(context) * 0.3,
+                      height: AppLayout.avarage(context) * 0.4,
+                      child: Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          AppText(
+                              bold: true,
+                              text: selectedBuilding!.name.toUpperCase(),
+                              fontSize: 0.025,
+                              letterSpacing: 0.002,
+                              color: AppColors.uiColor),
+                          BuildingImage(
+                            name: selectedBuilding!.name,
+                            size: AppLayout.avarage(context) * 0.2,
+                          ),
+                          AppTextButton(
+                              color: AppColors.uiColor,
+                              buttonText: 'choose',
+                              onTap: () {
+                                selectedBuilding!.id =
+                                    DateTime.now().millisecondsSinceEpoch;
+                                user.deselect();
+                                user.selectBuilding(selectedBuilding!);
+                                user.startPlacingSomething('building');
+                                Navigator.pop(context);
+                              }),
+                        ],
+                      )),
                     ),
                   ],
                 ),
               ),
             ),
-            DialogButton(
-                color: AppColors.uiColor,
-                buttonText: 'choose',
-                onTap: () {
-                  selectedBuilding!.id = DateTime.now().millisecondsSinceEpoch;
-                  user.deselect();
-                  user.selectBuilding(selectedBuilding!);
-                  user.startPlacingBuilding();
-                  Navigator.pop(context);
-                }),
           ],
         ),
       ),

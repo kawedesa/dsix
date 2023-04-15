@@ -69,9 +69,11 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                   ActionAreaSprite(
                     area: user.combat.actionArea.area,
                   ),
-                  _playerMapVM.createNpcSprites(context, user, npcs, players),
-                  _playerMapVM.createPlayerSprites(user, players, refresh),
                   _mapAnimation.displayAttackAnimations(),
+                  _playerMapVM.createDeadNpcSprites(user, npcs, players),
+                  _playerMapVM.createDeadPlayerSprites(players),
+                  _playerMapVM.createNpcSprites(user, npcs, players),
+                  _playerMapVM.createPlayerSprites(user, players),
                   _mapAnimation.displayDamageAnimations(),
                 ],
               ),

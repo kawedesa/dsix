@@ -52,6 +52,7 @@ class _InGameMenuState extends State<InGameMenu> {
                   user.resetPlacing();
                   user.deselect();
                 }
+                localRefresh();
               }),
           Align(
               alignment: Alignment.topLeft,

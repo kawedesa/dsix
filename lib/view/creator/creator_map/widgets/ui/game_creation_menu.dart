@@ -59,6 +59,7 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
                   user.resetPlacing();
                   user.deselect();
                 }
+                localRefresh();
               }),
           (user.placingSomething == 'true')
               ? const SizedBox()

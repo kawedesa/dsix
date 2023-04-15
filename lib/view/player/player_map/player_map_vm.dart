@@ -15,24 +15,46 @@ import '../../../model/npc/npc.dart';
 class PlayerMapVM {
   //SPRITES
   //NPC
-  Widget createNpcSprites(
-      context, User user, List<Npc> npcs, List<Player> players) {
+
+  Widget createDeadNpcSprites(User user, List<Npc> npcs, List<Player> players) {
     List<Widget> npcSprites = [];
 
     Path playersVisibleArea = getPlayersVisibleArea(user.mapInfo, players);
 
     for (Npc npc in npcs) {
-      if (playersVisibleArea.contains(npc.position.getOffset())) {
-        if (npc.life.isDead()) {
-          npcSprites.add(PlayerViewDeadNpcSprite(
-            npc: npc,
-          ));
-        } else {
-          npcSprites.add(PlayerViewNpcSprite(
-            npc: npc,
-          ));
-        }
+      if (!playersVisibleArea.contains(npc.position.getOffset())) {
+        continue;
       }
+
+      if (npc.life.isAlive()) {
+        continue;
+      }
+      npcSprites.add(PlayerViewDeadNpcSprite(
+        npc: npc,
+      ));
+    }
+
+    return Stack(
+      children: npcSprites,
+    );
+  }
+
+  Widget createNpcSprites(User user, List<Npc> npcs, List<Player> players) {
+    List<Widget> npcSprites = [];
+
+    Path playersVisibleArea = getPlayersVisibleArea(user.mapInfo, players);
+
+    for (Npc npc in npcs) {
+      if (!playersVisibleArea.contains(npc.position.getOffset())) {
+        continue;
+      }
+
+      if (npc.life.isDead()) {
+        continue;
+      }
+      npcSprites.add(PlayerViewNpcSprite(
+        npc: npc,
+      ));
     }
 
     return Stack(
@@ -65,42 +87,54 @@ class PlayerMapVM {
     return visibleArea;
   }
 
-  //PLAYERS
-  Widget createPlayerSprites(
-      User user, List<Player> players, Function() refresh) {
+  //PLAYER SPRITES
+  Widget createDeadPlayerSprites(List<Player> players) {
+    List<Widget> deadPlayerSprites = [];
+
+    for (Player player in players) {
+      if (player.life.isAlive()) {
+        continue;
+      }
+
+      deadPlayerSprites.add(PlayerViewDeadPlayerSprite(
+        player: player,
+      ));
+    }
+
+    return Stack(
+      children: deadPlayerSprites,
+    );
+  }
+
+  Widget createPlayerSprites(User user, List<Player> players) {
     List<Widget> playerSprites = [];
 
     //OTHER PLAYERS
     for (Player otherPlayer in players) {
-      if (otherPlayer != user.player) {
-        if (otherPlayer.life.isDead()) {
-          playerSprites.add(PlayerViewDeadPlayerSprite(
-            player: otherPlayer,
-          ));
-        } else {
-          playerSprites.add(PlayerViewOtherPlayerSprite(
-            player: otherPlayer,
-          ));
-        }
+      if (otherPlayer == user.player) {
+        continue;
       }
+      if (otherPlayer.life.isDead()) {
+        continue;
+      }
+
+      playerSprites.add(PlayerViewOtherPlayerSprite(
+        player: otherPlayer,
+      ));
     }
 
     //PLAYER
-    if (user.player.life.isDead()) {
-      playerSprites.add(PlayerViewDeadPlayerSprite(
-        player: user.player,
-      ));
-    } else {
+    if (user.player.life.isAlive()) {
       // ignore: prefer_const_constructors
       playerSprites.add(PlayerViewPlayerSprite());
     }
+
     return Stack(
       children: playerSprites,
     );
   }
 
   //BUILDINGS
-
   Widget createBuildingSprites(List<Building> buildings) {
     List<Widget> buildingSprites = [];
     for (Building building in buildings) {

@@ -176,6 +176,35 @@ class Player {
     update();
   }
 
+  Path getHitBoxWithPositionOffset() {
+    Path hitBox = getHitBox();
+    hitBox = hitBox.shift(position.getOffset());
+    return hitBox;
+  }
+
+  Path getHitBox() {
+    Path hitBox = Path();
+    hitBox = Path()
+      ..addRect(Rect.fromPoints(const Offset(2.5, 0), const Offset(-2.5, -10)));
+
+    return hitBox;
+  }
+
+  bool inActionArea(Path attackArea) {
+    if (attackArea.computeMetrics().isEmpty) {
+      return false;
+    }
+
+    Path intersection = Path.combine(
+        PathOperation.intersect, getHitBoxWithPositionOffset(), attackArea);
+
+    if (intersection.computeMetrics().isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   Attack attack(Attack attack) {
     Attack playerAttack = attack;
 

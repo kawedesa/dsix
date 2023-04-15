@@ -116,6 +116,77 @@ class Npc {
     update();
   }
 
+  Path getHitBoxWithPositionOffset() {
+    Path hitBox = getHitBox();
+    hitBox = hitBox.shift(position.getOffset());
+    return hitBox;
+  }
+
+  Path getHitBox() {
+    Path hitBox = Path();
+
+    switch (name) {
+      case 'zombie':
+        hitBox = Path()
+          ..addRect(
+              Rect.fromPoints(const Offset(3.5, 0), const Offset(-3.5, -11)));
+
+        break;
+
+      case 'giant bat':
+        hitBox = Path()
+          ..addRect(
+              Rect.fromPoints(const Offset(5.5, -3), const Offset(-5.5, -7)));
+        break;
+      case 'skeleton':
+        hitBox = Path()
+          ..addRect(
+              Rect.fromPoints(const Offset(2.5, 0), const Offset(-2.5, -10)));
+        break;
+      case 'skeleton mage':
+        hitBox = Path()
+          ..addRect(
+              Rect.fromPoints(const Offset(2.5, 0), const Offset(-2.5, -10)));
+        break;
+      case 'giant frog':
+        hitBox = Path()
+          ..addRect(
+              Rect.fromPoints(const Offset(3, 1.5), const Offset(-3, -6)));
+        break;
+      case 'goblin':
+        hitBox = Path()
+          ..addRect(
+              Rect.fromPoints(const Offset(3.5, 0), const Offset(-3.5, -7.5)));
+        break;
+      case 'basilisk':
+        hitBox = Path();
+        hitBox.moveTo(9, 2);
+        hitBox.lineTo(10, 1.5);
+        hitBox.lineTo(2, -5);
+        hitBox.lineTo(-8, -5);
+        hitBox.lineTo(-7.5, 2);
+        hitBox.close();
+        break;
+    }
+
+    return hitBox;
+  }
+
+  bool inActionArea(Path attackArea) {
+    if (attackArea.computeMetrics().isEmpty) {
+      return false;
+    }
+
+    Path intersection = Path.combine(
+        PathOperation.intersect, getHitBoxWithPositionOffset(), attackArea);
+
+    if (intersection.computeMetrics().isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   Attack attack(Attack attack) {
     Attack npcAttack = attack;
 

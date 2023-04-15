@@ -14,13 +14,6 @@ class CreatorViewPlayerSprite extends StatelessWidget {
     super.key,
     required this.player,
   });
-  bool checkBeingAttacked(User user) {
-    if (user.combat.actionArea.area.contains(player.position.getOffset())) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +34,7 @@ class CreatorViewPlayerSprite extends StatelessWidget {
                 child: Container(
                   width: 7,
                   height: 7,
-                  decoration: (checkBeingAttacked(user))
+                  decoration: (player.inActionArea(user.combat.actionArea.area))
                       ? BoxDecoration(
                           color: AppColors.cancel.withAlpha(200),
                           shape: BoxShape.circle,
@@ -65,7 +58,7 @@ class CreatorViewPlayerSprite extends StatelessWidget {
               Align(
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: player.size * 2),
+                    padding: const EdgeInsets.only(top: 7.5),
                     child: EffectsUi(
                         effects: player.effects.currentEffects,
                         tempArmor: player.attributes.defense.tempArmor,
@@ -73,26 +66,6 @@ class CreatorViewPlayerSprite extends StatelessWidget {
                   )),
               PlayerSpriteImage(
                 player: player,
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: TransparentPointer(
-                  transparent: false,
-                  child: GestureDetector(
-                    onTap: () {},
-                    onPanStart: (details) {},
-                    onPanUpdate: (details) {},
-                    onPanEnd: (details) {},
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: player.size / 1.2),
-                      child: Container(
-                        width: player.size / 4,
-                        height: player.size / 2,
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ),
-                ),
               ),
             ],
           ),

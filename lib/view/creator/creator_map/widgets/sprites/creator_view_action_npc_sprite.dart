@@ -5,12 +5,10 @@ import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/model/user.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_widgets/map/map_info.dart';
 import 'package:dsix/shared/app_widgets/map/npc_sprite_image.dart';
 import 'package:dsix/shared/app_widgets/map/ui/effects_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
@@ -42,7 +40,6 @@ class _CreatorViewActionNpcSpriteState
 
     _controller.initializeTempPosition(widget.npc.position);
     _controller.checkSelected(user, widget.npc);
-    _controller.checkBeingAttacked(user, widget.npc);
 
     return ChangeNotifierProxyProvider<Spawner, TempPosition>(
         create: (context) => _controller.tempPosition,
@@ -63,7 +60,7 @@ class _CreatorViewActionNpcSpriteState
                     transparent: true,
                     child: NpcSpriteVisionRange(
                       selected: _controller.selected,
-                      beingAttacked: _controller.beingAttacked,
+                      inAttackArea: _controller.inActionArea(user, widget.npc),
                       npcMode: user.npcMode,
                       range: widget.npc.attributes.vision.getRange(),
                     ),
@@ -75,7 +72,7 @@ class _CreatorViewActionNpcSpriteState
                     transparent: true,
                     child: NpcSpriteMoveRange(
                       selected: _controller.selected,
-                      beingAttacked: _controller.beingAttacked,
+                      inAttackArea: _controller.inActionArea(user, widget.npc),
                       npcMode: user.npcMode,
                       maxRange: widget.npc.attributes.movement.maxRange(),
                       distanceMoved: _controller.tempPosition.distanceMoved,
@@ -85,7 +82,7 @@ class _CreatorViewActionNpcSpriteState
                 Align(
                     alignment: Alignment.center,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: widget.npc.size * 1.75),
+                      padding: const EdgeInsets.only(top: 7.5),
                       child: TransparentPointer(
                         transparent: true,
                         child: EffectsUi(
@@ -95,66 +92,42 @@ class _CreatorViewActionNpcSpriteState
                                 widget.npc.attributes.vision.tempVision),
                       ),
                     )),
-                NpcSpriteImage(npc: widget.npc),
-                Align(
-                  alignment: Alignment.center,
-                  child: (user.npcMode == 'wait')
-                      ? GestureDetector(
-                          onTap: () {
-                            if (user.checkSelectedNpc(widget.npc.id)) {
-                              user.deselect();
-                            } else {
-                              user.deselect();
-                              user.selectNpc(widget.npc);
-                            }
-                            widget.fullRefresh();
-                          },
-                          child: Padding(
-                            padding:
-                                EdgeInsets.only(bottom: widget.npc.size / 2),
-                            child: Container(
-                              width: widget.npc.size / 2,
-                              height: widget.npc.size / 2,
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            if (user.checkSelectedNpc(widget.npc.id)) {
-                              user.deselect();
-                            } else {
-                              user.deselect();
-                              user.selectNpc(widget.npc);
-                            }
-                            widget.fullRefresh();
-                          },
-                          onPanStart: (details) {
-                            _controller.drag = true;
-                            user.deselect();
-                            user.selectNpc(widget.npc);
-                            widget.fullRefresh();
-                          },
-                          onPanUpdate: (details) {
-                            _controller.tempPosition
-                                .panUpdate(details.delta, 'tile');
+                GestureDetector(
+                  onTap: () {
+                    if (user.checkSelectedNpc(widget.npc.id)) {
+                      user.deselect();
+                    } else {
+                      user.deselect();
+                      user.selectNpc(widget.npc);
+                    }
+                    widget.fullRefresh();
+                  },
+                  onPanStart: (details) {
+                    if (user.npcMode == 'wait') {
+                      return;
+                    }
 
-                            localRefresh();
-                          },
-                          onPanEnd: (details) {
-                            _controller.endMove(widget.npc, user.mapInfo);
-                            localRefresh();
-                          },
-                          child: Padding(
-                            padding:
-                                EdgeInsets.only(bottom: widget.npc.size / 2),
-                            child: Container(
-                              width: widget.npc.size / 2,
-                              height: widget.npc.size / 2,
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ),
+                    _controller.drag = true;
+                    user.deselect();
+                    user.selectNpc(widget.npc);
+                    widget.fullRefresh();
+                  },
+                  onPanUpdate: (details) {
+                    if (user.npcMode == 'wait') {
+                      return;
+                    }
+                    _controller.tempPosition.panUpdate(details.delta, 'tile');
+
+                    localRefresh();
+                  },
+                  onPanEnd: (details) {
+                    if (user.npcMode == 'wait') {
+                      return;
+                    }
+                    _controller.endMove(widget.npc, user.mapInfo);
+                    localRefresh();
+                  },
+                  child: NpcSpriteImage(npc: widget.npc),
                 ),
               ],
             ),
@@ -169,14 +142,11 @@ class NpcSpriteController {
     selected = user.checkSelectedNpc(npc.id);
   }
 
-  //BEING ATTACKED
-  bool beingAttacked = false;
-  void checkBeingAttacked(User user, Npc npc) {
-    if (user.combat.actionArea.area.contains(npc.position.getOffset())) {
-      beingAttacked = true;
-    } else {
-      beingAttacked = false;
+  bool inActionArea(User user, Npc npc) {
+    if (selected && user.npcMode == 'action') {
+      return false;
     }
+    return npc.inActionArea(user.combat.actionArea.area);
   }
 
   //WALK
@@ -209,7 +179,7 @@ class NpcSpriteController {
 
 class NpcSpriteMoveRange extends StatelessWidget {
   final bool selected;
-  final bool beingAttacked;
+  final bool inAttackArea;
   final String npcMode;
   final double maxRange;
   final double distanceMoved;
@@ -217,7 +187,7 @@ class NpcSpriteMoveRange extends StatelessWidget {
   const NpcSpriteMoveRange({
     Key? key,
     required this.selected,
-    required this.beingAttacked,
+    required this.inAttackArea,
     required this.npcMode,
     required this.maxRange,
     required this.distanceMoved,
@@ -234,7 +204,7 @@ class NpcSpriteMoveRange extends StatelessWidget {
       rangeColor = AppColors.cancel.withAlpha(200);
     }
 
-    if (beingAttacked) {
+    if (inAttackArea) {
       rangeColor = AppColors.cancel.withAlpha(200);
     }
 
@@ -252,7 +222,7 @@ class NpcSpriteMoveRange extends StatelessWidget {
       rangeColor = AppColors.cancel;
     }
 
-    if (beingAttacked) {
+    if (inAttackArea) {
       rangeColor = AppColors.cancel;
     }
 
@@ -296,14 +266,14 @@ class NpcSpriteMoveRange extends StatelessWidget {
 
 class NpcSpriteVisionRange extends StatelessWidget {
   final bool selected;
-  final bool beingAttacked;
+  final bool inAttackArea;
   final String npcMode;
   final double range;
 
   const NpcSpriteVisionRange({
     Key? key,
     required this.selected,
-    required this.beingAttacked,
+    required this.inAttackArea,
     required this.npcMode,
     required this.range,
   }) : super(key: key);
@@ -315,7 +285,7 @@ class NpcSpriteVisionRange extends StatelessWidget {
         : DottedBorder(
             borderType: BorderType.Circle,
             dashPattern: const [3, 6],
-            color: (beingAttacked)
+            color: (inAttackArea)
                 ? AppColors.cancel.withAlpha(200)
                 : (selected)
                     ? AppColors.uiColorLight.withAlpha(200)

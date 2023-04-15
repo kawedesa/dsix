@@ -12,14 +12,6 @@ class PlayerViewOtherPlayerSprite extends StatelessWidget {
 
   const PlayerViewOtherPlayerSprite({super.key, required this.player});
 
-  bool checkBeingAttacked(User user) {
-    if (user.combat.actionArea.area.contains(player.position.getOffset())) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -38,7 +30,7 @@ class PlayerViewOtherPlayerSprite extends StatelessWidget {
                 child: Container(
                   width: 7,
                   height: 7,
-                  decoration: (checkBeingAttacked(user))
+                  decoration: (player.inActionArea(user.combat.actionArea.area))
                       ? BoxDecoration(
                           color: AppColors.cancel.withAlpha(200),
                           shape: BoxShape.circle,
@@ -62,7 +54,7 @@ class PlayerViewOtherPlayerSprite extends StatelessWidget {
               Align(
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: player.size * 2),
+                    padding: const EdgeInsets.only(top: 7.5),
                     child: EffectsUi(
                         effects: player.effects.currentEffects,
                         tempArmor: player.attributes.defense.tempArmor,

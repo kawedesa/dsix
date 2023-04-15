@@ -26,7 +26,7 @@ class _DamageAnimationState extends State<DamageAnimation>
   void initState() {
     super.initState();
     _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1))
+        AnimationController(vsync: this, duration: const Duration(seconds: 2))
           ..forward();
     _opacity = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
     _scale = Tween<double>(begin: 0.5, end: 1.5).animate(_controller);
@@ -45,7 +45,7 @@ class _DamageAnimationState extends State<DamageAnimation>
       speed -= 1;
     }
 
-    return 4 * (0.5 - (0.5 - Curves.linear.transform(speed)).abs());
+    return 4 * (0.5 - (0.5 - Curves.ease.transform(speed)).abs());
   }
 
   double goUp(double value) {
@@ -74,7 +74,7 @@ class _DamageAnimationState extends State<DamageAnimation>
               isBold: true,
               text: (-1 * widget.damage).toString(),
               fontSize: 4,
-              letterSpacing: 1,
+              letterSpacing: 0.25,
               color:
                   (widget.damage > 0) ? AppColors.negative : AppColors.positive,
             ),

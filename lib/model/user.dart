@@ -129,13 +129,8 @@ class User {
     placingSomething = 'false';
   }
 
-  void startPlacingBuilding() {
-    placingSomething = 'building';
-    placeHere = Position.empty();
-  }
-
-  void startPlacingNpc() {
-    placingSomething = 'npc';
+  void startPlacingSomething(String something) {
+    placingSomething = something;
     placeHere = Position.empty();
   }
 

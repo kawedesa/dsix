@@ -1,19 +1,33 @@
-import 'package:dsix/model/player/player.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PlayerBodyImage extends StatelessWidget {
+  final String race;
+  final String sex;
   final double size;
-  final Player player;
-  const PlayerBodyImage({super.key, required this.size, required this.player});
+  final Color? color;
+
+  const PlayerBodyImage(
+      {super.key,
+      required this.race,
+      required this.sex,
+      required this.size,
+      this.color});
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      AppImages().getPlayerBodySprite(player.race, player.sex),
-      width: size,
-      height: size,
-    );
+    return (color != null)
+        ? SvgPicture.asset(
+            AppImages().getPlayerBodySprite(race, sex),
+            width: size,
+            height: size,
+            color: color,
+          )
+        : SvgPicture.asset(
+            AppImages().getPlayerBodySprite(race, sex),
+            width: size,
+            height: size,
+          );
   }
 }

@@ -1,19 +1,22 @@
-import 'package:dsix/model/player/player.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PlayerHeadImage extends StatefulWidget {
-  final Player player;
+  final String race;
+  final String sex;
   final double size;
   final double headMovement;
+  final Color? color;
   final Duration duration;
 
   const PlayerHeadImage({
     super.key,
-    required this.player,
+    required this.race,
+    required this.sex,
     required this.size,
     required this.headMovement,
+    this.color,
     this.duration = const Duration(milliseconds: 500),
   });
 
@@ -61,11 +64,18 @@ class _PlayerHeadImageState extends State<PlayerHeadImage>
         ),
         child: child,
       ),
-      child: SvgPicture.asset(
-        AppImages().getPlayerHeadSprite(widget.player.race, widget.player.sex),
-        width: widget.size,
-        height: widget.size,
-      ),
+      child: (widget.color != null)
+          ? SvgPicture.asset(
+              AppImages().getPlayerHeadSprite(widget.race, widget.sex),
+              width: widget.size,
+              height: widget.size,
+              color: widget.color,
+            )
+          : SvgPicture.asset(
+              AppImages().getPlayerHeadSprite(widget.race, widget.sex),
+              width: widget.size,
+              height: widget.size,
+            ),
     );
   }
 }

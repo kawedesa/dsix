@@ -52,7 +52,7 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                   alignment: Alignment.center,
                   child: PlayerSpriteMoveRange(
                       playerMode: user.playerMode,
-                      beingAttacked: _controller.checkBeingAttacked(user),
+                      beingAttacked: _controller.inActionArea(user),
                       maxRange: user.player.attributes.movement.maxRange(),
                       distanceMoved: _controller.tempPosition.distanceMoved,
                       color: user.color),
@@ -60,45 +60,40 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                 Align(
                     alignment: Alignment.center,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: user.player.size * 2),
+                      padding: const EdgeInsets.only(top: 7.5),
                       child: EffectsUi(
                           effects: user.player.effects.currentEffects,
                           tempArmor: user.player.attributes.defense.tempArmor,
                           tempVision: user.player.attributes.vision.tempVision),
                     )),
-                PlayerSpriteImage(
-                  player: user.player,
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: (user.playerMode == 'wait')
-                      ? const SizedBox()
-                      : GestureDetector(
-                          onPanStart: (details) {
-                            _controller.drag = true;
-                          },
-                          onPanUpdate: (details) {
-                            setState(() {
-                              _controller.tempPosition
-                                  .panUpdate(details.delta, '');
-                            });
-                          },
-                          onPanEnd: (details) {
-                            setState(() {
-                              _controller.endMove(user.player, user.mapInfo);
-                              _controller.drag = false;
-                            });
-                          },
-                          child: Padding(
-                            padding:
-                                EdgeInsets.only(bottom: user.player.size / 1.2),
-                            child: Container(
-                              width: user.player.size / 4,
-                              height: user.player.size / 2,
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ),
+                GestureDetector(
+                  onPanStart: (details) {
+                    if (user.playerMode == 'wait') {
+                      return;
+                    }
+
+                    _controller.drag = true;
+                  },
+                  onPanUpdate: (details) {
+                    if (user.playerMode == 'wait') {
+                      return;
+                    }
+                    setState(() {
+                      _controller.tempPosition.panUpdate(details.delta, '');
+                    });
+                  },
+                  onPanEnd: (details) {
+                    if (user.playerMode == 'wait') {
+                      return;
+                    }
+                    setState(() {
+                      _controller.endMove(user.player, user.mapInfo);
+                      _controller.drag = false;
+                    });
+                  },
+                  child: PlayerSpriteImage(
+                    player: user.player,
+                  ),
                 ),
               ],
             ),
@@ -111,9 +106,12 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
 
 class PlayerSpriteController {
   //BEING ATTACKED
-  bool checkBeingAttacked(User user) {
-    if (user.combat.actionArea.area
-        .contains(user.player.position.getOffset())) {
+  bool inActionArea(User user) {
+    if (user.playerMode == 'action') {
+      return false;
+    }
+
+    if (user.player.inActionArea(user.combat.actionArea.area)) {
       return true;
     } else {
       return false;

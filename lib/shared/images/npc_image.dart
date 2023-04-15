@@ -6,16 +6,27 @@ import 'package:flutter_svg/flutter_svg.dart';
 class NpcImage extends StatelessWidget {
   final Npc npc;
   final double size;
-  const NpcImage({super.key, required this.npc, required this.size});
+  final Color? color;
+  const NpcImage(
+      {super.key, required this.npc, required this.size, this.color});
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      AppImages().getNpcSprite(
-        npc.name,
-      ),
-      width: size,
-      height: size,
-    );
+    return (color != null)
+        ? SvgPicture.asset(
+            AppImages().getNpcSprite(
+              npc.name,
+            ),
+            width: size,
+            height: size,
+            color: color,
+          )
+        : SvgPicture.asset(
+            AppImages().getNpcSprite(
+              npc.name,
+            ),
+            width: size,
+            height: size,
+          );
   }
 }

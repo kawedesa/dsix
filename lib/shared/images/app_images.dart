@@ -644,6 +644,8 @@ class AppImages {
   static const earthAltar = 'assets/images/sprites/buildings/earthAltar.svg';
   static const sacrificeAltar =
       'assets/images/sprites/buildings/sacrificeAltar.svg';
+  static const tower = 'assets/images/sprites/buildings/tower.svg';
+  static const barricade = 'assets/images/sprites/buildings/barricade.svg';
 
   String getBuildingIcon(String building) {
     String buildingIcon = '';
@@ -660,6 +662,13 @@ class AppImages {
         break;
       case 'sacrifice altar':
         buildingIcon = sacrificeAltar;
+        break;
+      case 'tower':
+        buildingIcon = tower;
+        break;
+
+      case 'barricade':
+        buildingIcon = barricade;
         break;
     }
 
