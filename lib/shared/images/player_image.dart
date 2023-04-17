@@ -1,4 +1,4 @@
-import 'package:dsix/model/combat/effect/effect.dart';
+import 'package:dsix/model/effect/effect.dart';
 import 'package:dsix/shared/images/player_head_image.dart';
 import 'package:flutter/material.dart';
 import 'player_body_image.dart';

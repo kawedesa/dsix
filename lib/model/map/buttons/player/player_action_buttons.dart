@@ -76,7 +76,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
     int id = 1;
     return ActionButton(
         id: id,
-        icon: AppImages.defense,
+        icon: AppImages.actionDefend,
         color: user.color.withAlpha(175),
         darkColor: user.darkColor.withAlpha(225),
         selected: checkSelectedButton(id),
@@ -92,7 +92,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
     int id = 2;
     return ActionButton(
         id: id,
-        icon: AppImages.vision,
+        icon: AppImages.actionLook,
         color: user.color.withAlpha(175),
         darkColor: user.darkColor.withAlpha(225),
         selected: checkSelectedButton(id),

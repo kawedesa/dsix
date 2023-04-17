@@ -5,7 +5,6 @@ import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/model/map/map_info.dart';
-import 'package:dsix/model/map/ui/effects_ui.dart';
 import 'package:dsix/model/map/sprites/player/player_sprite_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

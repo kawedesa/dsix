@@ -23,8 +23,8 @@ class CreatorViewDeadNpcSprite extends StatelessWidget {
           alignment: Alignment.topCenter,
           child: SvgPicture.asset(
             (npc.loot.isEmpty)
-                ? AppImages.chestNormalOpen
-                : AppImages.chestNormalClosed,
+                ? AppImages.normalChestOpen
+                : AppImages.normalChestClosed,
           ),
         ),
       ),

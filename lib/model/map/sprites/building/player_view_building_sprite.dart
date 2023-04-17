@@ -21,7 +21,7 @@ class PlayerViewBuildingSprite extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: SvgPicture.asset(
-                AppImages().getBuildingIcon(building.name),
+                AppImages().getBuildingSprite(building.name),
                 height: building.size,
                 width: building.size,
               ),

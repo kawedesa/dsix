@@ -2,6 +2,7 @@ import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/model/map/sprites/action_area/action_area_sprite.dart';
@@ -37,6 +38,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
     final buildings = Provider.of<List<Building>>(context);
+    final props = Provider.of<List<Prop>>(context);
     final battleLog = Provider.of<List<BattleLog>>(context);
 
     _mapAnimation.checkBattleLog(battleLog);
@@ -70,6 +72,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     area: user.combat.actionArea.area,
                   ),
                   _mapAnimation.displayAttackAnimations(),
+                  _playerMapVM.createPropSprites(props),
                   _playerMapVM.createDeadNpcSprites(user, npcs, players),
                   _playerMapVM.createDeadPlayerSprites(players),
                   _playerMapVM.createNpcSprites(user, npcs, players),

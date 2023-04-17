@@ -2,7 +2,6 @@ import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/model/map/sprites/npc/npc_sprite_image.dart';
-import 'package:dsix/model/map/ui/effects_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,14 +12,6 @@ class PlayerViewNpcSprite extends StatelessWidget {
     super.key,
     required this.npc,
   });
-
-  bool checkBeingAttacked(User user) {
-    if (user.combat.actionArea.area.contains(npc.position.getOffset())) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +30,7 @@ class PlayerViewNpcSprite extends StatelessWidget {
               child: Container(
                 width: 7,
                 height: 7,
-                decoration: (checkBeingAttacked(user))
+                decoration: (npc.inActionArea(user.combat.actionArea.area))
                     ? BoxDecoration(
                         color: AppColors.cancel.withAlpha(200),
                         shape: BoxShape.circle,

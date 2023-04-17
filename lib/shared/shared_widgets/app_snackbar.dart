@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class AppSnackBar {
   SnackBar getSnackBar(String text, Color color) {
     return SnackBar(
+      duration: const Duration(seconds: 1),
       content: SizedBox(
           height: 50,
           child: Center(

@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dsix/model/combat/damage.dart';
+
+import 'package:dsix/model/combat/attack_info.dart';
+
 import 'package:dsix/model/combat/position.dart';
-import 'package:dsix/model/combat/range.dart';
-import 'package:dsix/model/npc/npc.dart';
-import 'package:dsix/model/player/player.dart';
 
 class BattleLog {
   int id;
@@ -60,38 +59,26 @@ class BattleLog {
     };
   }
 
-  void setAttacker(Npc? npc, Player? player) {
-    if (npc != null) {
-      attacker = Target(
-          id: npc.id.toString(),
-          type: 'npc',
-          position: npc.position,
-          damage: 0);
-    }
-
-    if (player != null) {
-      attacker = Target(
-          id: player.id.toString(),
-          type: 'player',
-          position: player.position,
-          damage: 0);
-    }
+  void setAttacker(String id, Position position) {
+    attacker = Target(
+      id: id,
+      position: position,
+      lifeDamage: 0,
+      armorDamage: 0,
+    );
   }
 
-  void addTarget(String targetId, String type, Position position, int damage) {
-    targets.add(
-        Target(id: targetId, type: type, position: position, damage: damage));
+  void addTarget(
+      String targetId, Position position, int lifeDamage, int armorDamage) {
+    targets.add(Target(
+        id: targetId,
+        position: position,
+        lifeDamage: lifeDamage,
+        armorDamage: armorDamage));
   }
 
-  void setAttackInfo(String name, double angle, double distance,
-      Position actionCenter, Damage damage, Range range) {
-    attackInfo = AttackInfo(
-        name: name,
-        angle: angle,
-        distance: distance,
-        actionCenter: actionCenter,
-        damage: damage,
-        range: range);
+  void setAttackInfo(AttackInfo info) {
+    attackInfo = info;
   }
 
   void newBattleLog() {
@@ -103,7 +90,6 @@ class BattleLog {
     id = 0;
     message = '';
     attacker = Target.empty();
-
     attackInfo = AttackInfo.empty();
     targets = [];
   }
@@ -127,90 +113,43 @@ class BattleLog {
   }
 }
 
-class AttackInfo {
-  String name;
-  double angle;
-  double distance;
-  Position actionCenter;
-  Damage damage;
-  Range range;
-  AttackInfo(
-      {required this.name,
-      required this.angle,
-      required this.distance,
-      required this.actionCenter,
-      required this.damage,
-      required this.range});
-
-  factory AttackInfo.empty() {
-    return AttackInfo(
-      name: '',
-      angle: 0,
-      distance: 0,
-      actionCenter: Position.empty(),
-      damage: Damage.empty(),
-      range: Range.empty(),
-    );
-  }
-
-  factory AttackInfo.fromMap(Map<String, dynamic>? data) {
-    return AttackInfo(
-      name: data?['name'],
-      angle: data?['angle'],
-      distance: data?['distance'],
-      actionCenter: Position.fromMap(data?['actionCenter']),
-      damage: Damage.fromMap(data?['damage']),
-      range: Range.fromMap(data?['range']),
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'angle': angle,
-      'distance': distance,
-      'actionCenter': actionCenter.toMap(),
-      'damage': damage.toMap(),
-      'range': range.toMap(),
-    };
-  }
-}
-
 class Target {
   String id;
-  String type;
+
   Position position;
-  int damage;
-  Target(
-      {required this.id,
-      required this.type,
-      required this.position,
-      required this.damage});
+  int lifeDamage;
+  int armorDamage;
+  Target({
+    required this.id,
+    required this.position,
+    required this.lifeDamage,
+    required this.armorDamage,
+  });
 
   factory Target.empty() {
     return Target(
       id: '',
-      type: '',
       position: Position.empty(),
-      damage: 0,
+      lifeDamage: 0,
+      armorDamage: 0,
     );
   }
 
   factory Target.fromMap(Map<String, dynamic>? data) {
     return Target(
       id: data?['id'],
-      type: data?['type'],
       position: Position.fromMap(data?['position']),
-      damage: data?['damage'],
+      lifeDamage: data?['lifeDamage'],
+      armorDamage: data?['armorDamage'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'type': type,
       'position': position.toMap(),
-      'damage': damage,
+      'lifeDamage': lifeDamage,
+      'armorDamage': armorDamage,
     };
   }
 }

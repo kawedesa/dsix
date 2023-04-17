@@ -1,11 +1,11 @@
 import 'package:dsix/model/combat/attack.dart';
-import 'package:dsix/model/combat/attribute/attribute.dart';
-import 'package:dsix/model/combat/attribute/defense.dart';
-import 'package:dsix/model/combat/attribute/movement.dart';
-import 'package:dsix/model/combat/attribute/power.dart';
-import 'package:dsix/model/combat/attribute/vision.dart';
+import 'package:dsix/model/attribute/attributes.dart';
+import 'package:dsix/model/attribute/defense.dart';
+import 'package:dsix/model/attribute/movement.dart';
+import 'package:dsix/model/attribute/power.dart';
+import 'package:dsix/model/attribute/vision.dart';
 import 'package:dsix/model/combat/damage.dart';
-import 'package:dsix/model/combat/effect/effect_controller.dart';
+import 'package:dsix/model/effect/effect_controller.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/range.dart';
 import '../combat/armor.dart';
@@ -23,7 +23,7 @@ class NpcList {
       pArmor: 0,
       mArmor: 0,
     ),
-    attributes: Attribute(
+    attributes: Attributes(
       availablePoints: 0,
       defense: Defense(attribute: 0, tempArmor: 0),
       power: Power(attribute: 0),
@@ -75,7 +75,7 @@ class NpcList {
       pArmor: 1,
       mArmor: 0,
     ),
-    attributes: Attribute(
+    attributes: Attributes(
       availablePoints: 0,
       defense: Defense(attribute: 0, tempArmor: 0),
       power: Power(attribute: 0),
@@ -113,7 +113,7 @@ class NpcList {
       pArmor: 2,
       mArmor: 0,
     ),
-    attributes: Attribute(
+    attributes: Attributes(
       availablePoints: 0,
       defense: Defense(attribute: 0, tempArmor: 0),
       power: Power(attribute: 1),
@@ -151,7 +151,7 @@ class NpcList {
       pArmor: 1,
       mArmor: 2,
     ),
-    attributes: Attribute(
+    attributes: Attributes(
       availablePoints: 0,
       defense: Defense(attribute: 0, tempArmor: 0),
       power: Power(attribute: 1),
@@ -203,7 +203,7 @@ class NpcList {
       pArmor: 2,
       mArmor: 0,
     ),
-    attributes: Attribute(
+    attributes: Attributes(
       availablePoints: 0,
       defense: Defense(attribute: 0, tempArmor: 0),
       power: Power(attribute: 1),
@@ -241,7 +241,7 @@ class NpcList {
       pArmor: 1,
       mArmor: 0,
     ),
-    attributes: Attribute(
+    attributes: Attributes(
       availablePoints: 0,
       defense: Defense(attribute: 0, tempArmor: 0),
       power: Power(attribute: 2),
@@ -293,7 +293,7 @@ class NpcList {
       pArmor: 2,
       mArmor: 0,
     ),
-    attributes: Attribute(
+    attributes: Attributes(
       availablePoints: 0,
       defense: Defense(attribute: 0, tempArmor: 0),
       power: Power(attribute: 2),
@@ -349,7 +349,7 @@ class NpcList {
   //     pArmor: 0,
   //     mArmor: 0,
   //   ),
-  //   attributes: Attribute(
+  //   attributes: Attributes(
   //     availablePoints: 0,
   //     defense: Defense(attribute: 0, tempArmor: 0),
   //     power: Power(attribute: 3),
@@ -387,7 +387,7 @@ class NpcList {
   //     pArmor: 3,
   //     mArmor: 0,
   //   ),
-  //   attributes: Attribute(
+  //   attributes: Attributes(
   //     availablePoints: 0,
   //     defense: Defense(attribute: 0, tempArmor: 0),
   //     power: Power(attribute: 2),
@@ -433,7 +433,7 @@ class NpcList {
   //     pArmor: 2,
   //     mArmor: 2,
   //   ),
-  //   attributes: Attribute(
+  //   attributes: Attributes(
   //     availablePoints: 0,
   //     defense: Defense(attribute: 0, tempArmor: 0),
   //     power: Power(attribute: 1),

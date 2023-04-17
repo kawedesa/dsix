@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/combat/armor.dart';
 import 'package:dsix/model/combat/attack.dart';
-import 'package:dsix/model/combat/attribute/attribute.dart';
-import 'package:dsix/model/combat/effect/effect.dart';
-import 'package:dsix/model/combat/effect/effect_controller.dart';
+import 'package:dsix/model/attribute/attributes.dart';
+import 'package:dsix/model/effect/effect.dart';
+import 'package:dsix/model/effect/effect_controller.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/item/item.dart';
@@ -19,7 +19,7 @@ class Npc {
   double size;
   Life life;
   Armor armor;
-  Attribute attributes;
+  Attributes attributes;
   Position position;
   List<Attack> attacks;
   EffectController effects;
@@ -79,7 +79,7 @@ class Npc {
       size: data?['size'] * 1.0,
       life: Life.fromMap(data?['life']),
       armor: Armor.fromMap(data?['armor']),
-      attributes: Attribute.fromMap(data?['attributes']),
+      attributes: Attributes.fromMap(data?['attributes']),
       position: Position.fromMap(data?['position']),
       attacks: getAttacks,
       effects: EffectController.fromMap(data?['effects']),

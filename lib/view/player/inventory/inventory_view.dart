@@ -9,7 +9,7 @@ import 'package:dsix/shared/shared_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/images/player_image.dart';
 import 'package:dsix/shared/shared_widgets/text/app_text.dart';
 import 'package:dsix/view/player/inventory/inventory_vm.dart';
-import 'package:dsix/view/player/inventory/widgets/attributes_info_bar.dart';
+import 'package:dsix/model/attribute/attributes_info_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +38,7 @@ class _InventoryViewState extends State<InventoryView> {
           value: 0.01,
         ),
         AttributesInfoBar(
+          size: 0.5,
           color: user.color,
           darkColor: user.darkColor,
           attributes: user.player.attributes,

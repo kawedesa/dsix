@@ -79,7 +79,7 @@ class AppImages {
   static const spawner = 'assets/images/ui/spawner.svg';
   static const npc = 'assets/images/ui/npc.svg';
   static const building = 'assets/images/ui/building.svg';
-  static const object = 'assets/images/ui/object.svg';
+  static const prop = 'assets/images/ui/prop.svg';
   static const turn = 'assets/images/ui/turn.svg';
 
   static const shop = 'assets/images/ui/shop.svg';
@@ -414,7 +414,9 @@ class AppImages {
   static const actionBlast = 'assets/images/ui/actionBlast.svg';
   static const actionClaw = 'assets/images/ui/actionClaw.svg';
   static const actionCrush = 'assets/images/ui/actionCrush.svg';
+  static const actionDefend = 'assets/images/ui/actionDefend.svg';
   static const actionJab = 'assets/images/ui/actionJab.svg';
+  static const actionLook = 'assets/images/ui/actionLook.svg';
   static const actionReload = 'assets/images/ui/actionReload.svg';
   static const actionShot = 'assets/images/ui/actionShot.svg';
   static const actionSlam = 'assets/images/ui/actionSlam.svg';
@@ -422,6 +424,7 @@ class AppImages {
   static const actionSwing = 'assets/images/ui/actionSwing.svg';
   static const actionThrow = 'assets/images/ui/actionThrow.svg';
   static const actionThrust = 'assets/images/ui/actionThrust.svg';
+  static const actionTongue = 'assets/images/ui/actionTongue.svg';
   static const actionVolley = 'assets/images/ui/actionVolley.svg';
   static const actionWhip = 'assets/images/ui/actionWhip.svg';
 
@@ -441,8 +444,14 @@ class AppImages {
       case 'crush':
         actionIcon = actionCrush;
         break;
+      case 'defend':
+        actionIcon = actionDefend;
+        break;
       case 'jab':
         actionIcon = actionJab;
+        break;
+      case 'look':
+        actionIcon = actionLook;
         break;
       case 'reload':
         actionIcon = actionReload;
@@ -465,6 +474,9 @@ class AppImages {
       case 'thrust':
         actionIcon = actionThrust;
         break;
+      case 'tongue':
+        actionIcon = actionTongue;
+        break;
       case 'volley':
         actionIcon = actionVolley;
         break;
@@ -481,14 +493,38 @@ class AppImages {
   static const grave = 'assets/images/sprites/props/grave.svg';
   static const graveColor = 'assets/images/sprites/props/graveColor.svg';
 
-  static const chestNormalClosed =
-      'assets/images/sprites/props/chestNormalClosed.svg';
-  static const chestNormalOpen =
-      'assets/images/sprites/props/chestNormalOpen.svg';
-  static const chestMagicClosed =
-      'assets/images/sprites/props/chestMagicClosed.svg';
-  static const chestMagicOpen =
-      'assets/images/sprites/props/chestMagicOpen.svg';
+  static const normalChestClosed =
+      'assets/images/sprites/props/normalChestClosed.svg';
+  static const normalChestOpen =
+      'assets/images/sprites/props/normalChestOpen.svg';
+  static const magicChestClosed =
+      'assets/images/sprites/props/magicChestClosed.svg';
+  static const magicChestOpen =
+      'assets/images/sprites/props/magicChestOpen.svg';
+
+  String getPropSprite(String prop, bool open) {
+    String propSprite = '';
+
+    switch (prop) {
+      case 'normal chest':
+        if (open) {
+          propSprite = normalChestOpen;
+        } else {
+          propSprite = normalChestClosed;
+        }
+
+        break;
+      case 'magic chest':
+        if (open) {
+          propSprite = magicChestOpen;
+        } else {
+          propSprite = magicChestClosed;
+        }
+        break;
+    }
+
+    return propSprite;
+  }
 
   //PLAYERS
   //DWARF
@@ -628,32 +664,32 @@ class AppImages {
   static const tower = 'assets/images/sprites/buildings/tower.svg';
   static const barricade = 'assets/images/sprites/buildings/barricade.svg';
 
-  String getBuildingIcon(String building) {
-    String buildingIcon = '';
+  String getBuildingSprite(String building) {
+    String buildingSprite = '';
 
     switch (building) {
       case 'black tablet':
-        buildingIcon = blackTablet;
+        buildingSprite = blackTablet;
         break;
       case 'divine altar':
-        buildingIcon = divineAltar;
+        buildingSprite = divineAltar;
         break;
       case 'earth altar':
-        buildingIcon = earthAltar;
+        buildingSprite = earthAltar;
         break;
       case 'sacrifice altar':
-        buildingIcon = sacrificeAltar;
+        buildingSprite = sacrificeAltar;
         break;
       case 'tower':
-        buildingIcon = tower;
+        buildingSprite = tower;
         break;
 
       case 'barricade':
-        buildingIcon = barricade;
+        buildingSprite = barricade;
         break;
     }
 
-    return buildingIcon;
+    return buildingSprite;
   }
 
   //Map

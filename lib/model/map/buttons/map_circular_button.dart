@@ -46,7 +46,7 @@ class MapCircularButton extends StatelessWidget {
                     color: color,
                     border: Border.all(
                       color: borderColor,
-                      width: (borderSize == null) ? 0.5 : borderSize!,
+                      width: (borderSize == null) ? size * 0.1 : borderSize!,
                     ),
                   ),
                 ),

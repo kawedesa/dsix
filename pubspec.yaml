@@ -83,12 +83,12 @@ flutter:
     - 'assets/images/maps/'
     - 'assets/animations/'
     
-  
+   
   fonts:
-  - family: FrozenGnome
+  - family: Grobold
     fonts:
-    - asset: fonts/FrozenGnome.otf
-    
+    - asset: fonts/Grobold.ttf
+   
 
   - family: Poppins
     fonts:

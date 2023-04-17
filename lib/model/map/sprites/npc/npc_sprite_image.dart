@@ -1,4 +1,4 @@
-import 'package:dsix/model/combat/effect/effect.dart';
+import 'package:dsix/model/effect/effect.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/map/ui/effects_ui.dart';
 import 'package:dsix/shared/images/npc_image.dart';

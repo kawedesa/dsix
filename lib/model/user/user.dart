@@ -102,6 +102,7 @@ class User {
   void deselect() {
     npc = null;
     building = null;
+    prop = null;
   }
 
   bool somethingIsSelected() {
@@ -208,7 +209,7 @@ class User {
 
   Building? building;
 
-  void updateSelectedBuilding(List<Building> buildings) {
+  void updateBuilding(List<Building> buildings) {
     if (building == null) {
       return;
     }
@@ -250,10 +251,9 @@ class User {
   }
 
   //PROPS
-  //TODO IMPLEMENT PROPS (CHEST LOOT)
   Prop? prop;
 
-  void updateSelectedProp(List<Prop> props) {
+  void updateProp(List<Prop> props) {
     if (prop == null) {
       return;
     }

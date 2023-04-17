@@ -120,8 +120,9 @@ class Game {
 
   void newRound() {
     deleteSpawners();
-    deleteNpcs();
     deleteBuildings();
+    deleteNpcs();
+    deleteProps();
     deleteBattleLog();
     round++;
     turn.reset();
@@ -149,8 +150,9 @@ class Game {
     await database.collection('game').doc('gameID').set(Game.empty().toMap());
     deleteAllPlayers();
     deleteSpawners();
-    deleteNpcs();
     deleteBuildings();
+    deleteNpcs();
+    deleteProps();
     deleteBattleLog();
   }
 
@@ -188,6 +190,23 @@ class Game {
     spawnerBatch.commit();
   }
 
+  void deleteBuildings() async {
+    var buildingBatch = database.batch();
+
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('buildings')
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        buildingBatch.delete(ds.reference);
+      }
+    });
+
+    buildingBatch.commit();
+  }
+
   void deleteNpcs() async {
     var npcBatch = database.batch();
 
@@ -205,21 +224,21 @@ class Game {
     npcBatch.commit();
   }
 
-  void deleteBuildings() async {
-    var buildingBatch = database.batch();
+  void deleteProps() async {
+    var propBatch = database.batch();
 
     await database
         .collection('game')
         .doc('gameID')
-        .collection('buildings')
+        .collection('props')
         .get()
         .then((snapshot) {
       for (DocumentSnapshot ds in snapshot.docs) {
-        buildingBatch.delete(ds.reference);
+        propBatch.delete(ds.reference);
       }
     });
 
-    buildingBatch.commit();
+    propBatch.commit();
   }
 
   void deleteBattleLog() async {

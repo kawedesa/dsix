@@ -10,7 +10,7 @@ class BuildingImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
-      AppImages().getBuildingIcon(name),
+      AppImages().getBuildingSprite(name),
       height: size,
       width: size,
     );

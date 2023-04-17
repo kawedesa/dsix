@@ -1,5 +1,7 @@
 import 'package:dsix/model/building/building.dart';
+import 'package:dsix/model/map/sprites/prop/player_view_prop_sprite.dart';
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/model/map/map_info.dart';
 import 'package:dsix/model/map/vision_grid.dart';
@@ -145,6 +147,20 @@ class PlayerMapVM {
 
     return Stack(
       children: buildingSprites,
+    );
+  }
+
+  //PROPS
+  Widget createPropSprites(List<Prop> props) {
+    List<Widget> propSprites = [];
+    for (Prop prop in props) {
+      propSprites.add(PlayerViewPropSprite(
+        prop: prop,
+      ));
+    }
+
+    return Stack(
+      children: propSprites,
     );
   }
 }

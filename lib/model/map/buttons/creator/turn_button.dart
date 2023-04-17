@@ -21,7 +21,7 @@ class TurnButton extends StatelessWidget {
         player.passTurn();
         int damage = checkLife - player.life.current;
         if (damage > 0) {
-          battleLog.addTarget(player.id, 'player', player.position, damage);
+          battleLog.addTarget(player.id, player.position, damage, 0);
         }
       }
     } else {
@@ -30,7 +30,7 @@ class TurnButton extends StatelessWidget {
         npc.passTurn();
         int damage = checkLife - npc.life.current;
         if (damage > 0) {
-          battleLog.addTarget(npc.id.toString(), 'npc', npc.position, damage);
+          battleLog.addTarget(npc.id.toString(), npc.position, damage, 0);
         }
       }
     }
@@ -55,7 +55,7 @@ class TurnButton extends StatelessWidget {
       borderColor: (game.turn.currentTurn == 'player')
           ? AppColors.uiColorDark.withAlpha(200)
           : AppColors.uiColorLight.withAlpha(200),
-      size: 0.04,
+      size: 0.03,
       onTap: () {
         passTurn(game, npcs, players);
         fullRefresh();

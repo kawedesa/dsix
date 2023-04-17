@@ -85,7 +85,7 @@ class _CreatorViewBuildingSpriteState extends State<CreatorViewBuildingSprite> {
                       }
                     },
                     child: SvgPicture.asset(
-                      AppImages().getBuildingIcon(widget.building.name),
+                      AppImages().getBuildingSprite(widget.building.name),
                       height: widget.building.size,
                       width: widget.building.size,
                     ),
@@ -155,7 +155,7 @@ class BuildingSpriteController {
         color: AppColors.uiColor.withAlpha(100),
         iconColor: AppColors.uiColorLight.withAlpha(200),
         borderColor: AppColors.uiColorLight.withAlpha(200),
-        size: 6.0,
+        size: 4,
         onTap: () {
           unlockMenu();
           refresh();
@@ -163,35 +163,41 @@ class BuildingSpriteController {
       );
     } else {
       menu = Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           MapCircularButton(
             color: AppColors.uiColor.withAlpha(200),
             iconColor: AppColors.uiColorLight.withAlpha(200),
             borderColor: AppColors.uiColorLight.withAlpha(200),
             icon: AppImages.minus,
-            size: 5.0,
+            size: 3,
             onTap: () {
               building.changeSize(-5);
             },
+          ),
+          const SizedBox(
+            width: 2,
           ),
           MapCircularButton(
             icon: AppImages.unlocked,
             color: AppColors.uiColor.withAlpha(200),
             iconColor: AppColors.uiColorLight.withAlpha(200),
             borderColor: AppColors.uiColorLight.withAlpha(200),
-            size: 6.0,
+            size: 4,
             onTap: () {
               lockMenu();
               refresh();
             },
+          ),
+          const SizedBox(
+            width: 2,
           ),
           MapCircularButton(
             color: AppColors.uiColor.withAlpha(200),
             iconColor: AppColors.uiColorLight.withAlpha(200),
             borderColor: AppColors.uiColorLight.withAlpha(200),
             icon: AppImages.plus,
-            size: 5.0,
+            size: 3,
             onTap: () {
               building.changeSize(5);
             },

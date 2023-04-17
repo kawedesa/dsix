@@ -29,12 +29,12 @@ class SpawnerCreationButton extends StatelessWidget {
             iconColor: AppColors.uiColorLight.withAlpha(200),
             color: AppColors.uiColor.withAlpha(100),
             borderColor: AppColors.uiColorLight.withAlpha(200),
-            size: 0.04)
+            size: 0.03)
         : AppCircularButton(
             icon: AppImages.spawner,
             iconColor: AppColors.uiColor.withAlpha(200),
             color: AppColors.uiColorDark.withAlpha(100),
             borderColor: AppColors.uiColorDark.withAlpha(200),
-            size: 0.04);
+            size: 0.03);
   }
 }

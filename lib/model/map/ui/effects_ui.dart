@@ -1,4 +1,5 @@
-import 'package:dsix/model/combat/effect/effect.dart';
+import 'package:dsix/model/effect/effect.dart';
+import 'package:dsix/model/map/map_text.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,8 +41,8 @@ class EffectsUi extends StatelessWidget {
     }
 
     return SizedBox(
-      width: 3.1 * effectsIcons.length,
-      height: 3.1 * effectsIcons.length,
+      width: 3.0 * effectsIcons.length,
+      height: 3.0 * effectsIcons.length,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: effectsIcons,
@@ -50,35 +51,59 @@ class EffectsUi extends StatelessWidget {
   }
 }
 
-class SpriteEffects extends StatelessWidget {
+class SpriteEffects extends StatefulWidget {
   final Effect effect;
   const SpriteEffects({super.key, required this.effect});
-  int getDisplayValue() {
-    int displayNumber = 0;
-    switch (effect.name) {
+
+  @override
+  State<SpriteEffects> createState() => _SpriteEffectsState();
+}
+
+class _SpriteEffectsState extends State<SpriteEffects>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _opacity;
+  late Animation<double> _scale;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500))
+      ..forward();
+    _opacity = Tween<double>(begin: 0, end: 1).animate(_controller);
+    _scale = Tween<double>(begin: 2, end: 1).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  String? getDisplayValue() {
+    String? displayNumber;
+    switch (widget.effect.name) {
       case 'poison':
-        displayNumber = effect.countdown;
+        displayNumber = widget.effect.countdown.toString();
         break;
       case 'burn':
-        displayNumber = effect.countdown;
+        displayNumber = widget.effect.countdown.toString();
         break;
       case 'bleed':
-        displayNumber = effect.countdown;
+        displayNumber = widget.effect.countdown.toString();
         break;
       case 'vulnerable':
-        displayNumber = effect.countdown;
+        displayNumber = widget.effect.countdown.toString();
         break;
       case 'stun':
-        displayNumber = effect.countdown;
+        displayNumber = widget.effect.countdown.toString();
         break;
       case 'weaken':
-        displayNumber = effect.countdown;
+        displayNumber = widget.effect.countdown.toString();
         break;
       case 'tempArmor':
-        displayNumber = effect.value;
-        break;
-      case 'tempVision':
-        displayNumber = 0;
+        displayNumber = widget.effect.value.toString();
         break;
     }
     return displayNumber;
@@ -86,46 +111,30 @@ class SpriteEffects extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 3,
-      height: 3,
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: SvgPicture.asset(
-              AppImages().getEffectIcon(effect.name),
-            ),
+    return FadeTransition(
+      opacity: _opacity,
+      child: ScaleTransition(
+        scale: _scale,
+        child: SizedBox(
+          width: 2.5,
+          height: 2.5,
+          child: Stack(
+            children: [
+              SvgPicture.asset(
+                AppImages().getEffectIcon(widget.effect.name),
+                width: 2,
+                height: 2,
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: MapText(
+                  text: getDisplayValue(),
+                  fontSize: 1.25,
+                ),
+              ),
+            ],
           ),
-          Align(
-            alignment: const Alignment(0, 0.1),
-            child: AppEffectsText(
-                value: getDisplayValue(), effectName: effect.name),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AppEffectsText extends StatelessWidget {
-  final String effectName;
-  final int value;
-
-  const AppEffectsText(
-      {super.key, required this.effectName, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      (value == 0) ? '' : value.toString(),
-      textAlign: TextAlign.center,
-      style: const TextStyle(
-        fontSize: 1.0,
-        letterSpacing: 0.01,
-        fontWeight: FontWeight.bold,
-        fontFamily: 'Poppins',
-        color: Colors.white,
+        ),
       ),
     );
   }

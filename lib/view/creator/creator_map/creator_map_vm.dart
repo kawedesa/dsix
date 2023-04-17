@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'widgets/creator_map_action_mode.dart';
-import 'widgets/creator_map_edit_mode.dart';
+import 'creator_map_modes/creator_map_action_mode.dart';
+import 'creator_map_modes/creator_map_edit_mode.dart';
 
 class CreatorMapVM {
   Widget getMapView(String gamePhase) {

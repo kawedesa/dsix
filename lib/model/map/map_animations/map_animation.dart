@@ -1,11 +1,13 @@
 import 'package:dsix/model/combat/action_area.dart';
+import 'package:dsix/model/combat/attack_info.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/turn.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
+import 'armor_damage_animation.dart';
 import 'attack_animation.dart';
-import 'damage_animation.dart';
+import 'life_damage_animation.dart';
 import 'turn_animation.dart';
 
 class MapAnimation {
@@ -67,8 +69,8 @@ class MapAnimation {
 
     addAttackAnimation(battleLog.last.attackInfo);
 
-    addDamageAnimation(battleLog.last.targets);
-
+    addLifeDamageAnimation(battleLog.last.targets);
+    addArmorDamageAnimation(battleLog.last.targets);
     currentLog = battleLog.last.id;
   }
 
@@ -78,10 +80,23 @@ class MapAnimation {
     attackAnimations.add(AttackAnimation(attackArea: attackArea));
   }
 
-  void addDamageAnimation(List<Target> targets) {
+  void addLifeDamageAnimation(List<Target> targets) {
     for (Target target in targets) {
-      damageAnimations.add(
-          DamageAnimation(damage: target.damage, position: target.position));
+      if (target.lifeDamage == 0) {
+        continue;
+      }
+      damageAnimations.add(LifeDamageAnimation(
+          damage: target.lifeDamage, position: target.position));
+    }
+  }
+
+  void addArmorDamageAnimation(List<Target> targets) {
+    for (Target target in targets) {
+      if (target.armorDamage == 0) {
+        continue;
+      }
+      damageAnimations.add(ArmorDamageAnimation(
+          damage: target.armorDamage, position: target.position));
     }
   }
 

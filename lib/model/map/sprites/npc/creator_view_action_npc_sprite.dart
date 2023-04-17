@@ -7,7 +7,6 @@ import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/model/map/map_info.dart';
 import 'package:dsix/model/map/sprites/npc/npc_sprite_image.dart';
-import 'package:dsix/model/map/ui/effects_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
@@ -81,7 +80,7 @@ class _CreatorViewActionNpcSpriteState
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (user.checkSelectedNpc(widget.npc.id)) {
+                    if (_controller.selected) {
                       user.deselect();
                     } else {
                       user.deselect();

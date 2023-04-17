@@ -109,33 +109,33 @@ class SpawnerSpriteController {
   Widget getMenu(Spawner spawner, Function refresh) {
     Widget menu = const SizedBox();
 
-    menu = SizedBox(
-      width: 20,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          MapCircularButton(
-            color: AppColors.uiColor.withAlpha(200),
-            iconColor: AppColors.uiColorLight.withAlpha(200),
-            borderColor: AppColors.uiColorLight.withAlpha(200),
-            icon: AppImages.minus,
-            size: 5.0,
-            onTap: () {
-              spawner.changeSize(-10);
-            },
-          ),
-          MapCircularButton(
-            color: AppColors.uiColor.withAlpha(200),
-            iconColor: AppColors.uiColorLight.withAlpha(200),
-            borderColor: AppColors.uiColorLight.withAlpha(200),
-            icon: AppImages.plus,
-            size: 5.0,
-            onTap: () {
-              spawner.changeSize(10);
-            },
-          ),
-        ],
-      ),
+    menu = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        MapCircularButton(
+          color: AppColors.uiColor.withAlpha(200),
+          iconColor: AppColors.uiColorLight.withAlpha(200),
+          borderColor: AppColors.uiColorLight.withAlpha(200),
+          icon: AppImages.minus,
+          size: 4.0,
+          onTap: () {
+            spawner.changeSize(-10);
+          },
+        ),
+        const SizedBox(
+          width: 2,
+        ),
+        MapCircularButton(
+          color: AppColors.uiColor.withAlpha(200),
+          iconColor: AppColors.uiColorLight.withAlpha(200),
+          borderColor: AppColors.uiColorLight.withAlpha(200),
+          icon: AppImages.plus,
+          size: 4.0,
+          onTap: () {
+            spawner.changeSize(10);
+          },
+        ),
+      ],
     );
 
     return menu;

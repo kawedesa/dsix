@@ -79,7 +79,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
     int id = 1;
     return ActionButton(
         id: id,
-        icon: AppImages.defense,
+        icon: AppImages.actionDefend,
         color: AppColors.uiColor.withAlpha(175),
         darkColor: AppColors.uiColorDark.withAlpha(225),
         selected: checkSelectedButton(id),
@@ -95,7 +95,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
     int id = 2;
     return ActionButton(
         id: id,
-        icon: AppImages.vision,
+        icon: AppImages.actionLook,
         color: AppColors.uiColor.withAlpha(175),
         darkColor: AppColors.uiColorDark.withAlpha(225),
         selected: checkSelectedButton(id),
@@ -211,14 +211,16 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
     return SizedBox(
       width: double.infinity,
       height: double.infinity,
-      child: Stack(
-        children: [
-          getAttackInput(user, npcs, players),
-          Align(
-              alignment: const Alignment(0, 0.50),
-              child: createActionButtons(user)),
-        ],
-      ),
+      child: (user.placingSomething == 'false')
+          ? Stack(
+              children: [
+                getAttackInput(user, npcs, players),
+                Align(
+                    alignment: const Alignment(0, 0.50),
+                    child: createActionButtons(user)),
+              ],
+            )
+          : const SizedBox(),
     );
   }
 }

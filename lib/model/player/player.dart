@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:dsix/model/combat/attack.dart';
-import 'package:dsix/model/combat/attribute/attribute.dart';
+import 'package:dsix/model/attribute/attributes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dsix/model/combat/effect/effect.dart';
-import 'package:dsix/model/combat/effect/effect_controller.dart';
+import 'package:dsix/model/effect/effect.dart';
+import 'package:dsix/model/effect/effect_controller.dart';
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/player/equipment/equipment_slot.dart';
 import 'package:dsix/model/player/equipment/player_equipment.dart';
@@ -20,7 +20,7 @@ class Player {
   double size;
   Life life;
   Position position;
-  Attribute attributes;
+  Attributes attributes;
   PlayerEquipment equipment;
   EffectController effects;
   bool ready;
@@ -49,7 +49,7 @@ class Player {
       size: 0,
       life: Life.empty(),
       position: Position.empty(),
-      attributes: Attribute.empty(),
+      attributes: Attributes.empty(),
       equipment: PlayerEquipment.empty(),
       effects: EffectController.empty(),
       ready: false,
@@ -65,7 +65,7 @@ class Player {
       size: 15,
       life: Life.empty(),
       position: Position.empty(),
-      attributes: Attribute.empty(),
+      attributes: Attributes.empty(),
       equipment: PlayerEquipment.empty(),
       effects: EffectController.empty(),
       ready: false,
@@ -97,7 +97,7 @@ class Player {
       size: data?['size'],
       life: Life.fromMap(data?['life']),
       position: Position.fromMap(data?['position']),
-      attributes: Attribute.fromMap(data?['attributes']),
+      attributes: Attributes.fromMap(data?['attributes']),
       equipment: PlayerEquipment.fromMap(data?['equipment']),
       effects: EffectController.fromMap(data?['effects']),
       ready: data?['ready'],
@@ -108,7 +108,7 @@ class Player {
     this.race = race;
     this.sex = sex;
     life.setLife(race);
-    attributes.setAttribute(race);
+    attributes.setRaceAttributes(race);
     equipment.setWeight(race);
     update();
   }
