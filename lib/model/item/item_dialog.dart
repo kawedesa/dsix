@@ -1,8 +1,11 @@
 import 'package:dsix/model/item/item.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/shared_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/shared_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import '../../shared/images/app_images.dart';
 import '../../shared/shared_widgets/button/app_circular_button.dart';
 import '../../shared/shared_widgets/layout/app_separator_horizontal.dart';
@@ -109,8 +112,12 @@ class ItemDialog extends StatelessWidget {
     return itemAttributes;
   }
 
+  //TODO CREATE ITEM ATTRIBUTES CLASS
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
@@ -158,6 +165,15 @@ class ItemDialog extends StatelessWidget {
                 ],
               ),
             ),
+            (item.itemSlot == 'consumable')
+                ? DialogButton(
+                    color: color,
+                    buttonText: 'use',
+                    onTap: () {
+                      user.player.useItem(item);
+                      Navigator.pop(context);
+                    })
+                : const SizedBox()
           ],
         ),
       ),

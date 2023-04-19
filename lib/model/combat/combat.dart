@@ -85,7 +85,6 @@ class Combat {
     attackerEffects();
     checkAttacker();
     battleLog.newBattleLog();
-    battleLog.reset();
   }
 
   void unloadAttack() {

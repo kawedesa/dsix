@@ -190,10 +190,13 @@ class AppImages {
   static const ancientWarAxe = 'assets/images/items/ancientWarAxe.svg';
   static const ancientBow = 'assets/images/items/ancientBow.svg';
 
-  //Consumable
-  static const ward = 'assets/images/items/ward.svg';
-  static const food = 'assets/images/items/food.svg';
+  //CONSUMABLES
+  static const cleansingPotion = 'assets/images/items/cleansingPotion.svg';
   static const healingPotion = 'assets/images/items/healingPotion.svg';
+  static const bandages = 'assets/images/items/bandages.svg';
+  static const food = 'assets/images/items/food.svg';
+  static const key = 'assets/images/items/key.svg';
+  static const antidote = 'assets/images/items/antidote.svg';
 
   //VALUABLES
   static const gold = 'assets/images/items/gold.svg';
@@ -403,6 +406,26 @@ class AppImages {
         break;
       case 'dream catcher':
         itemIcon = dreamCatcher;
+        break;
+
+      //CONSUMABLES
+      case 'cleansing potion':
+        itemIcon = cleansingPotion;
+        break;
+      case 'healing potion':
+        itemIcon = healingPotion;
+        break;
+      case 'bandages':
+        itemIcon = bandages;
+        break;
+      case 'food':
+        itemIcon = food;
+        break;
+      case 'key':
+        itemIcon = key;
+        break;
+      case 'antidote':
+        itemIcon = antidote;
         break;
     }
 

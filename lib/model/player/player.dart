@@ -128,7 +128,7 @@ class Player {
   }
 
   void passTurn() {
-    checkEffects();
+    checkTurnEffects();
     attributes.defense.resetTempDefense();
     attributes.vision.resetTempVision();
     update();
@@ -350,7 +350,7 @@ class Player {
     }
   }
 
-  void checkEffects() {
+  void checkTurnEffects() {
     List<Effect> effectsToRemove = [];
 
     for (Effect effect in effects.currentEffects) {
@@ -360,6 +360,19 @@ class Player {
       }
     }
 
+    for (Effect effect in effectsToRemove) {
+      removeEffect(effect.name);
+    }
+  }
+
+  void checkWhichEffectsToRemove() {
+    List<Effect> effectsToRemove = [];
+
+    for (Effect effect in effects.currentEffects) {
+      if (effects.markEffectToRemove(effect)) {
+        effectsToRemove.add(effect);
+      }
+    }
     for (Effect effect in effectsToRemove) {
       removeEffect(effect.name);
     }
@@ -421,7 +434,7 @@ class Player {
 
   void resetEffects() {
     effects.resetCurrentEffects();
-    checkEffects();
+    checkWhichEffectsToRemove();
     update();
   }
 
@@ -559,6 +572,32 @@ class Player {
     equipment.removeItemFromBag(tempItem);
     update();
     throw ItemSoldException('+ \$$itemValue');
+  }
+
+  void useItem(Item item) {
+    switch (item.name) {
+      case 'cleansing potion':
+        effects.resetCurrentEffects();
+        checkWhichEffectsToRemove();
+        break;
+      case 'healing potion':
+        int healingAmount = Random().nextInt(6) + 7;
+        heal(healingAmount);
+        break;
+      case 'bandages':
+        effects.removeEffect('bleed');
+        break;
+      case 'food':
+        int healingAmount = Random().nextInt(3) + 1;
+        heal(healingAmount);
+        break;
+      case 'key':
+        break;
+      case 'antidote':
+        effects.removeEffect('poison');
+        break;
+    }
+    removeItemFromBag(item);
   }
 
   Path getVisionArea() {

@@ -30,7 +30,6 @@ class User {
   Combat combat = Combat();
 
   //PLAYER
-
   void selectPlayer(Player player) {
     this.player = player;
 

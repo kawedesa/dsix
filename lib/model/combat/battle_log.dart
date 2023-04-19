@@ -84,6 +84,7 @@ class BattleLog {
   void newBattleLog() {
     id = DateTime.now().millisecondsSinceEpoch;
     set();
+    reset();
   }
 
   void reset() {

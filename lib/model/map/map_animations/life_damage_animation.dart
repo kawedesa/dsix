@@ -46,7 +46,7 @@ class _LifeDamageAnimationState extends State<LifeDamageAnimation>
       speed -= 1;
     }
 
-    return 4 * (0.5 - (0.5 - Curves.decelerate.transform(speed)).abs());
+    return 4 * (0.5 - (0.5 - Curves.easeInOutBack.transform(speed)).abs());
   }
 
   double goUp(double value) {

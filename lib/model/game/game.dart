@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/game/turn.dart';
+import 'package:dsix/model/npc/npc.dart';
+import 'package:dsix/model/player/player.dart';
 
 class Game {
   String phase;
@@ -131,8 +133,8 @@ class Game {
     update();
   }
 
-  void passTurn() {
-    turn.passTurn();
+  void passTurn(List<Player> players, List<Npc> npcs) {
+    turn.passTurn(players, npcs);
     update();
   }
 

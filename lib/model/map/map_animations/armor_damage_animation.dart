@@ -44,7 +44,7 @@ class _ArmorDamageAnimationState extends State<ArmorDamageAnimation>
       speed -= 1;
     }
 
-    return 4 * (0.5 - (0.5 - Curves.decelerate.transform(speed)).abs());
+    return 4 * (0.5 - (0.5 - Curves.easeInOutBack.transform(speed)).abs());
   }
 
   double goUp(double value) {
