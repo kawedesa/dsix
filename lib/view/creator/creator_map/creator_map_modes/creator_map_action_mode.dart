@@ -1,6 +1,7 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
+import 'package:dsix/model/map/sprites/action_area_sprite.dart';
 import 'package:dsix/model/map/sprites/prop/creator_view_prop_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
@@ -8,7 +9,7 @@ import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/model/map/sprites/action_area/action_area_sprite.dart';
+
 import 'package:dsix/model/map/map_animations/map_animation.dart';
 import 'package:dsix/model/map/mouse_input.dart';
 import 'package:dsix/model/map/vision_grid.dart';

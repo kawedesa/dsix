@@ -112,7 +112,7 @@ class Combat {
       }
 
       if (attackInfo.attack.type == 'melee') {
-        onBeignHitEffects(npc.effects.onBeignHitEffects);
+        onHitEffects(npc.effects.onHit);
       }
 
       int tempArmor = npc.attributes.defense.tempArmor;
@@ -131,6 +131,7 @@ class Combat {
         if (attackInfo.attack.effects.contains('knockback')) {
           npc.knockBack(attackInfo.actionCenter);
         }
+        npc.onDamageEffects();
       }
 
       battleLog.addTarget(
@@ -139,8 +140,9 @@ class Combat {
       if (npc.life.isAlive()) {
         continue;
       }
-      npc.resetEffects();
-      npc.createLoot();
+
+      npc.die();
+      onDeathEffects(npc.effects.onDeath);
     }
   }
 
@@ -159,7 +161,7 @@ class Combat {
       }
 
       if (attackInfo.attack.type == 'melee') {
-        onBeignHitEffects(player.effects.onBeignHitEffects);
+        onHitEffects(player.effects.onHit);
       }
       int tempArmor = player.attributes.defense.tempArmor;
       int lifeDamage = 0;
@@ -185,28 +187,34 @@ class Combat {
       if (player.life.isAlive()) {
         continue;
       }
-      player.resetEffects();
+
+      player.die();
+      onDeathEffects(player.effects.onDeath);
     }
   }
 
-  void onBeignHitEffects(List<String> effects) {
-    applyEffectsToSelectedPlayer(effects);
-    applyEffectsToSelectedNpc(effects);
+  void onHitEffects(List<String> effects) {
+    for (String effect in attackInfo.attack.effects) {
+      switch (effect) {
+        case 'thorn':
+          if (selectedNpc != null) {
+            selectedNpc!.life.receiveDamage(1);
+          }
+          if (selectedPlayer != null) {
+            selectedPlayer!.life.receiveDamage(1);
+          }
+          break;
+      }
+    }
   }
 
-  void applyEffectsToSelectedPlayer(List<String> effects) {
-    if (selectedPlayer == null) {
-      return;
+  void onDeathEffects(List<String> effects) {
+    for (String effect in effects) {
+      switch (effect) {
+        case 'baby death':
+          break;
+      }
     }
-
-    selectedPlayer!.receiveEffects(effects);
-  }
-
-  void applyEffectsToSelectedNpc(List<String> effects) {
-    if (selectedNpc == null) {
-      return;
-    }
-    selectedNpc!.receiveEffects(effects);
   }
 
   void attackerEffects() {
@@ -228,6 +236,18 @@ class Combat {
           }
           if (selectedPlayer != null) {
             selectedPlayer!.knockBack(attackInfo.getKickBackDirection());
+          }
+
+          break;
+
+        case 'explode':
+          if (selectedNpc != null) {
+            selectedNpc!.life.receiveDamage(selectedNpc!.life.max);
+            selectedNpc!.die();
+          }
+          if (selectedPlayer != null) {
+            selectedPlayer!.life.receiveDamage(selectedNpc!.life.max);
+            selectedPlayer!.die();
           }
 
           break;

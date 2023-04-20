@@ -36,7 +36,9 @@ class AppImages {
   static const effectVulnerable = 'assets/images/ui/effectVulnerable.svg';
   static const effectStun = 'assets/images/ui/effectStun.svg';
   static const effectWeaken = 'assets/images/ui/effectWeaken.svg';
+  static const effectEmpower = 'assets/images/ui/effectEmpower.svg';
   static const effectBurn = 'assets/images/ui/effectBurn.svg';
+  static const effectCry = 'assets/images/ui/effectCry.svg';
 
   String getEffectIcon(String effect) {
     String effectIcon = '';
@@ -63,8 +65,14 @@ class AppImages {
       case 'weaken':
         effectIcon = effectWeaken;
         break;
+      case 'empower':
+        effectIcon = effectEmpower;
+        break;
       case 'burn':
         effectIcon = effectBurn;
+        break;
+      case 'cry':
+        effectIcon = effectCry;
         break;
     }
 
@@ -639,39 +647,59 @@ class AppImages {
   }
 
   //NPCS
-  static const zombieSprite = 'assets/images/sprites/npcs/zombie.svg';
-  static const giantBatSprite = 'assets/images/sprites/npcs/giantBat.svg';
-  static const skeletonSprite = 'assets/images/sprites/npcs/skeleton.svg';
-  static const skeletonMageSprite =
-      'assets/images/sprites/npcs/skeletonMage.svg';
-  static const giantFrogSprite = 'assets/images/sprites/npcs/giantFrog.svg';
-  static const goblinSprite = 'assets/images/sprites/npcs/goblin.svg';
-  static const basiliskSprite = 'assets/images/sprites/npcs/basilisk.svg';
+  static const babyBear = 'assets/images/sprites/npcs/babyBear.svg';
+  static const zombie = 'assets/images/sprites/npcs/zombie.svg';
+  static const giantBat = 'assets/images/sprites/npcs/giantBat.svg';
+  static const skeleton = 'assets/images/sprites/npcs/skeleton.svg';
+  static const skeletonMage = 'assets/images/sprites/npcs/skeletonMage.svg';
+  static const skeletonWarrior =
+      'assets/images/sprites/npcs/skeletonWarrior.svg';
+  static const demonHead = 'assets/images/sprites/npcs/demonHead.svg';
+  static const giantFrog = 'assets/images/sprites/npcs/giantFrog.svg';
+  static const goblin = 'assets/images/sprites/npcs/goblin.svg';
+  static const basilisk = 'assets/images/sprites/npcs/basilisk.svg';
+  static const mamaBear = 'assets/images/sprites/npcs/mamaBear.svg';
+  static const gnomeWizzard = 'assets/images/sprites/npcs/gnomeWizzard.svg';
 
   String getNpcSprite(String npc) {
     String npcSprite = '';
 
     switch (npc) {
+      case 'baby bear':
+        npcSprite = babyBear;
+        break;
       case 'zombie':
-        npcSprite = zombieSprite;
+        npcSprite = zombie;
         break;
       case 'giant bat':
-        npcSprite = giantBatSprite;
+        npcSprite = giantBat;
         break;
       case 'skeleton':
-        npcSprite = skeletonSprite;
+        npcSprite = skeleton;
         break;
       case 'skeleton mage':
-        npcSprite = skeletonMageSprite;
+        npcSprite = skeletonMage;
+        break;
+      case 'skeleton warrior':
+        npcSprite = skeletonWarrior;
+        break;
+      case 'demon head':
+        npcSprite = demonHead;
         break;
       case 'giant frog':
-        npcSprite = giantFrogSprite;
+        npcSprite = giantFrog;
         break;
       case 'goblin':
-        npcSprite = goblinSprite;
+        npcSprite = goblin;
         break;
       case 'basilisk':
-        npcSprite = basiliskSprite;
+        npcSprite = basilisk;
+        break;
+      case 'mama bear':
+        npcSprite = mamaBear;
+        break;
+      case 'gnome wizzard':
+        npcSprite = gnomeWizzard;
         break;
     }
 

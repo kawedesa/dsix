@@ -1,7 +1,8 @@
 import 'dart:math';
 import 'package:dsix/model/combat/attack.dart';
-import 'package:dsix/model/attribute/attributes.dart';
+import 'package:dsix/model/attributes/attributes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsix/model/combat/hit_box.dart';
 import 'package:dsix/model/effect/effect.dart';
 import 'package:dsix/model/effect/effect_controller.dart';
 import 'package:dsix/model/item/item.dart';
@@ -39,6 +40,7 @@ class Player {
       required this.ready});
 
   final database = FirebaseFirestore.instance;
+  HitBox hitBox = HitBox();
 
   factory Player.empty() {
     return Player(
@@ -176,18 +178,10 @@ class Player {
     update();
   }
 
-  Path getHitBoxWithPositionOffset() {
-    Path hitBox = getHitBox();
-    hitBox = hitBox.shift(position.getOffset());
-    return hitBox;
-  }
+  void die() {
+    resetEffects();
 
-  Path getHitBox() {
-    Path hitBox = Path();
-    hitBox = Path()
-      ..addRect(Rect.fromPoints(const Offset(2.5, 0), const Offset(-2.5, -10)));
-
-    return hitBox;
+    update();
   }
 
   bool inActionArea(Path attackArea) {
@@ -196,7 +190,9 @@ class Player {
     }
 
     Path intersection = Path.combine(
-        PathOperation.intersect, getHitBoxWithPositionOffset(), attackArea);
+        PathOperation.intersect,
+        hitBox.getWithPositionOffset('player', position.getOffset()),
+        attackArea);
 
     if (intersection.computeMetrics().isEmpty) {
       return false;
@@ -309,9 +305,6 @@ class Player {
 
   void applyNewEffect(String effect) {
     switch (effect) {
-      case 'heal':
-        life.heal(1);
-        break;
       case 'poison':
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 1, countdown: 1));
@@ -327,25 +320,27 @@ class Player {
         break;
       case 'vulnerable':
         effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 0, countdown: 1));
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
 
       case 'stun':
         attributes.movement.removeAttribute();
         effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 0, countdown: 1));
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
 
-      case 'thorn':
-        life.receiveDamage(1);
-        break;
       case 'weaken':
         attributes.power.removeAttribute();
         effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 0, countdown: 1));
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        break;
+      case 'empower':
+        attributes.power.addAttribute();
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
       case 'spiky':
-        effects.onBeignHitEffects.add('thorn');
+        effects.onHit.add('thorn');
         break;
     }
   }
@@ -361,7 +356,7 @@ class Player {
     }
 
     for (Effect effect in effectsToRemove) {
-      removeEffect(effect.name);
+      removeEffects(effect.name);
     }
   }
 
@@ -374,7 +369,7 @@ class Player {
       }
     }
     for (Effect effect in effectsToRemove) {
-      removeEffect(effect.name);
+      removeEffects(effect.name);
     }
   }
 
@@ -401,10 +396,13 @@ class Player {
       case 'weaken':
         effect.decreaseCountdown();
         break;
+      case 'empower':
+        effect.decreaseCountdown();
+        break;
     }
   }
 
-  void removeEffect(String effect) {
+  void removeEffects(String effect) {
     switch (effect) {
       case 'poison':
         effects.removeEffect(effect);
@@ -426,8 +424,12 @@ class Player {
         attributes.power.addAttribute();
         effects.removeEffect(effect);
         break;
+      case 'empower':
+        attributes.power.removeAttribute();
+        effects.removeEffect(effect);
+        break;
       case 'spiky':
-        effects.onBeignHitEffects.remove('thorn');
+        effects.onHit.remove('thorn');
         break;
     }
   }
@@ -435,7 +437,6 @@ class Player {
   void resetEffects() {
     effects.resetCurrentEffects();
     checkWhichEffectsToRemove();
-    update();
   }
 
   //EQUIPMENT
@@ -527,7 +528,7 @@ class Player {
 
   void removeItemEffects(List<String> effects) {
     for (String effect in effects) {
-      removeEffect(effect);
+      removeEffects(effect);
     }
   }
 

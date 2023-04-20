@@ -2,20 +2,26 @@ import 'package:dsix/model/effect/effect.dart';
 
 class EffectController {
   List<Effect> currentEffects;
-  List<String> onBeignHitEffects;
-  List<String> onDeathEffects;
+  List<String> auras;
+  List<String> onHit;
+  List<String> onDamage;
+  List<String> onDeath;
 
   EffectController({
     required this.currentEffects,
-    required this.onBeignHitEffects,
-    required this.onDeathEffects,
+    required this.auras,
+    required this.onHit,
+    required this.onDamage,
+    required this.onDeath,
   });
 
   factory EffectController.empty() {
     return EffectController(
       currentEffects: [],
-      onBeignHitEffects: [],
-      onDeathEffects: [],
+      auras: [],
+      onHit: [],
+      onDamage: [],
+      onDeath: [],
     );
   }
 
@@ -26,22 +32,36 @@ class EffectController {
       getCurrentEffects.add(Effect.fromMap(effect));
     }
 
-    List<String> getOnBeignHitEffects = [];
-    List<dynamic> onBeignHitEffectsMap = data?['onBeignHitEffects'];
-    for (var effect in onBeignHitEffectsMap) {
-      getOnBeignHitEffects.add(effect);
+    List<String> getAuras = [];
+    List<dynamic> aurasMap = data?['auras'];
+    for (var aura in aurasMap) {
+      getAuras.add(aura);
     }
 
-    List<String> getOnDeathEffects = [];
-    List<dynamic> onDeathEffectsMap = data?['onDeathEffects'];
-    for (var effect in onDeathEffectsMap) {
-      getOnDeathEffects.add(effect);
+    List<String> getOnHit = [];
+    List<dynamic> onHitMap = data?['onHit'];
+    for (var effect in onHitMap) {
+      getOnHit.add(effect);
+    }
+
+    List<String> getOnDamage = [];
+    List<dynamic> onDamageMap = data?['onDamage'];
+    for (var effect in onDamageMap) {
+      getOnDamage.add(effect);
+    }
+
+    List<String> getOnDeath = [];
+    List<dynamic> onDeathMap = data?['onDeath'];
+    for (var effect in onDeathMap) {
+      getOnDeath.add(effect);
     }
 
     return EffectController(
       currentEffects: getCurrentEffects,
-      onBeignHitEffects: getOnBeignHitEffects,
-      onDeathEffects: getOnDeathEffects,
+      auras: getAuras,
+      onHit: getOnHit,
+      onDamage: getOnDamage,
+      onDeath: getOnDeath,
     );
   }
 
@@ -50,8 +70,10 @@ class EffectController {
 
     return {
       'currentEffects': effectsToMap,
-      'onBeignHitEffects': onBeignHitEffects,
-      'onDeathEffects': onDeathEffects,
+      'auras': auras,
+      'onHit': onHit,
+      'onDamage': onDamage,
+      'onDeath': onDeath,
     };
   }
 

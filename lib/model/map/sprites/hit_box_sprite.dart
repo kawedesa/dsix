@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class HitBox extends StatelessWidget {
+class HitBoxSprite extends StatelessWidget {
   final double size;
   final Path hitBox;
 
-  const HitBox({super.key, required this.size, required this.hitBox});
+  const HitBoxSprite({super.key, required this.size, required this.hitBox});
 
   @override
   Widget build(BuildContext context) {

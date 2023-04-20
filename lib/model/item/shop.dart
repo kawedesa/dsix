@@ -256,7 +256,7 @@ class Shop {
             width: 3.5,
             shape: 'circle',
           ),
-          effects: ['vulnerable'],
+          effects: ['vulnerable', 'stun'],
           isLoaded: false,
           needsReload: false,
         ),

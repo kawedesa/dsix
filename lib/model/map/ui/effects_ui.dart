@@ -24,7 +24,7 @@ class EffectsUi extends StatelessWidget {
         name: 'tempArmor',
         description: '',
         value: tempArmor,
-        countdown: 0,
+        countdown: tempArmor,
       )));
     }
     if (tempVision != 0) {
@@ -32,7 +32,7 @@ class EffectsUi extends StatelessWidget {
           effect: Effect(
         name: 'tempVision',
         description: '',
-        value: tempVision,
+        value: 0,
         countdown: 0,
       )));
     }
@@ -81,34 +81,6 @@ class _SpriteEffectsState extends State<SpriteEffects>
     super.dispose();
   }
 
-  String? getDisplayValue() {
-    String? displayNumber;
-    switch (widget.effect.name) {
-      case 'poison':
-        displayNumber = widget.effect.countdown.toString();
-        break;
-      case 'burn':
-        displayNumber = widget.effect.countdown.toString();
-        break;
-      case 'bleed':
-        displayNumber = widget.effect.countdown.toString();
-        break;
-      case 'vulnerable':
-        displayNumber = widget.effect.countdown.toString();
-        break;
-      case 'stun':
-        displayNumber = widget.effect.countdown.toString();
-        break;
-      case 'weaken':
-        displayNumber = widget.effect.countdown.toString();
-        break;
-      case 'tempArmor':
-        displayNumber = widget.effect.value.toString();
-        break;
-    }
-    return displayNumber;
-  }
-
   @override
   Widget build(BuildContext context) {
     return FadeTransition(
@@ -128,7 +100,9 @@ class _SpriteEffectsState extends State<SpriteEffects>
               Align(
                 alignment: Alignment.bottomRight,
                 child: MapText(
-                  text: getDisplayValue(),
+                  text: (widget.effect.countdown > 0)
+                      ? widget.effect.countdown.toString()
+                      : '',
                   fontSize: 1.25,
                 ),
               ),

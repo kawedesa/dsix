@@ -1,4 +1,5 @@
 import 'package:dsix/model/combat/battle_log.dart';
+import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 
@@ -40,40 +41,109 @@ class Turn {
   }
 
   void passTurn(List<Player> players, List<Npc> npcs) {
-    if (currentTurn == 'player') {
-      for (Player player in players) {
-        int checkLife = player.life.current;
-        player.passTurn();
-
-        int damage = checkLife - player.life.current;
-
-        if (damage < 1) {
-          continue;
-        }
-        battleLog.addTarget(player.id, player.position, damage, 0);
-      }
-    } else {
-      for (Npc npc in npcs) {
-        int checkLife = npc.life.current;
-
-        npc.passTurn();
-
-        int damage = checkLife - npc.life.current;
-
-        if (damage < 1) {
-          continue;
-        }
-        battleLog.addTarget(npc.id.toString(), npc.position, damage, 0);
-      }
+    switch (currentTurn) {
+      case 'player':
+        passTurnForPlayers(players);
+        break;
+      case 'npc':
+        passTurnForNpcs(npcs);
+        break;
     }
 
     count++;
     if (currentTurn == 'player') {
       currentTurn = 'npc';
+      checkNpcAuras(players, npcs);
     } else {
       currentTurn = 'player';
+      checkPlayerAuras(players, npcs);
     }
 
     battleLog.newBattleLog();
+  }
+
+  void passTurnForPlayers(List<Player> players) {
+    for (Player player in players) {
+      int checkLife = player.life.current;
+      player.passTurn();
+
+      int damage = checkLife - player.life.current;
+
+      if (damage < 1) {
+        continue;
+      }
+      battleLog.addTarget(player.id, player.position, damage, 0);
+    }
+  }
+
+  void passTurnForNpcs(List<Npc> npcs) {
+    for (Npc npc in npcs) {
+      int checkLife = npc.life.current;
+
+      npc.passTurn();
+
+      int damage = checkLife - npc.life.current;
+
+      if (damage < 1) {
+        continue;
+      }
+      battleLog.addTarget(npc.id.toString(), npc.position, damage, 0);
+    }
+  }
+
+  void checkNpcAuras(List<Player> players, List<Npc> npcs) {
+    for (Npc npc in npcs) {
+      if (npc.effects.auras.isEmpty || npc.life.isDead()) {
+        continue;
+      }
+      for (String aura in npc.effects.auras) {
+        applyAura(aura, 'npc', npc.position, players, npcs);
+      }
+    }
+  }
+
+  void checkPlayerAuras(List<Player> players, List<Npc> npcs) {
+    for (Player player in players) {
+      if (player.effects.auras.isEmpty || player.life.isDead()) {
+        continue;
+      }
+      for (String aura in player.effects.auras) {
+        applyAura(aura, 'player', player.position, players, npcs);
+      }
+    }
+  }
+
+  void applyAura(String aura, String caster, Position position,
+      List<Player> players, List<Npc> npcs) {
+    int auraRadius = 25;
+
+    switch (aura) {
+      case 'empower':
+        if (caster == 'npc') {
+          for (Npc npc in npcs) {
+            if (npc.position.getDistanceFromPosition(position) > auraRadius ||
+                npc.life.isDead()) {
+              continue;
+            }
+            npc.receiveEffects(['empower']);
+          }
+        }
+
+        break;
+
+      case 'cry':
+        for (Npc npc in npcs) {
+          if (npc.name != 'mama bear') {
+            continue;
+          }
+          if (npc.position.getDistanceFromPosition(position) > auraRadius ||
+              npc.life.isDead()) {
+            continue;
+          }
+          npc.receiveEffects(['empower', 'empower']);
+        }
+
+        break;
+    }
   }
 }

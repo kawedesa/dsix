@@ -128,6 +128,8 @@ class PlayerSpriteController {
     if (tempPosition.distanceMoved < player.attributes.movement.maxRange()) {
       tempPosition.newPosition.tile =
           mapInfo.getTile(tempPosition.newPosition.getOffset());
+      player.attributes.defense.resetTempDefense();
+      player.attributes.vision.resetTempVision();
       player.changePosition(tempPosition.newPosition);
     }
   }

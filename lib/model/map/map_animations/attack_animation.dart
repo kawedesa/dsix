@@ -1,4 +1,4 @@
-import 'package:dsix/model/map/sprites/action_area/action_area_sprite.dart';
+import 'package:dsix/model/map/sprites/action_area_sprite.dart';
 import 'package:flutter/material.dart';
 
 class AttackAnimation extends StatefulWidget {

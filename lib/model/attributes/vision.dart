@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dsix/model/effect/effect.dart';
 
 class Vision {
@@ -56,35 +54,8 @@ class Vision {
   }
 
   void look() {
-    int tempResult = 0;
-
-    int roll1 = Random().nextInt(6) + 1;
-    int roll2 = Random().nextInt(6) + 1;
-
-    int result = roll1 + roll2 + attribute;
-
-    if (result > 14) {
-      tempResult = 65;
-      canSeeInvisible = true;
-    }
-
-    if (result > 11 && result < 15) {
-      tempResult = 60;
-      canSeeInvisible = true;
-    }
-
-    if (result > 9 && result < 12) {
-      tempResult = 50;
-      canSeeInvisible = true;
-    }
-    if (result > 6 && result < 10) {
-      tempResult = 35;
-    }
-    if (result < 7) {
-      tempResult = 15;
-    }
-
-    tempVision += tempResult;
+    tempVision = attribute * 20;
+    canSeeInvisible = true;
   }
 
   Effect getTempVisionEffect() {

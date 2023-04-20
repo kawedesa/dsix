@@ -1,5 +1,5 @@
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/map/hit_box.dart';
+import 'package:dsix/model/map/sprites/hit_box_sprite.dart';
 import 'package:dsix/model/map/ui/effects_ui.dart';
 import 'package:dsix/shared/images/player_image.dart';
 import 'package:flutter/material.dart';
@@ -45,9 +45,9 @@ class PlayerSpriteImage extends StatelessWidget {
         ),
         Align(
             alignment: Alignment.center,
-            child: HitBox(
+            child: HitBoxSprite(
               size: player.size,
-              hitBox: player.getHitBox(),
+              hitBox: player.hitBox.get('player'),
             )),
       ],
     );

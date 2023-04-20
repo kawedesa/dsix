@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/combat/armor.dart';
 import 'package:dsix/model/combat/attack.dart';
-import 'package:dsix/model/attribute/attributes.dart';
+import 'package:dsix/model/attributes/attributes.dart';
+import 'package:dsix/model/combat/hit_box.dart';
 import 'package:dsix/model/effect/effect.dart';
 import 'package:dsix/model/effect/effect_controller.dart';
 import 'package:dsix/model/combat/life.dart';
@@ -40,6 +41,7 @@ class Npc {
   });
 
   final database = FirebaseFirestore.instance;
+  HitBox hitBox = HitBox();
 
   Map<String, dynamic> toMap() {
     var attacksToMap = attacks.map((attack) => attack.toMap()).toList();
@@ -116,60 +118,10 @@ class Npc {
     update();
   }
 
-  Path getHitBoxWithPositionOffset() {
-    Path hitBox = getHitBox();
-    hitBox = hitBox.shift(position.getOffset());
-    return hitBox;
-  }
-
-  Path getHitBox() {
-    Path hitBox = Path();
-
-    switch (name) {
-      case 'zombie':
-        hitBox = Path()
-          ..addRect(
-              Rect.fromPoints(const Offset(3.5, 0), const Offset(-3.5, -11)));
-
-        break;
-
-      case 'giant bat':
-        hitBox = Path()
-          ..addRect(
-              Rect.fromPoints(const Offset(5.5, -3), const Offset(-5.5, -7)));
-        break;
-      case 'skeleton':
-        hitBox = Path()
-          ..addRect(
-              Rect.fromPoints(const Offset(2.5, 0), const Offset(-2.5, -10)));
-        break;
-      case 'skeleton mage':
-        hitBox = Path()
-          ..addRect(
-              Rect.fromPoints(const Offset(2.5, 0), const Offset(-2.5, -10)));
-        break;
-      case 'giant frog':
-        hitBox = Path()
-          ..addRect(
-              Rect.fromPoints(const Offset(3, 1.5), const Offset(-3, -6)));
-        break;
-      case 'goblin':
-        hitBox = Path()
-          ..addRect(
-              Rect.fromPoints(const Offset(3.5, 0), const Offset(-3.5, -7.5)));
-        break;
-      case 'basilisk':
-        hitBox = Path();
-        hitBox.moveTo(9, 2);
-        hitBox.lineTo(10, 1.5);
-        hitBox.lineTo(2, -5);
-        hitBox.lineTo(-8, -5);
-        hitBox.lineTo(-7.5, 2);
-        hitBox.close();
-        break;
-    }
-
-    return hitBox;
+  void die() {
+    resetEffects();
+    createLoot();
+    update();
   }
 
   bool inActionArea(Path attackArea) {
@@ -177,8 +129,8 @@ class Npc {
       return false;
     }
 
-    Path intersection = Path.combine(
-        PathOperation.intersect, getHitBoxWithPositionOffset(), attackArea);
+    Path intersection = Path.combine(PathOperation.intersect,
+        hitBox.getWithPositionOffset(name, position.getOffset()), attackArea);
 
     if (intersection.computeMetrics().isEmpty) {
       return false;
@@ -289,11 +241,26 @@ class Npc {
     update();
   }
 
+  void onDamageEffects() {
+    if (effects.onDamage.isEmpty) {
+      return;
+    }
+
+    for (String effect in effects.onDamage) {
+      switch (effect) {
+        case 'cry':
+          effects.auras.add('cry');
+          effects.currentEffects.add(
+              Effect(name: effect, description: '', value: 1, countdown: 3));
+
+          break;
+      }
+    }
+    update();
+  }
+
   void applyNewEffect(String effect) {
     switch (effect) {
-      case 'heal':
-        life.heal(1);
-        break;
       case 'poison':
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 1, countdown: 1));
@@ -309,25 +276,27 @@ class Npc {
         break;
       case 'vulnerable':
         effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 0, countdown: 1));
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
 
       case 'stun':
         attributes.movement.removeAttribute();
         effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 0, countdown: 1));
-        break;
-      case 'thorn':
-        life.receiveDamage(1);
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
 
       case 'weaken':
         attributes.power.removeAttribute();
         effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 0, countdown: 1));
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        break;
+      case 'empower':
+        attributes.power.addAttribute();
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
       case 'spiky':
-        effects.onBeignHitEffects.add('thorn');
+        effects.onHit.add('thorn');
         break;
     }
   }
@@ -342,6 +311,19 @@ class Npc {
       }
     }
 
+    for (Effect effect in effectsToRemove) {
+      removeEffects(effect.name);
+    }
+  }
+
+  void checkWhichEffectsToRemove() {
+    List<Effect> effectsToRemove = [];
+
+    for (Effect effect in effects.currentEffects) {
+      if (effects.markEffectToRemove(effect)) {
+        effectsToRemove.add(effect);
+      }
+    }
     for (Effect effect in effectsToRemove) {
       removeEffects(effect.name);
     }
@@ -370,6 +352,12 @@ class Npc {
       case 'weaken':
         effect.decreaseCountdown();
         break;
+      case 'empower':
+        effect.decreaseCountdown();
+        break;
+      case 'cry':
+        effect.decreaseCountdown();
+        break;
     }
   }
 
@@ -387,6 +375,10 @@ class Npc {
       case 'vulnerable':
         effects.removeEffect(effect);
         break;
+      case 'cry':
+        effects.auras.remove('cry');
+        effects.removeEffect(effect);
+        break;
       case 'stun':
         attributes.movement.addAttribute();
         effects.removeEffect(effect);
@@ -395,16 +387,19 @@ class Npc {
         attributes.power.addAttribute();
         effects.removeEffect(effect);
         break;
+      case 'empower':
+        attributes.power.removeAttribute();
+        effects.removeEffect(effect);
+        break;
       case 'spiky':
-        effects.onBeignHitEffects.remove('thorn');
+        effects.onHit.remove('thorn');
         break;
     }
   }
 
   void resetEffects() {
     effects.resetCurrentEffects();
-    checkEffects();
-    update();
+    checkWhichEffectsToRemove();
   }
 
   void createLoot() {

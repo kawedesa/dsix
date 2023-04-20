@@ -1,4 +1,4 @@
-import 'package:dsix/model/attribute/attributes.dart';
+import 'package:dsix/model/attributes/attributes.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/shared_widgets/button/app_circular_button.dart';

@@ -16,8 +16,28 @@ import '../../../model/npc/npc.dart';
 
 class PlayerMapVM {
   //SPRITES
-  //NPC
 
+  //PROPS
+  Widget createPropSprites(User user, List<Prop> props, List<Player> players) {
+    List<Widget> propSprites = [];
+    Path playersVisibleArea = getPlayersVisibleArea(user.mapInfo, players);
+
+    for (Prop prop in props) {
+      if (!playersVisibleArea.contains(prop.position.getOffset())) {
+        continue;
+      }
+
+      propSprites.add(PlayerViewPropSprite(
+        prop: prop,
+      ));
+    }
+
+    return Stack(
+      children: propSprites,
+    );
+  }
+
+  //NPC
   Widget createDeadNpcSprites(User user, List<Npc> npcs, List<Player> players) {
     List<Widget> npcSprites = [];
 
@@ -69,22 +89,24 @@ class PlayerMapVM {
     visibleArea.fillType = PathFillType.evenOdd;
 
     for (Player player in players) {
-      if (player.life.isDead() == false) {
-        Path playerVisibleArea = Path();
-        Path playerVision = Path.combine(PathOperation.difference,
-            player.getVisionArea(), VisionGrid().getGrid(player.position));
-
-        if (player.position.tile == 'grass' ||
-            player.attributes.vision.canSeeInvisible) {
-          playerVisibleArea = playerVision;
-        } else {
-          playerVisibleArea = Path.combine(
-              PathOperation.difference, playerVision, mapInfo.grass);
-        }
-
-        visibleArea =
-            Path.combine(PathOperation.union, visibleArea, playerVisibleArea);
+      if (player.life.isDead()) {
+        continue;
       }
+
+      Path playerVisibleArea = Path();
+      Path playerVision = Path.combine(PathOperation.difference,
+          player.getVisionArea(), VisionGrid().getGrid(player.position));
+
+      if (player.position.tile == 'grass' ||
+          player.attributes.vision.canSeeInvisible) {
+        playerVisibleArea = playerVision;
+      } else {
+        playerVisibleArea =
+            Path.combine(PathOperation.difference, playerVision, mapInfo.grass);
+      }
+
+      visibleArea =
+          Path.combine(PathOperation.union, visibleArea, playerVisibleArea);
     }
     return visibleArea;
   }
@@ -147,20 +169,6 @@ class PlayerMapVM {
 
     return Stack(
       children: buildingSprites,
-    );
-  }
-
-  //PROPS
-  Widget createPropSprites(List<Prop> props) {
-    List<Widget> propSprites = [];
-    for (Prop prop in props) {
-      propSprites.add(PlayerViewPropSprite(
-        prop: prop,
-      ));
-    }
-
-    return Stack(
-      children: propSprites,
     );
   }
 }

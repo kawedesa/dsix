@@ -1,4 +1,4 @@
-import 'package:dsix/model/attribute/attributes_info_bar.dart';
+import 'package:dsix/model/attributes/attributes_info_bar.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/npc/npc_list.dart';
 import 'package:dsix/model/user/user.dart';
@@ -56,6 +56,8 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                         height: AppLayout.avarage(context) * 0.4,
                         color: AppColors.uiColor,
                         child: ListView(
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
                           children: List.generate(NpcList().getNpcList().length,
                               (index) {
                             return Column(
@@ -87,7 +89,7 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                                                 .getNpcList()[index]
                                                 .name
                                                 .toUpperCase(),
-                                            fontSize: 0.01,
+                                            fontSize: 0.008,
                                             letterSpacing: 0.0002,
                                             color: (selectedNpc!.name ==
                                                     NpcList()
@@ -100,7 +102,7 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                                             text:
                                                 'xp: ${NpcList().getNpcList()[index].xp}'
                                                     .toUpperCase(),
-                                            fontSize: 0.008,
+                                            fontSize: 0.007,
                                             letterSpacing: 0.0002,
                                             bold: true,
                                             color: (selectedNpc!.name ==

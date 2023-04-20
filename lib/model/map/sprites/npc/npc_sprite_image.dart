@@ -5,7 +5,7 @@ import 'package:dsix/shared/images/npc_image.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
-import '../../hit_box.dart';
+import '../hit_box_sprite.dart';
 
 class NpcSpriteImage extends StatelessWidget {
   final Npc npc;
@@ -79,9 +79,9 @@ class NpcSpriteImage extends StatelessWidget {
         ),
         Align(
             alignment: Alignment.center,
-            child: HitBox(
+            child: HitBoxSprite(
               size: npc.size,
-              hitBox: npc.getHitBox(),
+              hitBox: npc.hitBox.get(npc.name),
             )),
       ],
     );

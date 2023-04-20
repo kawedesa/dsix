@@ -1,11 +1,12 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
+import 'package:dsix/model/map/sprites/action_area_sprite.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/images/app_images.dart';
-import 'package:dsix/model/map/sprites/action_area/action_area_sprite.dart';
+
 import 'package:dsix/model/map/map_animations/map_animation.dart';
 import 'package:dsix/view/player/player_map/player_map_vm.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     area: user.combat.actionArea.area,
                   ),
                   _mapAnimation.displayAttackAnimations(),
-                  _playerMapVM.createPropSprites(props),
+                  _playerMapVM.createPropSprites(user, props, players),
                   _playerMapVM.createDeadNpcSprites(user, npcs, players),
                   _playerMapVM.createDeadPlayerSprites(players),
                   _playerMapVM.createNpcSprites(user, npcs, players),

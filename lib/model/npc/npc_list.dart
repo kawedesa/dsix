@@ -1,9 +1,9 @@
 import 'package:dsix/model/combat/attack.dart';
-import 'package:dsix/model/attribute/attributes.dart';
-import 'package:dsix/model/attribute/defense.dart';
-import 'package:dsix/model/attribute/movement.dart';
-import 'package:dsix/model/attribute/power.dart';
-import 'package:dsix/model/attribute/vision.dart';
+import 'package:dsix/model/attributes/attributes.dart';
+import 'package:dsix/model/attributes/defense.dart';
+import 'package:dsix/model/attributes/movement.dart';
+import 'package:dsix/model/attributes/power.dart';
+import 'package:dsix/model/attributes/vision.dart';
 import 'package:dsix/model/combat/damage.dart';
 import 'package:dsix/model/effect/effect_controller.dart';
 import 'package:dsix/model/combat/life.dart';
@@ -13,6 +13,50 @@ import '../combat/position.dart';
 import 'npc.dart';
 
 class NpcList {
+  static Npc babyBear = Npc(
+    id: 0,
+    xp: 4,
+    name: 'baby bear',
+    size: 15,
+    life: Life(current: 8, max: 8),
+    armor: Armor(
+      pArmor: 3,
+      mArmor: 0,
+    ),
+    attributes: Attributes(
+      availablePoints: 0,
+      defense: Defense(attribute: 1, tempArmor: 0),
+      power: Power(attribute: -1),
+      movement: Movement(attribute: -1),
+      vision: Vision(attribute: 0, tempVision: 0, canSeeInvisible: false),
+    ),
+    position: Position.empty(),
+    attacks: [
+      Attack(
+        name: 'bite',
+        type: 'melee',
+        damage: Damage(pierce: 1, pDamage: 2, mDamage: 0, rawDamage: 0),
+        range: Range(
+          min: 7,
+          max: 0,
+          width: 3.5,
+          shape: 'circle',
+        ),
+        effects: [''],
+        isLoaded: false,
+        needsReload: false,
+      ),
+    ],
+    effects: EffectController(
+      currentEffects: [],
+      auras: [],
+      onHit: [],
+      onDamage: ['cry'],
+      onDeath: ['baby death'],
+    ),
+    loot: [],
+  );
+
   static Npc zombie = Npc(
     id: 0,
     xp: 4,
@@ -193,6 +237,102 @@ class NpcList {
     loot: [],
   );
 
+  static Npc skeletonWarrior = Npc(
+    id: 0,
+    xp: 10,
+    name: 'skeleton warrior',
+    size: 17,
+    life: Life(current: 16, max: 16),
+    armor: Armor(
+      pArmor: 3,
+      mArmor: 1,
+    ),
+    attributes: Attributes(
+      availablePoints: 0,
+      defense: Defense(attribute: 1, tempArmor: 0),
+      power: Power(attribute: 1),
+      movement: Movement(attribute: -1),
+      vision: Vision(attribute: -1, tempVision: 0, canSeeInvisible: false),
+    ),
+    position: Position.empty(),
+    attacks: [
+      Attack(
+        name: 'crush',
+        type: 'melee',
+        damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
+        range: Range(
+          min: 7,
+          max: 0,
+          width: 3.5,
+          shape: 'circle',
+        ),
+        effects: ['vulnerable', 'stun'],
+        isLoaded: false,
+        needsReload: false,
+      ),
+    ],
+    effects: EffectController.empty(),
+    loot: [],
+  );
+
+  static Npc demonHead = Npc(
+    id: 0,
+    xp: 10,
+    name: 'demon head',
+    size: 15,
+    life: Life(current: 8, max: 8),
+    armor: Armor(
+      pArmor: 1,
+      mArmor: 2,
+    ),
+    attributes: Attributes(
+      availablePoints: 0,
+      defense: Defense(attribute: 0, tempArmor: 0),
+      power: Power(attribute: 0),
+      movement: Movement(attribute: 1),
+      vision: Vision(attribute: 2, tempVision: 0, canSeeInvisible: false),
+    ),
+    position: Position.empty(),
+    attacks: [
+      Attack(
+        name: 'bite',
+        type: 'melee',
+        damage: Damage(pierce: 1, pDamage: 2, mDamage: 0, rawDamage: 0),
+        range: Range(
+          min: 7,
+          max: 0,
+          width: 3.5,
+          shape: 'circle',
+        ),
+        effects: [],
+        isLoaded: false,
+        needsReload: false,
+      ),
+      Attack(
+        name: 'blast',
+        type: 'melee',
+        damage: Damage(pierce: 0, pDamage: 0, mDamage: 2, rawDamage: 0),
+        range: Range(
+          min: 0,
+          max: 0,
+          width: 12,
+          shape: 'circle',
+        ),
+        effects: ['explode'],
+        isLoaded: false,
+        needsReload: false,
+      ),
+    ],
+    effects: EffectController(
+      currentEffects: [],
+      auras: ['empower'],
+      onHit: [],
+      onDamage: [],
+      onDeath: [],
+    ),
+    loot: [],
+  );
+
   static Npc giantFrog = Npc(
     id: 0,
     xp: 10,
@@ -333,141 +473,107 @@ class NpcList {
     ],
     effects: EffectController(
       currentEffects: [],
-      onBeignHitEffects: ['burn'],
-      onDeathEffects: [],
+      auras: [],
+      onHit: ['burn'],
+      onDamage: [],
+      onDeath: [],
     ),
     loot: [],
   );
 
-  // static Npc explosiveLizzard = Npc(
-  //   id: 0,
-  //   xp: 10,
-  //   name: 'explosive lizzard',
-  //   size:15,
-  //   life: Life(current: 8, max: 8),
-  //   armor: Armor(
-  //     pArmor: 0,
-  //     mArmor: 0,
-  //   ),
-  //   attributes: Attributes(
-  //     availablePoints: 0,
-  //     defense: Defense(attribute: 0, tempArmor: 0),
-  //     power: Power(attribute: 3),
-  //     movement: Movement(attribute: 2),
-  //     vision: Vision(attribute: 1, tempVision: 0, canSeeInvisible: false),
-  //   ),
-  //   position: Position.empty(),
-  //   attacks: [
-  //     Attack(
-  //       name: 'explode',
-  //       type: 'ranged',
-  //       damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
-  //       range: Range(
-  //         min: 0,
-  //         max: 0,
-  //         width: 10,
-  //         shape: 'circle',
-  //       ),
-  //       effects: [],
-  //       isLoaded: false,
-  //       needsReload: false,
-  //     ),
-  //   ],
-  //   effects: EffectController.empty(),
-  //   loot: [],
-  // );
+  static Npc mamaBear = Npc(
+    id: 0,
+    xp: 14,
+    name: 'mama bear',
+    size: 25,
+    life: Life(current: 24, max: 24),
+    armor: Armor(
+      pArmor: 5,
+      mArmor: 0,
+    ),
+    attributes: Attributes(
+      availablePoints: 0,
+      defense: Defense(attribute: 2, tempArmor: 0),
+      power: Power(attribute: 1),
+      movement: Movement(attribute: 1),
+      vision: Vision(attribute: 0, tempVision: 0, canSeeInvisible: false),
+    ),
+    position: Position.empty(),
+    attacks: [
+      Attack(
+        name: 'bite',
+        type: 'melee',
+        damage: Damage(pierce: 1, pDamage: 3, mDamage: 0, rawDamage: 0),
+        range: Range(
+          min: 10,
+          max: 0,
+          width: 3.5,
+          shape: 'circle',
+        ),
+        effects: [],
+        isLoaded: false,
+        needsReload: false,
+      ),
+      Attack(
+        name: 'claw',
+        type: 'melee',
+        damage: Damage(pierce: 0, pDamage: 3, mDamage: 0, rawDamage: 0),
+        range: Range(
+          min: 7,
+          max: 10,
+          width: 30,
+          shape: 'cone',
+        ),
+        effects: ['bleed', 'bleed'],
+        isLoaded: false,
+        needsReload: false,
+      ),
+    ],
+    effects: EffectController.empty(),
+    loot: [],
+  );
 
-  // static Npc wraith = Npc(
-  //   id: 0,
-  //   xp: 14,
-  //   name: 'wraith',
-  //   size:15,
-  //   life: Life(current: 16, max: 16),
-  //   armor: Armor(
-  //     pArmor: 3,
-  //     mArmor: 0,
-  //   ),
-  //   attributes: Attributes(
-  //     availablePoints: 0,
-  //     defense: Defense(attribute: 0, tempArmor: 0),
-  //     power: Power(attribute: 2),
-  //     movement: Movement(attribute: 1),
-  //     vision: Vision(attribute: 1, tempVision: 0, canSeeInvisible: false),
-  //   ),
-  //   position: Position.empty(),
-  //   attacks: [
-  //     Attack(
-  //       name: 'drain',
-  //       type: 'melee',
-  //       damage: Damage(pierce: 0, pDamage: 0, mDamage: 2, rawDamage: 0),
-  //       range: Range(min: 0.05, max: 5, width: 0, shape: 'ring'),
-  //       effects: ['drain'],
-  //       isLoaded: false,
-  //       needsReload: false,
-  //     ),
-  //     Attack(
-  //       name: 'dark bolt',
-  //       type: 'ranged',
-  //       damage: Damage(pierce: 0, pDamage: 0, mDamage: 3, rawDamage: 0),
-  //       range: Range(min: 5, max: 30, width: 5, shape: 'rectangle'),
-  //       effects: [],
-  //       isLoaded: false,
-  //       needsReload: false,
-  //     ),
-  //   ],
-  //   effects: EffectController(
-  //     currentEffects: [],
-  //     onBeignHitEffects: [],
-  //     onDeathEffects: [],
-  //   ),
-  //   loot: [],
-  // );
-
-  // static Npc golen = Npc(
-  //   id: 0,
-  //   xp: 14,
-  //   name: 'golen',
-  //   size:15,
-  //   life: Life(current: 24, max: 24),
-  //   armor: Armor(
-  //     pArmor: 2,
-  //     mArmor: 2,
-  //   ),
-  //   attributes: Attributes(
-  //     availablePoints: 0,
-  //     defense: Defense(attribute: 0, tempArmor: 0),
-  //     power: Power(attribute: 1),
-  //     movement: Movement(attribute: 3),
-  //     vision: Vision(attribute: 0, tempVision: 0, canSeeInvisible: false),
-  //   ),
-  //   position: Position.empty(),
-  //   attacks: [
-  //     Attack(
-  //       name: 'roll',
-  //       type: 'melee',
-  //       damage: Damage(pierce: 0, pDamage: 3, mDamage: 0, rawDamage: 0),
-  //       range: Range(min: 5, max: 50, width: 20, shape: 'rectangle'),
-  //       effects: [],
-  //       isLoaded: true,
-  //       needsReload: true,
-  //     ),
-  //   ],
-  //   effects: EffectController.empty(),
-  //   loot: [],
-  // );
+  static Npc gnomeWizzard = Npc(
+    id: 0,
+    xp: 14,
+    name: 'gnome wizzard',
+    size: 15,
+    life: Life(current: 16, max: 16),
+    armor: Armor(
+      pArmor: 0,
+      mArmor: 0,
+    ),
+    attributes: Attributes(
+      availablePoints: 0,
+      defense: Defense(attribute: 0, tempArmor: 0),
+      power: Power(attribute: 0),
+      movement: Movement(attribute: 3),
+      vision: Vision(attribute: 3, tempVision: 0, canSeeInvisible: false),
+    ),
+    position: Position.empty(),
+    attacks: [
+      //Illusion
+      //Area Slow
+      //Area Blind
+    ],
+    effects: EffectController.empty(),
+    loot: [],
+  );
 
   List<Npc> getNpcList() {
     return [
+      babyBear,
       zombie,
       giantBat,
       skeleton,
       skeletonMage,
+      skeletonWarrior,
+      demonHead,
       giantFrog,
       goblin,
       basilisk,
-      // explosiveLizzard,
-      // wraith,
-      // golen,
+      mamaBear,
+      gnomeWizzard,
     ];
   }
 }
