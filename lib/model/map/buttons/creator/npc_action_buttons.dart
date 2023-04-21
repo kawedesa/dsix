@@ -1,4 +1,8 @@
+import 'dart:math';
+
+import 'package:dsix/model/combat/ability.dart';
 import 'package:dsix/model/combat/attack.dart';
+import 'package:dsix/model/effect/effect.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user/user.dart';
@@ -108,7 +112,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
   }
 
   List<Widget> createNpcAttackButtons(User user) {
-    List<Widget> npcAttackButtons = [];
+    List<Widget> npcActionButtons = [];
 
     for (int i = 0; i < user.npc!.attacks.length; i++) {
       Attack attack = user.npc!.attacks[i];
@@ -116,16 +120,23 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
 
       if (attack.needsReload) {
         if (attack.isLoaded) {
-          npcAttackButtons.add(createAttackButton(id, user, attack));
+          npcActionButtons.add(createAttackButton(id, user, attack));
         } else {
-          npcAttackButtons.add(createReloadButton(id, user, attack));
+          npcActionButtons.add(createReloadButton(id, user, attack));
         }
       } else {
-        npcAttackButtons.add(createAttackButton(id, user, attack));
+        npcActionButtons.add(createAttackButton(id, user, attack));
       }
     }
 
-    return npcAttackButtons;
+    for (int i = 0; i < user.npc!.abilities.length; i++) {
+      int id = 3 + i + user.npc!.attacks.length;
+
+      npcActionButtons
+          .add(createAbilityButton(id, user, user.npc!.abilities[i]));
+    }
+
+    return npcActionButtons;
   }
 
   Widget createAttackButton(int id, User user, Attack attack) {
@@ -178,6 +189,81 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
     );
   }
 
+  Widget createAbilityButton(int id, User user, Ability ability) {
+    Function startAction = () {};
+
+    switch (ability.name) {
+      case 'mirror images':
+        startAction = () {
+          Npc mirrorImage = user.npc!;
+
+          mirrorImage.abilities = [];
+          mirrorImage.attacks = [];
+          mirrorImage.effects.onDamage.add('vanish');
+          mirrorImage.effects.currentEffects.add(Effect(
+              name: 'illusion', description: '', value: 0, countdown: 2));
+
+          for (int i = 0; i < 3; i++) {
+            mirrorImage.id = DateTime.now().millisecondsSinceEpoch + i;
+            mirrorImage.position.dx += Random().nextInt(20) - 10;
+            mirrorImage.position.dy += Random().nextInt(20) - 10;
+            mirrorImage.set();
+          }
+        };
+        break;
+
+      case 'blind':
+        startAction = () {
+          selectActionButton(id);
+          user.combat.startAbility(
+            user.mapInfo.getOnScreenPosition(user.npc!.position),
+            user.npc!.position,
+            ability,
+          );
+
+          user.npcActionMode();
+          localRefresh();
+        };
+
+        break;
+      case 'slow':
+        startAction = () {
+          selectActionButton(id);
+          user.combat.startAbility(
+            user.mapInfo.getOnScreenPosition(user.npc!.position),
+            user.npc!.position,
+            ability,
+          );
+
+          user.npcActionMode();
+          localRefresh();
+        };
+        break;
+    }
+
+    return ActionButton(
+      id: id,
+      icon: AppImages().getActionIcon(ability.name),
+      color: AppColors.uiColor.withAlpha(175),
+      darkColor: AppColors.uiColorDark.withAlpha(225),
+      selected: checkSelectedButton(id),
+      hide: hideButton(user, id),
+      startAction: () {
+        startAction();
+      },
+      resetAction: () {
+        deselectActionButton();
+        user.combat.resetAction();
+        user.npcStandMode();
+        widget.fullRefresh();
+      },
+      resetArea: () {
+        user.combat.resetArea();
+        localRefresh();
+      },
+    );
+  }
+
   Widget getAttackInput(User user, List<Npc> npcs, List<Player> players) {
     Widget attackInputWidget = MouseInput(
       active: (user.npcMode == 'action') ? true : false,
@@ -188,7 +274,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
       },
       onTap: () {
         deselectActionButton();
-        user.combat.confirmAttack(npcs, players);
+        user.combat.confirmAction(npcs, players);
         user.combat.resetAction();
         user.npcStandMode();
         localRefresh();

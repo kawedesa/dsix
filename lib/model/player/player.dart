@@ -109,7 +109,7 @@ class Player {
   void setRace(String race, String sex) {
     this.race = race;
     this.sex = sex;
-    life.setLife(race);
+    life.setRaceLife(race);
     attributes.setRaceAttributes(race);
     equipment.setWeight(race);
     update();
@@ -130,9 +130,8 @@ class Player {
   }
 
   void passTurn() {
-    checkTurnEffects();
-    attributes.defense.resetTempDefense();
-    attributes.vision.resetTempVision();
+    resetTemporaryAttributes();
+    checkEffectsOnPassTurn();
     update();
   }
 
@@ -181,6 +180,12 @@ class Player {
   void die() {
     resetEffects();
 
+    update();
+  }
+
+  void resetTemporaryAttributes() {
+    attributes.defense.resetTempDefense();
+    attributes.vision.resetTempVision();
     update();
   }
 
@@ -299,7 +304,6 @@ class Player {
         applyNewEffect(effect);
       }
     }
-
     update();
   }
 
@@ -328,6 +332,11 @@ class Player {
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
+      case 'slow':
+        attributes.movement.removeAttribute();
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        break;
 
       case 'weaken':
         attributes.power.removeAttribute();
@@ -339,28 +348,25 @@ class Player {
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
+      case 'blind':
+        attributes.vision.removeAttribute();
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        break;
       case 'spiky':
         effects.onHit.add('thorn');
         break;
     }
   }
 
-  void checkTurnEffects() {
-    List<Effect> effectsToRemove = [];
-
+  void checkEffectsOnPassTurn() {
     for (Effect effect in effects.currentEffects) {
       triggerEffects(effect);
-      if (effects.markEffectToRemove(effect)) {
-        effectsToRemove.add(effect);
-      }
     }
-
-    for (Effect effect in effectsToRemove) {
-      removeEffects(effect.name);
-    }
+    markEffectsToRemove();
   }
 
-  void checkWhichEffectsToRemove() {
+  void markEffectsToRemove() {
     List<Effect> effectsToRemove = [];
 
     for (Effect effect in effects.currentEffects) {
@@ -393,10 +399,16 @@ class Player {
       case 'stun':
         effect.decreaseCountdown();
         break;
+      case 'slow':
+        effect.decreaseCountdown();
+        break;
       case 'weaken':
         effect.decreaseCountdown();
         break;
       case 'empower':
+        effect.decreaseCountdown();
+        break;
+      case 'blind':
         effect.decreaseCountdown();
         break;
     }
@@ -406,6 +418,7 @@ class Player {
     switch (effect) {
       case 'poison':
         effects.removeEffect(effect);
+
         break;
       case 'burn':
         effects.removeEffect(effect);
@@ -420,12 +433,20 @@ class Player {
         attributes.movement.addAttribute();
         effects.removeEffect(effect);
         break;
+      case 'slow':
+        attributes.movement.addAttribute();
+        effects.removeEffect(effect);
+        break;
       case 'weaken':
         attributes.power.addAttribute();
         effects.removeEffect(effect);
         break;
       case 'empower':
         attributes.power.removeAttribute();
+        effects.removeEffect(effect);
+        break;
+      case 'blind':
+        attributes.vision.removeAttribute();
         effects.removeEffect(effect);
         break;
       case 'spiky':
@@ -436,7 +457,7 @@ class Player {
 
   void resetEffects() {
     effects.resetCurrentEffects();
-    checkWhichEffectsToRemove();
+    markEffectsToRemove();
   }
 
   //EQUIPMENT
@@ -578,8 +599,8 @@ class Player {
   void useItem(Item item) {
     switch (item.name) {
       case 'cleansing potion':
-        effects.resetCurrentEffects();
-        checkWhichEffectsToRemove();
+        resetEffects();
+
         break;
       case 'healing potion':
         int healingAmount = Random().nextInt(6) + 7;

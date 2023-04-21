@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsix/model/combat/ability.dart';
 import 'package:dsix/model/combat/armor.dart';
 import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/attributes/attributes.dart';
@@ -23,6 +24,7 @@ class Npc {
   Attributes attributes;
   Position position;
   List<Attack> attacks;
+  List<Ability> abilities;
   EffectController effects;
   List<Item> loot;
 
@@ -36,6 +38,7 @@ class Npc {
     required this.attributes,
     required this.position,
     required this.attacks,
+    required this.abilities,
     required this.effects,
     required this.loot,
   });
@@ -45,6 +48,7 @@ class Npc {
 
   Map<String, dynamic> toMap() {
     var attacksToMap = attacks.map((attack) => attack.toMap()).toList();
+    var abilitiesToMap = abilities.map((ability) => ability.toMap()).toList();
     var lootToMap = loot.map((item) => item.toMap()).toList();
     return {
       'id': id,
@@ -56,6 +60,7 @@ class Npc {
       'attributes': attributes.toMap(),
       'position': position.toMap(),
       'attacks': attacksToMap,
+      'abilities': abilitiesToMap,
       'effects': effects.toMap(),
       'loot': lootToMap,
     };
@@ -66,6 +71,12 @@ class Npc {
     List<dynamic> attacksMap = data?['attacks'];
     for (var attack in attacksMap) {
       getAttacks.add(Attack.fromMap(attack));
+    }
+
+    List<Ability> getAbilities = [];
+    List<dynamic> abilitiesMap = data?['abilities'];
+    for (var ability in abilitiesMap) {
+      getAbilities.add(Ability.fromMap(ability));
     }
 
     List<Item> getLoot = [];
@@ -84,13 +95,25 @@ class Npc {
       attributes: Attributes.fromMap(data?['attributes']),
       position: Position.fromMap(data?['position']),
       attacks: getAttacks,
+      abilities: getAbilities,
       effects: EffectController.fromMap(data?['effects']),
       loot: getLoot,
     );
   }
 
   void passTurn() {
-    checkEffects();
+    resetTemporaryAttributes();
+    checkEffectsOnPassTurn();
+  }
+
+  void checkEffectsOnPassTurn() {
+    for (Effect effect in effects.currentEffects) {
+      triggerEffects(effect);
+    }
+    markEffectsToRemove();
+  }
+
+  void resetTemporaryAttributes() {
     attributes.defense.resetTempDefense();
     attributes.vision.resetTempVision();
     update();
@@ -252,11 +275,13 @@ class Npc {
           effects.auras.add('cry');
           effects.currentEffects.add(
               Effect(name: effect, description: '', value: 1, countdown: 3));
-
+          update();
+          break;
+        case 'vanish':
+          delete();
           break;
       }
     }
-    update();
   }
 
   void applyNewEffect(String effect) {
@@ -284,6 +309,11 @@ class Npc {
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
+      case 'slow':
+        attributes.movement.removeAttribute();
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        break;
 
       case 'weaken':
         attributes.power.removeAttribute();
@@ -295,28 +325,18 @@ class Npc {
         effects.currentEffects
             .add(Effect(name: effect, description: '', value: 1, countdown: 1));
         break;
+      case 'blind':
+        attributes.vision.removeAttribute();
+        effects.currentEffects
+            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        break;
       case 'spiky':
         effects.onHit.add('thorn');
         break;
     }
   }
 
-  void checkEffects() {
-    List<Effect> effectsToRemove = [];
-
-    for (Effect effect in effects.currentEffects) {
-      triggerEffects(effect);
-      if (effects.markEffectToRemove(effect)) {
-        effectsToRemove.add(effect);
-      }
-    }
-
-    for (Effect effect in effectsToRemove) {
-      removeEffects(effect.name);
-    }
-  }
-
-  void checkWhichEffectsToRemove() {
+  void markEffectsToRemove() {
     List<Effect> effectsToRemove = [];
 
     for (Effect effect in effects.currentEffects) {
@@ -349,13 +369,22 @@ class Npc {
       case 'stun':
         effect.decreaseCountdown();
         break;
+      case 'slow':
+        effect.decreaseCountdown();
+        break;
       case 'weaken':
         effect.decreaseCountdown();
         break;
       case 'empower':
         effect.decreaseCountdown();
         break;
+      case 'blind':
+        effect.decreaseCountdown();
+        break;
       case 'cry':
+        effect.decreaseCountdown();
+        break;
+      case 'illusion':
         effect.decreaseCountdown();
         break;
     }
@@ -365,41 +394,63 @@ class Npc {
     switch (effect) {
       case 'poison':
         effects.removeEffect(effect);
+        update();
         break;
       case 'burn':
         effects.removeEffect(effect);
+        update();
         break;
       case 'bleed':
         effects.removeEffect(effect);
+        update();
         break;
       case 'vulnerable':
         effects.removeEffect(effect);
+        update();
         break;
       case 'cry':
         effects.auras.remove('cry');
         effects.removeEffect(effect);
+        update();
         break;
       case 'stun':
         attributes.movement.addAttribute();
         effects.removeEffect(effect);
+        update();
+        break;
+      case 'slow':
+        attributes.movement.addAttribute();
+        effects.removeEffect(effect);
+        update();
         break;
       case 'weaken':
         attributes.power.addAttribute();
         effects.removeEffect(effect);
+        update();
         break;
       case 'empower':
         attributes.power.removeAttribute();
         effects.removeEffect(effect);
+        update();
+        break;
+      case 'blind':
+        attributes.vision.addAttribute();
+        effects.removeEffect(effect);
+        update();
         break;
       case 'spiky':
         effects.onHit.remove('thorn');
+        update();
+        break;
+      case 'illusion':
+        delete();
         break;
     }
   }
 
   void resetEffects() {
     effects.resetCurrentEffects();
-    checkWhichEffectsToRemove();
+    markEffectsToRemove();
   }
 
   void createLoot() {

@@ -40,12 +40,19 @@ class AppImages {
   static const effectBurn = 'assets/images/ui/effectBurn.svg';
   static const effectCry = 'assets/images/ui/effectCry.svg';
 
+  static const effectSlow = 'assets/images/ui/effectSlow.svg';
+  static const effectBlind = 'assets/images/ui/effectBlind.svg';
+  static const effectIllusion = 'assets/images/ui/effectIllusion.svg';
+
   String getEffectIcon(String effect) {
     String effectIcon = '';
 
     switch (effect) {
       case 'bleed':
         effectIcon = effectBleed;
+        break;
+      case 'blind':
+        effectIcon = effectBlind;
         break;
       case 'poison':
         effectIcon = effectPoison;
@@ -58,6 +65,9 @@ class AppImages {
         break;
       case 'vulnerable':
         effectIcon = effectVulnerable;
+        break;
+      case 'slow':
+        effectIcon = effectSlow;
         break;
       case 'stun':
         effectIcon = effectStun;
@@ -73,6 +83,9 @@ class AppImages {
         break;
       case 'cry':
         effectIcon = effectCry;
+        break;
+      case 'illusion':
+        effectIcon = effectIllusion;
         break;
     }
 
@@ -443,14 +456,17 @@ class AppImages {
   //ACTIONS
   static const actionBite = 'assets/images/ui/actionBite.svg';
   static const actionBlast = 'assets/images/ui/actionBlast.svg';
+  static const actionBlind = 'assets/images/ui/actionBlind.svg';
   static const actionClaw = 'assets/images/ui/actionClaw.svg';
   static const actionCrush = 'assets/images/ui/actionCrush.svg';
   static const actionDefend = 'assets/images/ui/actionDefend.svg';
   static const actionJab = 'assets/images/ui/actionJab.svg';
   static const actionLook = 'assets/images/ui/actionLook.svg';
+  static const actionMirrorImages = 'assets/images/ui/actionMirrorImages.svg';
   static const actionReload = 'assets/images/ui/actionReload.svg';
   static const actionShot = 'assets/images/ui/actionShot.svg';
   static const actionSlam = 'assets/images/ui/actionSlam.svg';
+  static const actionSlow = 'assets/images/ui/actionSlow.svg';
   static const actionSlash = 'assets/images/ui/actionSwing.svg';
   static const actionSwing = 'assets/images/ui/actionSwing.svg';
   static const actionThrow = 'assets/images/ui/actionThrow.svg';
@@ -463,15 +479,22 @@ class AppImages {
     String actionIcon = actionJab;
 
     switch (action) {
+      case '':
+        actionIcon = actionJab;
+        break;
       case 'bite':
         actionIcon = actionBite;
         break;
       case 'blast':
         actionIcon = actionBlast;
         break;
+      case 'blind':
+        actionIcon = actionBlind;
+        break;
       case 'claw':
         actionIcon = actionClaw;
         break;
+
       case 'crush':
         actionIcon = actionCrush;
         break;
@@ -484,6 +507,9 @@ class AppImages {
       case 'look':
         actionIcon = actionLook;
         break;
+      case 'mirror images':
+        actionIcon = actionMirrorImages;
+        break;
       case 'reload':
         actionIcon = actionReload;
         break;
@@ -492,6 +518,9 @@ class AppImages {
         break;
       case 'slam':
         actionIcon = actionSlam;
+        break;
+      case 'slow':
+        actionIcon = actionSlow;
         break;
       case 'slash':
         actionIcon = actionSlash;

@@ -37,6 +37,9 @@ class EffectsUi extends StatelessWidget {
       )));
     }
     for (Effect effect in effects) {
+      if (effect.name == 'illusion') {
+        continue;
+      }
       effectsIcons.add(SpriteEffects(effect: effect));
     }
 

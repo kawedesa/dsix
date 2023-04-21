@@ -24,21 +24,23 @@ class Life {
     };
   }
 
-  void setLife(String race) {
+  void setRaceLife(String race) {
     switch (race) {
       case 'dwarf':
-        max = 26;
-        current = 26;
+        setMaxLife(26);
         break;
       case 'elf':
-        max = 14;
-        current = 14;
+        setMaxLife(14);
         break;
       case 'orc':
-        max = 20;
-        current = 20;
+        setMaxLife(20);
         break;
     }
+  }
+
+  void setMaxLife(int maxLife) {
+    max = maxLife;
+    current = max;
   }
 
   void heal(int value) {

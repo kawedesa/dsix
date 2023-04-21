@@ -1,3 +1,4 @@
+import 'package:dsix/model/map/sprites/aura_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
@@ -25,6 +26,7 @@ class PlayerViewNpcSprite extends StatelessWidget {
         height: npc.attributes.vision.getRange(),
         child: Stack(
           children: [
+            AuraSprite(auras: npc.effects.auras),
             Align(
               alignment: Alignment.center,
               child: Container(

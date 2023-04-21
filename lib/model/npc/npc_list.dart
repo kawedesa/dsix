@@ -1,3 +1,4 @@
+import 'package:dsix/model/combat/ability.dart';
 import 'package:dsix/model/combat/attack.dart';
 import 'package:dsix/model/attributes/attributes.dart';
 import 'package:dsix/model/attributes/defense.dart';
@@ -47,12 +48,14 @@ class NpcList {
         needsReload: false,
       ),
     ],
+    abilities: [],
     effects: EffectController(
       currentEffects: [],
       auras: [],
       onHit: [],
       onDamage: ['cry'],
       onDeath: ['baby death'],
+      //TODO voltar aqui pra fazer o efeito de death of a baby
     ),
     loot: [],
   );
@@ -105,6 +108,7 @@ class NpcList {
         needsReload: false,
       ),
     ],
+    abilities: [],
     effects: EffectController.empty(),
     loot: [],
   );
@@ -143,6 +147,7 @@ class NpcList {
         needsReload: false,
       ),
     ],
+    abilities: [],
     effects: EffectController.empty(),
     loot: [],
   );
@@ -181,6 +186,7 @@ class NpcList {
         needsReload: false,
       ),
     ],
+    abilities: [],
     effects: EffectController.empty(),
     loot: [],
   );
@@ -233,6 +239,7 @@ class NpcList {
         needsReload: true,
       ),
     ],
+    abilities: [],
     effects: EffectController.empty(),
     loot: [],
   );
@@ -271,6 +278,7 @@ class NpcList {
         needsReload: false,
       ),
     ],
+    abilities: [],
     effects: EffectController.empty(),
     loot: [],
   );
@@ -323,6 +331,7 @@ class NpcList {
         needsReload: false,
       ),
     ],
+    abilities: [],
     effects: EffectController(
       currentEffects: [],
       auras: ['empower'],
@@ -367,6 +376,7 @@ class NpcList {
         needsReload: false,
       ),
     ],
+    abilities: [],
     effects: EffectController.empty(),
     loot: [],
   );
@@ -419,6 +429,7 @@ class NpcList {
         needsReload: true,
       ),
     ],
+    abilities: [],
     effects: EffectController.empty(),
     loot: [],
   );
@@ -471,6 +482,7 @@ class NpcList {
         needsReload: false,
       ),
     ],
+    abilities: [],
     effects: EffectController(
       currentEffects: [],
       auras: [],
@@ -529,6 +541,7 @@ class NpcList {
         needsReload: false,
       ),
     ],
+    abilities: [],
     effects: EffectController.empty(),
     loot: [],
   );
@@ -551,10 +564,27 @@ class NpcList {
       vision: Vision(attribute: 3, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
-    attacks: [
-      //Illusion
-      //Area Slow
-      //Area Blind
+    attacks: [],
+    abilities: [
+      Ability(name: 'mirror images', range: Range.empty(), effects: []),
+      Ability(
+          name: 'blind',
+          range: Range(
+            min: 5,
+            max: 40,
+            width: 10,
+            shape: 'circle',
+          ),
+          effects: ['blind']),
+      Ability(
+          name: 'slow',
+          range: Range(
+            min: 5,
+            max: 40,
+            width: 10,
+            shape: 'circle',
+          ),
+          effects: ['slow']),
     ],
     effects: EffectController.empty(),
     loot: [],

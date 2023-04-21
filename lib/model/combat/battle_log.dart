@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:dsix/model/combat/attack_info.dart';
+import 'package:dsix/model/combat/action_info.dart';
 
 import 'package:dsix/model/combat/position.dart';
 
@@ -8,7 +7,7 @@ class BattleLog {
   int id;
   String message;
   Target attacker;
-  AttackInfo attackInfo;
+  ActionInfo attackInfo;
   List<Target> targets;
 
   BattleLog({
@@ -26,7 +25,7 @@ class BattleLog {
       id: 0,
       message: '',
       attacker: Target.empty(),
-      attackInfo: AttackInfo.empty(),
+      attackInfo: ActionInfo.empty(),
       targets: [],
     );
   }
@@ -42,7 +41,7 @@ class BattleLog {
       id: data?['id'],
       message: data?['message'],
       attacker: Target.fromMap(data?['attacker']),
-      attackInfo: AttackInfo.fromMap(data?['attackInfo']),
+      attackInfo: ActionInfo.fromMap(data?['attackInfo']),
       targets: getTargets,
     );
   }
@@ -77,7 +76,7 @@ class BattleLog {
         armorDamage: armorDamage));
   }
 
-  void setAttackInfo(AttackInfo info) {
+  void setAttackInfo(ActionInfo info) {
     attackInfo = info;
   }
 
@@ -91,7 +90,7 @@ class BattleLog {
     id = 0;
     message = '';
     attacker = Target.empty();
-    attackInfo = AttackInfo.empty();
+    attackInfo = ActionInfo.empty();
     targets = [];
   }
 

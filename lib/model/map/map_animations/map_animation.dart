@@ -1,5 +1,5 @@
 import 'package:dsix/model/combat/action_area.dart';
-import 'package:dsix/model/combat/attack_info.dart';
+import 'package:dsix/model/combat/action_info.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/turn.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +74,7 @@ class MapAnimation {
     currentLog = battleLog.last.id;
   }
 
-  void addAttackAnimation(AttackInfo attackInfo) {
+  void addAttackAnimation(ActionInfo attackInfo) {
     Path attackArea = ActionArea().getArea(attackInfo);
 
     attackAnimations.add(AttackAnimation(attackArea: attackArea));

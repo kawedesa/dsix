@@ -37,8 +37,8 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
         child: TransparentPointer(
           transparent: true,
           child: SizedBox(
-            width: user.player.attributes.vision.getRange(),
-            height: user.player.attributes.vision.getRange(),
+            width: _controller.getSpriteSize(user.player),
+            height: _controller.getSpriteSize(user.player),
             child: Stack(
               children: [
                 Align(
@@ -119,17 +119,23 @@ class PlayerSpriteController {
   }
 
   Offset getPosition(Player player) {
-    return Offset(
-        tempPosition.newPosition.dx - player.attributes.vision.getRange() / 2,
-        tempPosition.newPosition.dy - player.attributes.vision.getRange() / 2);
+    return Offset(tempPosition.newPosition.dx - getSpriteSize(player) / 2,
+        tempPosition.newPosition.dy - getSpriteSize(player) / 2);
+  }
+
+  double getSpriteSize(Player player) {
+    if (player.attributes.vision.getRange() < 100) {
+      return 100;
+    } else {
+      return player.attributes.vision.getRange();
+    }
   }
 
   void endMove(Player player, MapInfo mapInfo) {
     if (tempPosition.distanceMoved < player.attributes.movement.maxRange()) {
       tempPosition.newPosition.tile =
           mapInfo.getTile(tempPosition.newPosition.getOffset());
-      player.attributes.defense.resetTempDefense();
-      player.attributes.vision.resetTempVision();
+      player.resetTemporaryAttributes();
       player.changePosition(tempPosition.newPosition);
     }
   }

@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dsix/model/combat/position.dart';
+import 'package:dsix/model/map/sprites/aura_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
@@ -44,15 +45,14 @@ class _CreatorViewActionNpcSpriteState
         create: (context) => _controller.tempPosition,
         update: (context, _, tempPosition) => tempPosition!..panEnd(),
         child: Positioned(
-          left: _controller.tempPosition.newPosition.dx -
-              (widget.npc.attributes.vision.getRange() / 2),
-          top: _controller.tempPosition.newPosition.dy -
-              (widget.npc.attributes.vision.getRange() / 2),
+          left: _controller.getPosition(widget.npc).dx,
+          top: _controller.getPosition(widget.npc).dy,
           child: SizedBox(
-            width: widget.npc.attributes.vision.getRange(),
-            height: widget.npc.attributes.vision.getRange(),
+            width: _controller.getSpriteSize(widget.npc),
+            height: _controller.getSpriteSize(widget.npc),
             child: Stack(
               children: [
+                AuraSprite(auras: widget.npc.effects.auras),
                 Align(
                   alignment: Alignment.center,
                   child: TransparentPointer(
@@ -147,9 +147,16 @@ class NpcSpriteController {
   }
 
   Offset getPosition(Npc npc) {
-    return Offset(
-        tempPosition.newPosition.dx - npc.attributes.vision.getRange() / 2,
-        tempPosition.newPosition.dy - npc.attributes.vision.getRange() / 2);
+    return Offset(tempPosition.newPosition.dx - getSpriteSize(npc) / 2,
+        tempPosition.newPosition.dy - getSpriteSize(npc) / 2);
+  }
+
+  double getSpriteSize(Npc npc) {
+    if (npc.attributes.vision.getRange() < 100) {
+      return 100;
+    } else {
+      return npc.attributes.vision.getRange();
+    }
   }
 
   void endMove(Npc npc, MapInfo mapInfo) {

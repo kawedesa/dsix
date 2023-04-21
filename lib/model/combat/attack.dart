@@ -21,10 +21,10 @@ class Attack {
 
   factory Attack.empty() {
     return Attack(
-      name: 'punch',
-      type: 'melee',
+      name: '',
+      type: '',
       damage: Damage.empty(),
-      range: Range(min: 6, max: 0, width: 4, shape: 'circle'),
+      range: Range.empty(),
       effects: [],
       isLoaded: false,
       needsReload: false,
