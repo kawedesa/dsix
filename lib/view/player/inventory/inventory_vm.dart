@@ -1,5 +1,7 @@
+import 'package:dsix/model/item/item_dialog.dart';
 import 'package:dsix/model/user/user.dart';
-import 'package:dsix/model/player/equipment/inventory_slot.dart';
+import 'package:dsix/model/item/inventory_slot.dart';
+import 'package:flutter/material.dart';
 import '../../../shared/images/app_images.dart';
 
 class InventoryVM {
@@ -10,7 +12,7 @@ class InventoryVM {
   InventorySlot? handSlot;
   InventorySlot? feetSlot;
 
-  void setInventorySlots(User user, Function() refresh) {
+  void setInventorySlots(context, User user, Function() refresh) {
     mainHandSlot = InventorySlot(
       player: user.player,
       color: user.color,
@@ -37,6 +39,19 @@ class InventoryVM {
           return false;
         }
       },
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ItemDialog(
+              color: user.color,
+              darkColor: user.darkColor,
+              item: user.player.equipment.mainHandSlot.item,
+              displayOnly: true,
+            );
+          },
+        );
+      },
     );
 
     headSlot = InventorySlot(
@@ -60,6 +75,19 @@ class InventoryVM {
           return false;
         }
       },
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ItemDialog(
+              color: user.color,
+              darkColor: user.darkColor,
+              item: user.player.equipment.headSlot.item,
+              displayOnly: true,
+            );
+          },
+        );
+      },
     );
 
     bodySlot = InventorySlot(
@@ -82,6 +110,19 @@ class InventoryVM {
         } else {
           return false;
         }
+      },
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ItemDialog(
+              color: user.color,
+              darkColor: user.darkColor,
+              item: user.player.equipment.bodySlot.item,
+              displayOnly: true,
+            );
+          },
+        );
       },
     );
 
@@ -111,6 +152,19 @@ class InventoryVM {
           return false;
         }
       },
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ItemDialog(
+              color: user.color,
+              darkColor: user.darkColor,
+              item: user.player.equipment.offHandSlot.item,
+              displayOnly: true,
+            );
+          },
+        );
+      },
     );
 
     handSlot = InventorySlot(
@@ -134,6 +188,19 @@ class InventoryVM {
           return false;
         }
       },
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ItemDialog(
+              color: user.color,
+              darkColor: user.darkColor,
+              item: user.player.equipment.handSlot.item,
+              displayOnly: true,
+            );
+          },
+        );
+      },
     );
 
     feetSlot = InventorySlot(
@@ -156,6 +223,19 @@ class InventoryVM {
         } else {
           return false;
         }
+      },
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ItemDialog(
+              color: user.color,
+              darkColor: user.darkColor,
+              item: user.player.equipment.feetSlot.item,
+              displayOnly: true,
+            );
+          },
+        );
       },
     );
   }

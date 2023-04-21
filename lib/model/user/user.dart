@@ -284,6 +284,9 @@ class User {
     Prop newProp = prop!;
     newProp.id = DateTime.now().millisecondsSinceEpoch;
     newProp.position.dx += 5;
+    int lootValue = newProp.getLootValue();
+    newProp.loot = [];
+    newProp.createLoot(lootValue);
     newProp.set();
     prop = newProp;
   }

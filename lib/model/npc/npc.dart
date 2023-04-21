@@ -12,6 +12,7 @@ import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/item/shop.dart';
+import 'package:dsix/model/player/player.dart';
 import 'package:flutter/material.dart';
 
 class Npc {
@@ -101,9 +102,13 @@ class Npc {
     );
   }
 
-  void passTurn() {
-    resetTemporaryAttributes();
+  void passTurn(List<Player> players, List<Npc> npcs) {
     checkEffectsOnPassTurn();
+
+    if (life.isDead()) {
+      die(players, npcs);
+    }
+    update();
   }
 
   void checkEffectsOnPassTurn() {
@@ -138,12 +143,6 @@ class Npc {
   void look() {
     attributes.vision.look();
 
-    update();
-  }
-
-  void die() {
-    resetEffects();
-    createLoot();
     update();
   }
 
@@ -189,7 +188,9 @@ class Npc {
     update();
   }
 
-  int receiveAttack(Attack attack) {
+  List<int> receiveAttack(Attack attack) {
+    List<int> armorAndLifeDamage = [];
+
     int pArmor = armor.pArmor;
     int mArmor = armor.mArmor;
     int leftOverArmor = 0;
@@ -233,18 +234,71 @@ class Npc {
 
     int totalDamageAfterEquip = pDamage + mDamage + leftOverRawDamage;
 
-    int totalDamage = totalDamageAfterEquip - attributes.defense.tempArmor;
-    attributes.defense.reduceTempArmor(totalDamageAfterEquip);
+    int lifeDamage = totalDamageAfterEquip - attributes.defense.tempArmor;
 
-    if (totalDamage > 0) {
-      life.receiveDamage(totalDamage);
+    int armorDamage = attributes.defense.tempArmor;
+
+    attributes.defense.reduceTempArmor(totalDamageAfterEquip);
+    armorDamage = attributes.defense.tempArmor - armorDamage;
+
+    if (lifeDamage > 0) {
+      life.receiveDamage(lifeDamage);
     } else {
-      totalDamage = 0;
+      lifeDamage = 0;
     }
+
+    armorAndLifeDamage.add(armorDamage);
+    armorAndLifeDamage.add(lifeDamage);
 
     update();
 
-    return totalDamage;
+    return armorAndLifeDamage;
+  }
+
+  void die(List<Player> players, List<Npc> npcs) {
+    onDeathEffects(players, npcs);
+    resetEffects();
+    createLoot();
+    update();
+  }
+
+  void onDeathEffects(List<Player> players, List<Npc> npcs) {
+    for (String effect in effects.onDeath) {
+      switch (effect) {
+        case 'baby death':
+          for (Npc npc in npcs) {
+            if (npc.name != 'mama bear' ||
+                position.getDistanceFromPosition(npc.position) > 100) {
+              continue;
+            }
+            npc.receiveEffects([
+              'rage',
+              'rage',
+              'rage',
+            ]);
+          }
+          break;
+      }
+    }
+  }
+
+  void resetEffects() {
+    effects.resetCurrentEffects();
+    effects.onDeath = [];
+    markEffectsToRemove();
+  }
+
+  void markEffectsToRemove() {
+    List<Effect> effectsToRemove = [];
+
+    for (Effect effect in effects.currentEffects) {
+      if (effects.markEffectToRemove(effect)) {
+        effectsToRemove.add(effect);
+      }
+    }
+    for (Effect effect in effectsToRemove) {
+      removeEffects(effect.name);
+    }
   }
 
   void receiveEffects(List<String> incomingEffects) {
@@ -268,123 +322,123 @@ class Npc {
     if (effects.onDamage.isEmpty) {
       return;
     }
-
     for (String effect in effects.onDamage) {
       switch (effect) {
         case 'cry':
-          effects.auras.add('cry');
-          effects.currentEffects.add(
-              Effect(name: effect, description: '', value: 1, countdown: 3));
-          update();
+          receiveEffects([effect]);
           break;
         case 'vanish':
-          delete();
+          changePosition(Position.empty());
           break;
       }
     }
   }
 
   void applyNewEffect(String effect) {
+    Effect applyEffect =
+        Effect(name: effect, description: '', value: 1, countdown: 1);
+
     switch (effect) {
-      case 'poison':
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+      case 'bleed':
+        effects.currentEffects.add(applyEffect);
+        break;
+      case 'blind':
+        attributes.vision.removeAttribute();
+        effects.currentEffects.add(applyEffect);
         break;
       case 'burn':
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        effects.currentEffects.add(applyEffect);
+        break;
+      case 'cry':
+        if (effects.auras.contains('cry') == false) {
+          effects.auras.add('cry');
+        }
+        effects.currentEffects.add(applyEffect);
+        break;
+      case 'empower':
+        attributes.power.addAttribute();
+        effects.currentEffects.add(applyEffect);
+        break;
+      case 'illusion':
+        effects.currentEffects.add(applyEffect);
+        break;
+      case 'poison':
+        effects.currentEffects.add(applyEffect);
         break;
 
-      case 'bleed':
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+      case 'rage':
+        attributes.power.addAttribute();
+        attributes.movement.addAttribute();
+        attributes.defense.removeAttribute();
+        attributes.defense.removeAttribute();
+        effects.currentEffects.add(applyEffect);
         break;
-      case 'vulnerable':
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+      case 'slow':
+        attributes.movement.removeAttribute();
+        effects.currentEffects.add(applyEffect);
         break;
 
       case 'stun':
         attributes.movement.removeAttribute();
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        effects.currentEffects.add(applyEffect);
         break;
-      case 'slow':
-        attributes.movement.removeAttribute();
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+
+      case 'vulnerable':
+        effects.currentEffects.add(applyEffect);
         break;
 
       case 'weaken':
         attributes.power.removeAttribute();
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        effects.currentEffects.add(applyEffect);
         break;
-      case 'empower':
-        attributes.power.addAttribute();
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
-        break;
-      case 'blind':
-        attributes.vision.removeAttribute();
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
-        break;
-      case 'spiky':
-        effects.onHit.add('thorn');
-        break;
-    }
-  }
-
-  void markEffectsToRemove() {
-    List<Effect> effectsToRemove = [];
-
-    for (Effect effect in effects.currentEffects) {
-      if (effects.markEffectToRemove(effect)) {
-        effectsToRemove.add(effect);
-      }
-    }
-    for (Effect effect in effectsToRemove) {
-      removeEffects(effect.name);
     }
   }
 
   void triggerEffects(Effect effect) {
     switch (effect.name) {
-      case 'poison':
+      case 'bleed':
         effect.decreaseCountdown();
-        life.receiveDamage(effect.value);
+        life.receiveDamage(1);
+
+        break;
+      case 'blind':
+        effect.decreaseCountdown();
         break;
       case 'burn':
         effect.decreaseCountdown();
-        life.receiveDamage(effect.value);
+        life.receiveDamage(1);
+
         break;
-      case 'bleed':
-        effect.decreaseCountdown();
-        life.receiveDamage(effect.value);
-        break;
-      case 'vulnerable':
-        effect.decreaseCountdown();
-        break;
-      case 'stun':
-        effect.decreaseCountdown();
-        break;
-      case 'slow':
-        effect.decreaseCountdown();
-        break;
-      case 'weaken':
+      case 'cry':
         effect.decreaseCountdown();
         break;
       case 'empower':
         effect.decreaseCountdown();
         break;
-      case 'blind':
-        effect.decreaseCountdown();
-        break;
-      case 'cry':
-        effect.decreaseCountdown();
-        break;
+
       case 'illusion':
+        effect.decreaseCountdown();
+        break;
+
+      case 'poison':
+        effect.decreaseCountdown();
+        life.receiveDamage(1);
+
+        break;
+      case 'rage':
+        effect.decreaseCountdown();
+        break;
+      case 'slow':
+        effect.decreaseCountdown();
+        break;
+      case 'stun':
+        effect.decreaseCountdown();
+        break;
+
+      case 'vulnerable':
+        effect.decreaseCountdown();
+        break;
+      case 'weaken':
         effect.decreaseCountdown();
         break;
     }
@@ -392,65 +446,74 @@ class Npc {
 
   void removeEffects(String effect) {
     switch (effect) {
-      case 'poison':
-        effects.removeEffect(effect);
-        update();
-        break;
-      case 'burn':
-        effects.removeEffect(effect);
-        update();
-        break;
       case 'bleed':
         effects.removeEffect(effect);
-        update();
-        break;
-      case 'vulnerable':
-        effects.removeEffect(effect);
-        update();
-        break;
-      case 'cry':
-        effects.auras.remove('cry');
-        effects.removeEffect(effect);
-        update();
-        break;
-      case 'stun':
-        attributes.movement.addAttribute();
-        effects.removeEffect(effect);
-        update();
-        break;
-      case 'slow':
-        attributes.movement.addAttribute();
-        effects.removeEffect(effect);
-        update();
-        break;
-      case 'weaken':
-        attributes.power.addAttribute();
-        effects.removeEffect(effect);
-        update();
-        break;
-      case 'empower':
-        attributes.power.removeAttribute();
-        effects.removeEffect(effect);
-        update();
+
         break;
       case 'blind':
         attributes.vision.addAttribute();
         effects.removeEffect(effect);
-        update();
+
         break;
-      case 'spiky':
-        effects.onHit.remove('thorn');
-        update();
+      case 'burn':
+        effects.removeEffect(effect);
+
+        break;
+
+      case 'cry':
+        effects.auras.remove('cry');
+        effects.removeEffect(effect);
+
+        break;
+      case 'empower':
+        attributes.power.removeAttribute();
+        effects.removeEffect(effect);
+
         break;
       case 'illusion':
-        delete();
+        changePosition(Position.empty());
+        effects.removeEffect(effect);
+
+        break;
+
+      case 'rage':
+        attributes.power.removeAttribute();
+        attributes.movement.removeAttribute();
+        attributes.defense.addAttribute();
+        attributes.defense.addAttribute();
+        effects.removeEffect(effect);
+
+        break;
+      case 'poison':
+        effects.removeEffect(effect);
+
+        break;
+
+      case 'slow':
+        attributes.movement.addAttribute();
+        effects.removeEffect(effect);
+
+        break;
+      case 'stun':
+        attributes.movement.addAttribute();
+        effects.removeEffect(effect);
+
+        break;
+      case 'vulnerable':
+        effects.removeEffect(effect);
+
+        break;
+      case 'weaken':
+        attributes.power.addAttribute();
+        effects.removeEffect(effect);
+
+        break;
+
+      case 'spiky':
+        effects.onHit.remove('thorn');
+
         break;
     }
-  }
-
-  void resetEffects() {
-    effects.resetCurrentEffects();
-    markEffectsToRemove();
   }
 
   void createLoot() {

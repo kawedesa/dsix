@@ -190,7 +190,17 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
   }
 
   Widget createAbilityButton(int id, User user, Ability ability) {
-    Function startAction = () {};
+    Function startAction = () {
+      selectActionButton(id);
+      user.combat.startAbility(
+        user.mapInfo.getOnScreenPosition(user.npc!.position),
+        user.npc!.position,
+        ability,
+      );
+
+      user.npcActionMode();
+      localRefresh();
+    };
 
     switch (ability.name) {
       case 'mirror images':
@@ -209,34 +219,6 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
             mirrorImage.position.dy += Random().nextInt(20) - 10;
             mirrorImage.set();
           }
-        };
-        break;
-
-      case 'blind':
-        startAction = () {
-          selectActionButton(id);
-          user.combat.startAbility(
-            user.mapInfo.getOnScreenPosition(user.npc!.position),
-            user.npc!.position,
-            ability,
-          );
-
-          user.npcActionMode();
-          localRefresh();
-        };
-
-        break;
-      case 'slow':
-        startAction = () {
-          selectActionButton(id);
-          user.combat.startAbility(
-            user.mapInfo.getOnScreenPosition(user.npc!.position),
-            user.npc!.position,
-            ability,
-          );
-
-          user.npcActionMode();
-          localRefresh();
         };
         break;
     }

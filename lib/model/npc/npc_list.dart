@@ -53,9 +53,8 @@ class NpcList {
       currentEffects: [],
       auras: [],
       onHit: [],
-      onDamage: ['cry'],
+      onDamage: ['cry', 'cry', 'cry'],
       onDeath: ['baby death'],
-      //TODO voltar aqui pra fazer o efeito de death of a baby
     ),
     loot: [],
   );

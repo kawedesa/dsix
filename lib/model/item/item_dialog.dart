@@ -1,6 +1,10 @@
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/user/user.dart';
+import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_exceptions.dart';
+import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/shared_widgets/app_snackbar.dart';
 import 'package:dsix/shared/shared_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/shared_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +20,14 @@ class ItemDialog extends StatelessWidget {
   final Color color;
   final Color darkColor;
   final Item item;
-  final Function() sellItem;
+  final bool displayOnly;
+
   const ItemDialog({
     super.key,
     required this.color,
     required this.darkColor,
     required this.item,
-    required this.sellItem,
+    required this.displayOnly,
   });
 
   List<Widget> getItemAttributes() {
@@ -133,10 +138,52 @@ class ItemDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            DialogTitle(
-              color: color,
-              title: item.name,
-              subTitle: item.itemSlot,
+            Stack(
+              children: [
+                DialogTitle(
+                  color: color,
+                  title: item.name,
+                  subTitle: item.itemSlot,
+                ),
+                (displayOnly)
+                    ? const SizedBox()
+                    : Align(
+                        alignment: Alignment.topRight,
+                        child: AppCircularButton(
+                            icon: AppImages.cancel,
+                            iconColor: user.darkColor,
+                            color: user.color,
+                            borderColor: user.darkColor,
+                            borderSize: 3,
+                            size: 0.025,
+                            onTap: () {
+                              user.player.deleteItem(item);
+                              Navigator.pop(context);
+                            })),
+                (displayOnly)
+                    ? const SizedBox()
+                    : Align(
+                        alignment: Alignment.topLeft,
+                        child: AppCircularButton(
+                            icon: AppImages.money,
+                            iconSize: 0.65,
+                            iconColor: user.darkColor,
+                            color: user.color,
+                            borderColor: user.darkColor,
+                            borderSize: 3,
+                            size: 0.025,
+                            onTap: () {
+                              try {
+                                Navigator.pop(context);
+                                user.player.sellItem(item);
+                              } on ItemSoldException catch (e) {
+                                snackbarKey.currentState?.showSnackBar(
+                                    AppSnackBar().getSnackBar(
+                                        e.itemValue.toUpperCase(), user.color));
+                              }
+                            }),
+                      ),
+              ],
             ),
             Container(
               color: Colors.black,
@@ -165,7 +212,7 @@ class ItemDialog extends StatelessWidget {
                 ],
               ),
             ),
-            (item.itemSlot == 'consumable')
+            (item.itemSlot == 'consumable' && displayOnly == false)
                 ? DialogButton(
                     color: color,
                     buttonText: 'use',

@@ -2,29 +2,30 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsix/model/combat/action_info.dart';
 
 import 'package:dsix/model/combat/position.dart';
+import 'package:dsix/model/npc/npc.dart';
+import 'package:dsix/model/player/player.dart';
 
 class BattleLog {
   int id;
   String message;
-  Target attacker;
+
   ActionInfo attackInfo;
   List<Target> targets;
 
   BattleLog({
     required this.id,
     required this.message,
-    required this.attacker,
     required this.attackInfo,
     required this.targets,
   });
 
   final database = FirebaseFirestore.instance;
+  List<Target> possibleTargets = [];
 
   factory BattleLog.empty() {
     return BattleLog(
       id: 0,
       message: '',
-      attacker: Target.empty(),
       attackInfo: ActionInfo.empty(),
       targets: [],
     );
@@ -40,7 +41,6 @@ class BattleLog {
     return BattleLog(
       id: data?['id'],
       message: data?['message'],
-      attacker: Target.fromMap(data?['attacker']),
       attackInfo: ActionInfo.fromMap(data?['attackInfo']),
       targets: getTargets,
     );
@@ -52,28 +52,65 @@ class BattleLog {
     return {
       'id': id,
       'message': message,
-      'attacker': attacker.toMap(),
       'attackInfo': attackInfo.toMap(),
       'targets': targetToMap,
     };
   }
 
-  void setAttacker(String id, Position position) {
-    attacker = Target(
-      id: id,
-      position: position,
-      lifeDamage: 0,
-      armorDamage: 0,
-    );
+  void setPossibleTargets(List<Npc> npcs, List<Player> players) {
+    possibleTargets = [];
+
+    for (Player player in players) {
+      possibleTargets.add(Target(
+          id: player.id,
+          position: player.position,
+          lifeDamage: player.life.current,
+          armorDamage: player.attributes.defense.tempArmor));
+    }
+
+    for (Npc npc in npcs) {
+      possibleTargets.add(Target(
+          id: npc.id.toString(),
+          position: npc.position,
+          lifeDamage: npc.life.current,
+          armorDamage: npc.attributes.defense.tempArmor));
+    }
   }
 
-  void addTarget(
-      String targetId, Position position, int lifeDamage, int armorDamage) {
-    targets.add(Target(
-        id: targetId,
-        position: position,
-        lifeDamage: lifeDamage,
-        armorDamage: armorDamage));
+  void addTargets(List<Npc> npcs, List<Player> players) {
+    for (Npc npc in npcs) {
+      for (Target target in possibleTargets) {
+        if (target.id != npc.id.toString()) {
+          continue;
+        }
+        if (target.lifeDamage == npc.life.current &&
+            target.armorDamage == npc.attributes.defense.tempArmor) {
+          //WASN'T DAMAGED
+          continue;
+        }
+        target.lifeDamage -= npc.life.current;
+        target.armorDamage -= npc.attributes.defense.tempArmor;
+        targets.add(target);
+      }
+    }
+
+    for (Player player in players) {
+      for (Target target in possibleTargets) {
+        if (target.id != player.id) {
+          continue;
+        }
+
+        if (target.lifeDamage == player.life.current &&
+            target.armorDamage == player.attributes.defense.tempArmor) {
+          //WASN'T DAMAGED
+          continue;
+        }
+
+        target.lifeDamage -= player.life.current;
+        target.armorDamage -= player.attributes.defense.tempArmor;
+        targets.add(target);
+      }
+    }
   }
 
   void setAttackInfo(ActionInfo info) {
@@ -89,9 +126,9 @@ class BattleLog {
   void reset() {
     id = 0;
     message = '';
-    attacker = Target.empty();
     attackInfo = ActionInfo.empty();
     targets = [];
+    possibleTargets = [];
   }
 
   void update() async {

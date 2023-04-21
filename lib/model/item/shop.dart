@@ -63,15 +63,15 @@ class Shop {
       //   newItem = rangedWeapons[randomItem];
       //   break;
 
-      // case 'armor':
-      //   randomItem = Random().nextInt(armor.length - 1);
-      //   newItem = armor[randomItem];
-      //   break;
+      case 'armor':
+        randomItem = Random().nextInt(armor.length - 1);
+        newItem = armor[randomItem];
+        break;
 
-      // case 'consumables':
-      //   randomItem = Random().nextInt(consumables.length - 1);
-      //   newItem = consumables[randomItem];
-      //   break;
+      case 'consumables':
+        randomItem = Random().nextInt(consumables.length - 1);
+        newItem = consumables[randomItem];
+        break;
     }
     return newItem;
   }
@@ -82,8 +82,8 @@ class Shop {
       'heavy weapons',
       'ranged weapons',
       // 'magic weapons',
-      // 'armor',
-      // 'consumables',
+      'armor',
+      'consumables',
     ];
     int randomCategory = Random().nextInt(category.length);
     return category[randomCategory];

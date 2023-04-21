@@ -17,8 +17,6 @@ class Combat {
   BattleLog battleLog = BattleLog.empty();
   Player? selectedPlayer;
   Npc? selectedNpc;
-  int attackerLifeCheck = 0;
-  int attackerArmorCheck = 0;
 
   void startAttack(Position inputCenter, Position actionCenter, Attack attack,
       Player? selectedPlayer, Npc? selectedNpc) {
@@ -38,16 +36,10 @@ class Combat {
   void setAttacker(Player? selectedPlayer, Npc? selectedNpc) {
     if (selectedPlayer != null) {
       this.selectedPlayer = selectedPlayer;
-      attackerArmorCheck = selectedPlayer.attributes.defense.tempArmor;
-      attackerLifeCheck = selectedPlayer.life.current;
-      battleLog.setAttacker(selectedPlayer.id, selectedPlayer.position);
     }
 
     if (selectedNpc != null) {
       this.selectedNpc = selectedNpc;
-      attackerArmorCheck = selectedNpc.attributes.defense.tempArmor;
-      attackerLifeCheck = selectedNpc.life.current;
-      battleLog.setAttacker(selectedNpc.id.toString(), selectedNpc.position);
     }
   }
 
@@ -74,7 +66,7 @@ class Combat {
             mousePosition.dx - inputCenter.dx) -
         1.5708;
 
-    double distance = (inputCenter.getDistanceFromPoint(mousePosition)) / 300;
+    double distance = (inputCenter.getDistanceFromPoint(mousePosition)) / 500;
 
     if (distance > 1) {
       distance = 1;
@@ -87,8 +79,10 @@ class Combat {
   }
 
   void confirmAction(List<Npc> npcs, List<Player> players) {
+    battleLog.setPossibleTargets(npcs, players);
     confirmAttack(npcs, players);
     confirmAbility(npcs, players);
+    battleLog.addTargets(npcs, players);
     battleLog.newBattleLog();
   }
 
@@ -97,10 +91,9 @@ class Combat {
       return;
     }
     unloadAttack();
-    attackNpcs(npcs);
+    attackNpcs(npcs, players);
     attackPlayers(players);
     attackerEffects();
-    checkAttacker();
   }
 
   void unloadAttack() {
@@ -113,7 +106,7 @@ class Combat {
     }
   }
 
-  void attackNpcs(List<Npc> npcs) {
+  void attackNpcs(List<Npc> npcs, List<Player> players) {
     for (Npc npc in npcs) {
       if (selectedNpc != null && npc.id == selectedNpc!.id) {
         continue;
@@ -131,34 +124,24 @@ class Combat {
         onHitEffects(npc.effects.onHit);
       }
 
-      int tempArmor = npc.attributes.defense.tempArmor;
-      int lifeDamage = 0;
+      List<int> armorAndLifeDamage = npc.receiveAttack(actionInfo.attack);
 
-      lifeDamage = npc.receiveAttack(actionInfo.attack);
-
-      int armorDamage = tempArmor - npc.attributes.defense.tempArmor;
-
-      if (lifeDamage < 1 && armorDamage < 1) {
+      if (armorAndLifeDamage == [0, 0]) {
         continue;
       }
 
-      if (lifeDamage > 1) {
+      if (npc.life.isDead()) {
+        npc.die(players, npcs);
+        continue;
+      }
+
+      if (armorAndLifeDamage[1] > 0) {
         npc.receiveEffects(actionInfo.attack.effects);
         if (actionInfo.attack.effects.contains('knockback')) {
           npc.knockBack(actionInfo.actionCenter);
         }
         npc.onDamageEffects();
       }
-
-      battleLog.addTarget(
-          npc.id.toString(), npc.position, lifeDamage, armorDamage);
-
-      if (npc.life.isAlive()) {
-        continue;
-      }
-
-      npc.die();
-      onNpcDeathEffects(npc);
     }
   }
 
@@ -179,32 +162,25 @@ class Combat {
       if (actionInfo.attack.type == 'melee') {
         onHitEffects(player.effects.onHit);
       }
-      int tempArmor = player.attributes.defense.tempArmor;
-      int lifeDamage = 0;
 
-      lifeDamage = player.receiveAttack(actionInfo.attack);
+      List<int> armorAndLifeDamage = player.receiveAttack(actionInfo.attack);
 
-      int armorDamage = tempArmor - player.attributes.defense.tempArmor;
-
-      if (lifeDamage < 1 && armorDamage < 1) {
+      if (armorAndLifeDamage == [0, 0]) {
         continue;
       }
 
-      if (lifeDamage > 1) {
+      if (player.life.isDead()) {
+        player.die();
+        continue;
+      }
+
+      if (armorAndLifeDamage[1] > 0) {
         player.receiveEffects(actionInfo.attack.effects);
+
         if (actionInfo.attack.effects.contains('knockback')) {
           player.knockBack(actionInfo.actionCenter);
         }
       }
-
-      battleLog.addTarget(
-          player.id.toString(), player.position, lifeDamage, armorDamage);
-
-      if (player.life.isAlive()) {
-        continue;
-      }
-
-      player.die();
     }
   }
 
@@ -253,26 +229,11 @@ class Combat {
 
 //EFFECTS
   void onHitEffects(List<String> effects) {
-    for (String effect in actionInfo.attack.effects) {
-      switch (effect) {
-        case 'thorn':
-          if (selectedNpc != null) {
-            selectedNpc!.life.receiveDamage(1);
-          }
-          if (selectedPlayer != null) {
-            selectedPlayer!.life.receiveDamage(1);
-          }
-          break;
-      }
+    if (selectedNpc != null) {
+      selectedNpc!.receiveEffects(effects);
     }
-  }
-
-  void onNpcDeathEffects(Npc npc) {
-    for (String effect in npc.effects.onDeath) {
-      switch (effect) {
-        case 'baby death':
-          break;
-      }
+    if (selectedPlayer != null) {
+      selectedPlayer!.receiveEffects(effects);
     }
   }
 
@@ -303,35 +264,8 @@ class Combat {
           if (selectedNpc != null) {
             selectedNpc!.delete();
           }
-          if (selectedPlayer != null) {
-            selectedNpc!.delete();
-          }
 
           break;
-      }
-    }
-  }
-
-  void checkAttacker() {
-    if (selectedNpc != null) {
-      int lifeCheck = attackerLifeCheck - selectedNpc!.life.current;
-      int armorCheck =
-          attackerArmorCheck - selectedNpc!.attributes.defense.tempArmor;
-
-      if (lifeCheck > 0 || armorCheck > 0) {
-        battleLog.addTarget(selectedNpc!.id.toString(), selectedNpc!.position,
-            lifeCheck, armorCheck);
-      }
-    }
-
-    if (selectedPlayer != null) {
-      int lifeCheck = attackerLifeCheck - selectedPlayer!.life.current;
-      int armorCheck =
-          attackerArmorCheck - selectedPlayer!.attributes.defense.tempArmor;
-
-      if (lifeCheck > 0 || armorCheck > 0) {
-        battleLog.addTarget(selectedPlayer!.id.toString(),
-            selectedPlayer!.position, lifeCheck, armorCheck);
       }
     }
   }

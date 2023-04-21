@@ -6,8 +6,8 @@ import 'package:dsix/model/combat/hit_box.dart';
 import 'package:dsix/model/effect/effect.dart';
 import 'package:dsix/model/effect/effect_controller.dart';
 import 'package:dsix/model/item/item.dart';
-import 'package:dsix/model/player/equipment/equipment_slot.dart';
-import 'package:dsix/model/player/equipment/player_equipment.dart';
+import 'package:dsix/model/item/equipment_slot.dart';
+import 'package:dsix/model/player/player_equipment.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/shared/app_exceptions.dart';
 import 'package:flutter/material.dart';
@@ -130,8 +130,10 @@ class Player {
   }
 
   void passTurn() {
-    resetTemporaryAttributes();
     checkEffectsOnPassTurn();
+    if (life.isDead()) {
+      die();
+    }
     update();
   }
 
@@ -179,7 +181,7 @@ class Player {
 
   void die() {
     resetEffects();
-
+    unequipAllItems();
     update();
   }
 
@@ -233,7 +235,9 @@ class Player {
     update();
   }
 
-  int receiveAttack(Attack attack) {
+  List<int> receiveAttack(Attack attack) {
+    List<int> armorAndLifeDamage = [];
+
     int pArmor = equipment.getPArmor();
     int mArmor = equipment.getMArmor();
     int leftOverArmor = 0;
@@ -277,18 +281,25 @@ class Player {
 
     int totalDamageAfterEquip = pDamage + mDamage + leftOverRawDamage;
 
-    int totalDamage = totalDamageAfterEquip - attributes.defense.tempArmor;
-    attributes.defense.reduceTempArmor(totalDamageAfterEquip);
+    int lifeDamage = totalDamageAfterEquip - attributes.defense.tempArmor;
 
-    if (totalDamage > 0) {
-      life.receiveDamage(totalDamage);
+    int armorDamage = attributes.defense.tempArmor;
+
+    attributes.defense.reduceTempArmor(totalDamageAfterEquip);
+    armorDamage = attributes.defense.tempArmor - armorDamage;
+
+    if (lifeDamage > 0) {
+      life.receiveDamage(lifeDamage);
     } else {
-      totalDamage = 0;
+      lifeDamage = 0;
     }
+
+    armorAndLifeDamage.add(armorDamage);
+    armorAndLifeDamage.add(lifeDamage);
 
     update();
 
-    return totalDamage;
+    return armorAndLifeDamage;
   }
 
   void receiveEffects(List<String> incomingEffects) {
@@ -308,53 +319,48 @@ class Player {
   }
 
   void applyNewEffect(String effect) {
+    Effect applyEffect =
+        Effect(name: effect, description: '', value: 1, countdown: 1);
+
     switch (effect) {
-      case 'poison':
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+      case 'bleed':
+        effects.currentEffects.add(applyEffect);
+        break;
+      case 'blind':
+        attributes.vision.removeAttribute();
+        effects.currentEffects.add(applyEffect);
         break;
       case 'burn':
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        effects.currentEffects.add(applyEffect);
+        break;
+      case 'empower':
+        attributes.power.addAttribute();
+        effects.currentEffects.add(applyEffect);
         break;
 
-      case 'bleed':
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
-        break;
-      case 'vulnerable':
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+      case 'poison':
+        effects.currentEffects.add(applyEffect);
         break;
 
-      case 'stun':
-        attributes.movement.removeAttribute();
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
-        break;
       case 'slow':
         attributes.movement.removeAttribute();
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
+        effects.currentEffects.add(applyEffect);
+        break;
+      case 'spiky':
+        effects.onHit.add('thorn');
+        break;
+      case 'stun':
+        attributes.movement.removeAttribute();
+        effects.currentEffects.add(applyEffect);
+        break;
+
+      case 'vulnerable':
+        effects.currentEffects.add(applyEffect);
         break;
 
       case 'weaken':
         attributes.power.removeAttribute();
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
-        break;
-      case 'empower':
-        attributes.power.addAttribute();
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
-        break;
-      case 'blind':
-        attributes.vision.removeAttribute();
-        effects.currentEffects
-            .add(Effect(name: effect, description: '', value: 1, countdown: 1));
-        break;
-      case 'spiky':
-        effects.onHit.add('thorn');
+        effects.currentEffects.add(applyEffect);
         break;
     }
   }
@@ -381,34 +387,35 @@ class Player {
 
   void triggerEffects(Effect effect) {
     switch (effect.name) {
-      case 'poison':
+      case 'bleed':
         effect.decreaseCountdown();
-        life.receiveDamage(effect.value);
+        life.receiveDamage(1);
+        break;
+      case 'blind':
+        effect.decreaseCountdown();
         break;
       case 'burn':
         effect.decreaseCountdown();
-        life.receiveDamage(effect.value);
+        life.receiveDamage(1);
         break;
-      case 'bleed':
+      case 'empower':
         effect.decreaseCountdown();
-        life.receiveDamage(effect.value);
         break;
-      case 'vulnerable':
+      case 'poison':
+        effect.decreaseCountdown();
+        life.receiveDamage(1);
+        break;
+      case 'slow':
         effect.decreaseCountdown();
         break;
       case 'stun':
         effect.decreaseCountdown();
         break;
-      case 'slow':
+
+      case 'vulnerable':
         effect.decreaseCountdown();
         break;
       case 'weaken':
-        effect.decreaseCountdown();
-        break;
-      case 'empower':
-        effect.decreaseCountdown();
-        break;
-      case 'blind':
         effect.decreaseCountdown();
         break;
     }
@@ -416,41 +423,40 @@ class Player {
 
   void removeEffects(String effect) {
     switch (effect) {
-      case 'poison':
-        effects.removeEffect(effect);
-
-        break;
-      case 'burn':
-        effects.removeEffect(effect);
-        break;
       case 'bleed':
-        effects.removeEffect(effect);
-        break;
-      case 'vulnerable':
-        effects.removeEffect(effect);
-        break;
-      case 'stun':
-        attributes.movement.addAttribute();
-        effects.removeEffect(effect);
-        break;
-      case 'slow':
-        attributes.movement.addAttribute();
-        effects.removeEffect(effect);
-        break;
-      case 'weaken':
-        attributes.power.addAttribute();
-        effects.removeEffect(effect);
-        break;
-      case 'empower':
-        attributes.power.removeAttribute();
         effects.removeEffect(effect);
         break;
       case 'blind':
         attributes.vision.removeAttribute();
         effects.removeEffect(effect);
         break;
+      case 'burn':
+        effects.removeEffect(effect);
+        break;
+      case 'empower':
+        attributes.power.removeAttribute();
+        effects.removeEffect(effect);
+        break;
+      case 'poison':
+        effects.removeEffect(effect);
+        break;
+      case 'slow':
+        attributes.movement.addAttribute();
+        effects.removeEffect(effect);
+        break;
       case 'spiky':
         effects.onHit.remove('thorn');
+        break;
+      case 'stun':
+        attributes.movement.addAttribute();
+        effects.removeEffect(effect);
+        break;
+      case 'vulnerable':
+        effects.removeEffect(effect);
+        break;
+      case 'weaken':
+        attributes.power.addAttribute();
+        effects.removeEffect(effect);
         break;
     }
   }
@@ -541,6 +547,15 @@ class Player {
     slot.unequip();
   }
 
+  void unequipAllItems() {
+    unequip(equipment.mainHandSlot);
+    unequip(equipment.offHandSlot);
+    unequip(equipment.headSlot);
+    unequip(equipment.bodySlot);
+    unequip(equipment.handSlot);
+    unequip(equipment.feetSlot);
+  }
+
   void addItemEffects(List<String> effects) {
     for (String effect in effects) {
       applyNewEffect(effect);
@@ -569,6 +584,13 @@ class Player {
     update();
   }
 
+  void deleteItem(Item item) {
+    Item tempItem = item;
+    equipment.removeItemWeight(tempItem.weight);
+    equipment.removeItemFromBag(tempItem);
+    update();
+  }
+
   void addGold(int value) {
     equipment.addGold(value);
     update();
@@ -581,13 +603,9 @@ class Player {
     update();
   }
 
-  void sellItem(EquipmentSlot slot) {
-    Item tempItem = slot.item;
+  void sellItem(Item item) {
+    Item tempItem = item;
     int itemValue = tempItem.value ~/ 2;
-
-    if (slot.name != 'bag') {
-      unequip(slot);
-    }
 
     equipment.addGold(itemValue);
     equipment.removeItemWeight(tempItem.weight);

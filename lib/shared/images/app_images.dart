@@ -29,20 +29,20 @@ class AppImages {
   static const placeHere = 'assets/images/ui/placeHere.svg';
 
   //EFFECTS
-  static const effectTempVision = 'assets/images/ui/effectTempVision.svg';
-  static const effectTempArmor = 'assets/images/ui/effectTempArmor.svg';
   static const effectPoison = 'assets/images/ui/effectPoison.svg';
   static const effectBleed = 'assets/images/ui/effectBleed.svg';
-  static const effectVulnerable = 'assets/images/ui/effectVulnerable.svg';
-  static const effectStun = 'assets/images/ui/effectStun.svg';
-  static const effectWeaken = 'assets/images/ui/effectWeaken.svg';
-  static const effectEmpower = 'assets/images/ui/effectEmpower.svg';
+  static const effectBlind = 'assets/images/ui/effectBlind.svg';
   static const effectBurn = 'assets/images/ui/effectBurn.svg';
   static const effectCry = 'assets/images/ui/effectCry.svg';
-
-  static const effectSlow = 'assets/images/ui/effectSlow.svg';
-  static const effectBlind = 'assets/images/ui/effectBlind.svg';
+  static const effectEmpower = 'assets/images/ui/effectEmpower.svg';
   static const effectIllusion = 'assets/images/ui/effectIllusion.svg';
+  static const effectRage = 'assets/images/ui/effectRage.svg';
+  static const effectSlow = 'assets/images/ui/effectSlow.svg';
+  static const effectStun = 'assets/images/ui/effectStun.svg';
+  static const effectTempVision = 'assets/images/ui/effectTempVision.svg';
+  static const effectTempArmor = 'assets/images/ui/effectTempArmor.svg';
+  static const effectVulnerable = 'assets/images/ui/effectVulnerable.svg';
+  static const effectWeaken = 'assets/images/ui/effectWeaken.svg';
 
   String getEffectIcon(String effect) {
     String effectIcon = '';
@@ -54,8 +54,32 @@ class AppImages {
       case 'blind':
         effectIcon = effectBlind;
         break;
+      case 'burn':
+        effectIcon = effectBurn;
+        break;
+      case 'cry':
+        effectIcon = effectCry;
+        break;
+      case 'empower':
+        effectIcon = effectEmpower;
+        break;
+
+      case 'illusion':
+        effectIcon = effectIllusion;
+        break;
+      case 'rage':
+        effectIcon = effectRage;
+        break;
+
       case 'poison':
         effectIcon = effectPoison;
+        break;
+
+      case 'slow':
+        effectIcon = effectSlow;
+        break;
+      case 'stun':
+        effectIcon = effectStun;
         break;
       case 'tempArmor':
         effectIcon = effectTempArmor;
@@ -63,29 +87,12 @@ class AppImages {
       case 'tempVision':
         effectIcon = effectTempVision;
         break;
+
       case 'vulnerable':
         effectIcon = effectVulnerable;
         break;
-      case 'slow':
-        effectIcon = effectSlow;
-        break;
-      case 'stun':
-        effectIcon = effectStun;
-        break;
       case 'weaken':
         effectIcon = effectWeaken;
-        break;
-      case 'empower':
-        effectIcon = effectEmpower;
-        break;
-      case 'burn':
-        effectIcon = effectBurn;
-        break;
-      case 'cry':
-        effectIcon = effectCry;
-        break;
-      case 'illusion':
-        effectIcon = effectIllusion;
         break;
     }
 

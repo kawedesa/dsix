@@ -1,4 +1,4 @@
-import 'package:dsix/model/player/equipment/bag_slot.dart';
+import 'package:dsix/model/item/bag_slot.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
@@ -29,7 +29,7 @@ class _InventoryViewState extends State<InventoryView> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    _inventoryVM.setInventorySlots(user, widget.refresh);
+    _inventoryVM.setInventorySlots(context, user, widget.refresh);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -130,7 +130,9 @@ class _InventoryViewState extends State<InventoryView> {
                       SizedBox(
                         width: AppLayout.avarage(context) * 0.5,
                         // ignore: prefer_const_constructors
-                        child: BagSlot(),
+                        child: BagSlot(
+                          refresh: () => widget.refresh(),
+                        ),
                       ),
                     ],
                   ),

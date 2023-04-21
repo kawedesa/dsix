@@ -76,6 +76,19 @@ class Prop {
     update();
   }
 
+  int getLootValue() {
+    int lootValue = 0;
+
+    if (lootIsEmpty()) {
+      return lootValue;
+    }
+
+    for (Item item in loot) {
+      lootValue += item.value;
+    }
+    return lootValue;
+  }
+
   void delete() async {
     await database
         .collection('game')

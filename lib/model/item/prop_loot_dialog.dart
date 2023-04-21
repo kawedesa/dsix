@@ -1,4 +1,5 @@
-import 'package:dsix/model/player/equipment/bag_slot.dart';
+import 'package:dsix/model/item/bag_slot.dart';
+import 'package:dsix/model/item/loot_slot.dart';
 import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_layout.dart';
@@ -6,14 +7,21 @@ import 'package:dsix/shared/shared_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'prop_loot_slot.dart';
-
-class PropLootDialog extends StatelessWidget {
+class PropLootDialog extends StatefulWidget {
   final Prop prop;
   const PropLootDialog({
     super.key,
     required this.prop,
   });
+
+  @override
+  State<PropLootDialog> createState() => _PropLootDialogState();
+}
+
+class _PropLootDialogState extends State<PropLootDialog> {
+  void localRefresh() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +45,28 @@ class PropLootDialog extends StatelessWidget {
               color: user.color,
               title: 'loot',
             ),
-            PropLootSlot(
-              prop: prop,
+            LootSlot(
+              items: widget.prop.loot,
+              onAccept: (equipment) {
+                widget.prop.addItemToLoot(equipment.item);
+                widget.prop.update();
+                user.player.equipment.removeItemWeight(equipment.item.weight);
+                user.player.update();
+                localRefresh();
+              },
+              onDragComplete: (item) {
+                widget.prop.removeItemFromLoot(item);
+                localRefresh();
+              },
             ),
             DialogTitle(
               color: user.color,
               title: 'bag',
             ),
             // ignore: prefer_const_constructors
-            BagSlot(),
+            BagSlot(
+              refresh: () => localRefresh(),
+            ),
           ],
         ),
       ),

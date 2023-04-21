@@ -1,4 +1,3 @@
-import 'package:dsix/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
@@ -18,10 +17,10 @@ class AuraSprite extends StatelessWidget {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: AppColors.uiColorDark.withAlpha(15),
+                  color: const Color.fromARGB(255, 56, 61, 84).withAlpha(15),
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: AppColors.uiColorDark.withAlpha(50),
+                    color: const Color.fromARGB(255, 56, 61, 84).withAlpha(30),
                     width: 0.3,
                   ),
                 ),

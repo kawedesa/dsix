@@ -41,12 +41,24 @@ class Turn {
   }
 
   void passTurn(List<Player> players, List<Npc> npcs) {
+    battleLog.setPossibleTargets(npcs, players);
+
     switch (currentTurn) {
       case 'player':
-        passTurnForPlayers(players);
+        for (Player player in players) {
+          player.passTurn();
+        }
+        for (Npc npc in npcs) {
+          npc.resetTemporaryAttributes();
+        }
         break;
       case 'npc':
-        passTurnForNpcs(npcs);
+        for (Npc npc in npcs) {
+          npc.passTurn(players, npcs);
+        }
+        for (Player player in players) {
+          player.resetTemporaryAttributes();
+        }
         break;
     }
 
@@ -59,36 +71,8 @@ class Turn {
       checkPlayerAuras(players, npcs);
     }
 
+    battleLog.addTargets(npcs, players);
     battleLog.newBattleLog();
-  }
-
-  void passTurnForPlayers(List<Player> players) {
-    for (Player player in players) {
-      int checkLife = player.life.current;
-      player.passTurn();
-
-      int damage = checkLife - player.life.current;
-
-      if (damage < 1) {
-        continue;
-      }
-      battleLog.addTarget(player.id, player.position, damage, 0);
-    }
-  }
-
-  void passTurnForNpcs(List<Npc> npcs) {
-    for (Npc npc in npcs) {
-      int checkLife = npc.life.current;
-
-      npc.passTurn();
-
-      int damage = checkLife - npc.life.current;
-
-      if (damage < 1) {
-        continue;
-      }
-      battleLog.addTarget(npc.id.toString(), npc.position, damage, 0);
-    }
   }
 
   void checkNpcAuras(List<Player> players, List<Npc> npcs) {
@@ -128,7 +112,6 @@ class Turn {
             npc.receiveEffects(['empower']);
           }
         }
-
         break;
 
       case 'cry':
@@ -142,7 +125,6 @@ class Turn {
           }
           npc.receiveEffects(['empower', 'empower']);
         }
-
         break;
     }
   }

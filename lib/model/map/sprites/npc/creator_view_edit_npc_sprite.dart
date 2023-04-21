@@ -1,4 +1,5 @@
 import 'package:dsix/model/combat/position.dart';
+import 'package:dsix/model/map/sprites/aura_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
@@ -51,6 +52,7 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
             height: widget.npc.attributes.vision.getRange(),
             child: Stack(
               children: [
+                AuraSprite(auras: widget.npc.effects.auras),
                 Align(
                   alignment: Alignment.center,
                   child: TransparentPointer(

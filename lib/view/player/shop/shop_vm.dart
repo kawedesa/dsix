@@ -6,7 +6,7 @@ import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/shared_widgets/app_snackbar.dart';
-import 'package:dsix/view/player/shop/shop_dialog.dart';
+import 'package:dsix/model/item/shop_dialog.dart';
 import 'package:dsix/shared/shared_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

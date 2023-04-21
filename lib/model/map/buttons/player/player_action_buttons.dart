@@ -208,7 +208,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       },
       onTap: () {
         deselectActionButton();
-        user.combat.confirmAttack(npcs, players);
+        user.combat.confirmAction(npcs, players);
         user.combat.resetAction();
         user.playerStandMode();
         localRefresh();

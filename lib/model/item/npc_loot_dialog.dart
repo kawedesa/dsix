@@ -1,6 +1,7 @@
-import 'package:dsix/model/item/npc_loot_slot.dart';
+import 'package:dsix/model/item/bag_slot.dart';
+import 'package:dsix/model/item/loot_slot.dart';
+
 import 'package:dsix/model/npc/npc.dart';
-import 'package:dsix/model/player/equipment/bag_slot.dart';
 
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_layout.dart';
@@ -8,12 +9,21 @@ import 'package:dsix/shared/shared_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NpcLootDialog extends StatelessWidget {
+class NpcLootDialog extends StatefulWidget {
   final Npc npc;
   const NpcLootDialog({
     super.key,
     required this.npc,
   });
+
+  @override
+  State<NpcLootDialog> createState() => _NpcLootDialogState();
+}
+
+class _NpcLootDialogState extends State<NpcLootDialog> {
+  void localRefresh() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +47,28 @@ class NpcLootDialog extends StatelessWidget {
               color: user.color,
               title: 'loot',
             ),
-            NpcLootSlot(
-              npc: npc,
+            LootSlot(
+              items: widget.npc.loot,
+              onAccept: (equipment) {
+                widget.npc.addItemToLoot(equipment.item);
+                widget.npc.update();
+                user.player.equipment.removeItemWeight(equipment.item.weight);
+                user.player.update();
+                localRefresh();
+              },
+              onDragComplete: (item) {
+                widget.npc.removeItemFromLoot(item);
+                localRefresh();
+              },
             ),
             DialogTitle(
               color: user.color,
               title: 'bag',
             ),
             // ignore: prefer_const_constructors
-            BagSlot(),
+            BagSlot(
+              refresh: () => localRefresh(),
+            ),
           ],
         ),
       ),

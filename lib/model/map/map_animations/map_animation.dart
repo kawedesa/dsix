@@ -68,7 +68,6 @@ class MapAnimation {
     }
 
     addAttackAnimation(battleLog.last.attackInfo);
-
     addLifeDamageAnimation(battleLog.last.targets);
     addArmorDamageAnimation(battleLog.last.targets);
     currentLog = battleLog.last.id;
