@@ -1,12 +1,14 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
+import 'package:dsix/model/map/menu/map_menu.dart';
 import 'package:dsix/model/map/sprites/action_area_sprite.dart';
-import 'package:dsix/model/map/sprites/prop/creator_view_prop_sprite.dart';
+import 'package:dsix/model/map/sprites/chest/creator_view_chest_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/prop/prop.dart';
+import 'package:dsix/model/chest/chest.dart';
 import 'package:dsix/model/user/user.dart';
+import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 
@@ -51,14 +53,14 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
     final buildings = Provider.of<List<Building>>(context);
-    final props = Provider.of<List<Prop>>(context);
+    final chests = Provider.of<List<Chest>>(context);
     final battleLog = Provider.of<List<BattleLog>>(context);
 
     _mapAnimation.checkBattleLog(battleLog);
     _mapAnimation.checkNpcTurn(game.turn);
     user.updateNpc(npcs);
     user.updateBuilding(buildings);
-    user.updateProp(props);
+    user.updateChest(chests);
     user.setNpcMode(game.turn.currentTurn);
 
     return SizedBox(
@@ -70,8 +72,8 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
             transformationController: user.mapInfo.canvasController,
             constrained: false,
             panEnabled: true,
-            maxScale: user.mapInfo.maxZoom,
-            minScale: user.mapInfo.minZoom,
+            maxScale: user.mapInfo.zoom,
+            minScale: user.mapInfo.zoom,
             child: SizedBox(
               width: user.mapInfo.mapSize,
               height: user.mapInfo.mapSize,
@@ -95,7 +97,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                     area: user.combat.actionArea.area,
                   ),
                   _mapAnimation.displayAttackAnimations(),
-                  _creatorMapController.createPropSprites(props, refresh),
+                  _creatorMapController.createChestSprites(chests, refresh),
                   _creatorMapController.createDeadNpcSprites(npcs),
                   _creatorMapController.createDeadPlayerSprites(
                       user.mapInfo, players, npcs),
@@ -103,6 +105,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                       user.mapInfo, players, npcs),
                   _creatorMapController.createNpcSprites(user, npcs, refresh),
                   _mapAnimation.displayDamageAnimations(),
+                  _mapAnimation.displayAuraAnimations(),
                 ],
               ),
             ),
@@ -115,9 +118,12 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
           NpcActionButtons(fullRefresh: refresh),
           _mapAnimation.displayTurnAnimations(),
           InGameMenu(
-            refresh: () {
-              refresh();
-            },
+            refresh: () => refresh(),
+          ),
+          MapMenu(
+            color: AppColors.uiColor,
+            borderColor: AppColors.uiColorLight,
+            refresh: () => refresh(),
           ),
         ],
       ),
@@ -143,19 +149,19 @@ class CreatorMapActionModeController {
   }
 
   //PROPS
-  Widget createPropSprites(List<Prop> props, Function refresh) {
-    List<Widget> propSprites = [];
+  Widget createChestSprites(List<Chest> chests, Function refresh) {
+    List<Widget> chestSprites = [];
 
-    for (Prop prop in props) {
-      propSprites.add(CreatorViewPropSprite(
-        prop: prop,
+    for (Chest chest in chests) {
+      chestSprites.add(CreatorViewChestSprite(
+        chest: chest,
         fullRefresh: () {
           refresh();
         },
       ));
     }
     return Stack(
-      children: propSprites,
+      children: chestSprites,
     );
   }
 

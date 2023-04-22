@@ -4,7 +4,7 @@ import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/prop/prop.dart';
+import 'package:dsix/model/chest/chest.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_globals.dart';
@@ -105,15 +105,15 @@ class MyApp extends StatelessWidget {
                     .toList())),
 
         //PROPS
-        StreamProvider<List<Prop>>(
+        StreamProvider<List<Chest>>(
             initialData: const [],
             create: (context) => database
                 .collection('game')
                 .doc('gameID')
-                .collection('props')
+                .collection('chests')
                 .snapshots()
                 .map((querySnapshot) => querySnapshot.docs
-                    .map((prop) => Prop.fromMap(prop.data()))
+                    .map((chest) => Chest.fromMap(chest.data()))
                     .toList())),
       ],
       child: MaterialApp(

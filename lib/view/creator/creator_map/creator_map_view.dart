@@ -14,7 +14,7 @@ class CreatorMapView extends StatelessWidget {
     final game = Provider.of<Game>(context);
     final user = Provider.of<User>(context);
 
-    user.mapInfo.setMapInfo(context, game.map);
+    user.mapInfo.setMapInfo(game.map);
 
     return _creatorMapVM.getMapView(game.phase);
   }

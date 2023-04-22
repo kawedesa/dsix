@@ -1,10 +1,12 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/game/game.dart';
-import 'package:dsix/model/map/sprites/prop/creator_view_prop_sprite.dart';
+import 'package:dsix/model/map/menu/map_menu.dart';
+import 'package:dsix/model/map/sprites/chest/creator_view_chest_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
-import 'package:dsix/model/prop/prop.dart';
+import 'package:dsix/model/chest/chest.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/user/user.dart';
+import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/model/map/mouse_input.dart';
@@ -41,7 +43,7 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
     final spawners = Provider.of<List<Spawner>>(context);
     final buildings = Provider.of<List<Building>>(context);
     final npcs = Provider.of<List<Npc>>(context);
-    final props = Provider.of<List<Prop>>(context);
+    final chests = Provider.of<List<Chest>>(context);
 
     return SizedBox(
       width: double.infinity,
@@ -52,8 +54,8 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
             transformationController: user.mapInfo.canvasController,
             constrained: false,
             panEnabled: true,
-            maxScale: user.mapInfo.maxZoom,
-            minScale: user.mapInfo.minZoom,
+            maxScale: user.mapInfo.zoom,
+            minScale: user.mapInfo.zoom,
             child: SizedBox(
               width: user.mapInfo.mapSize,
               height: user.mapInfo.mapSize,
@@ -74,7 +76,7 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
                   _creatorMapController.createSpawnerSprites(spawners),
                   _creatorMapController.createBuildingSprites(
                       buildings, refresh),
-                  _creatorMapController.createPropSprites(props, refresh),
+                  _creatorMapController.createChestSprites(chests, refresh),
                   _creatorMapController.createNpcSprites(user, npcs, refresh),
                 ],
               ),
@@ -83,9 +85,12 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
           // ignore: prefer_const_constructors
           CreatorSelectionUi(),
           GameCreationMenu(
-            refresh: () {
-              refresh();
-            },
+            refresh: () => refresh(),
+          ),
+          MapMenu(
+            color: AppColors.uiColor,
+            borderColor: AppColors.uiColorLight,
+            refresh: () => refresh(),
           ),
         ],
       ),
@@ -114,19 +119,19 @@ class CreatorMapEditModeController {
   }
 
   //PROPS
-  Widget createPropSprites(List<Prop> props, Function refresh) {
-    List<Widget> propSprites = [];
+  Widget createChestSprites(List<Chest> chests, Function refresh) {
+    List<Widget> chestSprites = [];
 
-    for (Prop prop in props) {
-      propSprites.add(CreatorViewPropSprite(
-        prop: prop,
+    for (Chest chest in chests) {
+      chestSprites.add(CreatorViewChestSprite(
+        chest: chest,
         fullRefresh: () {
           refresh();
         },
       ));
     }
     return Stack(
-      children: propSprites,
+      children: chestSprites,
     );
   }
 

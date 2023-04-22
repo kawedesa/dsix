@@ -1,24 +1,24 @@
 import 'package:dsix/model/item/bag_slot.dart';
 import 'package:dsix/model/item/loot_slot.dart';
-import 'package:dsix/model/prop/prop.dart';
+import 'package:dsix/model/chest/chest.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/shared_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PropLootDialog extends StatefulWidget {
-  final Prop prop;
-  const PropLootDialog({
+class ChestLootDialog extends StatefulWidget {
+  final Chest chest;
+  const ChestLootDialog({
     super.key,
-    required this.prop,
+    required this.chest,
   });
 
   @override
-  State<PropLootDialog> createState() => _PropLootDialogState();
+  State<ChestLootDialog> createState() => _ChestLootDialogState();
 }
 
-class _PropLootDialogState extends State<PropLootDialog> {
+class _ChestLootDialogState extends State<ChestLootDialog> {
   void localRefresh() {
     setState(() {});
   }
@@ -46,16 +46,16 @@ class _PropLootDialogState extends State<PropLootDialog> {
               title: 'loot',
             ),
             LootSlot(
-              items: widget.prop.loot,
+              items: widget.chest.loot,
               onAccept: (equipment) {
-                widget.prop.addItemToLoot(equipment.item);
-                widget.prop.update();
+                widget.chest.addItemToLoot(equipment.item);
+                widget.chest.update();
                 user.player.equipment.removeItemWeight(equipment.item.weight);
                 user.player.update();
                 localRefresh();
               },
               onDragComplete: (item) {
-                widget.prop.removeItemFromLoot(item);
+                widget.chest.removeItemFromLoot(item);
                 localRefresh();
               },
             ),

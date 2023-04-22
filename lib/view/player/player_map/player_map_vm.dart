@@ -1,7 +1,7 @@
 import 'package:dsix/model/building/building.dart';
-import 'package:dsix/model/map/sprites/prop/player_view_prop_sprite.dart';
+import 'package:dsix/model/map/sprites/chest/player_view_chest_sprite.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/prop/prop.dart';
+import 'package:dsix/model/chest/chest.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/model/map/map_info.dart';
 import 'package:dsix/model/map/vision_grid.dart';
@@ -18,22 +18,23 @@ class PlayerMapVM {
   //SPRITES
 
   //PROPS
-  Widget createPropSprites(User user, List<Prop> props, List<Player> players) {
-    List<Widget> propSprites = [];
+  Widget createChestSprites(
+      User user, List<Chest> chests, List<Player> players) {
+    List<Widget> chestSprites = [];
     Path playersVisibleArea = getPlayersVisibleArea(user.mapInfo, players);
 
-    for (Prop prop in props) {
-      if (!playersVisibleArea.contains(prop.position.getOffset())) {
+    for (Chest chest in chests) {
+      if (!playersVisibleArea.contains(chest.position.getOffset())) {
         continue;
       }
 
-      propSprites.add(PlayerViewPropSprite(
-        prop: prop,
+      chestSprites.add(PlayerViewChestSprite(
+        chest: chest,
       ));
     }
 
     return Stack(
-      children: propSprites,
+      children: chestSprites,
     );
   }
 

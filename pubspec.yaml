@@ -76,7 +76,7 @@ flutter:
   assets:
     - 'assets/images/sprites/buildings/'
     - 'assets/images/sprites/npcs/'
-    - 'assets/images/sprites/props/'
+    - 'assets/images/sprites/chests/'
     - 'assets/images/sprites/players/'
     - 'assets/images/ui/'
     - 'assets/images/items/'

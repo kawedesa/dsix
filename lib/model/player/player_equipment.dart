@@ -103,7 +103,28 @@ class PlayerEquipment {
     }
   }
 
-  void deleteItem(Item item) {}
+  bool hasKey() {
+    bool hasKey = false;
+    for (Item item in bag) {
+      if (item.name == 'key') {
+        hasKey = true;
+      }
+    }
+    return hasKey;
+  }
+
+  void useKey() {
+    List<Item> toRemove = [];
+
+    for (Item item in bag) {
+      if (item.name == 'key') {
+        toRemove.add(item);
+      }
+    }
+
+    removeItemFromBag(toRemove.first);
+    removeItemWeight(toRemove.first.weight);
+  }
 
   void addGold(int value) {
     gold += value;
@@ -128,8 +149,6 @@ class PlayerEquipment {
   void removeItemFromBag(Item item) {
     bag.remove(item);
   }
-
-  void useItem(EquipmentSlot slot) {}
 
   Armor getTotalArmor() {
     return Armor(pArmor: getPArmor(), mArmor: getMArmor());

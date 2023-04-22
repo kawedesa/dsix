@@ -1,6 +1,5 @@
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/user/user.dart';
-import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_exceptions.dart';
 import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/shared/app_layout.dart';

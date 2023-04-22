@@ -107,7 +107,7 @@ class AppImages {
   static const spawner = 'assets/images/ui/spawner.svg';
   static const npc = 'assets/images/ui/npc.svg';
   static const building = 'assets/images/ui/building.svg';
-  static const prop = 'assets/images/ui/prop.svg';
+  static const chest = 'assets/images/ui/chest.svg';
   static const turn = 'assets/images/ui/turn.svg';
 
   static const shop = 'assets/images/ui/shop.svg';
@@ -557,40 +557,40 @@ class AppImages {
 
   //Sprites
   //PROPS
-  static const grave = 'assets/images/sprites/props/grave.svg';
-  static const graveColor = 'assets/images/sprites/props/graveColor.svg';
+  static const grave = 'assets/images/sprites/chests/grave.svg';
+  static const graveColor = 'assets/images/sprites/chests/graveColor.svg';
 
   static const normalChestClosed =
-      'assets/images/sprites/props/normalChestClosed.svg';
+      'assets/images/sprites/chests/normalChestClosed.svg';
   static const normalChestOpen =
-      'assets/images/sprites/props/normalChestOpen.svg';
+      'assets/images/sprites/chests/normalChestOpen.svg';
   static const magicChestClosed =
-      'assets/images/sprites/props/magicChestClosed.svg';
+      'assets/images/sprites/chests/magicChestClosed.svg';
   static const magicChestOpen =
-      'assets/images/sprites/props/magicChestOpen.svg';
+      'assets/images/sprites/chests/magicChestOpen.svg';
 
-  String getPropSprite(String prop, bool open) {
-    String propSprite = '';
+  String getChestSprite(String chest, bool open) {
+    String chestSprite = '';
 
-    switch (prop) {
+    switch (chest) {
       case 'normal chest':
         if (open) {
-          propSprite = normalChestOpen;
+          chestSprite = normalChestOpen;
         } else {
-          propSprite = normalChestClosed;
+          chestSprite = normalChestClosed;
         }
 
         break;
       case 'magic chest':
         if (open) {
-          propSprite = magicChestOpen;
+          chestSprite = magicChestOpen;
         } else {
-          propSprite = magicChestClosed;
+          chestSprite = magicChestClosed;
         }
         break;
     }
 
-    return propSprite;
+    return chestSprite;
   }
 
   //PLAYERS

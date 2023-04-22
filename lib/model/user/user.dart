@@ -3,7 +3,7 @@ import 'package:dsix/model/combat/combat.dart';
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/prop/prop.dart';
+import 'package:dsix/model/chest/chest.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/model/map/map_info.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +101,7 @@ class User {
   void deselect() {
     npc = null;
     building = null;
-    prop = null;
+    chest = null;
   }
 
   bool somethingIsSelected() {
@@ -117,12 +117,7 @@ class User {
   Position placeHere = Position.empty();
 
   void setPlaceHere(Offset mouseOffset) {
-    placeHere = Position(
-        dx: mouseOffset.dx / mapInfo.minZoom - mapInfo.getCanvasPosition().dx,
-        dy: mouseOffset.dy / mapInfo.minZoom -
-            mapInfo.getCanvasPosition().dy -
-            50 / mapInfo.minZoom,
-        tile: '');
+    placeHere = mapInfo.getMousePosition(mouseOffset);
   }
 
   void resetPlacing() {
@@ -200,7 +195,7 @@ class User {
   }
 
   void createNpc() {
-    npc!.changePosition(placeHere);
+    npc!.position = placeHere;
     npc!.set();
   }
 
@@ -245,54 +240,54 @@ class User {
   }
 
   void createBuilding() {
-    building!.changePosition(placeHere);
+    building!.position = placeHere;
     building!.set();
   }
 
   //PROPS
-  Prop? prop;
+  Chest? chest;
 
-  void updateProp(List<Prop> props) {
-    if (prop == null) {
+  void updateChest(List<Chest> chests) {
+    if (chest == null) {
       return;
     }
 
-    for (Prop prop in props) {
-      if (this.prop!.id == prop.id) {
-        this.prop = prop;
+    for (Chest chest in chests) {
+      if (this.chest!.id == chest.id) {
+        this.chest = chest;
       }
     }
   }
 
-  void selectProp(Prop prop) {
-    this.prop = prop;
+  void selectChest(Chest chest) {
+    this.chest = chest;
   }
 
-  bool checkSelectedProp(int id) {
-    if (prop == null) {
+  bool checkSelectedChest(int id) {
+    if (chest == null) {
       return false;
     }
 
-    if (prop!.id == id) {
+    if (chest!.id == id) {
       return true;
     } else {
       return false;
     }
   }
 
-  void duplicateProp() {
-    Prop newProp = prop!;
-    newProp.id = DateTime.now().millisecondsSinceEpoch;
-    newProp.position.dx += 5;
-    int lootValue = newProp.getLootValue();
-    newProp.loot = [];
-    newProp.createLoot(lootValue);
-    newProp.set();
-    prop = newProp;
+  void duplicateChest() {
+    Chest newChest = chest!;
+    newChest.id = DateTime.now().millisecondsSinceEpoch;
+    newChest.position.dx += 5;
+    int lootValue = newChest.getLootValue();
+    newChest.loot = [];
+    newChest.createLoot(lootValue);
+    newChest.set();
+    chest = newChest;
   }
 
-  void createProp() {
-    prop!.changePosition(placeHere);
-    prop!.set();
+  void createChest() {
+    chest!.position = placeHere;
+    chest!.set();
   }
 }

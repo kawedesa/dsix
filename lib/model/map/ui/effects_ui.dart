@@ -44,8 +44,8 @@ class EffectsUi extends StatelessWidget {
     }
 
     return SizedBox(
-      width: 3.0 * effectsIcons.length,
-      height: 3.0 * effectsIcons.length,
+      width: 4.0 * effectsIcons.length,
+      height: 4.0 * effectsIcons.length,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: effectsIcons,
@@ -91,14 +91,14 @@ class _SpriteEffectsState extends State<SpriteEffects>
       child: ScaleTransition(
         scale: _scale,
         child: SizedBox(
-          width: 2.5,
-          height: 2.5,
+          width: 4,
+          height: 4,
           child: Stack(
             children: [
               SvgPicture.asset(
                 AppImages().getEffectIcon(widget.effect.name),
-                width: 2,
-                height: 2,
+                width: 3.5,
+                height: 3.5,
               ),
               Align(
                 alignment: Alignment.bottomRight,
@@ -106,7 +106,7 @@ class _SpriteEffectsState extends State<SpriteEffects>
                   text: (widget.effect.countdown > 0)
                       ? widget.effect.countdown.toString()
                       : '',
-                  fontSize: 1.25,
+                  fontSize: 1.5,
                 ),
               ),
             ],

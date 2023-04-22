@@ -82,6 +82,7 @@ class Turn {
       }
       for (String aura in npc.effects.auras) {
         applyAura(aura, 'npc', npc.position, players, npcs);
+        battleLog.addAuras(aura, npc.position);
       }
     }
   }
@@ -93,6 +94,7 @@ class Turn {
       }
       for (String aura in player.effects.auras) {
         applyAura(aura, 'player', player.position, players, npcs);
+        battleLog.addAuras(aura, player.position);
       }
     }
   }

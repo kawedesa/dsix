@@ -1,9 +1,10 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
+import 'package:dsix/model/map/menu/map_menu.dart';
 import 'package:dsix/model/map/sprites/action_area_sprite.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/prop/prop.dart';
+import 'package:dsix/model/chest/chest.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/images/app_images.dart';
 
@@ -39,12 +40,12 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
     final buildings = Provider.of<List<Building>>(context);
-    final props = Provider.of<List<Prop>>(context);
+    final chests = Provider.of<List<Chest>>(context);
     final battleLog = Provider.of<List<BattleLog>>(context);
 
     _mapAnimation.checkBattleLog(battleLog);
     _mapAnimation.checkPlayerTurn(game.turn);
-    user.mapInfo.setMapInfo(context, game.map);
+    user.mapInfo.setMapInfo(game.map);
     user.setPlayerMode(game.turn.currentTurn);
 
     return SizedBox(
@@ -56,8 +57,8 @@ class _PlayerMapViewState extends State<PlayerMapView> {
             transformationController: user.mapInfo.canvasController,
             constrained: false,
             panEnabled: true,
-            maxScale: user.mapInfo.minZoom,
-            minScale: user.mapInfo.minZoom,
+            maxScale: user.mapInfo.zoom,
+            minScale: user.mapInfo.zoom,
             child: SizedBox(
               width: 320,
               height: 320,
@@ -73,18 +74,25 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     area: user.combat.actionArea.area,
                   ),
                   _mapAnimation.displayAttackAnimations(),
-                  _playerMapVM.createPropSprites(user, props, players),
+                  _playerMapVM.createChestSprites(user, chests, players),
                   _playerMapVM.createDeadNpcSprites(user, npcs, players),
                   _playerMapVM.createDeadPlayerSprites(players),
                   _playerMapVM.createNpcSprites(user, npcs, players),
                   _playerMapVM.createPlayerSprites(user, players),
                   _mapAnimation.displayDamageAnimations(),
+                  _mapAnimation.displayAuraAnimations(),
+                  _mapAnimation.displayAuraAnimations(),
                 ],
               ),
             ),
           ),
           _mapAnimation.displayTurnAnimations(),
           PlayerActioButtons(fullRefresh: refresh),
+          MapMenu(
+            color: user.color,
+            borderColor: user.lightColor,
+            refresh: () => refresh(),
+          ),
         ],
       ),
     );

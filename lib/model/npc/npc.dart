@@ -529,7 +529,7 @@ class Npc {
         lootValue = 150 + (Random().nextDouble() * 200).toInt();
         break;
     }
-    loot = Shop().createRandomLoot(lootValue);
+    loot = Shop().createLoot(lootValue, 'normal');
     update();
   }
 

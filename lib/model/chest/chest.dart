@@ -3,19 +3,21 @@ import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/item/shop.dart';
 
-class Prop {
+class Chest {
   int id;
   String name;
   double size;
   Position position;
   List<Item> loot;
+  bool locked;
 
-  Prop({
+  Chest({
     required this.id,
     required this.name,
     required this.size,
     required this.position,
     required this.loot,
+    required this.locked,
   });
 
   final database = FirebaseFirestore.instance;
@@ -28,10 +30,11 @@ class Prop {
       'size': size,
       'position': position.toMap(),
       'loot': loot,
+      'locked': locked,
     };
   }
 
-  factory Prop.fromMap(Map<String, dynamic>? data) {
+  factory Chest.fromMap(Map<String, dynamic>? data) {
     List<Item> loot = [];
     List<dynamic> lootMap = data?['loot'];
 
@@ -39,13 +42,18 @@ class Prop {
       loot.add(Item.fromMap(item));
     }
 
-    return Prop(
+    return Chest(
       id: data?['id'],
       name: data?['name'],
       size: data?['size'],
       position: Position.fromMap(data?['position']),
       loot: loot,
+      locked: data?['locked'],
     );
+  }
+
+  void setId() {
+    id = DateTime.now().millisecondsSinceEpoch;
   }
 
   void changePosition(Position newPosition) {
@@ -61,6 +69,11 @@ class Prop {
     }
   }
 
+  void unlock() {
+    locked = false;
+    update();
+  }
+
   void addItemToLoot(Item item) {
     loot.add(item);
     update();
@@ -72,7 +85,14 @@ class Prop {
   }
 
   void createLoot(int lootValue) {
-    loot = Shop().createRandomLoot(lootValue);
+    switch (name) {
+      case 'normal chest':
+        loot = Shop().createLoot(lootValue, 'normal');
+        break;
+      case 'magic chest':
+        loot = Shop().createLoot(lootValue, 'magic');
+        break;
+    }
     update();
   }
 
@@ -93,7 +113,7 @@ class Prop {
     await database
         .collection('game')
         .doc('gameID')
-        .collection('props')
+        .collection('chests')
         .doc(id.toString())
         .delete();
   }
@@ -102,7 +122,7 @@ class Prop {
     await database
         .collection('game')
         .doc('gameID')
-        .collection('props')
+        .collection('chests')
         .doc(id.toString())
         .set(toMap());
   }
@@ -111,7 +131,7 @@ class Prop {
     await database
         .collection('game')
         .doc('gameID')
-        .collection('props')
+        .collection('chests')
         .doc(id.toString())
         .set(toMap());
   }

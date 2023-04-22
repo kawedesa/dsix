@@ -6,7 +6,7 @@ import 'dart:math';
 import 'item.dart';
 
 class Shop {
-  List<Item> createRandomLoot(int value) {
+  List<Item> createLoot(int value, lootType) {
     List<Item> loot = [];
     int lootValue = value;
     int currentValue = 0;
@@ -28,7 +28,9 @@ class Shop {
         loot.add(gold);
         currentValue += leftOverAmount;
       } else {
-        Item newItem = randomItem();
+        String category = lootCategory(lootType);
+
+        Item newItem = randomItem(category);
         if (currentValue + newItem.value <= lootValue) {
           loot.add(newItem);
           currentValue += newItem.value;
@@ -36,13 +38,49 @@ class Shop {
       }
     }
 
+    switch (lootType) {
+      case 'magic':
+        //TODO create enchantedItems
+
+        break;
+    }
+
     return loot;
   }
 
-  Item randomItem() {
+  String lootCategory(String lootType) {
+    List<String> category = [];
+
+    switch (lootType) {
+      case 'normal':
+        category = [
+          'light weapons',
+          'heavy weapons',
+          'ranged weapons',
+          // 'magic weapons',
+          'armor',
+          'consumables',
+        ];
+        break;
+      case 'magic':
+        category = [
+          'light weapons',
+          'heavy weapons',
+          'ranged weapons',
+          // 'magic weapons',
+          'armor',
+        ];
+        break;
+    }
+
+    int randomCategory = Random().nextInt(category.length);
+    return category[randomCategory];
+  }
+
+  Item randomItem(String category) {
     Item newItem = Item.empty();
     int randomItem = 0;
-    switch (randomItemCategory()) {
+    switch (category) {
       case 'light weapons':
         randomItem = Random().nextInt(lightWeapons.length - 1);
         newItem = lightWeapons[randomItem];
@@ -74,19 +112,6 @@ class Shop {
         break;
     }
     return newItem;
-  }
-
-  String randomItemCategory() {
-    List<String> category = [
-      'light weapons',
-      'heavy weapons',
-      'ranged weapons',
-      // 'magic weapons',
-      'armor',
-      'consumables',
-    ];
-    int randomCategory = Random().nextInt(category.length);
-    return category[randomCategory];
   }
 
   List<Item> lightWeapons = [
@@ -1477,143 +1502,7 @@ class Shop {
     ),
   ];
 
-  List<Item> ancient = [
-    // Item(
-    //   icon: AppImages.ancientSword,
-    //   name: 'ancient sword',
-    //   description: '',
-    //   itemSlot: 'one hand',
-    //
-    //   pDamage: 3,
-    //   pArmor: 0,
-    //   mDamage: 2,
-    //   mArmor: 0,
-    //   weight: 2,
-    //   value: 1600,
-    //   maxRange: 15,
-    //   minRange: 0,
-    // ),
-    // Item(
-    //   icon: AppImages.ancientWarAxe,
-    //   name: 'ancient war axe',
-    //   description: '',
-    //   itemSlot: 'two hands',
-    //
-    //   pDamage: 6,
-    //   pArmor: 0,
-    //   mDamage: 2,
-    //   mArmor: 0,
-    //   weight: 4,
-    //   value: 1700,
-    //   maxRange: 20,
-    //   minRange: 25,
-    // ),
-    // Item(
-    //   icon: AppImages.ancientBow,
-    //   name: 'ancient bow',
-    //   description: '',
-    //   itemSlot: 'two hands',
-    //
-    //   pDamage: 4,
-    //   pArmor: 0,
-    //   mDamage: 2,
-    //   mArmor: 0,
-    //   weight: 1,
-    //   value: 1600,
-    //   maxRange: 250,
-    //   minRange: 90,
-    // ),
-    // Item(
-    //   icon: AppImages.ancientSpellBook,
-    //   name: 'ancient spellbook',
-    //   description: '',
-    //   itemSlot: 'one hand',
-    //
-    //   pDamage: 0,
-    //   pArmor: 0,
-    //   mDamage: 6,
-    //   mArmor: 0,
-    //   weight: 2,
-    //   value: 1900,
-    //   maxRange: 40,
-    //   minRange: 0,
-    // ),
-    // Item(
-    //   icon: AppImages.ancientGloves,
-    //   name: 'ancient gloves',
-    //   description: '',
-    //   itemSlot: 'hands',
-    //   type: 'armor',
-    //   pDamage: 0,
-    //   pArmor: 1,
-    //   mDamage: 0,
-    //   mArmor: 1,
-    //   weight: 0,
-    //   value: 800,
-    //   maxRange: 0,
-    //   minRange: 0,
-    // ),
-    // Item(
-    //   icon: AppImages.ancientBoots,
-    //   name: 'ancient boots',
-    //   description: '',
-    //   itemSlot: 'feet',
-    //   type: 'armor',
-    //   pDamage: 0,
-    //   pArmor: 2,
-    //   mDamage: 0,
-    //   mArmor: 1,
-    //   weight: 1,
-    //   value: 900,
-    //   maxRange: 0,
-    //   minRange: 0,
-    // ),
-    // Item(
-    //   icon: AppImages.ancientHelmet,
-    //   name: 'ancient helmet',
-    //   description: '',
-    //   itemSlot: 'head',
-    //   type: 'armor',
-    //   pDamage: 0,
-    //   pArmor: 4,
-    //   mDamage: 0,
-    //   mArmor: 2,
-    //   weight: 2,
-    //   value: 1200,
-    //   maxRange: 0,
-    //   minRange: 0,
-    // ),
-    // Item(
-    //   icon: AppImages.ancientShield,
-    //   name: 'ancient shield',
-    //   description: '',
-    //   itemSlot: 'one hand',
-    //   type: 'armor',
-    //   pDamage: 0,
-    //   pArmor: 3,
-    //   mDamage: 0,
-    //   mArmor: 2,
-    //   weight: 2,
-    //   value: 1600,
-    //   maxRange: 0,
-    //   minRange: 0,
-    // ),
-    // Item(
-    //   icon: AppImages.ancientArmor,
-    //   name: 'ancient armor',
-    //   description: '',
-    //   itemSlot: 'body',
-    //   type: 'armor',
-    //   pDamage: 0,
-    //   pArmor: 5,
-    //   mDamage: 0,
-    //   mArmor: 2,
-    //   weight: 3,
-    //   value: 1600,
-    //   maxRange: 0,
-    //   minRange: 0,
-    // ),
-  ];
+  List<Item> ancient = [];
 
   List<Item> consumables = [
     Item(
@@ -1659,7 +1548,7 @@ class Shop {
     Item(
       name: 'key',
       description: '',
-      itemSlot: 'consumable',
+      itemSlot: 'key',
       effects: [],
       attacks: [],
       armor: Armor.empty(),

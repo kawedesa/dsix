@@ -11,12 +11,14 @@ class BattleLog {
 
   ActionInfo attackInfo;
   List<Target> targets;
+  List<AuraInfo> auras;
 
   BattleLog({
     required this.id,
     required this.message,
     required this.attackInfo,
     required this.targets,
+    required this.auras,
   });
 
   final database = FirebaseFirestore.instance;
@@ -28,6 +30,7 @@ class BattleLog {
       message: '',
       attackInfo: ActionInfo.empty(),
       targets: [],
+      auras: [],
     );
   }
 
@@ -38,22 +41,31 @@ class BattleLog {
       getTargets.add(Target.fromMap(target));
     }
 
+    List<AuraInfo> getAuras = [];
+    List<dynamic> aurasMap = data?['auras'];
+    for (var aura in aurasMap) {
+      getAuras.add(AuraInfo.fromMap(aura));
+    }
+
     return BattleLog(
       id: data?['id'],
       message: data?['message'],
       attackInfo: ActionInfo.fromMap(data?['attackInfo']),
       targets: getTargets,
+      auras: getAuras,
     );
   }
 
   Map<String, dynamic> toMap() {
     var targetToMap = targets.map((target) => target.toMap()).toList();
+    var aurasToMap = auras.map((aura) => aura.toMap()).toList();
 
     return {
       'id': id,
       'message': message,
       'attackInfo': attackInfo.toMap(),
       'targets': targetToMap,
+      'auras': aurasToMap,
     };
   }
 
@@ -117,7 +129,18 @@ class BattleLog {
     attackInfo = info;
   }
 
+  void addAuras(String aura, Position position) {
+    auras.add(AuraInfo(position: position, aura: aura));
+  }
+
   void newBattleLog() {
+    if (auras.isEmpty &&
+        targets.isEmpty &&
+        attackInfo.ability.name == '' &&
+        attackInfo.attack.name == '') {
+      return;
+    }
+
     id = DateTime.now().millisecondsSinceEpoch;
     set();
     reset();
@@ -128,6 +151,7 @@ class BattleLog {
     message = '';
     attackInfo = ActionInfo.empty();
     targets = [];
+    auras = [];
     possibleTargets = [];
   }
 
@@ -187,6 +211,37 @@ class Target {
       'position': position.toMap(),
       'lifeDamage': lifeDamage,
       'armorDamage': armorDamage,
+    };
+  }
+}
+
+class AuraInfo {
+  Position position;
+  String aura;
+
+  AuraInfo({
+    required this.position,
+    required this.aura,
+  });
+
+  factory AuraInfo.empty() {
+    return AuraInfo(
+      position: Position.empty(),
+      aura: '',
+    );
+  }
+
+  factory AuraInfo.fromMap(Map<String, dynamic>? data) {
+    return AuraInfo(
+      position: Position.fromMap(data?['position']),
+      aura: data?['aura'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'position': position.toMap(),
+      'aura': aura,
     };
   }
 }

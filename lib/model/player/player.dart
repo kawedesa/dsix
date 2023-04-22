@@ -631,13 +631,16 @@ class Player {
         int healingAmount = Random().nextInt(3) + 1;
         heal(healingAmount);
         break;
-      case 'key':
-        break;
       case 'antidote':
         effects.removeEffect('poison');
         break;
     }
     removeItemFromBag(item);
+  }
+
+  void useKey() {
+    equipment.useKey();
+    update();
   }
 
   Path getVisionArea() {
