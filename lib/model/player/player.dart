@@ -58,7 +58,7 @@ class Player {
     );
   }
 
-  factory Player.newPlayer(String id) {
+  factory Player.newPlayer(String id, int startingGold) {
     return Player(
       id: id,
       name: '',
@@ -68,7 +68,7 @@ class Player {
       life: Life.empty(),
       position: Position.empty(),
       attributes: Attributes.empty(),
-      equipment: PlayerEquipment.empty(),
+      equipment: PlayerEquipment.newPlayerEquipment(startingGold),
       effects: EffectController.empty(),
       ready: false,
     );
@@ -133,8 +133,9 @@ class Player {
     checkEffectsOnPassTurn();
     if (life.isDead()) {
       die();
+    } else {
+      update();
     }
-    update();
   }
 
   void newRound() {
@@ -319,8 +320,7 @@ class Player {
   }
 
   void applyNewEffect(String effect) {
-    Effect applyEffect =
-        Effect(name: effect, description: '', value: 1, countdown: 1);
+    Effect applyEffect = Effect(name: effect, value: 1, countdown: 1);
 
     switch (effect) {
       case 'bleed':
@@ -468,6 +468,15 @@ class Player {
 
   //EQUIPMENT
   void quickEquip(EquipmentSlot slot) {
+    if (slot.item.itemSlot == 'key') {
+      return;
+    }
+
+    if (slot.item.itemSlot == 'consumable') {
+      useItem(slot.item);
+      return;
+    }
+
     if (slot.name != 'bag') {
       unequip(slot);
       update();

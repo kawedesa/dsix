@@ -143,35 +143,38 @@ class _ChestCreationDialogState extends State<ChestCreationDialog> {
                             open: false,
                           ),
                           SizedBox(
-                            width: AppLayout.avarage(context) * 0.2,
+                            width: AppLayout.avarage(context) * 0.125,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 AppCircularButton(
-                                    onTap: () {
-                                      changeLootValue(-100);
-                                      localRefresh();
-                                    },
-                                    icon: AppImages.minus,
-                                    iconColor: AppColors.uiColor,
-                                    color: Colors.transparent,
-                                    borderColor: AppColors.uiColor,
-                                    size: 0.03),
+                                  icon: AppImages.minus,
+                                  iconColor: AppColors.uiColor,
+                                  color: Colors.transparent,
+                                  borderColor: AppColors.uiColor,
+                                  size: 0.025,
+                                  onTap: () {
+                                    changeLootValue(-100);
+                                    localRefresh();
+                                  },
+                                ),
                                 AppText(
-                                    text: '\$$lootValue',
-                                    fontSize: 0.025,
-                                    letterSpacing: 0.001,
-                                    color: AppColors.uiColor),
+                                  text: '\$$lootValue',
+                                  fontSize: 0.02,
+                                  letterSpacing: 0.0005,
+                                  color: AppColors.uiColor,
+                                ),
                                 AppCircularButton(
-                                    onTap: () {
-                                      changeLootValue(100);
-                                      localRefresh();
-                                    },
-                                    icon: AppImages.plus,
-                                    iconColor: AppColors.uiColor,
-                                    color: Colors.transparent,
-                                    borderColor: AppColors.uiColor,
-                                    size: 0.03)
+                                  icon: AppImages.plus,
+                                  iconColor: AppColors.uiColor,
+                                  color: Colors.transparent,
+                                  borderColor: AppColors.uiColor,
+                                  size: 0.025,
+                                  onTap: () {
+                                    changeLootValue(100);
+                                    localRefresh();
+                                  },
+                                )
                               ],
                             ),
                           ),

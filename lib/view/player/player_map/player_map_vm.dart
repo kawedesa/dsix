@@ -1,4 +1,5 @@
 import 'package:dsix/model/building/building.dart';
+import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/map/sprites/chest/player_view_chest_sprite.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/chest/chest.dart';
@@ -17,11 +18,50 @@ import '../../../model/npc/npc.dart';
 class PlayerMapVM {
   //SPRITES
 
-  //PROPS
-  Widget createChestSprites(
-      User user, List<Chest> chests, List<Player> players) {
+  //BUILDINGS
+  Widget createBuildingSprites(User user, List<Building> buildings,
+      List<Player> players, bool sharedTeamVison) {
+    List<Widget> buildingSprites = [];
+
+    Path playersVisibleArea = Path();
+    if (sharedTeamVison) {
+      playersVisibleArea = getPlayersSharedVision(user.mapInfo, players);
+    } else {
+      playersVisibleArea = getPlayerVision(user.mapInfo, user.player);
+    }
+
+    for (Building building in buildings) {
+      if (building.alwaysVisible) {
+        buildingSprites.add(PlayerViewBuildingSprite(
+          building: building,
+        ));
+        continue;
+      }
+
+      if (!playersVisibleArea.contains(building.position.getOffset())) {
+        continue;
+      }
+      buildingSprites.add(PlayerViewBuildingSprite(
+        building: building,
+      ));
+    }
+
+    return Stack(
+      children: buildingSprites,
+    );
+  }
+
+  //CHEST
+  Widget createChestSprites(User user, List<Chest> chests, List<Player> players,
+      bool sharedTeamVison) {
     List<Widget> chestSprites = [];
-    Path playersVisibleArea = getPlayersVisibleArea(user.mapInfo, players);
+
+    Path playersVisibleArea = Path();
+    if (sharedTeamVison) {
+      playersVisibleArea = getPlayersSharedVision(user.mapInfo, players);
+    } else {
+      playersVisibleArea = getPlayerVision(user.mapInfo, user.player);
+    }
 
     for (Chest chest in chests) {
       if (!playersVisibleArea.contains(chest.position.getOffset())) {
@@ -39,10 +79,17 @@ class PlayerMapVM {
   }
 
   //NPC
-  Widget createDeadNpcSprites(User user, List<Npc> npcs, List<Player> players) {
+  Widget createDeadNpcSprites(
+      User user, List<Npc> npcs, List<Player> players, bool sharedTeamVison) {
     List<Widget> npcSprites = [];
 
-    Path playersVisibleArea = getPlayersVisibleArea(user.mapInfo, players);
+    Path playersVisibleArea = Path();
+
+    if (sharedTeamVison) {
+      playersVisibleArea = getPlayersSharedVision(user.mapInfo, players);
+    } else {
+      playersVisibleArea = getPlayerVision(user.mapInfo, user.player);
+    }
 
     for (Npc npc in npcs) {
       if (!playersVisibleArea.contains(npc.position.getOffset())) {
@@ -62,10 +109,16 @@ class PlayerMapVM {
     );
   }
 
-  Widget createNpcSprites(User user, List<Npc> npcs, List<Player> players) {
+  Widget createNpcSprites(
+      User user, List<Npc> npcs, List<Player> players, bool sharedTeamVison) {
     List<Widget> npcSprites = [];
+    Path playersVisibleArea = Path();
 
-    Path playersVisibleArea = getPlayersVisibleArea(user.mapInfo, players);
+    if (sharedTeamVison) {
+      playersVisibleArea = getPlayersSharedVision(user.mapInfo, players);
+    } else {
+      playersVisibleArea = getPlayerVision(user.mapInfo, user.player);
+    }
 
     for (Npc npc in npcs) {
       if (!playersVisibleArea.contains(npc.position.getOffset())) {
@@ -85,7 +138,25 @@ class PlayerMapVM {
     );
   }
 
-  Path getPlayersVisibleArea(MapInfo mapInfo, List<Player> players) {
+  Path getPlayerVision(MapInfo mapInfo, Player player) {
+    Path playerVisibleArea = Path();
+    playerVisibleArea.fillType = PathFillType.evenOdd;
+
+    Path playerVision = Path.combine(PathOperation.difference,
+        player.getVisionArea(), VisionGrid().getGrid(player.position));
+
+    if (player.position.tile == 'grass' ||
+        player.attributes.vision.canSeeInvisible) {
+      playerVisibleArea = playerVision;
+    } else {
+      playerVisibleArea =
+          Path.combine(PathOperation.difference, playerVision, mapInfo.grass);
+    }
+
+    return playerVisibleArea;
+  }
+
+  Path getPlayersSharedVision(MapInfo mapInfo, List<Player> players) {
     Path visibleArea = Path();
     visibleArea.fillType = PathFillType.evenOdd;
 
@@ -156,20 +227,6 @@ class PlayerMapVM {
 
     return Stack(
       children: playerSprites,
-    );
-  }
-
-  //BUILDINGS
-  Widget createBuildingSprites(List<Building> buildings) {
-    List<Widget> buildingSprites = [];
-    for (Building building in buildings) {
-      buildingSprites.add(PlayerViewBuildingSprite(
-        building: building,
-      ));
-    }
-
-    return Stack(
-      children: buildingSprites,
     );
   }
 }

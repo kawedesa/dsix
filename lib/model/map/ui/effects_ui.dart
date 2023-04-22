@@ -22,7 +22,6 @@ class EffectsUi extends StatelessWidget {
       effectsIcons.add(SpriteEffects(
           effect: Effect(
         name: 'tempArmor',
-        description: '',
         value: tempArmor,
         countdown: tempArmor,
       )));
@@ -31,7 +30,6 @@ class EffectsUi extends StatelessWidget {
       effectsIcons.add(SpriteEffects(
           effect: Effect(
         name: 'tempVision',
-        description: '',
         value: 0,
         countdown: 0,
       )));

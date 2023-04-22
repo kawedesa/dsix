@@ -73,6 +73,9 @@ class BattleLog {
     possibleTargets = [];
 
     for (Player player in players) {
+      if (player.life.isDead()) {
+        continue;
+      }
       possibleTargets.add(Target(
           id: player.id,
           position: player.position,
@@ -81,6 +84,9 @@ class BattleLog {
     }
 
     for (Npc npc in npcs) {
+      if (npc.life.isDead()) {
+        continue;
+      }
       possibleTargets.add(Target(
           id: npc.id.toString(),
           position: npc.position,

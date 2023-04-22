@@ -127,11 +127,7 @@ class Combat {
       List<int> armorAndLifeDamage = npc.receiveAttack(actionInfo.attack);
 
       if (armorAndLifeDamage == [0, 0]) {
-        continue;
-      }
-
-      if (npc.life.isDead()) {
-        npc.die(players, npcs);
+        print('armorAndLifeDamage check is used');
         continue;
       }
 
@@ -141,6 +137,10 @@ class Combat {
           npc.knockBack(actionInfo.actionCenter);
         }
         npc.onDamageEffects();
+      }
+
+      if (npc.life.isDead()) {
+        npc.die(players, npcs);
       }
     }
   }
@@ -166,11 +166,7 @@ class Combat {
       List<int> armorAndLifeDamage = player.receiveAttack(actionInfo.attack);
 
       if (armorAndLifeDamage == [0, 0]) {
-        continue;
-      }
-
-      if (player.life.isDead()) {
-        player.die();
+        print('armorAndLifeDamage check is used');
         continue;
       }
 
@@ -180,6 +176,9 @@ class Combat {
         if (actionInfo.attack.effects.contains('knockback')) {
           player.knockBack(actionInfo.actionCenter);
         }
+      }
+      if (player.life.isDead()) {
+        player.die();
       }
     }
   }

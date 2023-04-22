@@ -210,8 +210,8 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
           mirrorImage.abilities = [];
           mirrorImage.attacks = [];
           mirrorImage.effects.onDamage.add('vanish');
-          mirrorImage.effects.currentEffects.add(Effect(
-              name: 'illusion', description: '', value: 0, countdown: 2));
+          mirrorImage.effects.currentEffects
+              .add(Effect(name: 'illusion', value: 0, countdown: 2));
 
           for (int i = 0; i < 3; i++) {
             mirrorImage.id = DateTime.now().millisecondsSinceEpoch + i;

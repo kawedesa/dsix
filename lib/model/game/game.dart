@@ -5,23 +5,26 @@ import 'package:dsix/model/player/player.dart';
 
 class Game {
   String phase;
-  int difficulty;
+
   int round;
   Turn turn;
   String map;
   String quest;
   int numberOfPlayers;
+  int startingGold;
+  bool sharedTeamVision;
   List<String> availablePlayers;
   List<String> choosenPlayers;
 
   Game({
     required this.phase,
-    required this.difficulty,
     required this.round,
     required this.turn,
     required this.map,
     required this.quest,
     required this.numberOfPlayers,
+    required this.startingGold,
+    required this.sharedTeamVision,
     required this.availablePlayers,
     required this.choosenPlayers,
   });
@@ -30,12 +33,13 @@ class Game {
   Map<String, dynamic> toMap() {
     return {
       'phase': phase,
-      'difficulty': difficulty,
       'round': round,
       'turn': turn.toMap(),
       'map': map,
       'quest': quest,
       'numberOfPlayers': numberOfPlayers,
+      'startingGold': startingGold,
+      'sharedTeamVision': sharedTeamVision,
       'availablePlayers': availablePlayers,
       'choosenPlayers': choosenPlayers,
     };
@@ -56,12 +60,13 @@ class Game {
 
     return Game(
       phase: data?['phase'],
-      difficulty: data?['difficulty'],
       round: data?['round'],
       turn: Turn.fromMap(data?['turn']),
       map: data?['map'],
       quest: data?['quest'],
       numberOfPlayers: data?['numberOfPlayers'],
+      startingGold: data?['startingGold'],
+      sharedTeamVision: data?['sharedTeamVision'],
       availablePlayers: availablePlayers,
       choosenPlayers: choosenPlayers,
     );
@@ -70,26 +75,29 @@ class Game {
   factory Game.empty() {
     return Game(
       phase: 'empty',
-      difficulty: 0,
       round: 0,
       turn: Turn.empty(),
       map: '',
       quest: '',
       numberOfPlayers: 0,
+      startingGold: 0,
+      sharedTeamVision: true,
       availablePlayers: ['blue', 'pink', 'green', 'yellow', 'purple'],
       choosenPlayers: [],
     );
   }
 
-  factory Game.newGame(int choosenDifficulty, int numberOfPlayers) {
+  factory Game.newGame(
+      int numberOfPlayers, int startingGold, bool sharedTeamVision) {
     return Game(
       phase: 'creation',
-      difficulty: choosenDifficulty,
       round: 1,
       turn: Turn.empty(),
       map: '',
       quest: '',
       numberOfPlayers: numberOfPlayers,
+      startingGold: startingGold,
+      sharedTeamVision: sharedTeamVision,
       availablePlayers: ['blue', 'pink', 'green', 'yellow', 'purple'],
       choosenPlayers: [],
     );
@@ -113,11 +121,10 @@ class Game {
         .delete();
   }
 
-  void newGame(int choosenDifficulty, int numberOfPlayers) async {
-    await database
-        .collection('game')
-        .doc('gameID')
-        .set(Game.newGame(choosenDifficulty, numberOfPlayers).toMap());
+  void newGame(
+      int numberOfPlayers, int startingGold, bool sharedTeamVision) async {
+    await database.collection('game').doc('gameID').set(
+        Game.newGame(numberOfPlayers, startingGold, sharedTeamVision).toMap());
   }
 
   void newRound() {

@@ -1,5 +1,3 @@
-import 'package:dsix/model/effect/effect.dart';
-
 class Vision {
   int attribute;
   int tempVision;
@@ -56,10 +54,6 @@ class Vision {
   void look() {
     tempVision = attribute * 20;
     canSeeInvisible = true;
-  }
-
-  Effect getTempVisionEffect() {
-    return Effect(name: 'tempVision', description: '', value: 0, countdown: 0);
   }
 
   void resetTempVision() {

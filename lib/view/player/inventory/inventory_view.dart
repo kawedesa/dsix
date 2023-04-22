@@ -129,8 +129,8 @@ class _InventoryViewState extends State<InventoryView> {
                       const AppSeparatorVertical(value: 0.025),
                       SizedBox(
                         width: AppLayout.avarage(context) * 0.5,
-                        // ignore: prefer_const_constructors
                         child: BagSlot(
+                          displayOnly: false,
                           refresh: () => widget.refresh(),
                         ),
                       ),

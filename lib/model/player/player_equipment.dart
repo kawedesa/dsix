@@ -37,7 +37,22 @@ class PlayerEquipment {
       bag: [],
       maxWeight: 0,
       currentWeight: 0,
-      gold: 500,
+      gold: 0,
+    );
+  }
+
+  factory PlayerEquipment.newPlayerEquipment(int startingGold) {
+    return PlayerEquipment(
+      mainHandSlot: EquipmentSlot.empty('mainHandSlot'),
+      offHandSlot: EquipmentSlot.empty('offHandSlot'),
+      headSlot: EquipmentSlot.empty('headSlot'),
+      bodySlot: EquipmentSlot.empty('bodySlot'),
+      handSlot: EquipmentSlot.empty('handSlot'),
+      feetSlot: EquipmentSlot.empty('feetSlot'),
+      bag: [],
+      maxWeight: 0,
+      currentWeight: 0,
+      gold: startingGold,
     );
   }
 

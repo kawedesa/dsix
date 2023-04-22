@@ -16,6 +16,7 @@ class InventorySlot extends StatelessWidget {
   final Function(EquipmentSlot) onAccept;
   final Function() onDragComplete;
   final Function() onTap;
+  final Function() onDoubleTap;
 
   const InventorySlot({
     super.key,
@@ -28,6 +29,7 @@ class InventorySlot extends StatelessWidget {
     required this.onAccept,
     required this.onDragComplete,
     required this.onTap,
+    required this.onDoubleTap,
   });
 
   @override
@@ -57,9 +59,7 @@ class InventorySlot extends StatelessWidget {
                   )
                 : GestureDetector(
                     onTap: () => onTap(),
-                    onDoubleTap: () {
-                      player.quickEquip(equipmentSlot);
-                    },
+                    onDoubleTap: () => onDoubleTap(),
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Draggable<EquipmentSlot>(

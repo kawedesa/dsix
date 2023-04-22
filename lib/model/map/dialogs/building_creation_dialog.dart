@@ -2,12 +2,17 @@ import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/building/building_list.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/shared_widgets/button/app_text_button.dart';
+import 'package:dsix/shared/shared_widgets/button/app_toggle_button.dart';
 import 'package:dsix/shared/shared_widgets/layout/app_line_divider_horizontal.dart';
+import 'package:dsix/shared/shared_widgets/layout/app_separator_horizontal.dart';
+import 'package:dsix/shared/shared_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/shared_widgets/text/app_text.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/images/building_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class BuildingCreationDialog extends StatefulWidget {
@@ -21,6 +26,10 @@ class BuildingCreationDialog extends StatefulWidget {
 
 class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
   Building? selectedBuilding;
+
+  void localRefresh() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +70,9 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    setState(() {
-                                      selectedBuilding = BuildingList()
-                                          .getBuildingList()[index];
-                                    });
+                                    selectedBuilding =
+                                        BuildingList().getBuildingList()[index];
+                                    localRefresh();
                                   },
                                   child: Container(
                                     color: (selectedBuilding!.name ==
@@ -116,19 +124,48 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
                       height: AppLayout.avarage(context) * 0.4,
                       child: Center(
                           child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          const AppSeparatorVertical(value: 0.01),
                           AppText(
                               bold: true,
                               text: selectedBuilding!.name.toUpperCase(),
                               fontSize: 0.025,
                               letterSpacing: 0.002,
                               color: AppColors.uiColor),
+                          SizedBox(
+                            width: AppLayout.avarage(context) * 0.3,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(AppImages.vision,
+                                        color: AppColors.uiColor,
+                                        width:
+                                            AppLayout.avarage(context) * 0.015),
+                                    const AppSeparatorHorizontal(value: 0.005),
+                                    AppToggleButton(
+                                      color: AppColors.uiColor,
+                                      selected: selectedBuilding!.alwaysVisible,
+                                      size: 0.01,
+                                      onTap: () {
+                                        selectedBuilding!.changeAlwaysVisible();
+                                        localRefresh();
+                                      },
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          const AppSeparatorVertical(value: 0.035),
                           BuildingImage(
                             name: selectedBuilding!.name,
                             size: AppLayout.avarage(context) * 0.2,
                           ),
+                          const AppSeparatorVertical(value: 0.03),
                           AppTextButton(
                               color: AppColors.uiColor,
                               buttonText: 'choose',

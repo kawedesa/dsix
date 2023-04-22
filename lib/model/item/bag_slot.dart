@@ -11,7 +11,8 @@ import 'package:dsix/shared/app_globals.dart';
 
 class BagSlot extends StatelessWidget {
   final Function() refresh;
-  const BagSlot({super.key, required this.refresh});
+  final bool displayOnly;
+  const BagSlot({super.key, required this.refresh, required this.displayOnly});
 
   @override
   Widget build(BuildContext context) {
@@ -70,17 +71,17 @@ class BagSlot extends StatelessWidget {
               crossAxisCount: 6,
               children:
                   List.generate(user.player.equipment.bag.length, (index) {
+                EquipmentSlot equipmentSlot = EquipmentSlot(
+                    name: 'bag', item: user.player.equipment.bag[index]);
+
                 return InventorySlot(
                   player: user.player,
                   color: user.color,
                   darkColor: user.darkColor,
-                  icon: AppImages()
-                      .getItemIcon(user.player.equipment.bag[index].name),
-                  equipmentSlot: EquipmentSlot(
-                      name: 'bag', item: user.player.equipment.bag[index]),
+                  icon: AppImages().getItemIcon(equipmentSlot.item.name),
+                  equipmentSlot: equipmentSlot,
                   onDragComplete: () {
-                    user.player
-                        .removeItemFromBag(user.player.equipment.bag[index]);
+                    user.player.removeItemFromBag(equipmentSlot.item);
                   },
                   onAccept: (equipment) {},
                   onWillAccept: (equipment) {
@@ -93,12 +94,18 @@ class BagSlot extends StatelessWidget {
                         return ItemDialog(
                           color: user.color,
                           darkColor: user.darkColor,
-                          item: user.player.equipment.bag[index],
-                          displayOnly: false,
+                          item: equipmentSlot.item,
+                          displayOnly: displayOnly,
                         );
                       },
                     ).then((value) => refresh());
                   },
+                  onDoubleTap: (displayOnly)
+                      ? () {}
+                      : () {
+                          user.player.quickEquip(equipmentSlot);
+                          refresh();
+                        },
                 );
               }),
             ),

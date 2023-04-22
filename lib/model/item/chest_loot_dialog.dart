@@ -2,7 +2,9 @@ import 'package:dsix/model/item/bag_slot.dart';
 import 'package:dsix/model/item/loot_slot.dart';
 import 'package:dsix/model/chest/chest.dart';
 import 'package:dsix/model/user/user.dart';
+import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/shared/app_layout.dart';
+import 'package:dsix/shared/shared_widgets/app_snackbar.dart';
 import 'package:dsix/shared/shared_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -58,13 +60,23 @@ class _ChestLootDialogState extends State<ChestLootDialog> {
                 widget.chest.removeItemFromLoot(item);
                 localRefresh();
               },
+              onDoubleTap: (equipment) {
+                if (user.player.equipment.tooHeavy(equipment.item.weight)) {
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar('too heavy'.toUpperCase(), user.color));
+                  return;
+                }
+                user.player.addItemToBag(equipment);
+                widget.chest.removeItemFromLoot(equipment.item);
+                localRefresh();
+              },
             ),
             DialogTitle(
               color: user.color,
               title: 'bag',
             ),
-            // ignore: prefer_const_constructors
             BagSlot(
+              displayOnly: true,
               refresh: () => localRefresh(),
             ),
           ],

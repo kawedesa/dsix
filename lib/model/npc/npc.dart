@@ -107,8 +107,9 @@ class Npc {
 
     if (life.isDead()) {
       die(players, npcs);
+    } else {
+      update();
     }
-    update();
   }
 
   void checkEffectsOnPassTurn() {
@@ -280,11 +281,11 @@ class Npc {
           break;
       }
     }
+    effects.onDeath = [];
   }
 
   void resetEffects() {
     effects.resetCurrentEffects();
-    effects.onDeath = [];
     markEffectsToRemove();
   }
 
@@ -335,8 +336,7 @@ class Npc {
   }
 
   void applyNewEffect(String effect) {
-    Effect applyEffect =
-        Effect(name: effect, description: '', value: 1, countdown: 1);
+    Effect applyEffect = Effect(name: effect, value: 1, countdown: 1);
 
     switch (effect) {
       case 'bleed':
@@ -530,7 +530,6 @@ class Npc {
         break;
     }
     loot = Shop().createLoot(lootValue, 'normal');
-    update();
   }
 
   void addItemToLoot(Item item) {

@@ -6,12 +6,14 @@ class Building {
   String name;
   double size;
   Position position;
+  bool alwaysVisible;
 
   Building({
     required this.id,
     required this.name,
     required this.size,
     required this.position,
+    required this.alwaysVisible,
   });
 
   final database = FirebaseFirestore.instance;
@@ -22,6 +24,7 @@ class Building {
       'name': name,
       'size': size,
       'position': position.toMap(),
+      'alwaysVisible': alwaysVisible,
     };
   }
 
@@ -31,7 +34,18 @@ class Building {
       name: data?['name'],
       size: data?['size'],
       position: Position.fromMap(data?['position']),
+      alwaysVisible: data?['alwaysVisible'],
     );
+  }
+
+  void changeAlwaysVisible() {
+    if (alwaysVisible) {
+      alwaysVisible = false;
+    } else {
+      alwaysVisible = true;
+    }
+
+    update();
   }
 
   void changePosition(Position newPosition) {

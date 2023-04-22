@@ -52,6 +52,10 @@ class InventoryVM {
           },
         );
       },
+      onDoubleTap: () {
+        user.player.quickEquip(user.player.equipment.mainHandSlot);
+        refresh();
+      },
     );
 
     headSlot = InventorySlot(
@@ -88,6 +92,10 @@ class InventoryVM {
           },
         );
       },
+      onDoubleTap: () {
+        user.player.quickEquip(user.player.equipment.headSlot);
+        refresh();
+      },
     );
 
     bodySlot = InventorySlot(
@@ -123,6 +131,10 @@ class InventoryVM {
             );
           },
         );
+      },
+      onDoubleTap: () {
+        user.player.quickEquip(user.player.equipment.bodySlot);
+        refresh();
       },
     );
 
@@ -165,6 +177,10 @@ class InventoryVM {
           },
         );
       },
+      onDoubleTap: () {
+        user.player.quickEquip(user.player.equipment.offHandSlot);
+        refresh();
+      },
     );
 
     handSlot = InventorySlot(
@@ -201,6 +217,10 @@ class InventoryVM {
           },
         );
       },
+      onDoubleTap: () {
+        user.player.quickEquip(user.player.equipment.handSlot);
+        refresh();
+      },
     );
 
     feetSlot = InventorySlot(
@@ -236,6 +256,10 @@ class InventoryVM {
             );
           },
         );
+      },
+      onDoubleTap: () {
+        user.player.quickEquip(user.player.equipment.feetSlot);
+        refresh();
       },
     );
   }

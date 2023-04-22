@@ -12,12 +12,14 @@ class LootSlot extends StatelessWidget {
   final List<Item> items;
   final Function(EquipmentSlot) onAccept;
   final Function(Item) onDragComplete;
+  final Function(EquipmentSlot) onDoubleTap;
 
   const LootSlot({
     super.key,
     required this.items,
     required this.onAccept,
     required this.onDragComplete,
+    required this.onDoubleTap,
   });
 
   @override
@@ -62,13 +64,15 @@ class LootSlot extends StatelessWidget {
               physics: const ScrollPhysics(),
               crossAxisCount: 6,
               children: List.generate(items.length, (index) {
+                EquipmentSlot equipmentSlot =
+                    EquipmentSlot(name: 'loot', item: items[index]);
+
                 return InventorySlot(
                   player: user.player,
                   color: user.color,
                   darkColor: user.darkColor,
                   icon: AppImages().getItemIcon(items[index].name),
-                  equipmentSlot:
-                      EquipmentSlot(name: 'loot', item: items[index]),
+                  equipmentSlot: equipmentSlot,
                   onDragComplete: () {
                     onDragComplete(items[index]);
                   },
@@ -88,6 +92,9 @@ class LootSlot extends StatelessWidget {
                         );
                       },
                     );
+                  },
+                  onDoubleTap: () {
+                    onDoubleTap(equipmentSlot);
                   },
                 );
               }),

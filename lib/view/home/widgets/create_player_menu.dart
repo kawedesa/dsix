@@ -62,7 +62,7 @@ class _CreatePlayerMenuState extends State<CreatePlayerMenu> {
   }
 
   void newPlayer(Game game, User user, String color) {
-    Player newPlayer = Player.newPlayer(color);
+    Player newPlayer = Player.newPlayer(color, game.startingGold);
     user.selectPlayer(newPlayer);
     newPlayer.set();
   }

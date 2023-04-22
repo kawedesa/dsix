@@ -7,24 +7,28 @@ class BuildingList {
     name: 'black tablet',
     size: 32,
     position: Position.empty(),
+    alwaysVisible: true,
   );
   static Building divineAltar = Building(
     id: 0,
     name: 'divine altar',
     size: 32,
     position: Position.empty(),
+    alwaysVisible: true,
   );
   static Building earthAltar = Building(
     id: 0,
     name: 'earth altar',
     size: 32,
     position: Position.empty(),
+    alwaysVisible: true,
   );
   static Building sacrificeAltar = Building(
     id: 0,
     name: 'sacrifice altar',
     size: 32,
     position: Position.empty(),
+    alwaysVisible: true,
   );
 
   static Building tower = Building(
@@ -32,6 +36,7 @@ class BuildingList {
     name: 'tower',
     size: 32,
     position: Position.empty(),
+    alwaysVisible: true,
   );
 
   static Building barricade = Building(
@@ -39,6 +44,7 @@ class BuildingList {
     name: 'barricade',
     size: 32,
     position: Position.empty(),
+    alwaysVisible: true,
   );
 
   List<Building> getBuildingList() {

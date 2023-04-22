@@ -69,15 +69,19 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     width: AppLayout.longest(context),
                     height: AppLayout.longest(context),
                   ),
-                  _playerMapVM.createBuildingSprites(buildings),
+                  _playerMapVM.createBuildingSprites(
+                      user, buildings, players, game.sharedTeamVision),
                   ActionAreaSprite(
                     area: user.combat.actionArea.area,
                   ),
                   _mapAnimation.displayAttackAnimations(),
-                  _playerMapVM.createChestSprites(user, chests, players),
-                  _playerMapVM.createDeadNpcSprites(user, npcs, players),
+                  _playerMapVM.createChestSprites(
+                      user, chests, players, game.sharedTeamVision),
+                  _playerMapVM.createDeadNpcSprites(
+                      user, npcs, players, game.sharedTeamVision),
                   _playerMapVM.createDeadPlayerSprites(players),
-                  _playerMapVM.createNpcSprites(user, npcs, players),
+                  _playerMapVM.createNpcSprites(
+                      user, npcs, players, game.sharedTeamVision),
                   _playerMapVM.createPlayerSprites(user, players),
                   _mapAnimation.displayDamageAnimations(),
                   _mapAnimation.displayAuraAnimations(),
