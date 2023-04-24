@@ -129,6 +129,7 @@ class Game {
 
   void newRound() {
     deleteSpawners();
+    deleteTiles();
     deleteBuildings();
     deleteNpcs();
     deleteChests();
@@ -155,10 +156,16 @@ class Game {
     update();
   }
 
+  void chooseMap(String map) {
+    this.map = map;
+    update();
+  }
+
   void deleteGame() async {
     await database.collection('game').doc('gameID').set(Game.empty().toMap());
     deleteAllPlayers();
     deleteSpawners();
+    deleteTiles();
     deleteBuildings();
     deleteNpcs();
     deleteChests();
@@ -180,6 +187,23 @@ class Game {
     });
 
     playerBatch.commit();
+  }
+
+  void deleteTiles() async {
+    var tileBatch = database.batch();
+
+    await database
+        .collection('game')
+        .doc('gameID')
+        .collection('tiles')
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        tileBatch.delete(ds.reference);
+      }
+    });
+
+    tileBatch.commit();
   }
 
   void deleteSpawners() async {

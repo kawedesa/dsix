@@ -1,4 +1,5 @@
 import 'package:dsix/model/map/buttons/creator/chest_creation_button.dart';
+import 'package:dsix/model/map/buttons/creator/tile_creation_button.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/shared_widgets/layout/app_separator_horizontal.dart';
@@ -67,6 +68,12 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
                   user.deselect();
                 }
 
+                if (user.placingSomething == 'tile') {
+                  user.createTile();
+                  user.resetPlacing();
+                  user.deselect();
+                }
+
                 localRefresh();
               }),
           (user.placingSomething == 'false')
@@ -76,28 +83,27 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const AppSeparatorVertical(value: 0.025),
-                      SpawnerCreationButton(
-                          active: (spawners.isEmpty) ? true : false,
-                          fullRefresh: widget.refresh),
+                      TileCreationButton(fullRefresh: () {
+                        widget.refresh();
+                      }),
+                      const AppSeparatorHorizontal(value: 0.01),
+                      BuildingCreationButton(fullRefresh: () {
+                        widget.refresh();
+                      }),
                       const AppSeparatorHorizontal(value: 0.01),
                       NpcCreationButton(
-                        active: (spawners.isEmpty) ? false : true,
                         fullRefresh: () {
                           widget.refresh();
                         },
                       ),
                       const AppSeparatorHorizontal(value: 0.01),
-                      BuildingCreationButton(
-                          active: (spawners.isEmpty) ? false : true,
-                          fullRefresh: () {
-                            widget.refresh();
-                          }),
+                      ChestCreationButton(fullRefresh: () {
+                        widget.refresh();
+                      }),
                       const AppSeparatorHorizontal(value: 0.01),
-                      ChestCreationButton(
-                          active: (spawners.isEmpty) ? false : true,
-                          fullRefresh: () {
-                            widget.refresh();
-                          }),
+                      SpawnerCreationButton(
+                          active: (spawners.isEmpty) ? true : false,
+                          fullRefresh: widget.refresh),
                       const AppSeparatorHorizontal(value: 0.01),
                       StartGameButton(
                           active: (spawners.isEmpty) ? false : true),

@@ -50,7 +50,7 @@ class ItemDialog extends StatelessWidget {
               children: [
                 DialogTitle(
                   color: color,
-                  title: item.name,
+                  title: (item.enchanted) ? 'magic ${item.name}' : item.name,
                   subTitle: item.itemSlot,
                 ),
                 (displayOnly)

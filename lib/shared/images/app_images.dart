@@ -3,9 +3,15 @@ class AppImages {
   static const logo = 'assets/images/ui/logo.svg';
   static const cancel = 'assets/images/ui/cancel.svg';
   static const duplicate = 'assets/images/ui/duplicate.svg';
+  static const horizontalFlip = 'assets/images/ui/horizontalFlip.svg';
+  static const verticalFlip = 'assets/images/ui/verticalFlip.svg';
+  static const rotationRight = 'assets/images/ui/rotationRight.svg';
+  static const rotationLeft = 'assets/images/ui/rotationLeft.svg';
   static const confirm = 'assets/images/ui/confirm.svg';
   static const left = 'assets/images/ui/left.svg';
   static const right = 'assets/images/ui/right.svg';
+  static const top = 'assets/images/ui/top.svg';
+  static const bottom = 'assets/images/ui/bottom.svg';
   static const locked = 'assets/images/ui/locked.svg';
   static const unlocked = 'assets/images/ui/unlocked.svg';
   static const male = 'assets/images/ui/male.svg';
@@ -108,6 +114,7 @@ class AppImages {
   static const npc = 'assets/images/ui/npc.svg';
   static const building = 'assets/images/ui/building.svg';
   static const chest = 'assets/images/ui/chest.svg';
+  static const tile = 'assets/images/ui/tile.svg';
   static const turn = 'assets/images/ui/turn.svg';
 
   static const shop = 'assets/images/ui/shop.svg';
@@ -779,13 +786,140 @@ class AppImages {
     return buildingSprite;
   }
 
+  //TILE
+  static const tile01 = 'assets/images/sprites/tiles/tile01.svg';
+  static const tile02 = 'assets/images/sprites/tiles/tile02.svg';
+  static const tile03 = 'assets/images/sprites/tiles/tile03.svg';
+  static const tile04 = 'assets/images/sprites/tiles/tile04.svg';
+  static const tile05 = 'assets/images/sprites/tiles/tile05.svg';
+  static const tile06 = 'assets/images/sprites/tiles/tile06.svg';
+  static const tile07 = 'assets/images/sprites/tiles/tile07.svg';
+  static const tile08 = 'assets/images/sprites/tiles/tile08.svg';
+  static const tile09 = 'assets/images/sprites/tiles/tile09.svg';
+  static const tile10 = 'assets/images/sprites/tiles/tile10.svg';
+  static const tile11 = 'assets/images/sprites/tiles/tile11.svg';
+  static const tile12 = 'assets/images/sprites/tiles/tile12.svg';
+  static const tile13 = 'assets/images/sprites/tiles/tile13.svg';
+  static const tile14 = 'assets/images/sprites/tiles/tile14.svg';
+  static const tile15 = 'assets/images/sprites/tiles/tile15.svg';
+  static const tile16 = 'assets/images/sprites/tiles/tile16.svg';
+  static const tile17 = 'assets/images/sprites/tiles/tile17.svg';
+  static const tile18 = 'assets/images/sprites/tiles/tile18.svg';
+  static const tile19 = 'assets/images/sprites/tiles/tile19.svg';
+  static const tile20 = 'assets/images/sprites/tiles/tile20.svg';
+  static const tile21 = 'assets/images/sprites/tiles/tile21.svg';
+  static const tile22 = 'assets/images/sprites/tiles/tile22.svg';
+  static const tile23 = 'assets/images/sprites/tiles/tile23.svg';
+  static const tile24 = 'assets/images/sprites/tiles/tile24.svg';
+  static const tile25 = 'assets/images/sprites/tiles/tile25.svg';
+  static const tile26 = 'assets/images/sprites/tiles/tile26.svg';
+  static const tile27 = 'assets/images/sprites/tiles/tile27.svg';
+  static const tile28 = 'assets/images/sprites/tiles/tile28.svg';
+
+  String getTileSprite(String tile) {
+    String tileSprite = '';
+
+    switch (tile) {
+      case 'tile01':
+        tileSprite = tile01;
+        break;
+      case 'tile02':
+        tileSprite = tile02;
+        break;
+      case 'tile03':
+        tileSprite = tile03;
+        break;
+      case 'tile04':
+        tileSprite = tile04;
+        break;
+      case 'tile05':
+        tileSprite = tile05;
+        break;
+      case 'tile06':
+        tileSprite = tile06;
+        break;
+      case 'tile07':
+        tileSprite = tile07;
+        break;
+      case 'tile08':
+        tileSprite = tile08;
+        break;
+      case 'tile09':
+        tileSprite = tile09;
+        break;
+      case 'tile10':
+        tileSprite = tile10;
+        break;
+      case 'tile11':
+        tileSprite = tile11;
+        break;
+      case 'tile12':
+        tileSprite = tile12;
+        break;
+      case 'tile13':
+        tileSprite = tile13;
+        break;
+      case 'tile14':
+        tileSprite = tile14;
+        break;
+      case 'tile15':
+        tileSprite = tile15;
+        break;
+      case 'tile16':
+        tileSprite = tile16;
+        break;
+      case 'tile17':
+        tileSprite = tile17;
+        break;
+      case 'tile18':
+        tileSprite = tile18;
+        break;
+      case 'tile19':
+        tileSprite = tile19;
+        break;
+      case 'tile20':
+        tileSprite = tile20;
+        break;
+      case 'tile21':
+        tileSprite = tile21;
+        break;
+      case 'tile22':
+        tileSprite = tile22;
+        break;
+      case 'tile23':
+        tileSprite = tile23;
+        break;
+      case 'tile24':
+        tileSprite = tile24;
+        break;
+      case 'tile25':
+        tileSprite = tile25;
+        break;
+      case 'tile26':
+        tileSprite = tile26;
+        break;
+      case 'tile27':
+        tileSprite = tile27;
+        break;
+      case 'tile28':
+        tileSprite = tile28;
+        break;
+    }
+
+    return tileSprite;
+  }
+
   //Map
+  static const emptyMap = 'assets/images/maps/emptyMap.svg';
   static const oldRuins = 'assets/images/maps/oldRuins.svg';
 
-  String getMapImage(String map) {
+  String getMapImage(String mapName) {
     String mapImage = '';
 
-    switch (map) {
+    switch (mapName) {
+      case 'empty':
+        mapImage = emptyMap;
+        break;
       case 'old ruins':
         mapImage = oldRuins;
         break;

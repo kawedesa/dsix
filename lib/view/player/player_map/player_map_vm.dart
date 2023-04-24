@@ -1,8 +1,9 @@
 import 'package:dsix/model/building/building.dart';
-import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/map/sprites/chest/player_view_chest_sprite.dart';
+import 'package:dsix/model/map/sprites/tile/player_view_tile_sprite.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/model/map/map_info.dart';
 import 'package:dsix/model/map/vision_grid.dart';
@@ -17,6 +18,23 @@ import '../../../model/npc/npc.dart';
 
 class PlayerMapVM {
   //SPRITES
+  //TILE
+  Widget createTileSprites(List<Tile> tiles) {
+    List<Widget> tileSprites = [];
+
+    for (Tile tile in tiles) {
+      if (tile.visibility == false) {
+        continue;
+      }
+      tileSprites.add(PlayerViewTileSprite(
+        tile: tile,
+      ));
+    }
+
+    return Stack(
+      children: tileSprites,
+    );
+  }
 
   //BUILDINGS
   Widget createBuildingSprites(User user, List<Building> buildings,
@@ -149,8 +167,8 @@ class PlayerMapVM {
         player.attributes.vision.canSeeInvisible) {
       playerVisibleArea = playerVision;
     } else {
-      playerVisibleArea =
-          Path.combine(PathOperation.difference, playerVision, mapInfo.grass);
+      playerVisibleArea = Path.combine(
+          PathOperation.difference, playerVision, mapInfo.map.grass);
     }
 
     return playerVisibleArea;
@@ -173,8 +191,8 @@ class PlayerMapVM {
           player.attributes.vision.canSeeInvisible) {
         playerVisibleArea = playerVision;
       } else {
-        playerVisibleArea =
-            Path.combine(PathOperation.difference, playerVision, mapInfo.grass);
+        playerVisibleArea = Path.combine(
+            PathOperation.difference, playerVision, mapInfo.map.grass);
       }
 
       visibleArea =

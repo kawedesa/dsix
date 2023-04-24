@@ -5,6 +5,7 @@ import 'package:dsix/model/map/menu/map_menu.dart';
 import 'package:dsix/model/map/sprites/action_area_sprite.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/images/app_images.dart';
 
@@ -40,12 +41,13 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
     final buildings = Provider.of<List<Building>>(context);
+    final tiles = Provider.of<List<Tile>>(context);
     final chests = Provider.of<List<Chest>>(context);
     final battleLog = Provider.of<List<BattleLog>>(context);
 
     _mapAnimation.checkBattleLog(battleLog);
     _mapAnimation.checkPlayerTurn(game.turn);
-    user.mapInfo.setMapInfo(game.map);
+    user.mapInfo.setMap(game.map);
     user.setPlayerMode(game.turn.currentTurn);
 
     return SizedBox(
@@ -69,6 +71,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     width: AppLayout.longest(context),
                     height: AppLayout.longest(context),
                   ),
+                  _playerMapVM.createTileSprites(tiles),
                   _playerMapVM.createBuildingSprites(
                       user, buildings, players, game.sharedTeamVision),
                   ActionAreaSprite(

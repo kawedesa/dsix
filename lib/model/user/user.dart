@@ -4,6 +4,7 @@ import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/model/map/map_info.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class User {
   }
 
   //MAPINFO
-  MapInfo mapInfo = MapInfo.empty();
+  MapInfo mapInfo = MapInfo();
 
   //COMBAT
   Combat combat = Combat();
@@ -97,11 +98,11 @@ class User {
   }
 
   //SELECTION
-
   void deselect() {
     npc = null;
     building = null;
     chest = null;
+    tile = null;
   }
 
   bool somethingIsSelected() {
@@ -200,20 +201,18 @@ class User {
   }
 
   //BUILDING
-
   Building? building;
+  // void updateBuilding(List<Building> buildings) {
+  //   if (building == null) {
+  //     return;
+  //   }
 
-  void updateBuilding(List<Building> buildings) {
-    if (building == null) {
-      return;
-    }
-
-    for (Building building in buildings) {
-      if (this.building!.id == building.id) {
-        this.building = building;
-      }
-    }
-  }
+  //   for (Building building in buildings) {
+  //     if (this.building!.id == building.id) {
+  //       this.building = building;
+  //     }
+  //   }
+  // }
 
   void selectBuilding(Building building) {
     this.building = building;
@@ -244,20 +243,8 @@ class User {
     building!.set();
   }
 
-  //PROPS
+  //CHEST
   Chest? chest;
-
-  void updateChest(List<Chest> chests) {
-    if (chest == null) {
-      return;
-    }
-
-    for (Chest chest in chests) {
-      if (this.chest!.id == chest.id) {
-        this.chest = chest;
-      }
-    }
-  }
 
   void selectChest(Chest chest) {
     this.chest = chest;
@@ -289,5 +276,37 @@ class User {
   void createChest() {
     chest!.position = placeHere;
     chest!.set();
+  }
+
+  //TILE
+  Tile? tile;
+
+  void selectTile(Tile tile) {
+    this.tile = tile;
+  }
+
+  bool checkSelectedTile(int id) {
+    if (tile == null) {
+      return false;
+    }
+
+    if (tile!.id == id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void putTileOnTop() {
+    Tile newTile = tile!;
+    tile!.delete();
+
+    newTile.id = DateTime.now().millisecondsSinceEpoch;
+    newTile.set();
+  }
+
+  void createTile() {
+    tile!.position = placeHere;
+    tile!.set();
   }
 }

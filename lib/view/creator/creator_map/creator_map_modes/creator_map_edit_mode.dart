@@ -2,9 +2,11 @@ import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/map/menu/map_menu.dart';
 import 'package:dsix/model/map/sprites/chest/creator_view_chest_sprite.dart';
+import 'package:dsix/model/map/sprites/tile/creator_view_tile_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/chest/chest.dart';
 import 'package:dsix/model/spawner/spawner.dart';
+import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/images/app_images.dart';
@@ -42,6 +44,7 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
     final user = Provider.of<User>(context);
     final spawners = Provider.of<List<Spawner>>(context);
     final buildings = Provider.of<List<Building>>(context);
+    final tiles = Provider.of<List<Tile>>(context);
     final npcs = Provider.of<List<Npc>>(context);
     final chests = Provider.of<List<Chest>>(context);
 
@@ -57,8 +60,8 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
             maxScale: user.mapInfo.zoom,
             minScale: user.mapInfo.zoom,
             child: SizedBox(
-              width: user.mapInfo.mapSize,
-              height: user.mapInfo.mapSize,
+              width: user.mapInfo.map.size,
+              height: user.mapInfo.map.size,
               child: Stack(
                 children: [
                   SvgPicture.asset(
@@ -73,6 +76,7 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
                         user.deselect();
                         refresh();
                       }),
+                  _creatorMapController.createTileSprites(tiles, refresh),
                   _creatorMapController.createSpawnerSprites(spawners),
                   _creatorMapController.createBuildingSprites(
                       buildings, refresh),
@@ -100,6 +104,25 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
 
 class CreatorMapEditModeController {
 //SPRITES
+
+//TILES
+  Widget createTileSprites(List<Tile> tiles, Function refresh) {
+    List<Widget> tileSprites = [];
+
+    for (Tile tile in tiles) {
+      tileSprites.add(CreatorViewTileSprite(
+        tile: tile,
+        fullRefresh: () {
+          refresh();
+        },
+      ));
+    }
+
+    return Stack(
+      children: tileSprites,
+    );
+  }
+
   //BUILDINGS
   Widget createBuildingSprites(List<Building> buildings, Function refresh) {
     List<Widget> buildingSprites = [];

@@ -6,6 +6,7 @@ import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/chest/chest.dart';
 import 'package:dsix/model/spawner/spawner.dart';
+import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/view/home/home_view.dart';
@@ -44,16 +45,16 @@ class MyApp extends StatelessWidget {
               .map((game) => Game.fromMap(game.data())),
         ),
 
-        //BATTLELOG
-        StreamProvider<List<BattleLog>>(
+        //SPAWNERS
+        StreamProvider<List<Spawner>>(
             initialData: const [],
             create: (context) => database
                 .collection('game')
                 .doc('gameID')
-                .collection('battleLog')
+                .collection('spawners')
                 .snapshots()
                 .map((querySnapshot) => querySnapshot.docs
-                    .map((battleLog) => BattleLog.fromMap(battleLog.data()))
+                    .map((spawner) => Spawner.fromMap(spawner.data()))
                     .toList())),
 
         //PLAYERS
@@ -66,18 +67,6 @@ class MyApp extends StatelessWidget {
                 .snapshots()
                 .map((querySnapshot) => querySnapshot.docs
                     .map((player) => Player.fromMap(player.data()))
-                    .toList())),
-
-        //SPAWNERS
-        StreamProvider<List<Spawner>>(
-            initialData: const [],
-            create: (context) => database
-                .collection('game')
-                .doc('gameID')
-                .collection('spawners')
-                .snapshots()
-                .map((querySnapshot) => querySnapshot.docs
-                    .map((spawner) => Spawner.fromMap(spawner.data()))
                     .toList())),
 
         //NPCS
@@ -114,6 +103,30 @@ class MyApp extends StatelessWidget {
                 .snapshots()
                 .map((querySnapshot) => querySnapshot.docs
                     .map((chest) => Chest.fromMap(chest.data()))
+                    .toList())),
+
+        //TILES
+        StreamProvider<List<Tile>>(
+            initialData: const [],
+            create: (context) => database
+                .collection('game')
+                .doc('gameID')
+                .collection('tiles')
+                .snapshots()
+                .map((querySnapshot) => querySnapshot.docs
+                    .map((tile) => Tile.fromMap(tile.data()))
+                    .toList())),
+
+        //BATTLELOG
+        StreamProvider<List<BattleLog>>(
+            initialData: const [],
+            create: (context) => database
+                .collection('game')
+                .doc('gameID')
+                .collection('battleLog')
+                .snapshots()
+                .map((querySnapshot) => querySnapshot.docs
+                    .map((battleLog) => BattleLog.fromMap(battleLog.data()))
                     .toList())),
       ],
       child: MaterialApp(

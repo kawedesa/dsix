@@ -1,11 +1,13 @@
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:dsix/view/home/home_view.dart';
 import 'package:flutter/material.dart';
 
 class GameSettingsVM {
-  void newRound(Game game, List<Player> players) {
+  void newRound(Game game, User user, List<Player> players) {
     game.newRound();
+    user.deselect();
     for (Player player in players) {
       player.newRound();
     }

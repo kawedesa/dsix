@@ -6,6 +6,8 @@ import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/model/map/buttons/map_circular_button.dart';
+import 'package:dsix/shared/images/building_image.dart';
+import 'package:dsix/shared/shared_widgets/button/app_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -53,48 +55,44 @@ class _CreatorViewBuildingSpriteState extends State<CreatorViewBuildingSprite> {
                 Align(
                   alignment: Alignment.center,
                   child: GestureDetector(
-                    onTap: () {
-                      if (_controller.selected) {
-                        user.deselect();
-                      } else {
+                      onTap: () {
+                        if (_controller.selected) {
+                          user.deselect();
+                        } else {
+                          user.deselect();
+                          user.selectBuilding(widget.building);
+                        }
+
+                        widget.fullRefresh();
+                      },
+                      onPanStart: (details) {
+                        if (_controller.isLocked == false) {
+                          _controller.drag = true;
+                        }
                         user.deselect();
                         user.selectBuilding(widget.building);
-                      }
-
-                      widget.fullRefresh();
-                    },
-                    onPanStart: (details) {
-                      if (_controller.isLocked == false) {
-                        _controller.drag = true;
-                      }
-                      user.deselect();
-                      user.selectBuilding(widget.building);
-                      widget.fullRefresh();
-                    },
-                    onPanUpdate: (details) {
-                      if (_controller.isLocked == false) {
-                        _controller.tempPosition
-                            .panUpdate(details.delta, 'tile');
-                        localRefresh();
-                      }
-                    },
-                    onPanEnd: (details) {
-                      if (_controller.isLocked == false) {
-                        _controller.endMove(
-                            _controller.tempPosition, widget.building);
-                      }
-                    },
-                    child: SvgPicture.asset(
-                      AppImages().getBuildingSprite(widget.building.name),
-                      height: widget.building.size,
-                      width: widget.building.size,
-                    ),
-                  ),
+                        widget.fullRefresh();
+                      },
+                      onPanUpdate: (details) {
+                        if (_controller.isLocked == false) {
+                          _controller.tempPosition
+                              .panUpdate(details.delta, 'tile');
+                          localRefresh();
+                        }
+                      },
+                      onPanEnd: (details) {
+                        if (_controller.isLocked == false) {
+                          _controller.endMove(
+                              _controller.tempPosition, widget.building);
+                        }
+                      },
+                      child: BuildingImage(
+                          name: widget.building.name,
+                          isFlipped: widget.building.isFlipped,
+                          size: widget.building.size)),
                 ),
-                Align(
-                    alignment: Alignment.bottomCenter,
-                    child: _controller.getMenu(
-                        widget.building, _controller.selected, localRefresh)),
+                _controller.getMenu(
+                    widget.building, _controller.selected, localRefresh),
               ],
             ),
           ),
@@ -162,49 +160,95 @@ class BuildingSpriteController {
         },
       );
     } else {
-      menu = Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      menu = Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          MapCircularButton(
-            color: AppColors.uiColor.withAlpha(200),
-            iconColor: AppColors.uiColorLight.withAlpha(200),
-            borderColor: AppColors.uiColorLight.withAlpha(200),
-            icon: AppImages.minus,
-            size: 3,
-            onTap: () {
-              building.changeSize(-5);
-            },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              MapCircularButton(
+                color: AppColors.uiColor.withAlpha(200),
+                iconColor: AppColors.uiColorLight.withAlpha(200),
+                borderColor: AppColors.uiColorLight.withAlpha(200),
+                icon: AppImages.minus,
+                size: 3,
+                onTap: () {
+                  building.changeSize(-5);
+                },
+              ),
+              const SizedBox(
+                width: 2,
+              ),
+              MapCircularButton(
+                icon: AppImages.unlocked,
+                color: AppColors.uiColor.withAlpha(200),
+                iconColor: AppColors.uiColorLight.withAlpha(200),
+                borderColor: AppColors.uiColorLight.withAlpha(200),
+                size: 4,
+                onTap: () {
+                  lockMenu();
+                  refresh();
+                },
+              ),
+              const SizedBox(
+                width: 2,
+              ),
+              MapCircularButton(
+                color: AppColors.uiColor.withAlpha(200),
+                iconColor: AppColors.uiColorLight.withAlpha(200),
+                borderColor: AppColors.uiColorLight.withAlpha(200),
+                icon: AppImages.plus,
+                size: 3,
+                onTap: () {
+                  building.changeSize(5);
+                },
+              ),
+            ],
           ),
-          const SizedBox(
-            width: 2,
-          ),
-          MapCircularButton(
-            icon: AppImages.unlocked,
-            color: AppColors.uiColor.withAlpha(200),
-            iconColor: AppColors.uiColorLight.withAlpha(200),
-            borderColor: AppColors.uiColorLight.withAlpha(200),
-            size: 4,
-            onTap: () {
-              lockMenu();
-              refresh();
-            },
-          ),
-          const SizedBox(
-            width: 2,
-          ),
-          MapCircularButton(
-            color: AppColors.uiColor.withAlpha(200),
-            iconColor: AppColors.uiColorLight.withAlpha(200),
-            borderColor: AppColors.uiColorLight.withAlpha(200),
-            icon: AppImages.plus,
-            size: 3,
-            onTap: () {
-              building.changeSize(5);
-            },
+          const SizedBox(height: 1),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  AppToggleButton(
+                    color: AppColors.uiColorLight,
+                    selected: building.alwaysVisible,
+                    size: 2,
+                    onTap: () {
+                      building.changeAlwaysVisible();
+                    },
+                  ),
+                  const SizedBox(width: 1),
+                  SvgPicture.asset(AppImages.vision,
+                      color: AppColors.uiColorLight, width: 2.5),
+                ],
+              ),
+              const SizedBox(width: 2),
+              Row(
+                children: [
+                  AppToggleButton(
+                    color: AppColors.uiColorLight,
+                    selected: building.isFlipped,
+                    size: 2,
+                    onTap: () {
+                      building.flip();
+                      refresh();
+                    },
+                  ),
+                  const SizedBox(width: 1),
+                  SvgPicture.asset(AppImages.horizontalFlip,
+                      color: AppColors.uiColorLight, width: 2.5),
+                ],
+              )
+            ],
           ),
         ],
       );
     }
-    return menu;
+    return SizedBox(
+        width: building.size,
+        height: building.size,
+        child: Align(alignment: Alignment.bottomCenter, child: menu));
   }
 }

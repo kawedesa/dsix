@@ -1,7 +1,6 @@
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_layout.dart';
-import 'package:dsix/shared/shared_widgets/app_slider.dart';
 import 'package:dsix/shared/shared_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/shared_widgets/button/app_toggle_button.dart';
 import 'package:dsix/shared/shared_widgets/dialog/dialog_button.dart';
@@ -208,7 +207,7 @@ class _NewGameDialogState extends State<NewGameDialog> {
                               child: AppToggleButton(
                             color: AppColors.uiColor,
                             selected: sharedTeamVision,
-                            size: 0.025,
+                            size: AppLayout.avarage(context) * 0.025,
                             onTap: () {
                               changeSharedTeamVision();
                               localRefresh();

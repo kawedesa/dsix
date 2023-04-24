@@ -141,20 +141,39 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
                               children: [
                                 Row(
                                   children: [
-                                    SvgPicture.asset(AppImages.vision,
-                                        color: AppColors.uiColor,
-                                        width:
-                                            AppLayout.avarage(context) * 0.015),
-                                    const AppSeparatorHorizontal(value: 0.005),
                                     AppToggleButton(
                                       color: AppColors.uiColor,
                                       selected: selectedBuilding!.alwaysVisible,
-                                      size: 0.01,
+                                      size: AppLayout.avarage(context) * 0.01,
                                       onTap: () {
                                         selectedBuilding!.changeAlwaysVisible();
                                         localRefresh();
                                       },
                                     ),
+                                    const AppSeparatorHorizontal(value: 0.005),
+                                    SvgPicture.asset(AppImages.vision,
+                                        color: AppColors.uiColor,
+                                        width:
+                                            AppLayout.avarage(context) * 0.015),
+                                  ],
+                                ),
+                                const AppSeparatorHorizontal(value: 0.1),
+                                Row(
+                                  children: [
+                                    AppToggleButton(
+                                      color: AppColors.uiColor,
+                                      selected: selectedBuilding!.isFlipped,
+                                      size: AppLayout.avarage(context) * 0.01,
+                                      onTap: () {
+                                        selectedBuilding!.flip();
+                                        localRefresh();
+                                      },
+                                    ),
+                                    const AppSeparatorHorizontal(value: 0.005),
+                                    SvgPicture.asset(AppImages.horizontalFlip,
+                                        color: AppColors.uiColor,
+                                        width:
+                                            AppLayout.avarage(context) * 0.015),
                                   ],
                                 )
                               ],
@@ -163,6 +182,7 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
                           const AppSeparatorVertical(value: 0.035),
                           BuildingImage(
                             name: selectedBuilding!.name,
+                            isFlipped: selectedBuilding!.isFlipped,
                             size: AppLayout.avarage(context) * 0.2,
                           ),
                           const AppSeparatorVertical(value: 0.03),

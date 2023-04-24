@@ -21,6 +21,10 @@ class CreatorMapSelection extends StatefulWidget {
 class _CreatorMapSelectionState extends State<CreatorMapSelection> {
   final CreatorMapSelectionVM _creatorMapSelectionVM = CreatorMapSelectionVM();
 
+  void localRefresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
@@ -45,15 +49,14 @@ class _CreatorMapSelectionState extends State<CreatorMapSelection> {
                       iconColor: AppColors.uiColor,
                       icon: AppImages.left,
                       onTap: () {
-                        setState(() {
-                          // _raceVM.changeRace(-1);
-                        });
+                        _creatorMapSelectionVM.changeMap(-1);
+                        localRefresh();
                       },
                       size: 0.075),
                   SvgPicture.asset(
                     width: AppLayout.shortest(context) * 0.5,
                     height: AppLayout.shortest(context) * 0.5,
-                    AppImages.oldRuins,
+                    AppImages().getMapImage(_creatorMapSelectionVM.mapName),
                   ),
                   AppCircularButton(
                       color: Colors.transparent,
@@ -61,9 +64,8 @@ class _CreatorMapSelectionState extends State<CreatorMapSelection> {
                       iconColor: AppColors.uiColor,
                       icon: AppImages.right,
                       onTap: () {
-                        setState(() {
-                          // _raceVM.changeRace(1);
-                        });
+                        _creatorMapSelectionVM.changeMap(1);
+                        localRefresh();
                       },
                       size: 0.075),
                 ],

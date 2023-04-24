@@ -8,6 +8,7 @@ class BuildingList {
     size: 32,
     position: Position.empty(),
     alwaysVisible: true,
+    isFlipped: false,
   );
   static Building divineAltar = Building(
     id: 0,
@@ -15,6 +16,7 @@ class BuildingList {
     size: 32,
     position: Position.empty(),
     alwaysVisible: true,
+    isFlipped: false,
   );
   static Building earthAltar = Building(
     id: 0,
@@ -22,6 +24,7 @@ class BuildingList {
     size: 32,
     position: Position.empty(),
     alwaysVisible: true,
+    isFlipped: false,
   );
   static Building sacrificeAltar = Building(
     id: 0,
@@ -29,6 +32,7 @@ class BuildingList {
     size: 32,
     position: Position.empty(),
     alwaysVisible: true,
+    isFlipped: false,
   );
 
   static Building tower = Building(
@@ -37,6 +41,7 @@ class BuildingList {
     size: 32,
     position: Position.empty(),
     alwaysVisible: true,
+    isFlipped: false,
   );
 
   static Building barricade = Building(
@@ -45,6 +50,7 @@ class BuildingList {
     size: 32,
     position: Position.empty(),
     alwaysVisible: true,
+    isFlipped: false,
   );
 
   List<Building> getBuildingList() {

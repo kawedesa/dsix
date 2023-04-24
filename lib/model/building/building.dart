@@ -7,6 +7,7 @@ class Building {
   double size;
   Position position;
   bool alwaysVisible;
+  bool isFlipped;
 
   Building({
     required this.id,
@@ -14,6 +15,7 @@ class Building {
     required this.size,
     required this.position,
     required this.alwaysVisible,
+    required this.isFlipped,
   });
 
   final database = FirebaseFirestore.instance;
@@ -25,17 +27,26 @@ class Building {
       'size': size,
       'position': position.toMap(),
       'alwaysVisible': alwaysVisible,
+      'isFlipped': isFlipped,
     };
   }
 
   factory Building.fromMap(Map<String, dynamic>? data) {
     return Building(
-      id: data?['id'],
-      name: data?['name'],
-      size: data?['size'],
-      position: Position.fromMap(data?['position']),
-      alwaysVisible: data?['alwaysVisible'],
-    );
+        id: data?['id'],
+        name: data?['name'],
+        size: data?['size'],
+        position: Position.fromMap(data?['position']),
+        alwaysVisible: data?['alwaysVisible'],
+        isFlipped: data?['isFlipped']);
+  }
+
+  void flip() {
+    if (isFlipped) {
+      isFlipped = false;
+    } else {
+      isFlipped = true;
+    }
   }
 
   void changeAlwaysVisible() {

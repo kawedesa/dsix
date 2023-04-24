@@ -1,4 +1,5 @@
 import 'package:dsix/model/map/buttons/creator/chest_creation_button.dart';
+import 'package:dsix/model/map/buttons/creator/tile_creation_button.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/shared_widgets/layout/app_separator_vertical.dart';
@@ -59,6 +60,11 @@ class _InGameMenuState extends State<InGameMenu> {
                   user.resetPlacing();
                   user.deselect();
                 }
+                if (user.placingSomething == 'tile') {
+                  user.createTile();
+                  user.resetPlacing();
+                  user.deselect();
+                }
 
                 localRefresh();
               }),
@@ -74,21 +80,23 @@ class _InGameMenuState extends State<InGameMenu> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        NpcCreationButton(
-                            active: true,
-                            fullRefresh: () {
-                              widget.refresh();
-                            }),
+                        TileCreationButton(
+                          fullRefresh: () {
+                            widget.refresh();
+                          },
+                        ),
+                        const AppSeparatorVertical(value: 0.01),
+                        NpcCreationButton(fullRefresh: () {
+                          widget.refresh();
+                        }),
                         const AppSeparatorVertical(value: 0.01),
                         BuildingCreationButton(
-                          active: true,
                           fullRefresh: () {
                             widget.refresh();
                           },
                         ),
                         const AppSeparatorVertical(value: 0.01),
                         ChestCreationButton(
-                          active: true,
                           fullRefresh: () {
                             widget.refresh();
                           },

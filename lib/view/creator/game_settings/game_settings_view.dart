@@ -1,4 +1,5 @@
 import 'package:dsix/model/player/player.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/shared_widgets/dialog/confirm_dialog.dart';
 import 'package:dsix/shared/shared_widgets/layout/app_separator_vertical.dart';
@@ -21,6 +22,7 @@ class _GameSettingsState extends State<GameSettings> {
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
+    final user = Provider.of<User>(context);
     final players = Provider.of<List<Player>>(context);
 
     return Align(
@@ -40,7 +42,7 @@ class _GameSettingsState extends State<GameSettings> {
                       title: 'start new round?',
                       color: AppColors.uiColor,
                       confirm: () {
-                        _gameSettingsVM.newRound(game, players);
+                        _gameSettingsVM.newRound(game, user, players);
                       },
                     );
                   },
@@ -59,6 +61,7 @@ class _GameSettingsState extends State<GameSettings> {
                       color: AppColors.uiColor,
                       confirm: () {
                         game.deleteGame();
+                        user.deselect();
                         _gameSettingsVM.goToHomeView(context);
                       },
                     );

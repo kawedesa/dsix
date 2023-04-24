@@ -1,4 +1,3 @@
-import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 
 class AppToggleButton extends StatelessWidget {
@@ -18,19 +17,19 @@ class AppToggleButton extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap(),
       child: Container(
-        width: AppLayout.avarage(context) * size,
-        height: AppLayout.avarage(context) * size,
+        width: size,
+        height: size,
         decoration: BoxDecoration(
           border: Border.all(
             color: color,
-            width: AppLayout.avarage(context) * size / 10,
+            width: size / 10,
           ),
         ),
         child: (selected)
             ? Center(
                 child: Container(
-                  width: AppLayout.avarage(context) * size / 2,
-                  height: AppLayout.avarage(context) * size / 2,
+                  width: size / 2,
+                  height: size / 2,
                   color: color,
                 ),
               )

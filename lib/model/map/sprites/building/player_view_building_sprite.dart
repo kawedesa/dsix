@@ -1,7 +1,6 @@
 import 'package:dsix/model/building/building.dart';
-import 'package:dsix/shared/images/app_images.dart';
+import 'package:dsix/shared/images/building_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class PlayerViewBuildingSprite extends StatelessWidget {
   final Building building;
@@ -11,24 +10,11 @@ class PlayerViewBuildingSprite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: building.position.dx - (building.size / 2),
-      top: building.position.dy - (building.size / 2),
-      child: SizedBox(
-        height: building.size,
-        width: building.size,
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: SvgPicture.asset(
-                AppImages().getBuildingSprite(building.name),
-                height: building.size,
-                width: building.size,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+        left: building.position.dx - (building.size / 2),
+        top: building.position.dy - (building.size / 2),
+        child: BuildingImage(
+            name: building.name,
+            isFlipped: building.isFlipped,
+            size: building.size));
   }
 }

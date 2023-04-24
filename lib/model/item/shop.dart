@@ -22,25 +22,31 @@ class Shop {
             effects: [],
             attacks: [],
             armor: Armor.empty(),
+            enchanted: false,
             weight: 0,
             value: leftOverAmount);
 
         loot.add(gold);
         currentValue += leftOverAmount;
-      } else {
-        String category = lootCategory(lootType);
+        continue;
+      }
 
-        Item newItem = randomItem(category);
-        if (currentValue + newItem.value <= lootValue) {
-          loot.add(newItem);
-          currentValue += newItem.value;
-        }
+      String category = lootCategory(lootType);
+
+      Item newItem = randomItem(category);
+
+      if (currentValue + newItem.value <= lootValue) {
+        loot.add(newItem);
+        currentValue += newItem.value;
       }
     }
 
     switch (lootType) {
       case 'magic':
-        //TODO create enchantedItems
+        for (int i = 0; i < 3; i++) {
+          int randomItem = Random().nextInt(loot.length);
+          loot[randomItem] = randomItemEnchant(loot[randomItem]);
+        }
 
         break;
     }
@@ -114,6 +120,62 @@ class Shop {
     return newItem;
   }
 
+  Item randomItemEnchant(Item item) {
+    Item enchantedItem = item;
+
+    if (enchantedItem.itemSlot == 'consumable' ||
+        enchantedItem.itemSlot == 'key') {
+      return enchantedItem;
+    }
+
+    bool hasAttacks = false;
+
+    if (enchantedItem.attacks.isNotEmpty) {
+      hasAttacks = true;
+    }
+
+    List<String> possibleWeaponEnchants = [
+      'pDamage',
+      'mDamage',
+      'pArmor',
+      'mArmor'
+    ];
+    List<String> possibleArmorEnchants = ['pArmor', 'mArmor'];
+
+    String enchant = '';
+
+    if (hasAttacks) {
+      enchant = possibleWeaponEnchants[
+          Random().nextInt(possibleWeaponEnchants.length)];
+    } else {
+      enchant = possibleWeaponEnchants[
+          Random().nextInt(possibleArmorEnchants.length)];
+    }
+
+    switch (enchant) {
+      case 'pDamage':
+        for (Attack attack in enchantedItem.attacks) {
+          attack.damage.pDamage += 1;
+        }
+
+        break;
+      case 'mDamage':
+        for (Attack attack in enchantedItem.attacks) {
+          attack.damage.mDamage += 1;
+        }
+        break;
+      case 'pArmor':
+        item.armor.pArmor += 1;
+        break;
+      case 'mArmor':
+        item.armor.mArmor += 1;
+        break;
+    }
+    enchantedItem.enchanted = true;
+    enchantedItem.value += 150;
+    return enchantedItem;
+  }
+
   List<Item> lightWeapons = [
     Item(
       name: 'batton',
@@ -137,6 +199,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 1, mArmor: 0),
+      enchanted: false,
       weight: 1,
       value: 100,
     ),
@@ -162,6 +225,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 1,
       value: 150,
     ),
@@ -187,6 +251,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 2,
       value: 250,
     ),
@@ -212,6 +277,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 5,
       value: 450,
     ),
@@ -237,6 +303,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 3,
       value: 300,
     ),
@@ -262,6 +329,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 2,
       value: 200,
     ),
@@ -287,6 +355,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 4,
       value: 400,
     ),
@@ -312,6 +381,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 1,
       value: 100,
     ),
@@ -337,6 +407,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 1,
       value: 350,
     ),
@@ -362,6 +433,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 3,
       value: 500,
     ),
@@ -387,6 +459,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 3,
       value: 500,
     ),
@@ -412,6 +485,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 0,
       value: 100,
     ),
@@ -437,6 +511,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 3,
       value: 400,
     ),
@@ -462,6 +537,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 2, mArmor: 0),
+      enchanted: false,
       weight: 4,
       value: 400,
     ),
@@ -487,6 +563,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 1,
       value: 300,
     ),
@@ -512,6 +589,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 2,
       value: 250,
     ),
@@ -554,6 +632,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 12,
       value: 400,
     ),
@@ -593,6 +672,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 12,
       value: 1000,
     ),
@@ -632,6 +712,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 4,
       value: 750,
     ),
@@ -671,6 +752,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 3, mArmor: 0),
+      enchanted: false,
       weight: 6,
       value: 600,
     ),
@@ -710,6 +792,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 8,
       value: 600,
     ),
@@ -749,6 +832,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 6,
       value: 650,
     ),
@@ -788,6 +872,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 3, mArmor: 0),
+      enchanted: false,
       weight: 5,
       value: 500,
     ),
@@ -813,6 +898,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 6,
       value: 800,
     ),
@@ -838,6 +924,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 1, mArmor: 0),
+      enchanted: false,
       weight: 5,
       value: 650,
     ),
@@ -877,6 +964,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 10,
       value: 900,
     ),
@@ -916,6 +1004,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 8,
       value: 850,
     ),
@@ -955,6 +1044,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 7,
       value: 450,
     ),
@@ -983,6 +1073,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 1,
       value: 200,
     ),
@@ -1008,6 +1099,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 1,
       value: 150,
     ),
@@ -1033,6 +1125,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 1,
       value: 350,
     ),
@@ -1058,6 +1151,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 2,
       value: 300,
     ),
@@ -1083,6 +1177,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 4,
       value: 400,
     ),
@@ -1108,6 +1203,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 4,
       value: 550,
     ),
@@ -1133,6 +1229,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 6,
       value: 700,
     ),
@@ -1158,6 +1255,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 2,
       value: 400,
     ),
@@ -1183,6 +1281,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 2,
       value: 300,
     ),
@@ -1208,6 +1307,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 4,
       value: 500,
     ),
@@ -1233,6 +1333,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 8,
       value: 800,
     ),
@@ -1272,6 +1373,7 @@ class Shop {
         ),
       ],
       armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
       weight: 6,
       value: 650,
     ),
@@ -1287,6 +1389,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 1, mArmor: 0),
+      enchanted: false,
       weight: 1,
       value: 100,
     ),
@@ -1297,6 +1400,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 0, mArmor: 1),
+      enchanted: false,
       weight: 1,
       value: 100,
     ),
@@ -1307,6 +1411,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 2, mArmor: 1),
+      enchanted: false,
       weight: 3,
       value: 300,
     ),
@@ -1317,6 +1422,7 @@ class Shop {
       effects: ['blind'],
       attacks: [],
       armor: Armor(pArmor: 4, mArmor: 0),
+      enchanted: false,
       weight: 4,
       value: 350,
     ),
@@ -1327,6 +1433,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 1, mArmor: 0),
+      enchanted: false,
       weight: 0,
       value: 150,
     ),
@@ -1337,6 +1444,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 1, mArmor: 1),
+      enchanted: false,
       weight: 1,
       value: 250,
     ),
@@ -1347,6 +1455,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 2, mArmor: 0),
+      enchanted: false,
       weight: 2,
       value: 200,
     ),
@@ -1357,6 +1466,7 @@ class Shop {
       effects: ['spiky'],
       attacks: [],
       armor: Armor(pArmor: 2, mArmor: 0),
+      enchanted: false,
       weight: 4,
       value: 300,
     ),
@@ -1367,6 +1477,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 2, mArmor: 0),
+      enchanted: false,
       weight: 2,
       value: 200,
     ),
@@ -1377,6 +1488,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 2, mArmor: 0),
+      enchanted: false,
       weight: 2,
       value: 300,
     ),
@@ -1387,6 +1499,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 0, mArmor: 1),
+      enchanted: false,
       weight: 0,
       value: 150,
     ),
@@ -1397,6 +1510,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 1, mArmor: 1),
+      enchanted: false,
       weight: 1,
       value: 250,
     ),
@@ -1407,6 +1521,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 2, mArmor: 0),
+      enchanted: false,
       weight: 1,
       value: 250,
     ),
@@ -1417,6 +1532,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 5, mArmor: 0),
+      enchanted: false,
       weight: 5,
       value: 500,
     ),
@@ -1427,6 +1543,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 1, mArmor: 2),
+      enchanted: false,
       weight: 2,
       value: 350,
     ),
@@ -1437,6 +1554,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 1, mArmor: 4),
+      enchanted: false,
       weight: 3,
       value: 600,
     ),
@@ -1447,6 +1565,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 2, mArmor: 0),
+      enchanted: false,
       weight: 2,
       value: 200,
     ),
@@ -1457,6 +1576,7 @@ class Shop {
       effects: ['spiky'],
       attacks: [],
       armor: Armor(pArmor: 3, mArmor: 0),
+      enchanted: false,
       weight: 3,
       value: 400,
     ),
@@ -1467,6 +1587,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 2, mArmor: 2),
+      enchanted: false,
       weight: 4,
       value: 400,
     ),
@@ -1477,6 +1598,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 4, mArmor: 2),
+      enchanted: false,
       weight: 6,
       value: 600,
     ),
@@ -1487,6 +1609,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 0, mArmor: 1),
+      enchanted: false,
       weight: 0,
       value: 150,
     ),
@@ -1497,6 +1620,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor(pArmor: 0, mArmor: 3),
+      enchanted: false,
       weight: 1,
       value: 400,
     ),
@@ -1512,6 +1636,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor.empty(),
+      enchanted: false,
       weight: 1,
       value: 200,
     ),
@@ -1522,6 +1647,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor.empty(),
+      enchanted: false,
       weight: 1,
       value: 400,
     ),
@@ -1532,6 +1658,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor.empty(),
+      enchanted: false,
       weight: 1,
       value: 50,
     ),
@@ -1542,6 +1669,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor.empty(),
+      enchanted: false,
       weight: 1,
       value: 50,
     ),
@@ -1552,6 +1680,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor.empty(),
+      enchanted: false,
       weight: 1,
       value: 100,
     ),
@@ -1562,6 +1691,7 @@ class Shop {
       effects: [],
       attacks: [],
       armor: Armor.empty(),
+      enchanted: false,
       weight: 1,
       value: 50,
     ),

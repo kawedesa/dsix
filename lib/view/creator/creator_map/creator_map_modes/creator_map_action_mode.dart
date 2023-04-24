@@ -4,9 +4,11 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/map/menu/map_menu.dart';
 import 'package:dsix/model/map/sprites/action_area_sprite.dart';
 import 'package:dsix/model/map/sprites/chest/creator_view_chest_sprite.dart';
+import 'package:dsix/model/map/sprites/tile/creator_view_tile_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/images/app_images.dart';
@@ -53,14 +55,13 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
     final npcs = Provider.of<List<Npc>>(context);
     final players = Provider.of<List<Player>>(context);
     final buildings = Provider.of<List<Building>>(context);
+    final tiles = Provider.of<List<Tile>>(context);
     final chests = Provider.of<List<Chest>>(context);
     final battleLog = Provider.of<List<BattleLog>>(context);
 
     _mapAnimation.checkBattleLog(battleLog);
     _mapAnimation.checkNpcTurn(game.turn);
     user.updateNpc(npcs);
-    user.updateBuilding(buildings);
-    user.updateChest(chests);
     user.setNpcMode(game.turn.currentTurn);
 
     return SizedBox(
@@ -75,8 +76,8 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
             maxScale: user.mapInfo.zoom,
             minScale: user.mapInfo.zoom,
             child: SizedBox(
-              width: user.mapInfo.mapSize,
-              height: user.mapInfo.mapSize,
+              width: user.mapInfo.map.size,
+              height: user.mapInfo.map.size,
               child: Stack(
                 children: [
                   SvgPicture.asset(
@@ -91,6 +92,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                         user.deselect();
                         refresh();
                       }),
+                  _creatorMapController.createTileSprites(tiles, refresh),
                   _creatorMapController.createBuildingSprites(
                       buildings, refresh),
                   ActionAreaSprite(
@@ -133,6 +135,24 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
 
 class CreatorMapActionModeController {
 //SPRITES
+//TILES
+  Widget createTileSprites(List<Tile> tiles, Function refresh) {
+    List<Widget> tileSprites = [];
+
+    for (Tile tile in tiles) {
+      tileSprites.add(CreatorViewTileSprite(
+        tile: tile,
+        fullRefresh: () {
+          refresh();
+        },
+      ));
+    }
+
+    return Stack(
+      children: tileSprites,
+    );
+  }
+
   //BUILDINGS
   Widget createBuildingSprites(List<Building> buildings, Function refresh) {
     List<Widget> buildingSprites = [];
@@ -148,7 +168,7 @@ class CreatorMapActionModeController {
     return Stack(children: buildingSprites);
   }
 
-  //PROPS
+  //CHESTS
   Widget createChestSprites(List<Chest> chests, Function refresh) {
     List<Widget> chestSprites = [];
 
@@ -265,8 +285,8 @@ class CreatorMapActionModeController {
             npc.attributes.vision.canSeeInvisible) {
           npcVisibleArea = npcVision;
         } else {
-          npcVisibleArea =
-              Path.combine(PathOperation.difference, npcVision, mapInfo.grass);
+          npcVisibleArea = Path.combine(
+              PathOperation.difference, npcVision, mapInfo.map.grass);
         }
 
         visibleArea =

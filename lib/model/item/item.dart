@@ -8,7 +8,7 @@ class Item {
   List<String> effects;
   List<Attack> attacks;
   Armor armor;
-
+  bool enchanted;
   int weight;
   int value;
 
@@ -19,6 +19,7 @@ class Item {
     required this.effects,
     required this.attacks,
     required this.armor,
+    required this.enchanted,
     required this.weight,
     required this.value,
   });
@@ -43,6 +44,7 @@ class Item {
       effects: getEffects,
       attacks: getAttacks,
       armor: Armor.fromMap(data?['armor']),
+      enchanted: data?['enchanted'],
       weight: data?['weight'],
       value: data?['value'],
     );
@@ -58,6 +60,7 @@ class Item {
       'effects': effects,
       'attacks': attacksToMap,
       'armor': armor.toMap(),
+      'enchanted': enchanted,
       'weight': weight,
       'value': value,
     };
@@ -71,6 +74,7 @@ class Item {
       effects: [],
       attacks: [],
       armor: Armor.empty(),
+      enchanted: false,
       weight: 0,
       value: 0,
     );

@@ -34,48 +34,55 @@ class _CreatorViewSpawnerSpriteState extends State<CreatorViewSpawnerSprite> {
         update: (context, _, tempPosition) => tempPosition!..panEnd(),
         child: Positioned(
           left: _controller.tempPosition.newPosition.dx -
-              (widget.spawner.size / 2),
+              (_controller.getSpriteSize(widget.spawner) / 2),
           top: _controller.tempPosition.newPosition.dy -
-              (widget.spawner.size / 2),
+              (_controller.getSpriteSize(widget.spawner) / 2),
           child: SizedBox(
-            width: widget.spawner.size,
-            height: widget.spawner.size,
-            child: Stack(
-              children: [
-                Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          bottom: AppLayout.avarage(context) * 0.01),
-                      child: const SpawnerSpriteImage(),
-                    )),
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.blue.withAlpha(25),
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: AppColors.blue,
-                      width: 0.3,
+            width: _controller.getSpriteSize(widget.spawner),
+            height: _controller.getSpriteSize(widget.spawner),
+            child: Center(
+              child: GestureDetector(
+                onPanStart: (details) {
+                  _controller.drag = true;
+                },
+                onPanUpdate: (details) {
+                  _controller.tempPosition.panUpdate(details.delta, 'tile');
+                  localRefresh();
+                },
+                onPanEnd: (details) {
+                  _controller.endMove(_controller.tempPosition, widget.spawner);
+                },
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: widget.spawner.size,
+                        height: widget.spawner.size,
+                        decoration: BoxDecoration(
+                          color: AppColors.blue.withAlpha(25),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.blue,
+                            width: 0.3,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  child: GestureDetector(
-                    onPanStart: (details) {
-                      _controller.drag = true;
-                    },
-                    onPanUpdate: (details) {
-                      _controller.tempPosition.panUpdate(details.delta, 'tile');
-                      localRefresh();
-                    },
-                    onPanEnd: (details) {
-                      _controller.endMove(
-                          _controller.tempPosition, widget.spawner);
-                    },
-                  ),
+                    Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              bottom: AppLayout.avarage(context) * 0.005),
+                          child: const SpawnerSpriteImage(),
+                        )),
+                    Align(
+                        alignment: Alignment.center,
+                        child:
+                            _controller.getMenu(widget.spawner, localRefresh)),
+                  ],
                 ),
-                Align(
-                    alignment: Alignment.center,
-                    child: _controller.getMenu(widget.spawner, localRefresh)),
-              ],
+              ),
             ),
           ),
         ));
@@ -83,8 +90,15 @@ class _CreatorViewSpawnerSpriteState extends State<CreatorViewSpawnerSprite> {
 }
 
 class SpawnerSpriteController {
-  //POSITION
+  double getSpriteSize(Spawner spawner) {
+    if (spawner.size < 100) {
+      return 100;
+    } else {
+      return spawner.size;
+    }
+  }
 
+  //POSITION
   final TempPosition tempPosition = TempPosition();
   bool drag = false;
 
