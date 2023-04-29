@@ -381,7 +381,7 @@ class Player {
       }
     }
     for (Effect effect in effectsToRemove) {
-      removeEffects(effect.name);
+      removeEffects(effect);
     }
   }
 
@@ -421,8 +421,8 @@ class Player {
     }
   }
 
-  void removeEffects(String effect) {
-    switch (effect) {
+  void removeEffects(Effect effect) {
+    switch (effect.name) {
       case 'bleed':
         effects.removeEffect(effect);
         break;
@@ -572,9 +572,12 @@ class Player {
   }
 
   void removeItemEffects(List<String> effects) {
-    for (String effect in effects) {
-      removeEffects(effect);
-    }
+    //TODO comeback here
+    //   switch (effect) {
+    //    case 'spiky':
+    //     effects.onHit.remove('thorn');
+    //     break;
+    // }
   }
 
   void addItemToBag(EquipmentSlot slot) {
@@ -634,14 +637,16 @@ class Player {
         heal(healingAmount);
         break;
       case 'bandages':
-        effects.removeEffect('bleed');
+//TODO voltar aqui
+        // effects.removeEffect('bleed');
         break;
       case 'food':
         int healingAmount = Random().nextInt(3) + 1;
         heal(healingAmount);
         break;
       case 'antidote':
-        effects.removeEffect('poison');
+        //TODO voltar aqui
+        // effects.removeEffect('poison');
         break;
     }
     removeItemFromBag(item);

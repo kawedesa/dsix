@@ -91,12 +91,8 @@ class EffectController {
     }
   }
 
-  void removeEffect(String effect) {
-    for (Effect checkEffect in currentEffects) {
-      if (checkEffect.name == effect) {
-        currentEffects.remove(checkEffect);
-      }
-    }
+  void removeEffect(Effect effect) {
+    currentEffects.remove(effect);
   }
 
   bool isVulnerable() {

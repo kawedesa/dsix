@@ -298,7 +298,7 @@ class Npc {
       }
     }
     for (Effect effect in effectsToRemove) {
-      removeEffects(effect.name);
+      removeEffects(effect);
     }
   }
 
@@ -444,8 +444,8 @@ class Npc {
     }
   }
 
-  void removeEffects(String effect) {
-    switch (effect) {
+  void removeEffects(Effect effect) {
+    switch (effect.name) {
       case 'bleed':
         effects.removeEffect(effect);
 
