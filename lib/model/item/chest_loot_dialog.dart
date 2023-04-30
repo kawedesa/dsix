@@ -67,6 +67,7 @@ class _ChestLootDialogState extends State<ChestLootDialog> {
                   return;
                 }
                 user.player.addItemToBag(equipment);
+                user.player.update();
                 widget.chest.removeItemFromLoot(equipment.item);
                 localRefresh();
               },

@@ -66,6 +66,7 @@ class ItemDialog extends StatelessWidget {
                             size: 0.025,
                             onTap: () {
                               user.player.deleteItem(item);
+                              user.player.update();
                               Navigator.pop(context);
                             })),
                 (displayOnly)
@@ -84,6 +85,7 @@ class ItemDialog extends StatelessWidget {
                               try {
                                 Navigator.pop(context);
                                 user.player.sellItem(item);
+                                user.player.update();
                               } on ItemSoldException catch (e) {
                                 snackbarKey.currentState?.showSnackBar(
                                     AppSnackBar().getSnackBar(
@@ -124,6 +126,7 @@ class ItemDialog extends StatelessWidget {
                     buttonText: 'use',
                     onTap: () {
                       user.player.useItem(item);
+                      user.player.update();
                       Navigator.pop(context);
                     })
                 : const SizedBox()

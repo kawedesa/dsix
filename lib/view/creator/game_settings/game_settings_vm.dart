@@ -10,6 +10,7 @@ class GameSettingsVM {
     user.deselect();
     for (Player player in players) {
       player.newRound();
+      player.update();
     }
   }
 

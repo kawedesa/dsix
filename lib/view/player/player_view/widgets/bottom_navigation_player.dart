@@ -54,6 +54,7 @@ class BottomNavigationPlayer extends StatelessWidget {
                   ? AppBarCircularButton(
                       onTap: () {
                         user.player.iAmNotReady();
+                        user.player.update();
                         refresh();
                       },
                       icon: AppImages.confirm,
@@ -64,6 +65,7 @@ class BottomNavigationPlayer extends StatelessWidget {
                   : AppBarCircularButton(
                       onTap: () {
                         user.player.iAmReady();
+                        user.player.update();
                         refresh();
                       },
                       icon: AppImages.confirm,

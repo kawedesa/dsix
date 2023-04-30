@@ -38,6 +38,7 @@ class PlayerViewChestSprite extends StatelessWidget {
 
           if (chest.locked && user.player.equipment.hasKey()) {
             user.player.useKey();
+            user.player.update();
             chest.unlock();
           }
 

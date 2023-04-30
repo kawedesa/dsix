@@ -70,6 +70,7 @@ class _NpcLootDialogState extends State<NpcLootDialog> {
                   return;
                 }
                 user.player.addItemToBag(equipment);
+                user.player.update();
                 widget.npc.removeItemFromLoot(equipment.item);
                 widget.npc.update();
                 localRefresh();

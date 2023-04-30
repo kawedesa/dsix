@@ -105,3 +105,5 @@ class LootSlot extends StatelessWidget {
     });
   }
 }
+//TODO AJUSTAR A SINCRONIA DO LOOT SLOT
+//TODO AJUSTAR O DUPLO CLICK NO DINHEIRO

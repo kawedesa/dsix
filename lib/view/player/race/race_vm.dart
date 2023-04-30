@@ -42,6 +42,7 @@ class RaceVM {
 
   void setRace(context, User user) async {
     user.player.setRace(selectedRace.name, selectedSex);
+    user.player.update();
 
     goToAttributeView(context);
   }

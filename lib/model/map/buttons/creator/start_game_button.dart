@@ -26,6 +26,7 @@ class StartGameButton extends StatelessWidget {
 
     for (Player player in players) {
       player.spawn(spawners.first.position, spawners.first.size);
+      player.update();
     }
 
     game.startGame();

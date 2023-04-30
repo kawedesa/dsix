@@ -83,6 +83,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
         hide: hideButton(user, id),
         startAction: () {
           user.player.defend();
+          user.player.update();
         },
         resetAction: () {},
         resetArea: () {});
@@ -99,6 +100,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
         hide: hideButton(user, id),
         startAction: () {
           user.player.look();
+          user.player.update();
         },
         resetAction: () {},
         resetArea: () {});
@@ -191,6 +193,7 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       hide: hideButton(user, id),
       startAction: () {
         user.player.reload(attack);
+        user.player.update();
         localRefresh();
       },
       resetAction: () {},

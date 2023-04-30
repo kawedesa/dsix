@@ -11,8 +11,13 @@ class LifeBar extends StatelessWidget {
       required this.life,
       required this.height,
       required this.width});
+
   double currentLife() {
-    return life.current / life.max * width;
+    double currentLife = life.current / life.max * width;
+    if (currentLife < 0) {
+      currentLife = 0;
+    }
+    return currentLife;
   }
 
   @override

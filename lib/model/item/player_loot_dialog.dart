@@ -60,6 +60,7 @@ class _PlayerLootDialogState extends State<PlayerLootDialog> {
               },
               onDragComplete: (item) {
                 widget.player.removeItemFromBag(item);
+                widget.player.update();
                 localRefresh();
               },
               onDoubleTap: (equipment) {
@@ -69,7 +70,9 @@ class _PlayerLootDialogState extends State<PlayerLootDialog> {
                   return;
                 }
                 user.player.addItemToBag(equipment);
+                user.player.update();
                 widget.player.removeItemFromBag(equipment.item);
+                widget.player.update();
                 localRefresh();
               },
             ),

@@ -99,6 +99,7 @@ class Combat {
   void unloadAttack() {
     if (selectedPlayer != null) {
       selectedPlayer!.unload(actionInfo.attack);
+      selectedPlayer!.update();
     }
 
     if (selectedNpc != null) {
@@ -129,6 +130,7 @@ class Combat {
 
       if (armorAndLifeDamage[1] > 0) {
         npc.receiveEffects(actionInfo.attack.effects);
+
         if (actionInfo.attack.effects.contains('knockback')) {
           npc.knockBack(actionInfo.actionCenter);
         }
@@ -163,11 +165,6 @@ class Combat {
 
       List<int> armorAndLifeDamage = player.receiveAttack(actionInfo.attack);
 
-      if (armorAndLifeDamage == [0, 0]) {
-        print('armorAndLifeDamage check is used');
-        continue;
-      }
-
       if (armorAndLifeDamage[1] > 0) {
         player.receiveEffects(actionInfo.attack.effects);
 
@@ -175,9 +172,11 @@ class Combat {
           player.knockBack(actionInfo.actionCenter);
         }
       }
+
       if (player.life.isDead()) {
         player.die();
       }
+      player.update();
     }
   }
 
@@ -222,6 +221,7 @@ class Combat {
         continue;
       }
       player.receiveEffects(actionInfo.ability.effects);
+      player.update();
     }
   }
 
@@ -233,6 +233,7 @@ class Combat {
     }
     if (selectedPlayer != null) {
       selectedPlayer!.receiveEffects(effects);
+      selectedPlayer!.update();
     }
   }
 
@@ -247,6 +248,7 @@ class Combat {
           }
           if (selectedPlayer != null) {
             selectedPlayer!.heal(healAmount);
+            selectedPlayer!.update();
           }
           break;
 
@@ -257,6 +259,7 @@ class Combat {
           }
           if (selectedPlayer != null) {
             selectedPlayer!.knockBack(actionInfo.getKickBackDirection());
+            selectedPlayer!.update();
           }
 
           break;

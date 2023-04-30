@@ -137,6 +137,7 @@ class PlayerSpriteController {
           mapInfo.getTile(tempPosition.newPosition.getOffset());
       player.resetTemporaryAttributes();
       player.changePosition(tempPosition.newPosition);
+      player.update();
     }
   }
 }

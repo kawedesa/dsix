@@ -62,8 +62,8 @@ class _PlayerMapViewState extends State<PlayerMapView> {
             maxScale: user.mapInfo.zoom,
             minScale: user.mapInfo.zoom,
             child: SizedBox(
-              width: 320,
-              height: 320,
+              width: user.mapInfo.map.size,
+              height: user.mapInfo.map.size,
               child: Stack(
                 children: [
                   SvgPicture.asset(

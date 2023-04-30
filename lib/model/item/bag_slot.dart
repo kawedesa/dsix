@@ -35,10 +35,12 @@ class BagSlot extends StatelessWidget {
     }, onAccept: (equipment) {
       if (equipment.item.name == 'gold') {
         user.player.addGold(equipment.item.value);
+        user.player.update();
         snackbarKey.currentState?.showSnackBar(AppSnackBar().getSnackBar(
             '+\$${equipment.item.value}'.toUpperCase(), user.color));
       } else {
         user.player.addItemToBag(equipment);
+        user.player.update();
       }
     }, builder: (
       BuildContext context,
@@ -82,6 +84,7 @@ class BagSlot extends StatelessWidget {
                   equipmentSlot: equipmentSlot,
                   onDragComplete: () {
                     user.player.removeItemFromBag(equipmentSlot.item);
+                    user.player.update();
                   },
                   onAccept: (equipment) {},
                   onWillAccept: (equipment) {

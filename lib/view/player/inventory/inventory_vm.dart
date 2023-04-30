@@ -23,8 +23,10 @@ class InventoryVM {
       onAccept: (equipment) {
         if (equipment == user.player.equipment.offHandSlot) {
           user.player.switchEquipments();
+          user.player.update();
         } else {
           user.player.equip(user.player.equipment.mainHandSlot, equipment.item);
+          user.player.update();
         }
         refresh();
       },
@@ -67,6 +69,7 @@ class InventoryVM {
       onDragComplete: () {},
       onAccept: (equipment) {
         user.player.equip(user.player.equipment.headSlot, equipment.item);
+        user.player.update();
         refresh();
       },
       onWillAccept: (equipment) {
@@ -107,6 +110,7 @@ class InventoryVM {
       onDragComplete: () {},
       onAccept: (equipment) {
         user.player.equip(user.player.equipment.bodySlot, equipment.item);
+        user.player.update();
         refresh();
       },
       onWillAccept: (equipment) {
@@ -148,8 +152,10 @@ class InventoryVM {
       onAccept: (equipment) {
         if (equipment == user.player.equipment.mainHandSlot) {
           user.player.switchEquipments();
+          user.player.update();
         } else {
           user.player.equip(user.player.equipment.offHandSlot, equipment.item);
+          user.player.update();
         }
         refresh();
       },
@@ -192,6 +198,7 @@ class InventoryVM {
       onDragComplete: () {},
       onAccept: (equipment) {
         user.player.equip(user.player.equipment.handSlot, equipment.item);
+        user.player.update();
         refresh();
       },
       onWillAccept: (equipment) {
@@ -232,6 +239,7 @@ class InventoryVM {
       onDragComplete: () {},
       onAccept: (equipment) {
         user.player.equip(user.player.equipment.feetSlot, equipment.item);
+        user.player.update();
         refresh();
       },
       onWillAccept: (equipment) {
@@ -259,6 +267,7 @@ class InventoryVM {
       },
       onDoubleTap: () {
         user.player.quickEquip(user.player.equipment.feetSlot);
+        user.player.update();
         refresh();
       },
     );

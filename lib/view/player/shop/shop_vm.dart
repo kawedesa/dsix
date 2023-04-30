@@ -310,6 +310,7 @@ class ShopVM {
       throw TooHeavyException();
     }
     player.buyItem(item);
+    player.update();
 
     throw ItemBoughtException('- \$${item.value}');
   }

@@ -112,7 +112,6 @@ class Player {
     life.setRaceLife(race);
     attributes.setRaceAttributes(race);
     equipment.setWeight(race);
-    update();
   }
 
   void chooseName(String name) {
@@ -121,20 +120,16 @@ class Player {
 
   void iAmReady() {
     ready = true;
-    update();
   }
 
   void iAmNotReady() {
     ready = false;
-    update();
   }
 
   void passTurn() {
     checkEffectsOnPassTurn();
     if (life.isDead()) {
       die();
-    } else {
-      update();
     }
   }
 
@@ -143,7 +138,6 @@ class Player {
     life.reset();
     ready = false;
     resetEffects();
-    update();
   }
 
   void spawn(Position spawnerPosition, double spawnerSize) {
@@ -155,41 +149,32 @@ class Player {
         spawnerSize / 2;
     position.dx = dx;
     position.dy = dy;
-    update();
   }
 
   void changePosition(Position newPosition) {
     position = newPosition;
-    update();
   }
 
   void knockBack(Position actionCenter) {
     position.knockBack(actionCenter);
-    update();
   }
 
   void defend() {
     attributes.defense.defend();
-
-    update();
   }
 
   void look() {
     attributes.vision.look();
-
-    update();
   }
 
   void die() {
     resetEffects();
     unequipAllItems();
-    update();
   }
 
   void resetTemporaryAttributes() {
     attributes.defense.resetTempDefense();
     attributes.vision.resetTempVision();
-    update();
   }
 
   bool inActionArea(Path attackArea) {
@@ -223,17 +208,14 @@ class Player {
 
   void reload(Attack attack) {
     attack.reload();
-    update();
   }
 
   void unload(Attack attack) {
     attack.unload();
-    update();
   }
 
   void heal(int healAmount) {
     life.heal(healAmount);
-    update();
   }
 
   List<int> receiveAttack(Attack attack) {
@@ -298,8 +280,6 @@ class Player {
     armorAndLifeDamage.add(armorDamage);
     armorAndLifeDamage.add(lifeDamage);
 
-    update();
-
     return armorAndLifeDamage;
   }
 
@@ -316,7 +296,6 @@ class Player {
         applyNewEffect(effect);
       }
     }
-    update();
   }
 
   void applyNewEffect(String effect) {
@@ -477,7 +456,6 @@ class Player {
 
     if (slot.name != 'bag') {
       unequip(slot);
-      update();
     }
 
     switch (slot.item.itemSlot) {
@@ -527,14 +505,12 @@ class Player {
 
       slot.equip(item);
     }
-    update();
   }
 
   void switchEquipments() {
     Item tempItem = equipment.mainHandSlot.item;
     equipment.mainHandSlot.item = equipment.offHandSlot.item;
     equipment.offHandSlot.item = tempItem;
-    update();
   }
 
   void unequip(EquipmentSlot slot) {
@@ -587,35 +563,29 @@ class Player {
     if (slot.name == 'loot') {
       equipment.addItemWeight(slot.item.weight);
       equipment.addItemToBag(slot.item);
-      update();
       return;
     }
     unequip(slot);
-    update();
   }
 
   void removeItemFromBag(Item item) {
     equipment.removeItemFromBag(item);
-    update();
   }
 
   void deleteItem(Item item) {
     Item tempItem = item;
     equipment.removeItemWeight(tempItem.weight);
     equipment.removeItemFromBag(tempItem);
-    update();
   }
 
   void addGold(int value) {
     equipment.addGold(value);
-    update();
   }
 
   void buyItem(Item item) {
     equipment.removeGold(item.value);
     equipment.addItemWeight(item.weight);
     equipment.addItemToBag(item);
-    update();
   }
 
   void sellItem(Item item) {
@@ -625,7 +595,7 @@ class Player {
     equipment.addGold(itemValue);
     equipment.removeItemWeight(tempItem.weight);
     equipment.removeItemFromBag(tempItem);
-    update();
+
     throw ItemSoldException('+ \$$itemValue');
   }
 
@@ -665,7 +635,6 @@ class Player {
 
   void useKey() {
     equipment.useKey();
-    update();
   }
 
   Path getVisionArea() {

@@ -50,6 +50,7 @@ class Turn {
             continue;
           }
           player.passTurn();
+          player.update();
         }
         for (Npc npc in npcs) {
           if (npc.life.isDead()) {
@@ -72,6 +73,7 @@ class Turn {
             continue;
           }
           player.resetTemporaryAttributes();
+          player.update();
         }
         break;
     }
