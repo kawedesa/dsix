@@ -12,10 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NpcLootDialog extends StatefulWidget {
-  final Npc npc;
+  final int id;
   const NpcLootDialog({
     super.key,
-    required this.npc,
+    required this.id,
   });
 
   @override
@@ -23,6 +23,16 @@ class NpcLootDialog extends StatefulWidget {
 }
 
 class _NpcLootDialogState extends State<NpcLootDialog> {
+  Npc _npc = Npc.empty();
+
+  void updateNpc(List<Npc> npcs) {
+    for (Npc npc in npcs) {
+      if (npc.id == widget.id) {
+        _npc = npc;
+      }
+    }
+  }
+
   void localRefresh() {
     setState(() {});
   }
@@ -30,6 +40,9 @@ class _NpcLootDialogState extends State<NpcLootDialog> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    final npcs = Provider.of<List<Npc>>(context);
+    updateNpc(npcs);
+
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
@@ -50,17 +63,17 @@ class _NpcLootDialogState extends State<NpcLootDialog> {
               title: 'loot',
             ),
             LootSlot(
-              items: widget.npc.loot,
+              items: _npc.loot,
               onAccept: (equipment) {
-                widget.npc.addItemToLoot(equipment.item);
-                widget.npc.update();
+                _npc.addItemToLoot(equipment.item);
+                _npc.update();
                 user.player.equipment.removeItemWeight(equipment.item.weight);
                 user.player.update();
                 localRefresh();
               },
               onDragComplete: (item) {
-                widget.npc.removeItemFromLoot(item);
-                widget.npc.update();
+                _npc.removeItemFromLoot(item);
+                _npc.update();
                 localRefresh();
               },
               onDoubleTap: (equipment) {
@@ -69,10 +82,23 @@ class _NpcLootDialogState extends State<NpcLootDialog> {
                       .getSnackBar('too heavy'.toUpperCase(), user.color));
                   return;
                 }
+
+                if (equipment.item.name == 'gold') {
+                  user.player.addGold(equipment.item.value);
+                  user.player.update();
+                  _npc.removeItemFromLoot(equipment.item);
+                  _npc.update();
+                  localRefresh();
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar('+\$${equipment.item.value}'.toUpperCase(),
+                          user.color));
+                  return;
+                }
+
                 user.player.addItemToBag(equipment);
                 user.player.update();
-                widget.npc.removeItemFromLoot(equipment.item);
-                widget.npc.update();
+                _npc.removeItemFromLoot(equipment.item);
+                _npc.update();
                 localRefresh();
               },
             ),

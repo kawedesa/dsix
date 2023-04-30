@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ChestLootDialog extends StatefulWidget {
-  final Chest chest;
+  final int id;
   const ChestLootDialog({
     super.key,
-    required this.chest,
+    required this.id,
   });
 
   @override
@@ -21,6 +21,16 @@ class ChestLootDialog extends StatefulWidget {
 }
 
 class _ChestLootDialogState extends State<ChestLootDialog> {
+  Chest _chest = Chest.empty();
+
+  void updateChest(List<Chest> chests) {
+    for (Chest chest in chests) {
+      if (chest.id == widget.id) {
+        _chest = chest;
+      }
+    }
+  }
+
   void localRefresh() {
     setState(() {});
   }
@@ -28,6 +38,9 @@ class _ChestLootDialogState extends State<ChestLootDialog> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    final chests = Provider.of<List<Chest>>(context);
+    updateChest(chests);
+
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       content: Container(
@@ -48,16 +61,16 @@ class _ChestLootDialogState extends State<ChestLootDialog> {
               title: 'loot',
             ),
             LootSlot(
-              items: widget.chest.loot,
+              items: _chest.loot,
               onAccept: (equipment) {
-                widget.chest.addItemToLoot(equipment.item);
-                widget.chest.update();
+                _chest.addItemToLoot(equipment.item);
+                _chest.update();
                 user.player.equipment.removeItemWeight(equipment.item.weight);
                 user.player.update();
                 localRefresh();
               },
               onDragComplete: (item) {
-                widget.chest.removeItemFromLoot(item);
+                _chest.removeItemFromLoot(item);
                 localRefresh();
               },
               onDoubleTap: (equipment) {
@@ -66,9 +79,21 @@ class _ChestLootDialogState extends State<ChestLootDialog> {
                       .getSnackBar('too heavy'.toUpperCase(), user.color));
                   return;
                 }
+
+                if (equipment.item.name == 'gold') {
+                  user.player.addGold(equipment.item.value);
+                  user.player.update();
+                  _chest.removeItemFromLoot(equipment.item);
+                  _chest.update();
+                  localRefresh();
+                  snackbarKey.currentState?.showSnackBar(AppSnackBar()
+                      .getSnackBar('+\$${equipment.item.value}'.toUpperCase(),
+                          user.color));
+                  return;
+                }
                 user.player.addItemToBag(equipment);
                 user.player.update();
-                widget.chest.removeItemFromLoot(equipment.item);
+                _chest.removeItemFromLoot(equipment.item);
                 localRefresh();
               },
             ),

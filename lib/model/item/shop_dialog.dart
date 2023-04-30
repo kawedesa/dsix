@@ -1,15 +1,11 @@
 import 'package:dsix/model/item/item.dart';
+import 'package:dsix/model/item/item_detail.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/shared_widgets/dialog/dialog_button.dart';
 import 'package:dsix/shared/shared_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../shared/images/app_images.dart';
-import '../../shared/shared_widgets/button/app_circular_button.dart';
-import '../../shared/shared_widgets/layout/app_separator_horizontal.dart';
-import '../../shared/shared_widgets/layout/app_separator_vertical.dart';
-import '../../shared/shared_widgets/text/app_text.dart';
 
 class ShopDialog extends StatefulWidget {
   final Color color;
@@ -29,93 +25,6 @@ class ShopDialog extends StatefulWidget {
 }
 
 class _ShopDialogState extends State<ShopDialog> {
-  List<Widget> getItemAttributes() {
-    List<Widget> itemAttributes = [];
-
-    if (widget.item.armor.pArmor != 0) {
-      itemAttributes.add(
-        Row(
-          children: [
-            AppCircularButton(
-                icon: AppImages.pArmor,
-                iconColor: widget.darkColor,
-                color: widget.color,
-                borderColor: widget.color,
-                size: 0.025),
-            const AppSeparatorHorizontal(value: 0.01),
-            AppText(
-                text: widget.item.armor.pArmor.toString(),
-                fontSize: 0.015,
-                letterSpacing: 0.002,
-                color: Colors.white),
-          ],
-        ),
-      );
-      itemAttributes.add(
-        const AppSeparatorVertical(value: 0.0125),
-      );
-    }
-    if (widget.item.armor.mArmor != 0) {
-      itemAttributes.add(Row(
-        children: [
-          AppCircularButton(
-              icon: AppImages.mArmor,
-              iconColor: widget.darkColor,
-              color: widget.color,
-              borderColor: widget.color,
-              size: 0.025),
-          const AppSeparatorHorizontal(value: 0.01),
-          AppText(
-              text: widget.item.armor.mArmor.toString(),
-              fontSize: 0.015,
-              letterSpacing: 0.002,
-              color: Colors.white),
-        ],
-      ));
-      itemAttributes.add(
-        const AppSeparatorVertical(value: 0.0125),
-      );
-    }
-
-    itemAttributes.add(Row(
-      children: [
-        AppCircularButton(
-            icon: AppImages.weight,
-            iconColor: widget.darkColor,
-            color: widget.color,
-            borderColor: widget.color,
-            size: 0.025),
-        const AppSeparatorHorizontal(value: 0.01),
-        AppText(
-            text: widget.item.weight.toString(),
-            fontSize: 0.015,
-            letterSpacing: 0.002,
-            color: Colors.white),
-      ],
-    ));
-    itemAttributes.add(
-      const AppSeparatorVertical(value: 0.0125),
-    );
-    itemAttributes.add(Row(
-      children: [
-        AppCircularButton(
-            icon: AppImages.money,
-            iconColor: widget.darkColor,
-            color: widget.color,
-            borderColor: widget.color,
-            size: 0.025),
-        const AppSeparatorHorizontal(value: 0.01),
-        AppText(
-            text: widget.item.value.toString(),
-            fontSize: 0.015,
-            letterSpacing: 0.002,
-            color: Colors.white),
-      ],
-    ));
-
-    return itemAttributes;
-  }
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -154,10 +63,10 @@ class _ShopDialogState extends State<ShopDialog> {
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: getItemAttributes(),
-                          ),
+                          child: ItemDetail(
+                              item: widget.item,
+                              color: widget.color,
+                              darkColor: widget.darkColor),
                         ),
                       ],
                     ),

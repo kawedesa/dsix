@@ -67,6 +67,23 @@ class Npc {
     };
   }
 
+  factory Npc.empty() {
+    return Npc(
+      id: 0,
+      xp: 0,
+      name: '',
+      size: 15,
+      life: Life.empty(),
+      armor: Armor.empty(),
+      attributes: Attributes.empty(),
+      position: Position.empty(),
+      attacks: [],
+      abilities: [],
+      effects: EffectController.empty(),
+      loot: [],
+    );
+  }
+
   factory Npc.fromMap(Map<String, dynamic>? data) {
     List<Attack> getAttacks = [];
     List<dynamic> attacksMap = data?['attacks'];

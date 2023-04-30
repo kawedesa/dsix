@@ -40,7 +40,7 @@ class PlayerViewDeadNpcSprite extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return NpcLootDialog(
-                      npc: npc,
+                      id: npc.id,
                     );
                   });
             } else {

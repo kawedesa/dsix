@@ -22,6 +22,16 @@ class Chest {
 
   final database = FirebaseFirestore.instance;
 
+  factory Chest.empty() {
+    return Chest(
+        id: 0,
+        name: '',
+        size: 10,
+        position: Position.empty(),
+        loot: [],
+        locked: false);
+  }
+
   Map<String, dynamic> toMap() {
     var loot = this.loot.map((item) => item.toMap()).toList();
     return {

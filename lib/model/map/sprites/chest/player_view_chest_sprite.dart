@@ -46,7 +46,7 @@ class PlayerViewChestSprite extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return ChestLootDialog(
-                  chest: chest,
+                  id: chest.id,
                 );
               });
         },

@@ -230,32 +230,6 @@ class Shop {
       value: 150,
     ),
     Item(
-      name: 'whip',
-      description: '',
-      itemSlot: 'one hand',
-      effects: [],
-      attacks: [
-        Attack(
-          name: 'whip',
-          type: 'melee',
-          damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
-          range: Range(
-            min: 23,
-            max: 10,
-            width: 3.5,
-            shape: 'circle',
-          ),
-          effects: [],
-          isLoaded: false,
-          needsReload: false,
-        ),
-      ],
-      armor: Armor(pArmor: 0, mArmor: 0),
-      enchanted: false,
-      weight: 2,
-      value: 250,
-    ),
-    Item(
       name: 'flail',
       description: '',
       itemSlot: 'one hand',
@@ -1093,7 +1067,7 @@ class Shop {
             width: 3.5,
             shape: 'circle',
           ),
-          effects: [],
+          effects: ['bleed'],
           isLoaded: false,
           needsReload: false,
         ),
@@ -1102,6 +1076,32 @@ class Shop {
       enchanted: false,
       weight: 1,
       value: 150,
+    ),
+    Item(
+      name: 'whip',
+      description: '',
+      itemSlot: 'one hand',
+      effects: [],
+      attacks: [
+        Attack(
+          name: 'whip',
+          type: 'ranged',
+          damage: Damage(pierce: 0, pDamage: 2, mDamage: 0, rawDamage: 0),
+          range: Range(
+            min: 23,
+            max: 10,
+            width: 3.5,
+            shape: 'circle',
+          ),
+          effects: [],
+          isLoaded: false,
+          needsReload: false,
+        ),
+      ],
+      armor: Armor(pArmor: 0, mArmor: 0),
+      enchanted: false,
+      weight: 2,
+      value: 250,
     ),
     Item(
       name: 'poison dart',
@@ -1138,7 +1138,7 @@ class Shop {
         Attack(
           name: 'throw',
           type: 'ranged',
-          damage: Damage(pierce: 0, pDamage: 4, mDamage: 0, rawDamage: 0),
+          damage: Damage(pierce: 1, pDamage: 3, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 15,
             max: 30,
