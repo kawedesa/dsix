@@ -90,6 +90,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
         hide: hideButton(user, id),
         startAction: () {
           user.npc!.defend();
+          user.npc!.update();
         },
         resetAction: () {},
         resetArea: () {});
@@ -106,6 +107,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
         hide: hideButton(user, id),
         startAction: () {
           user.npc!.look();
+          user.npc!.update();
         },
         resetAction: () {},
         resetArea: () {});
@@ -182,6 +184,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
       hide: hideButton(user, id),
       startAction: () {
         user.npc!.reload(attack);
+        user.npc!.update();
         localRefresh();
       },
       resetAction: () {},

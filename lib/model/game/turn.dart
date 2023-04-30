@@ -46,17 +46,31 @@ class Turn {
     switch (currentTurn) {
       case 'player':
         for (Player player in players) {
+          if (player.life.isDead()) {
+            continue;
+          }
           player.passTurn();
         }
         for (Npc npc in npcs) {
+          if (npc.life.isDead()) {
+            continue;
+          }
           npc.resetTemporaryAttributes();
+          npc.update();
         }
         break;
       case 'npc':
         for (Npc npc in npcs) {
+          if (npc.life.isDead()) {
+            continue;
+          }
           npc.passTurn(players, npcs);
+          npc.update();
         }
         for (Player player in players) {
+          if (player.life.isDead()) {
+            continue;
+          }
           player.resetTemporaryAttributes();
         }
         break;
@@ -112,6 +126,7 @@ class Turn {
               continue;
             }
             npc.receiveEffects(['empower']);
+            npc.update();
           }
         }
         break;
@@ -126,6 +141,7 @@ class Turn {
             continue;
           }
           npc.receiveEffects(['empower', 'empower']);
+          npc.update();
         }
         break;
     }

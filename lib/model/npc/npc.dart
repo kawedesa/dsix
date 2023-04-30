@@ -107,8 +107,6 @@ class Npc {
 
     if (life.isDead()) {
       die(players, npcs);
-    } else {
-      update();
     }
   }
 
@@ -122,29 +120,22 @@ class Npc {
   void resetTemporaryAttributes() {
     attributes.defense.resetTempDefense();
     attributes.vision.resetTempVision();
-    update();
   }
 
   void changePosition(Position newPosition) {
     position = newPosition;
-    update();
   }
 
   void knockBack(Position actionCenter) {
     position.knockBack(actionCenter);
-    update();
   }
 
   void defend() {
     attributes.defense.defend();
-
-    update();
   }
 
   void look() {
     attributes.vision.look();
-
-    update();
   }
 
   bool inActionArea(Path attackArea) {
@@ -176,17 +167,14 @@ class Npc {
 
   void unload(Attack attack) {
     attack.unload();
-    update();
   }
 
   void reload(Attack attack) {
     attack.reload();
-    update();
   }
 
   void heal(int healAmount) {
     life.heal(healAmount);
-    update();
   }
 
   List<int> receiveAttack(Attack attack) {
@@ -251,8 +239,6 @@ class Npc {
     armorAndLifeDamage.add(armorDamage);
     armorAndLifeDamage.add(lifeDamage);
 
-    update();
-
     return armorAndLifeDamage;
   }
 
@@ -260,7 +246,6 @@ class Npc {
     onDeathEffects(players, npcs);
     resetEffects();
     createLoot();
-    update();
   }
 
   void onDeathEffects(List<Player> players, List<Npc> npcs) {
@@ -277,6 +262,7 @@ class Npc {
               'rage',
               'rage',
             ]);
+            npc.update();
           }
           break;
       }
@@ -315,8 +301,6 @@ class Npc {
         applyNewEffect(effect);
       }
     }
-
-    update();
   }
 
   void onDamageEffects() {
@@ -534,12 +518,10 @@ class Npc {
 
   void addItemToLoot(Item item) {
     loot.add(item);
-    update();
   }
 
   void removeItemFromLoot(Item item) {
     loot.remove(item);
-    update();
   }
 
   Path getVisionArea() {

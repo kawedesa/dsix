@@ -103,6 +103,7 @@ class Combat {
 
     if (selectedNpc != null) {
       selectedNpc!.unload(actionInfo.attack);
+      selectedNpc!.update();
     }
   }
 
@@ -126,11 +127,6 @@ class Combat {
 
       List<int> armorAndLifeDamage = npc.receiveAttack(actionInfo.attack);
 
-      if (armorAndLifeDamage == [0, 0]) {
-        print('armorAndLifeDamage check is used');
-        continue;
-      }
-
       if (armorAndLifeDamage[1] > 0) {
         npc.receiveEffects(actionInfo.attack.effects);
         if (actionInfo.attack.effects.contains('knockback')) {
@@ -142,6 +138,8 @@ class Combat {
       if (npc.life.isDead()) {
         npc.die(players, npcs);
       }
+
+      npc.update();
     }
   }
 
@@ -206,6 +204,7 @@ class Combat {
       }
 
       npc.receiveEffects(actionInfo.ability.effects);
+      npc.update();
     }
   }
 
@@ -230,6 +229,7 @@ class Combat {
   void onHitEffects(List<String> effects) {
     if (selectedNpc != null) {
       selectedNpc!.receiveEffects(effects);
+      selectedNpc!.update();
     }
     if (selectedPlayer != null) {
       selectedPlayer!.receiveEffects(effects);
@@ -243,6 +243,7 @@ class Combat {
           int healAmount = battleLog.targets.length;
           if (selectedNpc != null) {
             selectedNpc!.heal(healAmount);
+            selectedNpc!.update();
           }
           if (selectedPlayer != null) {
             selectedPlayer!.heal(healAmount);
@@ -252,6 +253,7 @@ class Combat {
         case 'kickback':
           if (selectedNpc != null) {
             selectedNpc!.knockBack(actionInfo.getKickBackDirection());
+            selectedNpc!.update();
           }
           if (selectedPlayer != null) {
             selectedPlayer!.knockBack(actionInfo.getKickBackDirection());

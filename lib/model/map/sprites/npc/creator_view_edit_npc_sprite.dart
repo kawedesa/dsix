@@ -124,6 +124,7 @@ class NpcSpriteController {
     tempPosition.newPosition.tile =
         mapInfo.getTile(tempPosition.newPosition.getOffset());
     npc.changePosition(tempPosition.newPosition);
+    npc.update();
     drag = false;
   }
 }

@@ -60,6 +60,7 @@ class _NpcLootDialogState extends State<NpcLootDialog> {
               },
               onDragComplete: (item) {
                 widget.npc.removeItemFromLoot(item);
+                widget.npc.update();
                 localRefresh();
               },
               onDoubleTap: (equipment) {
@@ -70,6 +71,7 @@ class _NpcLootDialogState extends State<NpcLootDialog> {
                 }
                 user.player.addItemToBag(equipment);
                 widget.npc.removeItemFromLoot(equipment.item);
+                widget.npc.update();
                 localRefresh();
               },
             ),

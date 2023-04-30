@@ -346,9 +346,7 @@ class Player {
         attributes.movement.removeAttribute();
         effects.currentEffects.add(applyEffect);
         break;
-      case 'spiky':
-        effects.onHit.add('thorn');
-        break;
+
       case 'stun':
         attributes.movement.removeAttribute();
         effects.currentEffects.add(applyEffect);
@@ -565,19 +563,24 @@ class Player {
     unequip(equipment.feetSlot);
   }
 
-  void addItemEffects(List<String> effects) {
-    for (String effect in effects) {
-      applyNewEffect(effect);
+  void addItemEffects(List<String> itemEffects) {
+    for (String effect in itemEffects) {
+      switch (effect) {
+        case 'spiky':
+          effects.onHit.add('thorn');
+          break;
+      }
     }
   }
 
-  void removeItemEffects(List<String> effects) {
-    //TODO comeback here
-    //   switch (effect) {
-    //    case 'spiky':
-    //     effects.onHit.remove('thorn');
-    //     break;
-    // }
+  void removeItemEffects(List<String> itemEffects) {
+    for (String effect in itemEffects) {
+      switch (effect) {
+        case 'spiky':
+          effects.onHit.remove('thorn');
+          break;
+      }
+    }
   }
 
   void addItemToBag(EquipmentSlot slot) {
@@ -637,16 +640,24 @@ class Player {
         heal(healingAmount);
         break;
       case 'bandages':
-//TODO voltar aqui
-        // effects.removeEffect('bleed');
+        for (Effect effect in effects.currentEffects) {
+          if (effect.name == 'bleed') {
+            effect.countdown = 0;
+          }
+        }
+        markEffectsToRemove();
         break;
       case 'food':
         int healingAmount = Random().nextInt(3) + 1;
         heal(healingAmount);
         break;
       case 'antidote':
-        //TODO voltar aqui
-        // effects.removeEffect('poison');
+        for (Effect effect in effects.currentEffects) {
+          if (effect.name == 'poison') {
+            effect.countdown = 0;
+          }
+        }
+        markEffectsToRemove();
         break;
     }
     removeItemFromBag(item);
