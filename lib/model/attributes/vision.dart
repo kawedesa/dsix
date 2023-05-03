@@ -52,7 +52,7 @@ class Vision {
   }
 
   void look() {
-    tempVision = attribute * 20;
+    tempVision = (5 + attribute) * 5;
     canSeeInvisible = true;
   }
 

@@ -912,6 +912,7 @@ class AppImages {
   //Map
   static const emptyMap = 'assets/images/maps/emptyMap.svg';
   static const oldRuins = 'assets/images/maps/oldRuins.svg';
+  static const crossroads = 'assets/images/maps/crossroads.svg';
 
   String getMapImage(String mapName) {
     String mapImage = '';
@@ -922,6 +923,9 @@ class AppImages {
         break;
       case 'old ruins':
         mapImage = oldRuins;
+        break;
+      case 'crossroads':
+        mapImage = crossroads;
         break;
     }
 

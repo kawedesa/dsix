@@ -1,6 +1,7 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/map/menu/map_menu.dart';
+import 'package:dsix/model/map/sprites/action_area_sprite.dart';
 import 'package:dsix/model/map/sprites/chest/creator_view_chest_sprite.dart';
 import 'package:dsix/model/map/sprites/tile/creator_view_tile_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
