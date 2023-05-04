@@ -51,18 +51,21 @@ class NpcSpriteImage extends StatelessWidget {
             padding: EdgeInsets.only(bottom: npc.size * 0.6),
             child: TransparentPointer(
               transparent: true,
-              child: Stack(
-                children: [
-                  NpcImage(
-                    npc: npc,
-                    size: npc.size,
-                  ),
-                  NpcImage(
-                    npc: npc,
-                    size: npc.size,
-                    color: getEffectsColor(npc.effects.currentEffects),
-                  ),
-                ],
+              child: Opacity(
+                opacity: (npc.invisible) ? 0.7 : 1.0,
+                child: Stack(
+                  children: [
+                    NpcImage(
+                      npc: npc,
+                      size: npc.size,
+                    ),
+                    NpcImage(
+                      npc: npc,
+                      size: npc.size,
+                      color: getEffectsColor(npc.effects.currentEffects),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

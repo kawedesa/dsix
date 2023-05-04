@@ -79,8 +79,9 @@ class BattleLog {
       possibleTargets.add(Target(
           id: player.id,
           position: player.position,
-          lifeDamage: player.life.current,
-          armorDamage: player.attributes.defense.tempArmor));
+          gold: player.equipment.gold,
+          life: player.life.current,
+          armor: player.attributes.defense.tempArmor));
     }
 
     for (Npc npc in npcs) {
@@ -90,8 +91,9 @@ class BattleLog {
       possibleTargets.add(Target(
           id: npc.id.toString(),
           position: npc.position,
-          lifeDamage: npc.life.current,
-          armorDamage: npc.attributes.defense.tempArmor));
+          gold: 0,
+          life: npc.life.current,
+          armor: npc.attributes.defense.tempArmor));
     }
   }
 
@@ -101,13 +103,13 @@ class BattleLog {
         if (target.id != npc.id.toString()) {
           continue;
         }
-        if (target.lifeDamage == npc.life.current &&
-            target.armorDamage == npc.attributes.defense.tempArmor) {
+        if (target.life == npc.life.current &&
+            target.armor == npc.attributes.defense.tempArmor) {
           //WASN'T DAMAGED
           continue;
         }
-        target.lifeDamage -= npc.life.current;
-        target.armorDamage -= npc.attributes.defense.tempArmor;
+        target.life -= npc.life.current;
+        target.armor -= npc.attributes.defense.tempArmor;
         targets.add(target);
       }
     }
@@ -118,14 +120,16 @@ class BattleLog {
           continue;
         }
 
-        if (target.lifeDamage == player.life.current &&
-            target.armorDamage == player.attributes.defense.tempArmor) {
-          //WASN'T DAMAGED
+        if (target.life == player.life.current &&
+            target.armor == player.attributes.defense.tempArmor &&
+            target.gold == player.equipment.gold) {
+          //WASN'T DAMAGED OR STOLEN
           continue;
         }
 
-        target.lifeDamage -= player.life.current;
-        target.armorDamage -= player.attributes.defense.tempArmor;
+        target.life -= player.life.current;
+        target.armor -= player.attributes.defense.tempArmor;
+        target.gold -= player.equipment.gold;
         targets.add(target);
       }
     }
@@ -182,23 +186,25 @@ class BattleLog {
 
 class Target {
   String id;
-
   Position position;
-  int lifeDamage;
-  int armorDamage;
+  int gold;
+  int life;
+  int armor;
   Target({
     required this.id,
     required this.position,
-    required this.lifeDamage,
-    required this.armorDamage,
+    required this.gold,
+    required this.life,
+    required this.armor,
   });
 
   factory Target.empty() {
     return Target(
       id: '',
       position: Position.empty(),
-      lifeDamage: 0,
-      armorDamage: 0,
+      gold: 0,
+      life: 0,
+      armor: 0,
     );
   }
 
@@ -206,8 +212,9 @@ class Target {
     return Target(
       id: data?['id'],
       position: Position.fromMap(data?['position']),
-      lifeDamage: data?['lifeDamage'],
-      armorDamage: data?['armorDamage'],
+      gold: data?['gold'],
+      life: data?['life'],
+      armor: data?['armor'],
     );
   }
 
@@ -215,8 +222,9 @@ class Target {
     return {
       'id': id,
       'position': position.toMap(),
-      'lifeDamage': lifeDamage,
-      'armorDamage': armorDamage,
+      'gold': gold,
+      'life': life,
+      'armor': armor,
     };
   }
 }

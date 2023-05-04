@@ -316,21 +316,25 @@ class Player {
         attributes.power.addAttribute();
         effects.currentEffects.add(applyEffect);
         break;
-
       case 'poison':
         effects.currentEffects.add(applyEffect);
         break;
-
       case 'slow':
         attributes.movement.removeAttribute();
         effects.currentEffects.add(applyEffect);
         break;
-
+      case 'steal':
+        int stolenGold = Random().nextInt(25) + 25;
+        if (equipment.gold > stolenGold) {
+          equipment.gold -= stolenGold;
+        } else {
+          equipment.gold = 0;
+        }
+        break;
       case 'stun':
         attributes.movement.removeAttribute();
         effects.currentEffects.add(applyEffect);
         break;
-
       case 'vulnerable':
         effects.currentEffects.add(applyEffect);
         break;

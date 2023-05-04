@@ -42,6 +42,7 @@ class AppImages {
   static const effectCry = 'assets/images/ui/effectCry.svg';
   static const effectEmpower = 'assets/images/ui/effectEmpower.svg';
   static const effectIllusion = 'assets/images/ui/effectIllusion.svg';
+  static const effectInvisible = 'assets/images/ui/effectInvisible.svg';
   static const effectRage = 'assets/images/ui/effectRage.svg';
   static const effectSlow = 'assets/images/ui/effectSlow.svg';
   static const effectStun = 'assets/images/ui/effectStun.svg';
@@ -71,6 +72,9 @@ class AppImages {
         break;
       case 'illusion':
         effectIcon = effectIllusion;
+        break;
+      case 'invisible':
+        effectIcon = effectInvisible;
         break;
       case 'rage':
         effectIcon = effectRage;

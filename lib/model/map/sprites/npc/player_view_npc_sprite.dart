@@ -31,8 +31,7 @@ class PlayerViewNpcSprite extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    return AnimatedPositioned(
-      duration: const Duration(milliseconds: 500),
+    return Positioned(
       left: getPosition(npc).dx,
       top: getPosition(npc).dy,
       child: SizedBox(

@@ -24,6 +24,7 @@ class Npc {
   Armor armor;
   Attributes attributes;
   Position position;
+  bool invisible;
   List<Attack> attacks;
   List<Ability> abilities;
   EffectController effects;
@@ -38,6 +39,7 @@ class Npc {
     required this.armor,
     required this.attributes,
     required this.position,
+    required this.invisible,
     required this.attacks,
     required this.abilities,
     required this.effects,
@@ -60,6 +62,7 @@ class Npc {
       'armor': armor.toMap(),
       'attributes': attributes.toMap(),
       'position': position.toMap(),
+      'invisible': invisible,
       'attacks': attacksToMap,
       'abilities': abilitiesToMap,
       'effects': effects.toMap(),
@@ -77,6 +80,7 @@ class Npc {
       armor: Armor.empty(),
       attributes: Attributes.empty(),
       position: Position.empty(),
+      invisible: false,
       attacks: [],
       abilities: [],
       effects: EffectController.empty(),
@@ -112,6 +116,7 @@ class Npc {
       armor: Armor.fromMap(data?['armor']),
       attributes: Attributes.fromMap(data?['attributes']),
       position: Position.fromMap(data?['position']),
+      invisible: data?['invisible'],
       attacks: getAttacks,
       abilities: getAbilities,
       effects: EffectController.fromMap(data?['effects']),
@@ -380,6 +385,11 @@ class Npc {
         break;
       case 'illusion':
         effects.currentEffects.add(applyEffect);
+        effects.onDamage.add('vanish');
+        break;
+      case 'invisible':
+        effects.currentEffects.add(applyEffect);
+        invisible = true;
         break;
       case 'poison':
         effects.currentEffects.add(applyEffect);
@@ -431,6 +441,9 @@ class Npc {
       case 'illusion':
         effect.decreaseCountdown();
         break;
+      case 'invisible':
+        effect.decreaseCountdown();
+        break;
       case 'poison':
         effect.decreaseCountdown();
         life.receiveDamage(1);
@@ -476,6 +489,10 @@ class Npc {
       case 'illusion':
         effects.removeEffect(effect);
         effects.onDeath.add('delete');
+        break;
+      case 'invisible':
+        effects.removeEffect(effect);
+        invisible = false;
         break;
       case 'rage':
         attributes.power.removeAttribute();

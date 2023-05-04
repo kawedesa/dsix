@@ -41,27 +41,18 @@ class PlayerMapVM {
       List<Player> players, bool sharedTeamVison) {
     List<Widget> buildingSprites = [];
 
-    Path playersVisibleArea = Path();
-    if (sharedTeamVison) {
-      playersVisibleArea = getPlayersSharedVision(user.mapInfo, players);
-    } else {
-      playersVisibleArea = getPlayerVision(user.mapInfo, user.player);
-    }
+    Path canSeeInvisibleArea = Path();
+    Path normalVisibleArea = Path();
+
+    canSeeInvisibleArea =
+        getCanSeeInvisibleArea(user, players, sharedTeamVison);
+    normalVisibleArea = getNormalVisibleArea(user, players, sharedTeamVison);
 
     for (Building building in buildings) {
-      if (building.alwaysVisible) {
-        buildingSprites.add(PlayerViewBuildingSprite(
-          building: building,
-        ));
-        continue;
+      if (canSeeInvisibleArea.contains(building.position.getOffset()) ||
+          normalVisibleArea.contains(building.position.getOffset())) {
+        buildingSprites.add(PlayerViewBuildingSprite(building: building));
       }
-
-      if (!playersVisibleArea.contains(building.position.getOffset())) {
-        continue;
-      }
-      buildingSprites.add(PlayerViewBuildingSprite(
-        building: building,
-      ));
     }
 
     return Stack(
@@ -74,21 +65,18 @@ class PlayerMapVM {
       bool sharedTeamVison) {
     List<Widget> chestSprites = [];
 
-    Path playersVisibleArea = Path();
-    if (sharedTeamVison) {
-      playersVisibleArea = getPlayersSharedVision(user.mapInfo, players);
-    } else {
-      playersVisibleArea = getPlayerVision(user.mapInfo, user.player);
-    }
+    Path canSeeInvisibleArea = Path();
+    Path normalVisibleArea = Path();
+
+    canSeeInvisibleArea =
+        getCanSeeInvisibleArea(user, players, sharedTeamVison);
+    normalVisibleArea = getNormalVisibleArea(user, players, sharedTeamVison);
 
     for (Chest chest in chests) {
-      if (!playersVisibleArea.contains(chest.position.getOffset())) {
-        continue;
+      if (canSeeInvisibleArea.contains(chest.position.getOffset()) ||
+          normalVisibleArea.contains(chest.position.getOffset())) {
+        chestSprites.add(PlayerViewChestSprite(chest: chest));
       }
-
-      chestSprites.add(PlayerViewChestSprite(
-        chest: chest,
-      ));
     }
 
     return Stack(
@@ -99,56 +87,74 @@ class PlayerMapVM {
   //NPC
   Widget createDeadNpcSprites(
       User user, List<Npc> npcs, List<Player> players, bool sharedTeamVison) {
-    List<Widget> npcSprites = [];
+    List<Widget> deadNpcSprites = [];
 
-    Path playersVisibleArea = Path();
+    Path canSeeInvisibleArea = Path();
+    Path normalVisibleArea = Path();
 
-    if (sharedTeamVison) {
-      playersVisibleArea = getPlayersSharedVision(user.mapInfo, players);
-    } else {
-      playersVisibleArea = getPlayerVision(user.mapInfo, user.player);
-    }
+    canSeeInvisibleArea =
+        getCanSeeInvisibleArea(user, players, sharedTeamVison);
+    normalVisibleArea = getNormalVisibleArea(user, players, sharedTeamVison);
 
     for (Npc npc in npcs) {
-      if (!playersVisibleArea.contains(npc.position.getOffset())) {
-        continue;
-      }
-
       if (npc.life.isAlive()) {
         continue;
       }
-      npcSprites.add(PlayerViewDeadNpcSprite(
-        npc: npc,
-      ));
+      if (npc.invisible &&
+          canSeeInvisibleArea.contains(npc.position.getOffset())) {
+        deadNpcSprites.add(PlayerViewDeadNpcSprite(
+          npc: npc,
+        ));
+        continue;
+      }
+
+      if (npc.invisible) {
+        continue;
+      }
+
+      if (normalVisibleArea.contains(npc.position.getOffset()) ||
+          canSeeInvisibleArea.contains(npc.position.getOffset())) {
+        deadNpcSprites.add(PlayerViewDeadNpcSprite(
+          npc: npc,
+        ));
+      }
     }
 
     return Stack(
-      children: npcSprites,
+      children: deadNpcSprites,
     );
   }
 
   Widget createNpcSprites(
       User user, List<Npc> npcs, List<Player> players, bool sharedTeamVison) {
     List<Widget> npcSprites = [];
-    Path playersVisibleArea = Path();
 
-    if (sharedTeamVison) {
-      playersVisibleArea = getPlayersSharedVision(user.mapInfo, players);
-    } else {
-      playersVisibleArea = getPlayerVision(user.mapInfo, user.player);
-    }
+    Path canSeeInvisibleArea = Path();
+    Path normalVisibleArea = Path();
+
+    canSeeInvisibleArea =
+        getCanSeeInvisibleArea(user, players, sharedTeamVison);
+    normalVisibleArea = getNormalVisibleArea(user, players, sharedTeamVison);
 
     for (Npc npc in npcs) {
-      if (!playersVisibleArea.contains(npc.position.getOffset())) {
+      if (npc.invisible &&
+          canSeeInvisibleArea.contains(npc.position.getOffset())) {
+        npcSprites.add(PlayerViewNpcSprite(
+          npc: npc,
+        ));
         continue;
       }
 
-      if (npc.life.isDead()) {
+      if (npc.invisible) {
         continue;
       }
-      npcSprites.add(PlayerViewNpcSprite(
-        npc: npc,
-      ));
+
+      if (normalVisibleArea.contains(npc.position.getOffset()) ||
+          canSeeInvisibleArea.contains(npc.position.getOffset())) {
+        npcSprites.add(PlayerViewNpcSprite(
+          npc: npc,
+        ));
+      }
     }
 
     return Stack(
@@ -156,49 +162,69 @@ class PlayerMapVM {
     );
   }
 
-  Path getPlayerVision(MapInfo mapInfo, Player player) {
-    Path playerVisibleArea = Path();
-    playerVisibleArea.fillType = PathFillType.evenOdd;
-
-    Path playerVision = Path.combine(PathOperation.difference,
-        player.getVisionArea(), VisionGrid().getGrid(player.position));
-
-    if (player.position.tile == 'grass' ||
-        player.attributes.vision.canSeeInvisible) {
-      playerVisibleArea = playerVision;
-    } else {
-      playerVisibleArea = Path.combine(
-          PathOperation.difference, playerVision, mapInfo.map.grass);
+  Path getCanSeeInvisibleArea(
+      User user, List<Player> players, bool sharedTeamVision) {
+    if (!sharedTeamVision) {
+      if (!user.player.attributes.vision.canSeeInvisible) {
+        return Path();
+      }
+      return user.player.getVisionArea();
     }
 
-    return playerVisibleArea;
-  }
-
-  Path getPlayersSharedVision(MapInfo mapInfo, List<Player> players) {
-    Path visibleArea = Path();
-    visibleArea.fillType = PathFillType.evenOdd;
+    Path canSeeInvisibleArea = Path();
 
     for (Player player in players) {
-      if (player.life.isDead()) {
+      if (!player.attributes.vision.canSeeInvisible) {
+        continue;
+      }
+      canSeeInvisibleArea = Path.combine(
+          PathOperation.union, canSeeInvisibleArea, player.getVisionArea());
+    }
+
+    return canSeeInvisibleArea;
+  }
+
+  Path getNormalVisibleArea(
+      User user, List<Player> players, bool sharedTeamVision) {
+    Path normalVisibleArea = Path();
+    normalVisibleArea.fillType = PathFillType.evenOdd;
+
+    if (!sharedTeamVision) {
+      if (user.player.attributes.vision.canSeeInvisible) {
+        return Path();
+      }
+
+      normalVisibleArea = user.player.getVisionArea();
+
+      if (user.player.position.tile == 'grass') {
+        return normalVisibleArea;
+      } else {
+        normalVisibleArea = Path.combine(PathOperation.difference,
+            normalVisibleArea, VisionGrid().getGrid(user.player.position));
+        normalVisibleArea = Path.combine(PathOperation.difference,
+            normalVisibleArea, user.mapInfo.map.grass);
+        return normalVisibleArea;
+      }
+    }
+
+    for (Player player in players) {
+      if (player.attributes.vision.canSeeInvisible) {
         continue;
       }
 
-      Path playerVisibleArea = Path();
-      Path playerVision = Path.combine(PathOperation.difference,
-          player.getVisionArea(), VisionGrid().getGrid(player.position));
+      Path playerVision = player.getVisionArea();
 
-      if (player.position.tile == 'grass' ||
-          player.attributes.vision.canSeeInvisible) {
-        playerVisibleArea = playerVision;
-      } else {
-        playerVisibleArea = Path.combine(
-            PathOperation.difference, playerVision, mapInfo.map.grass);
+      if (player.position.tile != 'grass') {
+        playerVision = Path.combine(PathOperation.difference, playerVision,
+            VisionGrid().getGrid(player.position));
+        playerVision = Path.combine(
+            PathOperation.difference, playerVision, user.mapInfo.map.grass);
       }
-
-      visibleArea =
-          Path.combine(PathOperation.union, visibleArea, playerVisibleArea);
+      normalVisibleArea =
+          Path.combine(PathOperation.union, normalVisibleArea, playerVision);
     }
-    return visibleArea;
+
+    return normalVisibleArea;
   }
 
   //PLAYER SPRITES

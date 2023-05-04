@@ -106,7 +106,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   _creatorMapController.createPlayerSprites(
                       user.mapInfo, players, npcs),
                   _creatorMapController.createNpcSprites(user, npcs, refresh),
-                  _mapAnimation.displayDamageAnimations(),
+                  _mapAnimation.displayTargetAnimations(),
                   _mapAnimation.displayAuraAnimations(),
                 ],
               ),

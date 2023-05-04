@@ -32,6 +32,7 @@ class NpcList {
       vision: Vision(attribute: 0, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'bite',
@@ -77,6 +78,7 @@ class NpcList {
       vision: Vision(attribute: -1, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'bite',
@@ -130,6 +132,7 @@ class NpcList {
       vision: Vision(attribute: 0, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'bite',
@@ -169,6 +172,7 @@ class NpcList {
       vision: Vision(attribute: -1, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'slash',
@@ -208,6 +212,7 @@ class NpcList {
       vision: Vision(attribute: 2, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'blast',
@@ -261,6 +266,7 @@ class NpcList {
       vision: Vision(attribute: -1, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'crush',
@@ -300,6 +306,7 @@ class NpcList {
       vision: Vision(attribute: 2, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'bite',
@@ -359,6 +366,7 @@ class NpcList {
       vision: Vision(attribute: 1, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'tongue',
@@ -398,6 +406,7 @@ class NpcList {
       vision: Vision(attribute: 0, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'jab',
@@ -455,6 +464,7 @@ class NpcList {
       vision: Vision(attribute: 2, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'jab',
@@ -508,6 +518,7 @@ class NpcList {
       vision: Vision(attribute: 1, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'shot',
@@ -567,6 +578,7 @@ class NpcList {
       vision: Vision(attribute: 0, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [
       Attack(
         name: 'bite',
@@ -620,6 +632,7 @@ class NpcList {
       vision: Vision(attribute: 3, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
+    invisible: false,
     attacks: [],
     abilities: [
       Ability(

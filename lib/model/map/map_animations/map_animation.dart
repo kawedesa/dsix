@@ -3,6 +3,7 @@ import 'package:dsix/model/combat/action_info.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/turn.dart';
 import 'package:dsix/model/map/map_animations/aura_activation_animation.dart';
+import 'package:dsix/model/map/map_animations/gold_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
@@ -53,7 +54,7 @@ class MapAnimation {
   //BATTLE ANIMATIONS
   List<Widget> attackAnimations = [];
   List<Widget> auraAnimations = [];
-  List<Widget> damageAnimations = [];
+  List<Widget> targetAnimations = [];
   int currentLog = 0;
 
   void checkBattleLog(List<BattleLog> battleLog) {
@@ -73,6 +74,7 @@ class MapAnimation {
     addAuraAnimation(battleLog.last.auras);
     addLifeDamageAnimation(battleLog.last.targets);
     addArmorDamageAnimation(battleLog.last.targets);
+    addGoldAnimation(battleLog.last.targets);
     currentLog = battleLog.last.id;
   }
 
@@ -93,21 +95,31 @@ class MapAnimation {
 
   void addLifeDamageAnimation(List<Target> targets) {
     for (Target target in targets) {
-      if (target.lifeDamage == 0) {
+      if (target.life == 0) {
         continue;
       }
-      damageAnimations.add(LifeDamageAnimation(
-          damage: target.lifeDamage, position: target.position));
+      targetAnimations.add(
+          LifeDamageAnimation(damage: target.life, position: target.position));
     }
   }
 
   void addArmorDamageAnimation(List<Target> targets) {
     for (Target target in targets) {
-      if (target.armorDamage == 0) {
+      if (target.armor == 0) {
         continue;
       }
-      damageAnimations.add(ArmorDamageAnimation(
-          damage: target.armorDamage, position: target.position));
+      targetAnimations.add(ArmorDamageAnimation(
+          damage: target.armor, position: target.position));
+    }
+  }
+
+  void addGoldAnimation(List<Target> targets) {
+    for (Target target in targets) {
+      if (target.gold == 0) {
+        continue;
+      }
+      targetAnimations
+          .add(GoldAnimation(amount: target.gold, position: target.position));
     }
   }
 
@@ -129,11 +141,11 @@ class MapAnimation {
     );
   }
 
-  Widget displayDamageAnimations() {
+  Widget displayTargetAnimations() {
     return TransparentPointer(
       transparent: true,
       child: Stack(
-        children: damageAnimations,
+        children: targetAnimations,
       ),
     );
   }

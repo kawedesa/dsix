@@ -86,7 +86,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                   _playerMapVM.createNpcSprites(
                       user, npcs, players, game.sharedTeamVision),
                   _playerMapVM.createPlayerSprites(user, players),
-                  _mapAnimation.displayDamageAnimations(),
+                  _mapAnimation.displayTargetAnimations(),
                   _mapAnimation.displayAuraAnimations(),
                   _mapAnimation.displayAuraAnimations(),
                 ],
