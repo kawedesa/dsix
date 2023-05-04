@@ -56,6 +56,10 @@ class Turn {
           if (npc.life.isDead()) {
             continue;
           }
+          if (npc.effects.onDeath.contains('delete')) {
+            npc.delete();
+            continue;
+          }
           npc.resetTemporaryAttributes();
           npc.update();
         }

@@ -474,6 +474,7 @@ class AppImages {
   static const actionClaw = 'assets/images/ui/actionClaw.svg';
   static const actionCrush = 'assets/images/ui/actionCrush.svg';
   static const actionDefend = 'assets/images/ui/actionDefend.svg';
+  static const actionEmpty = 'assets/images/ui/actionEmpty.svg';
   static const actionJab = 'assets/images/ui/actionJab.svg';
   static const actionLook = 'assets/images/ui/actionLook.svg';
   static const actionMirrorImages = 'assets/images/ui/actionMirrorImages.svg';
@@ -508,12 +509,14 @@ class AppImages {
       case 'claw':
         actionIcon = actionClaw;
         break;
-
       case 'crush':
         actionIcon = actionCrush;
         break;
       case 'defend':
         actionIcon = actionDefend;
+        break;
+      case 'empty':
+        actionIcon = actionEmpty;
         break;
       case 'jab':
         actionIcon = actionJab;
@@ -699,7 +702,8 @@ class AppImages {
       'assets/images/sprites/npcs/skeletonWarrior.svg';
   static const demonHead = 'assets/images/sprites/npcs/demonHead.svg';
   static const giantFrog = 'assets/images/sprites/npcs/giantFrog.svg';
-  static const goblin = 'assets/images/sprites/npcs/goblin.svg';
+  static const goblinBandit = 'assets/images/sprites/npcs/goblinBandit.svg';
+  static const goblinMarksman = 'assets/images/sprites/npcs/goblinMarksman.svg';
   static const basilisk = 'assets/images/sprites/npcs/basilisk.svg';
   static const mamaBear = 'assets/images/sprites/npcs/mamaBear.svg';
   static const gnomeWizzard = 'assets/images/sprites/npcs/gnomeWizzard.svg';
@@ -732,8 +736,11 @@ class AppImages {
       case 'giant frog':
         npcSprite = giantFrog;
         break;
-      case 'goblin':
-        npcSprite = goblin;
+      case 'goblin bandit':
+        npcSprite = goblinBandit;
+        break;
+      case 'goblin marksman':
+        npcSprite = goblinMarksman;
         break;
       case 'basilisk':
         npcSprite = basilisk;

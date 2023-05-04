@@ -257,6 +257,7 @@ class CreatorMapActionModeController {
       if (!npcVisibleArea.contains(player.position.getOffset())) {
         continue;
       }
+
       if (player.life.isDead()) {
         continue;
       }
@@ -281,7 +282,7 @@ class CreatorMapActionModeController {
         Path npcVision = Path.combine(PathOperation.difference,
             npc.getVisionArea(), VisionGrid().getGrid(npc.position));
 
-        if (npc.position.tile == 'grass' ||
+        if (mapInfo.map.grass.contains(npc.position.getOffset()) ||
             npc.attributes.vision.canSeeInvisible) {
           npcVisibleArea = npcVision;
         } else {

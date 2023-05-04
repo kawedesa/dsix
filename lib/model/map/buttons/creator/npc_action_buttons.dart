@@ -60,26 +60,26 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
       return const SizedBox();
     }
 
-    List<Widget> actionButtons = [];
-    List<Widget> npcAttackButtons = createNpcAttackButtons(user);
+    List<Widget> displayButtons = [];
+    List<Widget> npcActionButtons = createNpcActionButtons(user);
 
-    actionButtons.add(const AppSeparatorHorizontal(value: 0.05));
-    actionButtons.add(createDefendActionButton(user));
-    actionButtons.add(const AppSeparatorHorizontal(value: 0.05));
-    actionButtons.add(createLookActionButton(user));
-    actionButtons.add(const AppSeparatorHorizontal(value: 0.05));
-    for (Widget button in npcAttackButtons) {
-      actionButtons.add(button);
-      actionButtons.add(const AppSeparatorHorizontal(value: 0.05));
+    displayButtons.add(const AppSeparatorHorizontal(value: 0.05));
+    displayButtons.add(createDefendButton(user));
+    displayButtons.add(const AppSeparatorHorizontal(value: 0.05));
+    displayButtons.add(createLookButton(user));
+    displayButtons.add(const AppSeparatorHorizontal(value: 0.05));
+    for (Widget button in npcActionButtons) {
+      displayButtons.add(button);
+      displayButtons.add(const AppSeparatorHorizontal(value: 0.05));
     }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: actionButtons,
+      children: displayButtons,
     );
   }
 
-  Widget createDefendActionButton(User user) {
+  Widget createDefendButton(User user) {
     int id = 1;
     return ActionButton(
         id: id,
@@ -96,7 +96,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
         resetArea: () {});
   }
 
-  Widget createLookActionButton(User user) {
+  Widget createLookButton(User user) {
     int id = 2;
     return ActionButton(
         id: id,
@@ -113,7 +113,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
         resetArea: () {});
   }
 
-  List<Widget> createNpcAttackButtons(User user) {
+  List<Widget> createNpcActionButtons(User user) {
     List<Widget> npcActionButtons = [];
 
     for (int i = 0; i < user.npc!.attacks.length; i++) {
@@ -133,6 +133,13 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
 
     for (int i = 0; i < user.npc!.abilities.length; i++) {
       int id = 3 + i + user.npc!.attacks.length;
+      Ability ability = user.npc!.abilities[i];
+
+      if (ability.cooldown > 0 && ability.cooldownCount > 0) {
+        npcActionButtons
+            .add(createCooldownButton(id, user, ability.cooldownCount));
+        continue;
+      }
 
       npcActionButtons
           .add(createAbilityButton(id, user, user.npc!.abilities[i]));
@@ -192,14 +199,30 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
     );
   }
 
+  Widget createCooldownButton(int id, User user, int cooldownCount) {
+    return ActionButton(
+      id: id,
+      icon: AppImages().getActionIcon('empty'),
+      cooldown: cooldownCount,
+      color: AppColors.uiColor.withAlpha(175),
+      darkColor: AppColors.uiColorDark.withAlpha(225),
+      selected: checkSelectedButton(id),
+      hide: hideButton(user, id),
+      startAction: () {},
+      resetAction: () {},
+      resetArea: () {},
+    );
+  }
+
   Widget createAbilityButton(int id, User user, Ability ability) {
     Function startAction = () {
       selectActionButton(id);
       user.combat.startAbility(
-        user.mapInfo.getOnScreenPosition(user.npc!.position),
-        user.npc!.position,
-        ability,
-      );
+          user.mapInfo.getOnScreenPosition(user.npc!.position),
+          user.npc!.position,
+          ability,
+          null,
+          user.npc);
 
       user.npcActionMode();
       localRefresh();
@@ -208,6 +231,9 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
     switch (ability.name) {
       case 'mirror images':
         startAction = () {
+          user.npc!.setCooldown('mirror images');
+          user.npc!.update();
+
           Npc mirrorImage = user.npc!;
 
           mirrorImage.abilities = [];
@@ -222,6 +248,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
             mirrorImage.position.dy += Random().nextInt(20) - 10;
             mirrorImage.set();
           }
+          localRefresh();
         };
         break;
     }
@@ -249,7 +276,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
     );
   }
 
-  Widget getAttackInput(User user, List<Npc> npcs, List<Player> players) {
+  Widget getActionInput(User user, List<Npc> npcs, List<Player> players) {
     Widget attackInputWidget = MouseInput(
       active: (user.npcMode == 'action') ? true : false,
       getMouseOffset: (mouseOffset) {
@@ -285,7 +312,7 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
       child: (user.placingSomething == 'false')
           ? Stack(
               children: [
-                getAttackInput(user, npcs, players),
+                getActionInput(user, npcs, players),
                 Align(
                     alignment: const Alignment(0, 0.50),
                     child: createActionButtons(user)),

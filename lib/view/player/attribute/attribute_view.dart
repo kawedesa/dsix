@@ -70,8 +70,8 @@ class _AttributeViewState extends State<AttributeView> {
                 ),
                 const AppSeparatorVertical(value: 0.035),
                 AppSlider(
-                  width: AppLayout.avarage(context) * 0.25,
-                  height: AppLayout.avarage(context) * 0.075,
+                  width: 0.25,
+                  height: 0.05,
                   range: 5,
                   sliderTitle: 'power',
                   sliderDescription:
@@ -93,8 +93,8 @@ class _AttributeViewState extends State<AttributeView> {
                 ),
                 const AppSeparatorVertical(value: 0.025),
                 AppSlider(
-                  width: AppLayout.avarage(context) * 0.25,
-                  height: AppLayout.avarage(context) * 0.075,
+                  width: 0.25,
+                  height: 0.05,
                   range: 5,
                   sliderTitle: 'defense',
                   sliderDescription:
@@ -116,8 +116,8 @@ class _AttributeViewState extends State<AttributeView> {
                 ),
                 const AppSeparatorVertical(value: 0.025),
                 AppSlider(
-                  width: AppLayout.avarage(context) * 0.25,
-                  height: AppLayout.avarage(context) * 0.075,
+                  width: 0.25,
+                  height: 0.05,
                   range: 5,
                   sliderTitle: 'movement',
                   sliderDescription: 'this represents how far you can move.',
@@ -138,8 +138,8 @@ class _AttributeViewState extends State<AttributeView> {
                 ),
                 const AppSeparatorVertical(value: 0.025),
                 AppSlider(
-                  width: AppLayout.avarage(context) * 0.25,
-                  height: AppLayout.avarage(context) * 0.075,
+                  width: 0.25,
+                  height: 0.05,
                   range: 5,
                   sliderTitle: 'vision',
                   sliderDescription:

@@ -78,7 +78,7 @@ class _RaceViewState extends State<RaceView> {
                             _raceVM.changeRace(-1);
                           });
                         },
-                        size: 0.075),
+                        size: 0.05),
                     SizedBox(
                       width: AppLayout.shortest(context) * 0.5,
                       height: AppLayout.shortest(context) * 0.55,
@@ -135,7 +135,7 @@ class _RaceViewState extends State<RaceView> {
                             _raceVM.changeRace(1);
                           });
                         },
-                        size: 0.075),
+                        size: 0.05),
                   ],
                 ),
                 const AppSeparatorVertical(value: 0.025),

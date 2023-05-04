@@ -15,24 +15,12 @@ class Shop {
       int leftOverAmount = lootValue - currentValue;
 
       if (leftOverAmount < 100) {
-        Item gold = Item(
-            name: 'gold',
-            description: 'shiny',
-            itemSlot: 'gold',
-            effects: [],
-            attacks: [],
-            armor: Armor.empty(),
-            enchanted: false,
-            weight: 0,
-            value: leftOverAmount);
-
-        loot.add(gold);
+        loot.add(createGold(leftOverAmount));
         currentValue += leftOverAmount;
         continue;
       }
 
       String category = lootCategory(lootType);
-
       Item newItem = randomItem(category);
 
       if (currentValue + newItem.value <= lootValue) {
@@ -83,6 +71,21 @@ class Shop {
     return category[randomCategory];
   }
 
+  Item createGold(int value) {
+    Item gold = Item(
+        name: 'gold',
+        description: 'shiny',
+        itemSlot: 'gold',
+        effects: [],
+        attacks: [],
+        armor: Armor.empty(),
+        enchanted: false,
+        weight: 0,
+        value: value);
+
+    return gold;
+  }
+
   Item randomItem(String category) {
     Item newItem = Item.empty();
     int randomItem = 0;
@@ -122,12 +125,6 @@ class Shop {
 
   Item randomItemEnchant(Item item) {
     Item enchantedItem = item;
-
-    if (enchantedItem.itemSlot == 'consumable' ||
-        enchantedItem.itemSlot == 'key') {
-      return enchantedItem;
-    }
-
     bool hasAttacks = false;
 
     if (enchantedItem.attacks.isNotEmpty) {
@@ -157,7 +154,6 @@ class Shop {
         for (Attack attack in enchantedItem.attacks) {
           attack.damage.pDamage += 1;
         }
-
         break;
       case 'mDamage':
         for (Attack attack in enchantedItem.attacks) {

@@ -3,11 +3,15 @@ import 'package:dsix/model/combat/range.dart';
 class Ability {
   String name;
   Range range;
+  int cooldown;
+  int cooldownCount;
   List<String> effects;
 
   Ability({
     required this.name,
     required this.range,
+    required this.cooldown,
+    required this.cooldownCount,
     required this.effects,
   });
 
@@ -15,6 +19,8 @@ class Ability {
     return Ability(
       name: '',
       range: Range.empty(),
+      cooldown: 0,
+      cooldownCount: 0,
       effects: [],
     );
   }
@@ -29,6 +35,8 @@ class Ability {
     return Ability(
       name: data?['name'],
       range: Range.fromMap(data?['range']),
+      cooldown: data?['cooldown'],
+      cooldownCount: data?['cooldownCount'],
       effects: getEffects,
     );
   }
@@ -37,6 +45,8 @@ class Ability {
     return {
       'name': name,
       'range': range.toMap(),
+      'cooldown': cooldown,
+      'cooldownCount': cooldownCount,
       'effects': effects,
     };
   }

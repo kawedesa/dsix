@@ -380,10 +380,62 @@ class NpcList {
     loot: [],
   );
 
-  static Npc goblin = Npc(
+  static Npc goblinBandit = Npc(
     id: 0,
     xp: 10,
-    name: 'goblin',
+    name: 'goblin bandit',
+    size: 15,
+    life: Life(current: 16, max: 16),
+    armor: Armor(
+      pArmor: 2,
+      mArmor: 0,
+    ),
+    attributes: Attributes(
+      availablePoints: 0,
+      defense: Defense(attribute: 0, tempArmor: 0),
+      power: Power(attribute: 1),
+      movement: Movement(attribute: 1),
+      vision: Vision(attribute: 1, tempVision: 0, canSeeInvisible: false),
+    ),
+    position: Position.empty(),
+    attacks: [
+      Attack(
+        name: 'slash',
+        type: 'melee',
+        damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
+        range: Range(
+          min: 3.5,
+          max: 8,
+          width: 16,
+          shape: 'cone',
+        ),
+        effects: ['bleed', 'poison'],
+        isLoaded: false,
+        needsReload: false,
+      ),
+    ],
+    abilities: [
+      Ability(
+          name: 'slow',
+          range: Range.empty(),
+          cooldown: 1,
+          cooldownCount: 0,
+          effects: []),
+      Ability(
+          name: 'mirror images',
+          range: Range.empty(),
+          cooldown: 3,
+          cooldownCount: 0,
+          effects: []),
+    ],
+    effects: EffectController.empty(),
+    loot: [],
+  );
+
+  static Npc goblinMarksman = Npc(
+    id: 0,
+    xp: 10,
+    name: 'goblin marksman',
     size: 15,
     life: Life(current: 8, max: 8),
     armor: Armor(
@@ -565,7 +617,12 @@ class NpcList {
     position: Position.empty(),
     attacks: [],
     abilities: [
-      Ability(name: 'mirror images', range: Range.empty(), effects: []),
+      Ability(
+          name: 'mirror images',
+          range: Range.empty(),
+          cooldown: 3,
+          cooldownCount: 0,
+          effects: []),
       Ability(
           name: 'blind',
           range: Range(
@@ -574,6 +631,8 @@ class NpcList {
             width: 10,
             shape: 'circle',
           ),
+          cooldown: 1,
+          cooldownCount: 0,
           effects: ['blind']),
       Ability(
           name: 'slow',
@@ -583,6 +642,8 @@ class NpcList {
             width: 10,
             shape: 'circle',
           ),
+          cooldown: 1,
+          cooldownCount: 0,
           effects: ['slow']),
     ],
     effects: EffectController.empty(),
@@ -599,7 +660,8 @@ class NpcList {
       skeletonWarrior,
       demonHead,
       giantFrog,
-      goblin,
+      goblinBandit,
+      goblinMarksman,
       basilisk,
       mamaBear,
       gnomeWizzard,

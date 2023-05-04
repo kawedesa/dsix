@@ -24,8 +24,8 @@ class AppTextButton extends StatelessWidget {
         tween: Tween(begin: 0, end: 255),
         builder: (_, double aplhaValue, __) {
           return Container(
-            width: AppLayout.avarage(context) * 0.275,
-            height: AppLayout.avarage(context) * 0.06,
+            width: AppLayout.avarage(context) * 0.2,
+            height: AppLayout.avarage(context) * 0.05,
             decoration: BoxDecoration(
               color: Colors.black,
               border: Border.all(
@@ -42,7 +42,7 @@ class AppTextButton extends StatelessWidget {
                 Center(
                   child: AppText(
                     text: buttonText.toUpperCase(),
-                    fontSize: 0.015,
+                    fontSize: 0.0125,
                     letterSpacing: 0.002,
                     color: color,
                   ),

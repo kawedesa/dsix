@@ -52,7 +52,7 @@ class _CreatorMapSelectionState extends State<CreatorMapSelection> {
                         _creatorMapSelectionVM.changeMap(-1);
                         localRefresh();
                       },
-                      size: 0.075),
+                      size: 0.05),
                   SvgPicture.asset(
                     width: AppLayout.shortest(context) * 0.5,
                     height: AppLayout.shortest(context) * 0.5,
@@ -67,7 +67,7 @@ class _CreatorMapSelectionState extends State<CreatorMapSelection> {
                         _creatorMapSelectionVM.changeMap(1);
                         localRefresh();
                       },
-                      size: 0.075),
+                      size: 0.05),
                 ],
               ),
             ),

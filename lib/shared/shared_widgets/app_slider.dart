@@ -60,24 +60,25 @@ class AppSlider extends StatelessWidget {
           iconColor: color,
           color: Colors.transparent,
           borderColor: color,
-          size: 0.075,
+          size: height,
           onTap: () => remove(),
         ),
         SizedBox(
-          width: width,
-          height: height,
+          width: AppLayout.avarage(context) * width,
+          height: AppLayout.avarage(context) * height,
           child: Stack(
             children: [
               Align(
                 alignment: Alignment.center,
                 child: SizedBox(
-                  height: AppLayout.shortest(context) * 0.01,
+                  height: AppLayout.avarage(context) * 0.01,
                   child: Stack(
                     children: [
                       Align(
                         alignment: Alignment.center,
                         child: SizedBox(
-                          width: width - height * 0.5,
+                          width:
+                              AppLayout.avarage(context) * width - height * 0.5,
                           height: AppLayout.avarage(context) * 0.004,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,7 +128,7 @@ class AppSlider extends StatelessWidget {
           iconColor: color,
           color: Colors.transparent,
           borderColor: color,
-          size: 0.075,
+          size: height,
           onTap: () => add(),
         ),
       ],

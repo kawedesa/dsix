@@ -59,9 +59,13 @@ class HitBox {
           ..addRect(
               Rect.fromPoints(const Offset(3, 1.5), const Offset(-3, -6)));
         break;
-      case 'goblin':
+      case 'goblin marksman':
         hitBox = Path()
           ..addRect(Rect.fromPoints(const Offset(3, 0), const Offset(-3, -7)));
+        break;
+      case 'goblin bandit':
+        hitBox = Path()
+          ..addRect(Rect.fromPoints(const Offset(3, 0), const Offset(-3, -8)));
         break;
       case 'basilisk':
         hitBox = Path();

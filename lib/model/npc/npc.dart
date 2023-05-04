@@ -121,6 +121,7 @@ class Npc {
 
   void passTurn(List<Player> players, List<Npc> npcs) {
     checkEffectsOnPassTurn();
+    reduceAbilityCooldown();
 
     if (life.isDead()) {
       die(players, npcs);
@@ -132,6 +133,14 @@ class Npc {
       triggerEffects(effect);
     }
     markEffectsToRemove();
+  }
+
+  void reduceAbilityCooldown() {
+    for (Ability ability in abilities) {
+      if (ability.cooldownCount > 0) {
+        ability.cooldownCount--;
+      }
+    }
   }
 
   void resetTemporaryAttributes() {
@@ -153,6 +162,15 @@ class Npc {
 
   void look() {
     attributes.vision.look();
+  }
+
+  void setCooldown(String abilityName) {
+    for (Ability ability in abilities) {
+      if (ability.name != abilityName) {
+        continue;
+      }
+      ability.cooldownCount = ability.cooldown;
+    }
   }
 
   bool inActionArea(Path attackArea) {
@@ -366,7 +384,6 @@ class Npc {
       case 'poison':
         effects.currentEffects.add(applyEffect);
         break;
-
       case 'rage':
         attributes.power.addAttribute();
         attributes.movement.addAttribute();
@@ -378,16 +395,13 @@ class Npc {
         attributes.movement.removeAttribute();
         effects.currentEffects.add(applyEffect);
         break;
-
       case 'stun':
         attributes.movement.removeAttribute();
         effects.currentEffects.add(applyEffect);
         break;
-
       case 'vulnerable':
         effects.currentEffects.add(applyEffect);
         break;
-
       case 'weaken':
         attributes.power.removeAttribute();
         effects.currentEffects.add(applyEffect);
@@ -400,7 +414,6 @@ class Npc {
       case 'bleed':
         effect.decreaseCountdown();
         life.receiveDamage(1);
-
         break;
       case 'blind':
         effect.decreaseCountdown();
@@ -408,7 +421,6 @@ class Npc {
       case 'burn':
         effect.decreaseCountdown();
         life.receiveDamage(1);
-
         break;
       case 'cry':
         effect.decreaseCountdown();
@@ -416,15 +428,12 @@ class Npc {
       case 'empower':
         effect.decreaseCountdown();
         break;
-
       case 'illusion':
         effect.decreaseCountdown();
         break;
-
       case 'poison':
         effect.decreaseCountdown();
         life.receiveDamage(1);
-
         break;
       case 'rage':
         effect.decreaseCountdown();
@@ -435,7 +444,6 @@ class Npc {
       case 'stun':
         effect.decreaseCountdown();
         break;
-
       case 'vulnerable':
         effect.decreaseCountdown();
         break;
@@ -449,70 +457,53 @@ class Npc {
     switch (effect.name) {
       case 'bleed':
         effects.removeEffect(effect);
-
         break;
       case 'blind':
         attributes.vision.addAttribute();
         effects.removeEffect(effect);
-
         break;
       case 'burn':
         effects.removeEffect(effect);
-
         break;
-
       case 'cry':
         effects.auras.remove('cry');
         effects.removeEffect(effect);
-
         break;
       case 'empower':
         attributes.power.removeAttribute();
         effects.removeEffect(effect);
-
         break;
       case 'illusion':
-        changePosition(Position.empty());
         effects.removeEffect(effect);
-
+        effects.onDeath.add('delete');
         break;
-
       case 'rage':
         attributes.power.removeAttribute();
         attributes.movement.removeAttribute();
         attributes.defense.addAttribute();
         attributes.defense.addAttribute();
         effects.removeEffect(effect);
-
         break;
       case 'poison':
         effects.removeEffect(effect);
-
         break;
-
       case 'slow':
         attributes.movement.addAttribute();
         effects.removeEffect(effect);
-
         break;
       case 'stun':
         attributes.movement.addAttribute();
         effects.removeEffect(effect);
-
         break;
       case 'vulnerable':
         effects.removeEffect(effect);
-
         break;
       case 'weaken':
         attributes.power.addAttribute();
         effects.removeEffect(effect);
-
         break;
-
       case 'spiky':
         effects.onHit.remove('thorn');
-
         break;
     }
   }

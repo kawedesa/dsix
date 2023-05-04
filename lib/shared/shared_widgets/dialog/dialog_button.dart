@@ -25,7 +25,7 @@ class DialogButton extends StatelessWidget {
         builder: (_, double aplhaValue, __) {
           return Container(
             width: double.infinity,
-            height: AppLayout.avarage(context) * 0.06,
+            height: AppLayout.avarage(context) * 0.05,
             decoration: BoxDecoration(
               color: Colors.black,
               border: Border.all(
@@ -42,7 +42,7 @@ class DialogButton extends StatelessWidget {
                 Center(
                   child: AppText(
                     text: buttonText.toUpperCase(),
-                    fontSize: 0.015,
+                    fontSize: 0.0125,
                     letterSpacing: 0.002,
                     color: color,
                   ),

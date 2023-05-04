@@ -26,11 +26,12 @@ class Combat {
     setAttacker(selectedPlayer, selectedNpc);
   }
 
-  void startAbility(
-      Position inputCenter, Position actionCenter, Ability ability) {
+  void startAbility(Position inputCenter, Position actionCenter,
+      Ability ability, Player? selectedPlayer, Npc? selectedNpc) {
     actionInfo.ability = ability;
     actionInfo.actionCenter = actionCenter;
     this.inputCenter = inputCenter;
+    setAttacker(selectedPlayer, selectedNpc);
   }
 
   void setAttacker(Player? selectedPlayer, Npc? selectedNpc) {
@@ -186,6 +187,7 @@ class Combat {
     }
     castAbilityOnNpcs(npcs);
     castAbilityOnPlayers(players);
+    setCooldown();
   }
 
   void castAbilityOnNpcs(List<Npc> npcs) {
@@ -222,6 +224,13 @@ class Combat {
       }
       player.receiveEffects(actionInfo.ability.effects);
       player.update();
+    }
+  }
+
+  void setCooldown() {
+    if (selectedNpc != null) {
+      selectedNpc!.setCooldown(actionInfo.ability.name);
+      selectedNpc!.update();
     }
   }
 
