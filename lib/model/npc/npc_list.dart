@@ -394,20 +394,20 @@ class NpcList {
       availablePoints: 0,
       defense: Defense(attribute: 0, tempArmor: 0),
       power: Power(attribute: 1),
-      movement: Movement(attribute: 1),
-      vision: Vision(attribute: 1, tempVision: 0, canSeeInvisible: false),
+      movement: Movement(attribute: 2),
+      vision: Vision(attribute: 0, tempVision: 0, canSeeInvisible: false),
     ),
     position: Position.empty(),
     attacks: [
       Attack(
-        name: 'slash',
+        name: 'jab',
         type: 'melee',
         damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 3.5,
-          max: 8,
-          width: 16,
-          shape: 'cone',
+          max: 12,
+          width: 7,
+          shape: 'triangle',
         ),
         effects: ['bleed', 'poison'],
         isLoaded: false,
@@ -416,13 +416,18 @@ class NpcList {
     ],
     abilities: [
       Ability(
-          name: 'slow',
-          range: Range.empty(),
+          name: 'steal',
+          range: Range(
+            min: 7,
+            max: 0,
+            width: 3.5,
+            shape: 'circle',
+          ),
           cooldown: 1,
           cooldownCount: 0,
-          effects: []),
+          effects: ['steal']),
       Ability(
-          name: 'mirror images',
+          name: 'hide',
           range: Range.empty(),
           cooldown: 3,
           cooldownCount: 0,
@@ -452,14 +457,14 @@ class NpcList {
     position: Position.empty(),
     attacks: [
       Attack(
-        name: 'slash',
+        name: 'jab',
         type: 'melee',
         damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
         range: Range(
           min: 3.5,
-          max: 8,
-          width: 16,
-          shape: 'cone',
+          max: 12,
+          width: 7,
+          shape: 'triangle',
         ),
         effects: ['bleed'],
         isLoaded: false,

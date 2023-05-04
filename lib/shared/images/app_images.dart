@@ -69,18 +69,15 @@ class AppImages {
       case 'empower':
         effectIcon = effectEmpower;
         break;
-
       case 'illusion':
         effectIcon = effectIllusion;
         break;
       case 'rage':
         effectIcon = effectRage;
         break;
-
       case 'poison':
         effectIcon = effectPoison;
         break;
-
       case 'slow':
         effectIcon = effectSlow;
         break;
@@ -93,7 +90,6 @@ class AppImages {
       case 'tempVision':
         effectIcon = effectTempVision;
         break;
-
       case 'vulnerable':
         effectIcon = effectVulnerable;
         break;
@@ -475,13 +471,16 @@ class AppImages {
   static const actionCrush = 'assets/images/ui/actionCrush.svg';
   static const actionDefend = 'assets/images/ui/actionDefend.svg';
   static const actionEmpty = 'assets/images/ui/actionEmpty.svg';
+  static const actionHide = 'assets/images/ui/actionHide.svg';
   static const actionJab = 'assets/images/ui/actionJab.svg';
   static const actionLook = 'assets/images/ui/actionLook.svg';
   static const actionMirrorImages = 'assets/images/ui/actionMirrorImages.svg';
+  static const actionPunch = 'assets/images/ui/actionPunch.svg';
   static const actionReload = 'assets/images/ui/actionReload.svg';
   static const actionShot = 'assets/images/ui/actionShot.svg';
   static const actionSlam = 'assets/images/ui/actionSlam.svg';
   static const actionSlow = 'assets/images/ui/actionSlow.svg';
+  static const actionSteal = 'assets/images/ui/actionSteal.svg';
   static const actionSlash = 'assets/images/ui/actionSwing.svg';
   static const actionSwing = 'assets/images/ui/actionSwing.svg';
   static const actionThrow = 'assets/images/ui/actionThrow.svg';
@@ -491,7 +490,7 @@ class AppImages {
   static const actionWhip = 'assets/images/ui/actionWhip.svg';
 
   String getActionIcon(String action) {
-    String actionIcon = actionJab;
+    String actionIcon = actionPunch;
 
     switch (action) {
       case '':
@@ -518,6 +517,9 @@ class AppImages {
       case 'empty':
         actionIcon = actionEmpty;
         break;
+      case 'hide':
+        actionIcon = actionHide;
+        break;
       case 'jab':
         actionIcon = actionJab;
         break;
@@ -526,6 +528,9 @@ class AppImages {
         break;
       case 'mirror images':
         actionIcon = actionMirrorImages;
+        break;
+      case 'punch':
+        actionIcon = actionPunch;
         break;
       case 'reload':
         actionIcon = actionReload;
@@ -538,6 +543,9 @@ class AppImages {
         break;
       case 'slow':
         actionIcon = actionSlow;
+        break;
+      case 'steal':
+        actionIcon = actionSteal;
         break;
       case 'slash':
         actionIcon = actionSlash;

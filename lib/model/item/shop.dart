@@ -206,14 +206,14 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'slash',
+          name: 'jab',
           type: 'melee',
           damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
-            max: 8,
-            width: 16,
-            shape: 'cone',
+            max: 12,
+            width: 7,
+            shape: 'triangle',
           ),
           effects: ['bleed'],
           isLoaded: false,
@@ -362,14 +362,14 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'slash',
+          name: 'jab',
           type: 'melee',
           damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
           range: Range(
             min: 3.5,
-            max: 8,
-            width: 16,
-            shape: 'cone',
+            max: 12,
+            width: 7,
+            shape: 'triangle',
           ),
           effects: ['bleed', 'poison', 'poison'],
           isLoaded: false,

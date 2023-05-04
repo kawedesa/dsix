@@ -14,16 +14,30 @@ class PlayerViewNpcSprite extends StatelessWidget {
     required this.npc,
   });
 
+  Offset getPosition(Npc npc) {
+    return Offset(npc.position.dx - getSpriteSize(npc) / 2,
+        npc.position.dy - getSpriteSize(npc) / 2);
+  }
+
+  double getSpriteSize(Npc npc) {
+    if (npc.attributes.vision.getRange() < 100) {
+      return 100;
+    } else {
+      return npc.attributes.vision.getRange();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    return Positioned(
-      left: npc.position.dx - npc.attributes.vision.getRange() / 2,
-      top: npc.position.dy - npc.attributes.vision.getRange() / 2,
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 500),
+      left: getPosition(npc).dx,
+      top: getPosition(npc).dy,
       child: SizedBox(
-        width: npc.attributes.vision.getRange(),
-        height: npc.attributes.vision.getRange(),
+        width: getSpriteSize(npc),
+        height: getSpriteSize(npc),
         child: Stack(
           children: [
             AuraSprite(auras: npc.effects.auras),

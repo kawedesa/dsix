@@ -13,19 +13,32 @@ class CreatorViewPlayerSprite extends StatelessWidget {
     super.key,
     required this.player,
   });
+  Offset getPosition(Player player) {
+    return Offset(player.position.dx - getSpriteSize(player) / 2,
+        player.position.dy - getSpriteSize(player) / 2);
+  }
+
+  double getSpriteSize(Player player) {
+    if (player.attributes.vision.getRange() < 100) {
+      return 100;
+    } else {
+      return player.attributes.vision.getRange();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    return Positioned(
-      left: player.position.dx - player.attributes.vision.getRange() / 2,
-      top: player.position.dy - player.attributes.vision.getRange() / 2,
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 500),
+      left: getPosition(player).dx,
+      top: getPosition(player).dy,
       child: TransparentPointer(
         transparent: true,
         child: SizedBox(
-          width: player.attributes.vision.getRange(),
-          height: player.attributes.vision.getRange(),
+          width: getSpriteSize(player),
+          height: getSpriteSize(player),
           child: Stack(
             children: [
               Align(
