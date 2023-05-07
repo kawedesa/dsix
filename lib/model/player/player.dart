@@ -7,6 +7,7 @@ import 'package:dsix/model/effect/effect.dart';
 import 'package:dsix/model/effect/effect_controller.dart';
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/item/equipment_slot.dart';
+import 'package:dsix/model/map/map_info.dart';
 import 'package:dsix/model/player/player_equipment.dart';
 import 'package:dsix/model/combat/life.dart';
 import 'package:dsix/shared/app_exceptions.dart';
@@ -21,6 +22,7 @@ class Player {
   double size;
   Life life;
   Position position;
+  bool invisible;
   Attributes attributes;
   PlayerEquipment equipment;
   EffectController effects;
@@ -34,6 +36,7 @@ class Player {
       required this.size,
       required this.life,
       required this.position,
+      required this.invisible,
       required this.attributes,
       required this.equipment,
       required this.effects,
@@ -51,6 +54,7 @@ class Player {
       size: 0,
       life: Life.empty(),
       position: Position.empty(),
+      invisible: false,
       attributes: Attributes.empty(),
       equipment: PlayerEquipment.empty(),
       effects: EffectController.empty(),
@@ -67,6 +71,7 @@ class Player {
       size: 15,
       life: Life.empty(),
       position: Position.empty(),
+      invisible: false,
       attributes: Attributes.empty(),
       equipment: PlayerEquipment.newPlayerEquipment(startingGold),
       effects: EffectController.empty(),
@@ -83,6 +88,7 @@ class Player {
       'size': size,
       'life': life.toMap(),
       'position': position.toMap(),
+      'invisible': invisible,
       'attributes': attributes.toMap(),
       'equipment': equipment.toMap(),
       'effects': effects.toMap(),
@@ -99,6 +105,7 @@ class Player {
       size: data?['size'],
       life: Life.fromMap(data?['life']),
       position: Position.fromMap(data?['position']),
+      invisible: data?['invisible'],
       attributes: Attributes.fromMap(data?['attributes']),
       equipment: PlayerEquipment.fromMap(data?['equipment']),
       effects: EffectController.fromMap(data?['effects']),
@@ -140,7 +147,7 @@ class Player {
     resetEffects();
   }
 
-  void spawn(Position spawnerPosition, double spawnerSize) {
+  void spawn(MapInfo mapInfo, Position spawnerPosition, double spawnerSize) {
     double dx = spawnerPosition.dx +
         Random().nextDouble() * spawnerSize -
         spawnerSize / 2;
@@ -149,6 +156,7 @@ class Player {
         spawnerSize / 2;
     position.dx = dx;
     position.dy = dy;
+    position.inGrass = mapInfo.inGrass(position.getOffset());
   }
 
   void changePosition(Position newPosition) {
@@ -316,6 +324,10 @@ class Player {
         attributes.power.addAttribute();
         effects.currentEffects.add(applyEffect);
         break;
+      case 'invisible':
+        effects.currentEffects.add(applyEffect);
+        invisible = true;
+        break;
       case 'poison':
         effects.currentEffects.add(applyEffect);
         break;
@@ -334,6 +346,9 @@ class Player {
       case 'stun':
         attributes.movement.removeAttribute();
         effects.currentEffects.add(applyEffect);
+        break;
+      case 'thorn':
+        life.receiveDamage(1);
         break;
       case 'vulnerable':
         effects.currentEffects.add(applyEffect);
@@ -382,6 +397,9 @@ class Player {
       case 'empower':
         effect.decreaseCountdown();
         break;
+      case 'invisible':
+        effect.decreaseCountdown();
+        break;
       case 'poison':
         effect.decreaseCountdown();
         life.receiveDamage(1);
@@ -418,6 +436,10 @@ class Player {
         attributes.power.removeAttribute();
         effects.removeEffect(effect);
         break;
+      case 'invisible':
+        effects.removeEffect(effect);
+        invisible = false;
+        break;
       case 'poison':
         effects.removeEffect(effect);
         break;
@@ -440,6 +462,17 @@ class Player {
         effects.removeEffect(effect);
         break;
     }
+  }
+
+  void removeInvisibility() {
+    invisible = false;
+    Effect invisibleEffect = Effect.empty();
+    for (Effect effect in effects.currentEffects) {
+      if (effect.name == 'invisible') {
+        invisibleEffect = effect;
+      }
+    }
+    effects.removeEffect(invisibleEffect);
   }
 
   void resetEffects() {
@@ -605,9 +638,11 @@ class Player {
 
   void useItem(Item item) {
     switch (item.name) {
+      case 'invisibility potion':
+        receiveEffects(['invisible', 'invisible', 'invisible']);
+        break;
       case 'cleansing potion':
         resetEffects();
-
         break;
       case 'healing potion':
         int healingAmount = Random().nextInt(6) + 7;

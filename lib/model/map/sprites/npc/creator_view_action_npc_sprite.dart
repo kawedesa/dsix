@@ -102,7 +102,7 @@ class _CreatorViewActionNpcSpriteState
                     if (user.npcMode == 'wait') {
                       return;
                     }
-                    _controller.tempPosition.panUpdate(details.delta, 'tile');
+                    _controller.tempPosition.panUpdate(details.delta, false);
 
                     localRefresh();
                   },
@@ -161,8 +161,8 @@ class NpcSpriteController {
 
   void endMove(Npc npc, MapInfo mapInfo) {
     if (tempPosition.distanceMoved < npc.attributes.movement.maxRange()) {
-      tempPosition.newPosition.tile =
-          mapInfo.getTile(tempPosition.newPosition.getOffset());
+      tempPosition.newPosition.inGrass =
+          mapInfo.inGrass(tempPosition.newPosition.getOffset());
       npc.changePosition(tempPosition.newPosition);
       npc.update();
     }

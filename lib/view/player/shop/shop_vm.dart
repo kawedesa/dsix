@@ -120,7 +120,7 @@ class ShopVM {
     }
 
     selectedItemIndex += value;
-    if (selectedItemIndex >= fullItemList.length - 1) {
+    if (selectedItemIndex > fullItemList.length - 1) {
       selectedItemIndex = 0;
     }
 
@@ -164,22 +164,41 @@ class ShopVM {
       },
       child: SizedBox(
         width: AppLayout.avarage(context) * 0.125,
-        height: AppLayout.avarage(context) * 0.125,
+        height: AppLayout.avarage(context) * 0.15,
         child: Stack(
           children: [
-            SvgPicture.asset(
-              AppImages().getItemIcon(itemList[0].name),
-              color: Colors.white,
-              width: AppLayout.avarage(context) * 0.125,
-              height: AppLayout.avarage(context) * 0.125,
+            Align(
+              alignment: Alignment.topCenter,
+              child: SvgPicture.asset(
+                AppImages().getItemIcon(itemList[0].name),
+                color: Colors.white,
+                width: AppLayout.avarage(context) * 0.125,
+                height: AppLayout.avarage(context) * 0.125,
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: AppText(
-                text: itemList[0].value.toString(),
-                color: user.color,
-                fontSize: 0.02,
-                letterSpacing: 0.004,
+              child: SizedBox(
+                width: AppLayout.avarage(context) * 0.125,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppText(
+                      text: itemList[0].name.toUpperCase(),
+                      bold: true,
+                      color: user.color,
+                      fontSize: 0.01,
+                      letterSpacing: 0.001,
+                    ),
+                    AppText(
+                      text: '\$${itemList[0].value}',
+                      color: user.color,
+                      fontSize: 0.01,
+                      letterSpacing: 0.001,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -218,22 +237,41 @@ class ShopVM {
       },
       child: SizedBox(
         width: AppLayout.avarage(context) * 0.3,
-        height: AppLayout.avarage(context) * 0.3,
+        height: AppLayout.avarage(context) * 0.35,
         child: Stack(
           children: [
-            SvgPicture.asset(
-              AppImages().getItemIcon(itemList[1].name),
-              width: AppLayout.avarage(context) * 0.3,
-              height: AppLayout.avarage(context) * 0.3,
-              color: Colors.white,
+            Align(
+              alignment: Alignment.topCenter,
+              child: SvgPicture.asset(
+                AppImages().getItemIcon(itemList[1].name),
+                width: AppLayout.avarage(context) * 0.3,
+                height: AppLayout.avarage(context) * 0.3,
+                color: Colors.white,
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: AppText(
-                text: itemList[1].value.toString(),
-                color: user.color,
-                fontSize: 0.05,
-                letterSpacing: 0.004,
+              child: SizedBox(
+                width: AppLayout.avarage(context) * 0.3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppText(
+                      text: itemList[1].name.toUpperCase(),
+                      bold: true,
+                      color: user.color,
+                      fontSize: 0.03,
+                      letterSpacing: 0.0015,
+                    ),
+                    AppText(
+                      text: '\$${itemList[1].value}',
+                      color: user.color,
+                      fontSize: 0.03,
+                      letterSpacing: 0.0015,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -272,22 +310,41 @@ class ShopVM {
       },
       child: SizedBox(
         width: AppLayout.avarage(context) * 0.125,
-        height: AppLayout.avarage(context) * 0.125,
+        height: AppLayout.avarage(context) * 0.15,
         child: Stack(
           children: [
-            SvgPicture.asset(
-              AppImages().getItemIcon(itemList[2].name),
-              color: Colors.white,
-              width: AppLayout.avarage(context) * 0.125,
-              height: AppLayout.avarage(context) * 0.125,
+            Align(
+              alignment: Alignment.topCenter,
+              child: SvgPicture.asset(
+                AppImages().getItemIcon(itemList[2].name),
+                color: Colors.white,
+                width: AppLayout.avarage(context) * 0.125,
+                height: AppLayout.avarage(context) * 0.125,
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: AppText(
-                text: itemList[2].value.toString(),
-                color: user.color,
-                fontSize: 0.02,
-                letterSpacing: 0.004,
+              child: SizedBox(
+                width: AppLayout.avarage(context) * 0.125,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppText(
+                      text: itemList[2].name.toUpperCase(),
+                      bold: true,
+                      color: user.color,
+                      fontSize: 0.01,
+                      letterSpacing: 0.001,
+                    ),
+                    AppText(
+                      text: '\$${itemList[2].value}',
+                      color: user.color,
+                      fontSize: 0.01,
+                      letterSpacing: 0.001,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

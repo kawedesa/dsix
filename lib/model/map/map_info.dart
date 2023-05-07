@@ -34,24 +34,22 @@ class MapInfo {
     return Position(
         dx: (position.dx * zoom) + (getCanvasPosition().dx * zoom),
         dy: (position.dy * zoom) + (getCanvasPosition().dy * zoom),
-        tile: '');
+        inGrass: false);
   }
 
   Position getCanvasPosition() {
     return Position(
         dx: canvasController!.value.row0.w / zoom,
         dy: canvasController!.value.row1.w / zoom,
-        tile: '');
+        inGrass: false);
   }
 
-  String getTile(Offset dragOffset) {
-    String tile = 'open';
-
+  bool inGrass(Offset dragOffset) {
     if (map.grass.contains(dragOffset)) {
-      tile = 'grass';
+      return true;
+    } else {
+      return false;
     }
-
-    return tile;
   }
 
   Position getMousePosition(Offset mouseOffset) {
@@ -59,7 +57,9 @@ class MapInfo {
         mouseOffset.dx / zoom - getCanvasPosition().dx,
         mouseOffset.dy / zoom - getCanvasPosition().dy - 50 / zoom);
 
-    String tile = getTile(mousePosition);
-    return Position(dx: mousePosition.dx, dy: mousePosition.dy, tile: tile);
+    return Position(
+        dx: mousePosition.dx,
+        dy: mousePosition.dy,
+        inGrass: inGrass(mousePosition));
   }
 }

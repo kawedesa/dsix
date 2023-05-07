@@ -150,10 +150,8 @@ class _ShopViewState extends State<ShopView> {
                         _shopVM.changeSelectedItem(-1);
                       });
                     },
-                    size: 0.075),
-                const AppSeparatorHorizontal(value: 0.05),
+                    size: 0.05),
                 _shopVM.getItems(context, user, widget.refresh),
-                const AppSeparatorHorizontal(value: 0.05),
                 AppCircularButton(
                     color: Colors.transparent,
                     borderColor: user.color,
@@ -164,7 +162,7 @@ class _ShopViewState extends State<ShopView> {
                         _shopVM.changeSelectedItem(1);
                       });
                     },
-                    size: 0.075),
+                    size: 0.05),
               ],
             ),
           )

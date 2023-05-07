@@ -41,6 +41,7 @@ class Turn {
   }
 
   void passTurn(List<Player> players, List<Npc> npcs) {
+    List<Npc> markNpcsToDelete = [];
     battleLog.setPossibleTargets(npcs, players);
 
     switch (currentTurn) {
@@ -53,19 +54,25 @@ class Turn {
           player.update();
         }
         for (Npc npc in npcs) {
+          if (npc.effects.onDeath.contains('delete')) {
+            markNpcsToDelete.add(npc);
+            continue;
+          }
+
           if (npc.life.isDead()) {
             continue;
           }
-          if (npc.effects.onDeath.contains('delete')) {
-            npc.delete();
-            continue;
-          }
+
           npc.resetTemporaryAttributes();
           npc.update();
         }
         break;
       case 'npc':
         for (Npc npc in npcs) {
+          if (npc.effects.onDeath.contains('delete')) {
+            markNpcsToDelete.add(npc);
+            continue;
+          }
           if (npc.life.isDead()) {
             continue;
           }
@@ -80,6 +87,10 @@ class Turn {
           player.update();
         }
         break;
+    }
+
+    for (Npc npc in markNpcsToDelete) {
+      npc.delete();
     }
 
     count++;

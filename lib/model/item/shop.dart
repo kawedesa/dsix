@@ -440,7 +440,7 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'jab',
+          name: 'punch',
           type: 'melee',
           damage: Damage(pierce: 0, pDamage: 1, mDamage: 0, rawDamage: 0),
           range: Range(
@@ -518,7 +518,7 @@ class Shop {
       effects: [],
       attacks: [
         Attack(
-          name: 'jab',
+          name: 'thrust',
           type: 'melee',
           damage: Damage(pierce: 1, pDamage: 2, mDamage: 0, rawDamage: 0),
           range: Range(
@@ -1626,6 +1626,17 @@ class Shop {
 
   List<Item> consumables = [
     Item(
+      name: 'invisibility potion',
+      description: '',
+      itemSlot: 'consumable',
+      effects: [],
+      attacks: [],
+      armor: Armor.empty(),
+      enchanted: false,
+      weight: 1,
+      value: 100,
+    ),
+    Item(
       name: 'cleansing potion',
       description: '',
       itemSlot: 'consumable',
@@ -1634,7 +1645,7 @@ class Shop {
       armor: Armor.empty(),
       enchanted: false,
       weight: 1,
-      value: 200,
+      value: 100,
     ),
     Item(
       name: 'healing potion',
@@ -1645,7 +1656,7 @@ class Shop {
       armor: Armor.empty(),
       enchanted: false,
       weight: 1,
-      value: 400,
+      value: 200,
     ),
     Item(
       name: 'bandages',
@@ -1678,7 +1689,7 @@ class Shop {
       armor: Armor.empty(),
       enchanted: false,
       weight: 1,
-      value: 100,
+      value: 50,
     ),
     Item(
       name: 'antidote',

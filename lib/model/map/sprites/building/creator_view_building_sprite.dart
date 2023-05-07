@@ -76,7 +76,7 @@ class _CreatorViewBuildingSpriteState extends State<CreatorViewBuildingSprite> {
                       onPanUpdate: (details) {
                         if (_controller.isLocked == false) {
                           _controller.tempPosition
-                              .panUpdate(details.delta, 'tile');
+                              .panUpdate(details.delta, false);
                           localRefresh();
                         }
                       },

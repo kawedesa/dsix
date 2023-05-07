@@ -1,8 +1,6 @@
 import 'dart:math';
-
 import 'package:dsix/model/combat/ability.dart';
 import 'package:dsix/model/combat/attack.dart';
-import 'package:dsix/model/effect/effect.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user/user.dart';

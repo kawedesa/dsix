@@ -1,6 +1,8 @@
 import 'package:dsix/model/game/game.dart';
+import 'package:dsix/model/map/map_info.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/spawner/spawner.dart';
+import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/app_exceptions.dart';
 import 'package:dsix/shared/app_globals.dart';
@@ -13,7 +15,8 @@ import 'package:provider/provider.dart';
 class StartGameButton extends StatelessWidget {
   final bool active;
   const StartGameButton({super.key, required this.active});
-  void startGame(Game game, List<Player> players, List<Spawner> spawners) {
+  void startGame(Game game, MapInfo mapInfo, List<Player> players,
+      List<Spawner> spawners) {
     if (players.length != game.numberOfPlayers) {
       throw PlayersAreNotReadyException();
     }
@@ -25,7 +28,7 @@ class StartGameButton extends StatelessWidget {
     }
 
     for (Player player in players) {
-      player.spawn(spawners.first.position, spawners.first.size);
+      player.spawn(mapInfo, spawners.first.position, spawners.first.size);
       player.update();
     }
 
@@ -35,13 +38,14 @@ class StartGameButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final game = Provider.of<Game>(context);
+    final user = Provider.of<User>(context);
     final players = Provider.of<List<Player>>(context);
     final spawners = Provider.of<List<Spawner>>(context);
     return (active)
         ? AppCircularButton(
             onTap: () {
               try {
-                startGame(game, players, spawners);
+                startGame(game, user.mapInfo, players, spawners);
               } on PlayersAreNotReadyException catch (e) {
                 snackbarKey.currentState?.showSnackBar(AppSnackBar()
                     .getSnackBar(e.message.toUpperCase(), AppColors.uiColor));

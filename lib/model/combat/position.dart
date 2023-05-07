@@ -4,18 +4,18 @@ import 'package:vector_math/vector_math.dart';
 class Position {
   double dx;
   double dy;
-  String tile;
+  bool inGrass;
   Position({
     required this.dx,
     required this.dy,
-    required this.tile,
+    required this.inGrass,
   });
 
   factory Position.empty() {
     return Position(
       dx: -10000,
       dy: -10000,
-      tile: '',
+      inGrass: false,
     );
   }
 
@@ -23,7 +23,7 @@ class Position {
     return {
       'dx': dx,
       'dy': dy,
-      'tile': tile,
+      'inGrass': inGrass,
     };
   }
 
@@ -31,7 +31,7 @@ class Position {
     return Position(
       dx: data?['dx'] * 1.0,
       dy: data?['dy'] * 1.0,
-      tile: data?['tile'],
+      inGrass: data?['inGrass'],
     );
   }
 
@@ -47,7 +47,7 @@ class Position {
     return Position(
       dx: dx + offset.dx,
       dy: dy + offset.dy,
-      tile: tile,
+      inGrass: inGrass,
     );
   }
 

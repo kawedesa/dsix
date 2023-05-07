@@ -79,7 +79,7 @@ class _CreatorViewEditNpcSpriteState extends State<CreatorViewEditNpcSprite> {
                     widget.fullRefresh();
                   },
                   onPanUpdate: (details) {
-                    _controller.tempPosition.panUpdate(details.delta, 'tile');
+                    _controller.tempPosition.panUpdate(details.delta, false);
                     localRefresh();
                   },
                   onPanEnd: (details) {
@@ -121,8 +121,8 @@ class NpcSpriteController {
   }
 
   void endMove(Npc npc, MapInfo mapInfo) {
-    tempPosition.newPosition.tile =
-        mapInfo.getTile(tempPosition.newPosition.getOffset());
+    tempPosition.newPosition.inGrass =
+        mapInfo.inGrass(tempPosition.newPosition.getOffset());
     npc.changePosition(tempPosition.newPosition);
     npc.update();
     drag = false;

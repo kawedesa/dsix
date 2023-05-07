@@ -46,7 +46,7 @@ class _CreatorViewSpawnerSpriteState extends State<CreatorViewSpawnerSprite> {
                   _controller.drag = true;
                 },
                 onPanUpdate: (details) {
-                  _controller.tempPosition.panUpdate(details.delta, 'tile');
+                  _controller.tempPosition.panUpdate(details.delta, false);
                   localRefresh();
                 },
                 onPanEnd: (details) {

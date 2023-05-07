@@ -5,7 +5,6 @@ import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/chest/chest.dart';
 import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/model/user/user.dart';
-import 'package:dsix/model/map/map_info.dart';
 import 'package:dsix/model/map/vision_grid.dart';
 import 'package:dsix/model/map/sprites/building/player_view_building_sprite.dart';
 import 'package:dsix/model/map/sprites/npc/player_view_dead_npc_sprite.dart';
@@ -107,11 +106,9 @@ class PlayerMapVM {
         ));
         continue;
       }
-
       if (npc.invisible) {
         continue;
       }
-
       if (normalVisibleArea.contains(npc.position.getOffset()) ||
           canSeeInvisibleArea.contains(npc.position.getOffset())) {
         deadNpcSprites.add(PlayerViewDeadNpcSprite(
@@ -119,7 +116,6 @@ class PlayerMapVM {
         ));
       }
     }
-
     return Stack(
       children: deadNpcSprites,
     );
@@ -137,6 +133,9 @@ class PlayerMapVM {
     normalVisibleArea = getNormalVisibleArea(user, players, sharedTeamVison);
 
     for (Npc npc in npcs) {
+      if (npc.life.isDead()) {
+        continue;
+      }
       if (npc.invisible &&
           canSeeInvisibleArea.contains(npc.position.getOffset())) {
         npcSprites.add(PlayerViewNpcSprite(
@@ -144,11 +143,9 @@ class PlayerMapVM {
         ));
         continue;
       }
-
       if (npc.invisible) {
         continue;
       }
-
       if (normalVisibleArea.contains(npc.position.getOffset()) ||
           canSeeInvisibleArea.contains(npc.position.getOffset())) {
         npcSprites.add(PlayerViewNpcSprite(
@@ -156,7 +153,6 @@ class PlayerMapVM {
         ));
       }
     }
-
     return Stack(
       children: npcSprites,
     );
@@ -180,7 +176,6 @@ class PlayerMapVM {
       canSeeInvisibleArea = Path.combine(
           PathOperation.union, canSeeInvisibleArea, player.getVisionArea());
     }
-
     return canSeeInvisibleArea;
   }
 
@@ -196,7 +191,7 @@ class PlayerMapVM {
 
       normalVisibleArea = user.player.getVisionArea();
 
-      if (user.player.position.tile == 'grass') {
+      if (user.player.position.inGrass) {
         return normalVisibleArea;
       } else {
         normalVisibleArea = Path.combine(PathOperation.difference,
@@ -214,7 +209,7 @@ class PlayerMapVM {
 
       Path playerVision = player.getVisionArea();
 
-      if (player.position.tile != 'grass') {
+      if (!player.position.inGrass) {
         playerVision = Path.combine(PathOperation.difference, playerVision,
             VisionGrid().getGrid(player.position));
         playerVision = Path.combine(

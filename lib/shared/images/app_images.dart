@@ -226,6 +226,8 @@ class AppImages {
   static const ancientBow = 'assets/images/items/ancientBow.svg';
 
   //CONSUMABLES
+  static const invisibilityPotion =
+      'assets/images/items/invisibilityPotion.svg';
   static const cleansingPotion = 'assets/images/items/cleansingPotion.svg';
   static const healingPotion = 'assets/images/items/healingPotion.svg';
   static const bandages = 'assets/images/items/bandages.svg';
@@ -444,6 +446,9 @@ class AppImages {
         break;
 
       //CONSUMABLES
+      case 'invisibility potion':
+        itemIcon = invisibilityPotion;
+        break;
       case 'cleansing potion':
         itemIcon = cleansingPotion;
         break;

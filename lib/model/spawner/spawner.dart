@@ -19,7 +19,7 @@ class Spawner {
     return Spawner(
       id: spawnerId,
       size: spawnerSize,
-      position: Position(dx: 160, dy: 160, tile: ''),
+      position: Position(dx: 160, dy: 160, inGrass: false),
     );
   }
 

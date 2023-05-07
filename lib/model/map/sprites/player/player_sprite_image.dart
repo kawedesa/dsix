@@ -20,15 +20,18 @@ class PlayerSpriteImage extends StatelessWidget {
             padding: EdgeInsets.only(bottom: player.size * 0.9),
             child: TransparentPointer(
               transparent: true,
-              child: Stack(
-                children: [
-                  PlayerImage(
-                      race: player.race,
-                      sex: player.sex,
-                      size: player.size,
-                      headMovement: player.size / 50,
-                      effects: player.effects.currentEffects),
-                ],
+              child: Opacity(
+                opacity: (player.invisible) ? 0.7 : 1.0,
+                child: Stack(
+                  children: [
+                    PlayerImage(
+                        race: player.race,
+                        sex: player.sex,
+                        size: player.size,
+                        headMovement: player.size / 50,
+                        effects: player.effects.currentEffects),
+                  ],
+                ),
               ),
             ),
           ),

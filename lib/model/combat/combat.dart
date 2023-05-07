@@ -83,6 +83,7 @@ class Combat {
     battleLog.setPossibleTargets(npcs, players);
     confirmAttack(npcs, players);
     confirmAbility(npcs, players);
+    removeInvisibility();
     battleLog.addTargets(npcs, players);
     battleLog.newBattleLog();
   }
@@ -234,6 +235,21 @@ class Combat {
     }
   }
 
+  void removeInvisibility() {
+    if (selectedPlayer != null) {
+      if (selectedPlayer!.invisible) {
+        selectedPlayer!.removeInvisibility();
+        selectedPlayer!.update();
+      }
+    }
+    if (selectedNpc != null) {
+      if (selectedNpc!.invisible) {
+        selectedNpc!.removeInvisibility();
+        selectedNpc!.update();
+      }
+    }
+  }
+
 //EFFECTS
   void onHitEffects(List<String> effects) {
     if (selectedNpc != null) {
@@ -260,7 +276,6 @@ class Combat {
             selectedPlayer!.update();
           }
           break;
-
         case 'kickback':
           if (selectedNpc != null) {
             selectedNpc!.knockBack(actionInfo.getKickBackDirection());
@@ -270,14 +285,15 @@ class Combat {
             selectedPlayer!.knockBack(actionInfo.getKickBackDirection());
             selectedPlayer!.update();
           }
-
           break;
-
         case 'explode':
           if (selectedNpc != null) {
-            selectedNpc!.delete();
+            selectedNpc!.changePosition(Position.empty());
+            selectedNpc!.life.current = 0;
+            selectedNpc!.effects.onDeath.add('delete');
+            selectedNpc!.update();
+            break;
           }
-
           break;
       }
     }

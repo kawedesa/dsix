@@ -69,7 +69,7 @@ class _PlayerViewPlayerSpriteState extends State<PlayerViewPlayerSprite> {
                       return;
                     }
                     setState(() {
-                      _controller.tempPosition.panUpdate(details.delta, '');
+                      _controller.tempPosition.panUpdate(details.delta, false);
                     });
                   },
                   onPanEnd: (details) {
@@ -133,8 +133,8 @@ class PlayerSpriteController {
 
   void endMove(Player player, MapInfo mapInfo) {
     if (tempPosition.distanceMoved < player.attributes.movement.maxRange()) {
-      tempPosition.newPosition.tile =
-          mapInfo.getTile(tempPosition.newPosition.getOffset());
+      tempPosition.newPosition.inGrass =
+          mapInfo.inGrass(tempPosition.newPosition.getOffset());
       player.resetTemporaryAttributes();
       player.changePosition(tempPosition.newPosition);
       player.update();

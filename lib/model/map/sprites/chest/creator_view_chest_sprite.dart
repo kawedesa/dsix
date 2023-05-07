@@ -68,7 +68,7 @@ class _CreatorViewChestSpriteState extends State<CreatorViewChestSprite> {
                       widget.fullRefresh();
                     },
                     onPanUpdate: (details) {
-                      _controller.tempPosition.panUpdate(details.delta, 'tile');
+                      _controller.tempPosition.panUpdate(details.delta, false);
                       localRefresh();
                     },
                     onPanEnd: (details) {

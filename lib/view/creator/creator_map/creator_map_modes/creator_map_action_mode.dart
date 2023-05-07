@@ -223,27 +223,44 @@ class CreatorMapActionModeController {
   }
 
 //PLAYERS
+
   Widget createDeadPlayerSprites(
       MapInfo mapInfo, List<Player> players, List<Npc> npcs) {
-    List<Widget> playerDeadSprites = [];
+    List<Widget> deadPlayerSprites = [];
 
-    Path npcVisibleArea = getNpcsVisibleArea(mapInfo, npcs);
+    Path canSeeInvisibleArea = Path();
+    Path normalVisibleArea = Path();
+
+    canSeeInvisibleArea = getCanSeeInvisibleArea(npcs);
+    normalVisibleArea = getNormalVisibleArea(mapInfo, npcs);
 
     for (Player player in players) {
-      if (!npcVisibleArea.contains(player.position.getOffset())) {
-        continue;
-      }
       if (player.life.isAlive()) {
         continue;
       }
 
-      playerDeadSprites.add(CreatorViewDeadPlayerSprite(
-        player: player,
-      ));
+      if (player.invisible &&
+          canSeeInvisibleArea.contains(player.position.getOffset())) {
+        deadPlayerSprites.add(CreatorViewDeadPlayerSprite(
+          player: player,
+        ));
+        continue;
+      }
+
+      if (player.invisible) {
+        continue;
+      }
+
+      if (normalVisibleArea.contains(player.position.getOffset()) ||
+          canSeeInvisibleArea.contains(player.position.getOffset())) {
+        deadPlayerSprites.add(CreatorViewDeadPlayerSprite(
+          player: player,
+        ));
+      }
     }
 
     return Stack(
-      children: playerDeadSprites,
+      children: deadPlayerSprites,
     );
   }
 
@@ -251,20 +268,35 @@ class CreatorMapActionModeController {
       MapInfo mapInfo, List<Player> players, List<Npc> npcs) {
     List<Widget> playerSprites = [];
 
-    Path npcVisibleArea = getNpcsVisibleArea(mapInfo, npcs);
+    Path canSeeInvisibleArea = Path();
+    Path normalVisibleArea = Path();
+
+    canSeeInvisibleArea = getCanSeeInvisibleArea(npcs);
+    normalVisibleArea = getNormalVisibleArea(mapInfo, npcs);
 
     for (Player player in players) {
-      if (!npcVisibleArea.contains(player.position.getOffset())) {
-        continue;
-      }
-
       if (player.life.isDead()) {
         continue;
       }
 
-      playerSprites.add(CreatorViewPlayerSprite(
-        player: player,
-      ));
+      if (player.invisible &&
+          canSeeInvisibleArea.contains(player.position.getOffset())) {
+        playerSprites.add(CreatorViewPlayerSprite(
+          player: player,
+        ));
+        continue;
+      }
+
+      if (player.invisible) {
+        continue;
+      }
+
+      if (normalVisibleArea.contains(player.position.getOffset()) ||
+          canSeeInvisibleArea.contains(player.position.getOffset())) {
+        playerSprites.add(CreatorViewPlayerSprite(
+          player: player,
+        ));
+      }
     }
 
     return Stack(
@@ -272,29 +304,43 @@ class CreatorMapActionModeController {
     );
   }
 
-  Path getNpcsVisibleArea(MapInfo mapInfo, List<Npc> npcs) {
-    Path visibleArea = Path();
-    visibleArea.fillType = PathFillType.evenOdd;
+//GET VISIBLE AREA
+  Path getCanSeeInvisibleArea(List<Npc> npcs) {
+    Path canSeeInvisibleArea = Path();
 
     for (Npc npc in npcs) {
-      if (npc.life.isAlive()) {
-        Path npcVisibleArea = Path();
-        Path npcVision = Path.combine(PathOperation.difference,
-            npc.getVisionArea(), VisionGrid().getGrid(npc.position));
-
-        if (mapInfo.map.grass.contains(npc.position.getOffset()) ||
-            npc.attributes.vision.canSeeInvisible) {
-          npcVisibleArea = npcVision;
-        } else {
-          npcVisibleArea = Path.combine(
-              PathOperation.difference, npcVision, mapInfo.map.grass);
-        }
-
-        visibleArea =
-            Path.combine(PathOperation.union, visibleArea, npcVisibleArea);
+      if (!npc.attributes.vision.canSeeInvisible) {
+        continue;
       }
+      canSeeInvisibleArea = Path.combine(
+          PathOperation.union, canSeeInvisibleArea, npc.getVisionArea());
     }
-    return visibleArea;
+
+    return canSeeInvisibleArea;
+  }
+
+  Path getNormalVisibleArea(MapInfo mapInfo, List<Npc> npcs) {
+    Path normalVisibleArea = Path();
+    normalVisibleArea.fillType = PathFillType.evenOdd;
+
+    for (Npc npc in npcs) {
+      if (npc.attributes.vision.canSeeInvisible) {
+        continue;
+      }
+
+      Path npcVision = npc.getVisionArea();
+
+      if (!npc.position.inGrass) {
+        npcVision = Path.combine(PathOperation.difference, npcVision,
+            VisionGrid().getGrid(npc.position));
+        npcVision = Path.combine(
+            PathOperation.difference, npcVision, mapInfo.map.grass);
+      }
+      normalVisibleArea =
+          Path.combine(PathOperation.union, normalVisibleArea, npcVision);
+    }
+
+    return normalVisibleArea;
   }
 
   Widget displayTurn(String turn) {

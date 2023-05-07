@@ -354,6 +354,8 @@ class Npc {
           break;
         case 'vanish':
           changePosition(Position.empty());
+          life.current = 0;
+          effects.onDeath.add('delete');
           break;
       }
     }
@@ -409,6 +411,10 @@ class Npc {
         attributes.movement.removeAttribute();
         effects.currentEffects.add(applyEffect);
         break;
+      case 'thorn':
+        life.receiveDamage(1);
+        break;
+
       case 'vulnerable':
         effects.currentEffects.add(applyEffect);
         break;
@@ -519,10 +525,18 @@ class Npc {
         attributes.power.addAttribute();
         effects.removeEffect(effect);
         break;
-      case 'spiky':
-        effects.onHit.remove('thorn');
-        break;
     }
+  }
+
+  void removeInvisibility() {
+    invisible = false;
+    Effect invisibleEffect = Effect.empty();
+    for (Effect effect in effects.currentEffects) {
+      if (effect.name == 'invisible') {
+        invisibleEffect = effect;
+      }
+    }
+    effects.removeEffect(invisibleEffect);
   }
 
   void createLoot() {
