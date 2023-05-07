@@ -1,8 +1,8 @@
 import 'package:dsix/model/building/building.dart';
-import 'package:dsix/model/map/sprites/chest/player_view_chest_sprite.dart';
+import 'package:dsix/model/map/sprites/prop/player_view_prop_sprite.dart';
 import 'package:dsix/model/map/sprites/tile/player_view_tile_sprite.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/model/map/vision_grid.dart';
@@ -48,6 +48,11 @@ class PlayerMapVM {
     normalVisibleArea = getNormalVisibleArea(user, players, sharedTeamVison);
 
     for (Building building in buildings) {
+      if (building.alwaysVisible) {
+        buildingSprites.add(PlayerViewBuildingSprite(building: building));
+        continue;
+      }
+
       if (canSeeInvisibleArea.contains(building.position.getOffset()) ||
           normalVisibleArea.contains(building.position.getOffset())) {
         buildingSprites.add(PlayerViewBuildingSprite(building: building));
@@ -60,9 +65,9 @@ class PlayerMapVM {
   }
 
   //CHEST
-  Widget createChestSprites(User user, List<Chest> chests, List<Player> players,
-      bool sharedTeamVison) {
-    List<Widget> chestSprites = [];
+  Widget createPropSprites(
+      User user, List<Prop> props, List<Player> players, bool sharedTeamVison) {
+    List<Widget> propSprites = [];
 
     Path canSeeInvisibleArea = Path();
     Path normalVisibleArea = Path();
@@ -71,15 +76,15 @@ class PlayerMapVM {
         getCanSeeInvisibleArea(user, players, sharedTeamVison);
     normalVisibleArea = getNormalVisibleArea(user, players, sharedTeamVison);
 
-    for (Chest chest in chests) {
-      if (canSeeInvisibleArea.contains(chest.position.getOffset()) ||
-          normalVisibleArea.contains(chest.position.getOffset())) {
-        chestSprites.add(PlayerViewChestSprite(chest: chest));
+    for (Prop prop in props) {
+      if (canSeeInvisibleArea.contains(prop.position.getOffset()) ||
+          normalVisibleArea.contains(prop.position.getOffset())) {
+        propSprites.add(PlayerViewPropSprite(prop: prop));
       }
     }
 
     return Stack(
-      children: chestSprites,
+      children: propSprites,
     );
   }
 

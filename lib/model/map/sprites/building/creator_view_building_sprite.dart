@@ -7,9 +7,7 @@ import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/model/map/buttons/map_circular_button.dart';
 import 'package:dsix/shared/images/building_image.dart';
-import 'package:dsix/shared/shared_widgets/button/app_toggle_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class CreatorViewBuildingSprite extends StatefulWidget {
@@ -86,10 +84,13 @@ class _CreatorViewBuildingSpriteState extends State<CreatorViewBuildingSprite> {
                               _controller.tempPosition, widget.building);
                         }
                       },
-                      child: BuildingImage(
-                          name: widget.building.name,
-                          isFlipped: widget.building.isFlipped,
-                          size: widget.building.size)),
+                      child: Opacity(
+                        opacity: (widget.building.alwaysVisible) ? 1.0 : 0.5,
+                        child: BuildingImage(
+                            name: widget.building.name,
+                            isFlipped: widget.building.isFlipped,
+                            size: widget.building.size),
+                      )),
                 ),
                 _controller.getMenu(
                     widget.building, _controller.selected, localRefresh),
@@ -209,40 +210,33 @@ class BuildingSpriteController {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  AppToggleButton(
-                    color: AppColors.uiColorLight,
-                    selected: building.alwaysVisible,
-                    size: 2,
-                    onTap: () {
-                      building.changeAlwaysVisible();
-                    },
-                  ),
-                  const SizedBox(width: 1),
-                  SvgPicture.asset(AppImages.vision,
-                      color: AppColors.uiColorLight, width: 2.5),
-                ],
+              MapCircularButton(
+                color: AppColors.uiColor.withAlpha(200),
+                iconColor: AppColors.uiColorLight.withAlpha(200),
+                borderColor: AppColors.uiColorLight.withAlpha(200),
+                icon: AppImages.horizontalFlip,
+                size: 4,
+                onTap: () {
+                  building.flip();
+                  refresh();
+                },
               ),
-              const SizedBox(width: 2),
-              Row(
-                children: [
-                  AppToggleButton(
-                    color: AppColors.uiColorLight,
-                    selected: building.isFlipped,
-                    size: 2,
-                    onTap: () {
-                      building.flip();
-                      refresh();
-                    },
-                  ),
-                  const SizedBox(width: 1),
-                  SvgPicture.asset(AppImages.horizontalFlip,
-                      color: AppColors.uiColorLight, width: 2.5),
-                ],
-              )
+              const SizedBox(
+                width: 2,
+              ),
+              MapCircularButton(
+                color: AppColors.uiColor.withAlpha(200),
+                iconColor: AppColors.uiColorLight.withAlpha(200),
+                borderColor: AppColors.uiColorLight.withAlpha(200),
+                icon: AppImages.vision,
+                size: 4,
+                onTap: () {
+                  building.changeAlwaysVisible();
+                  refresh();
+                },
+              ),
             ],
-          ),
+          )
         ],
       );
     }

@@ -3,7 +3,7 @@ import 'package:dsix/model/combat/combat.dart';
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/model/map/map_info.dart';
@@ -101,7 +101,7 @@ class User {
   void deselect() {
     npc = null;
     building = null;
-    chest = null;
+    prop = null;
     tile = null;
   }
 
@@ -244,38 +244,38 @@ class User {
   }
 
   //CHEST
-  Chest? chest;
+  Prop? prop;
 
-  void selectChest(Chest chest) {
-    this.chest = chest;
+  void selectProp(Prop prop) {
+    this.prop = prop;
   }
 
-  bool checkSelectedChest(int id) {
-    if (chest == null) {
+  bool checkSelectedProp(int id) {
+    if (prop == null) {
       return false;
     }
 
-    if (chest!.id == id) {
+    if (prop!.id == id) {
       return true;
     } else {
       return false;
     }
   }
 
-  void duplicateChest() {
-    Chest newChest = chest!;
-    newChest.id = DateTime.now().millisecondsSinceEpoch;
-    newChest.position.dx += 5;
-    int lootValue = newChest.getLootValue();
-    newChest.loot = [];
-    newChest.createLoot(lootValue);
-    newChest.set();
-    chest = newChest;
+  void duplicateProp() {
+    Prop newProp = prop!;
+    newProp.id = DateTime.now().millisecondsSinceEpoch;
+    newProp.position.dx += 5;
+    int lootValue = newProp.getLootValue();
+    newProp.loot = [];
+    newProp.createLoot(lootValue);
+    newProp.set();
+    prop = newProp;
   }
 
-  void createChest() {
-    chest!.position = placeHere;
-    chest!.set();
+  void createProp() {
+    prop!.position = placeHere;
+    prop!.set();
   }
 
   //TILE

@@ -1,5 +1,5 @@
 import 'package:dsix/model/combat/position.dart';
-import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/model/user/user.dart';
@@ -8,21 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class CreatorViewChestSprite extends StatefulWidget {
-  final Chest chest;
+class CreatorViewPropSprite extends StatefulWidget {
+  final Prop prop;
   final Function() fullRefresh;
-  const CreatorViewChestSprite({
+  const CreatorViewPropSprite({
     super.key,
-    required this.chest,
+    required this.prop,
     required this.fullRefresh,
   });
 
   @override
-  State<CreatorViewChestSprite> createState() => _CreatorViewChestSpriteState();
+  State<CreatorViewPropSprite> createState() => _CreatorViewPropSpriteState();
 }
 
-class _CreatorViewChestSpriteState extends State<CreatorViewChestSprite> {
-  final ChestSpriteController _controller = ChestSpriteController();
+class _CreatorViewPropSpriteState extends State<CreatorViewPropSprite> {
+  final PropSpriteController _controller = PropSpriteController();
   void localRefresh() {
     setState(() {});
   }
@@ -31,20 +31,19 @@ class _CreatorViewChestSpriteState extends State<CreatorViewChestSprite> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    _controller.initializeTempPosition(widget.chest.position);
-    _controller.checkSelected(user, widget.chest);
+    _controller.initializeTempPosition(widget.prop.position);
+    _controller.checkSelected(user, widget.prop);
 
     return ChangeNotifierProxyProvider<Spawner, TempPosition>(
         create: (context) => _controller.tempPosition,
         update: (context, _, tempPosition) => tempPosition!..panEnd(),
         child: Positioned(
           left:
-              _controller.tempPosition.newPosition.dx - (widget.chest.size / 2),
-          top:
-              _controller.tempPosition.newPosition.dy - (widget.chest.size / 2),
+              _controller.tempPosition.newPosition.dx - (widget.prop.size / 2),
+          top: _controller.tempPosition.newPosition.dy - (widget.prop.size / 2),
           child: SizedBox(
-            height: widget.chest.size,
-            width: widget.chest.size,
+            height: widget.prop.size,
+            width: widget.prop.size,
             child: Stack(
               children: [
                 Align(
@@ -55,7 +54,7 @@ class _CreatorViewChestSpriteState extends State<CreatorViewChestSprite> {
                         user.deselect();
                       } else {
                         user.deselect();
-                        user.selectChest(widget.chest);
+                        user.selectProp(widget.prop);
                       }
 
                       widget.fullRefresh();
@@ -64,7 +63,7 @@ class _CreatorViewChestSpriteState extends State<CreatorViewChestSprite> {
                       _controller.drag = true;
 
                       user.deselect();
-                      user.selectChest(widget.chest);
+                      user.selectProp(widget.prop);
                       widget.fullRefresh();
                     },
                     onPanUpdate: (details) {
@@ -73,13 +72,13 @@ class _CreatorViewChestSpriteState extends State<CreatorViewChestSprite> {
                     },
                     onPanEnd: (details) {
                       _controller.endMove(
-                          _controller.tempPosition, widget.chest);
+                          _controller.tempPosition, widget.prop);
                     },
                     child: SvgPicture.asset(
-                      AppImages().getChestSprite(
-                          widget.chest.name, widget.chest.lootIsEmpty()),
-                      height: widget.chest.size,
-                      width: widget.chest.size,
+                      AppImages().getPropSprite(
+                          widget.prop.name, widget.prop.lootIsEmpty()),
+                      height: widget.prop.size,
+                      width: widget.prop.size,
                     ),
                   ),
                 ),
@@ -90,11 +89,11 @@ class _CreatorViewChestSpriteState extends State<CreatorViewChestSprite> {
   }
 }
 
-class ChestSpriteController {
+class PropSpriteController {
   //SELECTION
   bool selected = false;
-  void checkSelected(User user, Chest chest) {
-    selected = user.checkSelectedChest(chest.id);
+  void checkSelected(User user, Prop prop) {
+    selected = user.checkSelectedProp(prop.id);
   }
 
   //POSITION
@@ -108,13 +107,13 @@ class ChestSpriteController {
     }
   }
 
-  Offset getPosition(TempPosition tempPosition, Chest chest) {
-    return Offset(tempPosition.newPosition.dx - chest.size / 2,
-        tempPosition.newPosition.dy - chest.size / 2);
+  Offset getPosition(TempPosition tempPosition, Prop prop) {
+    return Offset(tempPosition.newPosition.dx - prop.size / 2,
+        tempPosition.newPosition.dy - prop.size / 2);
   }
 
-  void endMove(TempPosition tempPosition, Chest chest) {
-    chest.changePosition(tempPosition.newPosition);
+  void endMove(TempPosition tempPosition, Prop prop) {
+    prop.changePosition(tempPosition.newPosition);
     drag = false;
   }
 }

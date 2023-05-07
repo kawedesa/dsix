@@ -2,17 +2,13 @@ import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/building/building_list.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
-import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/shared_widgets/button/app_text_button.dart';
-import 'package:dsix/shared/shared_widgets/button/app_toggle_button.dart';
 import 'package:dsix/shared/shared_widgets/layout/app_line_divider_horizontal.dart';
-import 'package:dsix/shared/shared_widgets/layout/app_separator_horizontal.dart';
 import 'package:dsix/shared/shared_widgets/layout/app_separator_vertical.dart';
 import 'package:dsix/shared/shared_widgets/text/app_text.dart';
 import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/images/building_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class BuildingCreationDialog extends StatefulWidget {
@@ -134,51 +130,6 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
                               fontSize: 0.025,
                               letterSpacing: 0.002,
                               color: AppColors.uiColor),
-                          SizedBox(
-                            width: AppLayout.avarage(context) * 0.3,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    AppToggleButton(
-                                      color: AppColors.uiColor,
-                                      selected: selectedBuilding!.alwaysVisible,
-                                      size: AppLayout.avarage(context) * 0.01,
-                                      onTap: () {
-                                        selectedBuilding!.changeAlwaysVisible();
-                                        localRefresh();
-                                      },
-                                    ),
-                                    const AppSeparatorHorizontal(value: 0.005),
-                                    SvgPicture.asset(AppImages.vision,
-                                        color: AppColors.uiColor,
-                                        width:
-                                            AppLayout.avarage(context) * 0.015),
-                                  ],
-                                ),
-                                const AppSeparatorHorizontal(value: 0.1),
-                                Row(
-                                  children: [
-                                    AppToggleButton(
-                                      color: AppColors.uiColor,
-                                      selected: selectedBuilding!.isFlipped,
-                                      size: AppLayout.avarage(context) * 0.01,
-                                      onTap: () {
-                                        selectedBuilding!.flip();
-                                        localRefresh();
-                                      },
-                                    ),
-                                    const AppSeparatorHorizontal(value: 0.005),
-                                    SvgPicture.asset(AppImages.horizontalFlip,
-                                        color: AppColors.uiColor,
-                                        width:
-                                            AppLayout.avarage(context) * 0.015),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
                           const AppSeparatorVertical(value: 0.035),
                           BuildingImage(
                             name: selectedBuilding!.name,

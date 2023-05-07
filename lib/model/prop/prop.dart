@@ -3,7 +3,7 @@ import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/item/shop.dart';
 
-class Chest {
+class Prop {
   int id;
   String name;
   double size;
@@ -11,7 +11,7 @@ class Chest {
   List<Item> loot;
   bool locked;
 
-  Chest({
+  Prop({
     required this.id,
     required this.name,
     required this.size,
@@ -22,8 +22,8 @@ class Chest {
 
   final database = FirebaseFirestore.instance;
 
-  factory Chest.empty() {
-    return Chest(
+  factory Prop.empty() {
+    return Prop(
         id: 0,
         name: '',
         size: 10,
@@ -44,7 +44,7 @@ class Chest {
     };
   }
 
-  factory Chest.fromMap(Map<String, dynamic>? data) {
+  factory Prop.fromMap(Map<String, dynamic>? data) {
     List<Item> loot = [];
     List<dynamic> lootMap = data?['loot'];
 
@@ -52,7 +52,7 @@ class Chest {
       loot.add(Item.fromMap(item));
     }
 
-    return Chest(
+    return Prop(
       id: data?['id'],
       name: data?['name'],
       size: data?['size'],
@@ -123,7 +123,7 @@ class Chest {
     await database
         .collection('game')
         .doc('gameID')
-        .collection('chests')
+        .collection('props')
         .doc(id.toString())
         .delete();
   }
@@ -132,7 +132,7 @@ class Chest {
     await database
         .collection('game')
         .doc('gameID')
-        .collection('chests')
+        .collection('props')
         .doc(id.toString())
         .set(toMap());
   }
@@ -141,7 +141,7 @@ class Chest {
     await database
         .collection('game')
         .doc('gameID')
-        .collection('chests')
+        .collection('props')
         .doc(id.toString())
         .set(toMap());
   }

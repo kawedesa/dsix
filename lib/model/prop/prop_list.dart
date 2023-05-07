@@ -1,23 +1,23 @@
 import 'package:dsix/model/combat/position.dart';
-import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/prop/prop.dart';
 
-class ChestList {
-  static Chest normalChest = Chest(
+class PropList {
+  static Prop normalChest = Prop(
       id: 0,
       name: 'normal chest',
-      size: 10,
+      size: 15,
       position: Position.empty(),
       loot: [],
       locked: false);
-  static Chest magicChest = Chest(
+  static Prop magicChest = Prop(
       id: 0,
       name: 'magic chest',
-      size: 10,
+      size: 15,
       position: Position.empty(),
       loot: [],
       locked: true);
 
-  List<Chest> getChestList() {
+  List<Prop> getPropList() {
     return [
       normalChest,
       magicChest,

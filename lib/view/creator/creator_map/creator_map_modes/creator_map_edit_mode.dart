@@ -1,10 +1,10 @@
 import 'package:dsix/model/building/building.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/map/menu/map_menu.dart';
-import 'package:dsix/model/map/sprites/chest/creator_view_chest_sprite.dart';
+import 'package:dsix/model/map/sprites/prop/creator_view_prop_sprite.dart';
 import 'package:dsix/model/map/sprites/tile/creator_view_tile_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
-import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/model/user/user.dart';
@@ -46,7 +46,7 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
     final buildings = Provider.of<List<Building>>(context);
     final tiles = Provider.of<List<Tile>>(context);
     final npcs = Provider.of<List<Npc>>(context);
-    final chests = Provider.of<List<Chest>>(context);
+    final props = Provider.of<List<Prop>>(context);
 
     return SizedBox(
       width: double.infinity,
@@ -80,7 +80,7 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
                   _creatorMapController.createSpawnerSprites(spawners),
                   _creatorMapController.createBuildingSprites(
                       buildings, refresh),
-                  _creatorMapController.createChestSprites(chests, refresh),
+                  _creatorMapController.createPropSprites(props, refresh),
                   _creatorMapController.createNpcSprites(user, npcs, refresh),
                 ],
               ),
@@ -142,19 +142,19 @@ class CreatorMapEditModeController {
   }
 
   //PROPS
-  Widget createChestSprites(List<Chest> chests, Function refresh) {
-    List<Widget> chestSprites = [];
+  Widget createPropSprites(List<Prop> props, Function refresh) {
+    List<Widget> propSprites = [];
 
-    for (Chest chest in chests) {
-      chestSprites.add(CreatorViewChestSprite(
-        chest: chest,
+    for (Prop prop in props) {
+      propSprites.add(CreatorViewPropSprite(
+        prop: prop,
         fullRefresh: () {
           refresh();
         },
       ));
     }
     return Stack(
-      children: chestSprites,
+      children: propSprites,
     );
   }
 

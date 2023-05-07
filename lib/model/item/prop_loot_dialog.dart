@@ -1,6 +1,6 @@
 import 'package:dsix/model/item/bag_slot.dart';
 import 'package:dsix/model/item/loot_slot.dart';
-import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_globals.dart';
 import 'package:dsix/shared/app_layout.dart';
@@ -9,24 +9,24 @@ import 'package:dsix/shared/shared_widgets/dialog/dialog_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ChestLootDialog extends StatefulWidget {
+class PropLootDialog extends StatefulWidget {
   final int id;
-  const ChestLootDialog({
+  const PropLootDialog({
     super.key,
     required this.id,
   });
 
   @override
-  State<ChestLootDialog> createState() => _ChestLootDialogState();
+  State<PropLootDialog> createState() => _PropLootDialogState();
 }
 
-class _ChestLootDialogState extends State<ChestLootDialog> {
-  Chest _chest = Chest.empty();
+class _PropLootDialogState extends State<PropLootDialog> {
+  Prop _prop = Prop.empty();
 
-  void updateChest(List<Chest> chests) {
-    for (Chest chest in chests) {
-      if (chest.id == widget.id) {
-        _chest = chest;
+  void updateProp(List<Prop> props) {
+    for (Prop prop in props) {
+      if (prop.id == widget.id) {
+        _prop = prop;
       }
     }
   }
@@ -38,8 +38,8 @@ class _ChestLootDialogState extends State<ChestLootDialog> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    final chests = Provider.of<List<Chest>>(context);
-    updateChest(chests);
+    final props = Provider.of<List<Prop>>(context);
+    updateProp(props);
 
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -61,16 +61,16 @@ class _ChestLootDialogState extends State<ChestLootDialog> {
               title: 'loot',
             ),
             LootSlot(
-              items: _chest.loot,
+              items: _prop.loot,
               onAccept: (equipment) {
-                _chest.addItemToLoot(equipment.item);
-                _chest.update();
+                _prop.addItemToLoot(equipment.item);
+                _prop.update();
                 user.player.equipment.removeItemWeight(equipment.item.weight);
                 user.player.update();
                 localRefresh();
               },
               onDragComplete: (item) {
-                _chest.removeItemFromLoot(item);
+                _prop.removeItemFromLoot(item);
                 localRefresh();
               },
               onDoubleTap: (equipment) {
@@ -83,8 +83,8 @@ class _ChestLootDialogState extends State<ChestLootDialog> {
                 if (equipment.item.name == 'gold') {
                   user.player.addGold(equipment.item.value);
                   user.player.update();
-                  _chest.removeItemFromLoot(equipment.item);
-                  _chest.update();
+                  _prop.removeItemFromLoot(equipment.item);
+                  _prop.update();
                   localRefresh();
                   snackbarKey.currentState?.showSnackBar(AppSnackBar()
                       .getSnackBar('+\$${equipment.item.value}'.toUpperCase(),
@@ -93,7 +93,7 @@ class _ChestLootDialogState extends State<ChestLootDialog> {
                 }
                 user.player.addItemToBag(equipment);
                 user.player.update();
-                _chest.removeItemFromLoot(equipment.item);
+                _prop.removeItemFromLoot(equipment.item);
                 localRefresh();
               },
             ),

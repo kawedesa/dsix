@@ -3,11 +3,11 @@ import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/map/menu/map_menu.dart';
 import 'package:dsix/model/map/sprites/action_area_sprite.dart';
-import 'package:dsix/model/map/sprites/chest/creator_view_chest_sprite.dart';
+import 'package:dsix/model/map/sprites/prop/creator_view_prop_sprite.dart';
 import 'package:dsix/model/map/sprites/tile/creator_view_tile_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
@@ -56,7 +56,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
     final players = Provider.of<List<Player>>(context);
     final buildings = Provider.of<List<Building>>(context);
     final tiles = Provider.of<List<Tile>>(context);
-    final chests = Provider.of<List<Chest>>(context);
+    final props = Provider.of<List<Prop>>(context);
     final battleLog = Provider.of<List<BattleLog>>(context);
 
     _mapAnimation.checkBattleLog(battleLog);
@@ -99,7 +99,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                     area: user.combat.actionArea.area,
                   ),
                   _mapAnimation.displayAttackAnimations(),
-                  _creatorMapController.createChestSprites(chests, refresh),
+                  _creatorMapController.createPropSprites(props, refresh),
                   _creatorMapController.createDeadNpcSprites(npcs),
                   _creatorMapController.createDeadPlayerSprites(
                       user.mapInfo, players, npcs),
@@ -169,19 +169,19 @@ class CreatorMapActionModeController {
   }
 
   //CHESTS
-  Widget createChestSprites(List<Chest> chests, Function refresh) {
-    List<Widget> chestSprites = [];
+  Widget createPropSprites(List<Prop> props, Function refresh) {
+    List<Widget> propSprites = [];
 
-    for (Chest chest in chests) {
-      chestSprites.add(CreatorViewChestSprite(
-        chest: chest,
+    for (Prop prop in props) {
+      propSprites.add(CreatorViewPropSprite(
+        prop: prop,
         fullRefresh: () {
           refresh();
         },
       ));
     }
     return Stack(
-      children: chestSprites,
+      children: propSprites,
     );
   }
 

@@ -1,4 +1,4 @@
-import 'package:dsix/model/map/buttons/creator/chest_creation_button.dart';
+import 'package:dsix/model/map/buttons/creator/prop_creation_button.dart';
 import 'package:dsix/model/map/buttons/creator/tile_creation_button.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/user/user.dart';
@@ -62,8 +62,8 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
                   user.deselect();
                 }
 
-                if (user.placingSomething == 'chest') {
-                  user.createChest();
+                if (user.placingSomething == 'prop') {
+                  user.createProp();
                   user.resetPlacing();
                   user.deselect();
                 }
@@ -97,7 +97,7 @@ class _GameCreationMenuState extends State<GameCreationMenu> {
                         },
                       ),
                       const AppSeparatorHorizontal(value: 0.01),
-                      ChestCreationButton(fullRefresh: () {
+                      PropCreationButton(fullRefresh: () {
                         widget.refresh();
                       }),
                       const AppSeparatorHorizontal(value: 0.01),

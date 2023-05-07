@@ -4,7 +4,7 @@ import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/map/menu/map_menu.dart';
 import 'package:dsix/model/map/sprites/action_area_sprite.dart';
 import 'package:dsix/model/player/player.dart';
-import 'package:dsix/model/chest/chest.dart';
+import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/tile/tile.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/images/app_images.dart';
@@ -42,7 +42,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     final players = Provider.of<List<Player>>(context);
     final buildings = Provider.of<List<Building>>(context);
     final tiles = Provider.of<List<Tile>>(context);
-    final chests = Provider.of<List<Chest>>(context);
+    final props = Provider.of<List<Prop>>(context);
     final battleLog = Provider.of<List<BattleLog>>(context);
 
     _mapAnimation.checkBattleLog(battleLog);
@@ -78,8 +78,8 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                     area: user.combat.actionArea.area,
                   ),
                   _mapAnimation.displayAttackAnimations(),
-                  _playerMapVM.createChestSprites(
-                      user, chests, players, game.sharedTeamVision),
+                  _playerMapVM.createPropSprites(
+                      user, props, players, game.sharedTeamVision),
                   _playerMapVM.createDeadNpcSprites(
                       user, npcs, players, game.sharedTeamVision),
                   _playerMapVM.createDeadPlayerSprites(players),

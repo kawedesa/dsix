@@ -1,9 +1,9 @@
-import 'package:dsix/model/chest/chest.dart';
-import 'package:dsix/model/chest/chest_list.dart';
+import 'package:dsix/model/prop/prop.dart';
+import 'package:dsix/model/prop/prop_list.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/images/app_images.dart';
-import 'package:dsix/shared/images/chest_image.dart';
+import 'package:dsix/shared/images/prop_image.dart';
 import 'package:dsix/shared/shared_widgets/button/app_circular_button.dart';
 import 'package:dsix/shared/shared_widgets/button/app_text_button.dart';
 import 'package:dsix/shared/shared_widgets/layout/app_line_divider_horizontal.dart';
@@ -12,17 +12,17 @@ import 'package:dsix/shared/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ChestCreationDialog extends StatefulWidget {
-  const ChestCreationDialog({
+class PropCreationDialog extends StatefulWidget {
+  const PropCreationDialog({
     super.key,
   });
 
   @override
-  State<ChestCreationDialog> createState() => _ChestCreationDialogState();
+  State<PropCreationDialog> createState() => _PropCreationDialogState();
 }
 
-class _ChestCreationDialogState extends State<ChestCreationDialog> {
-  Chest? selectedChest;
+class _PropCreationDialogState extends State<PropCreationDialog> {
+  Prop? selectedProp;
   int lootValue = 500;
   void changeLootValue(int value) {
     lootValue += value;
@@ -39,7 +39,7 @@ class _ChestCreationDialogState extends State<ChestCreationDialog> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    selectedChest ??= ChestList().getChestList().first;
+    selectedProp ??= PropList().getPropList().first;
 
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -69,20 +69,20 @@ class _ChestCreationDialogState extends State<ChestCreationDialog> {
                         color: AppColors.uiColor,
                         child: ListView(
                           children: List.generate(
-                              ChestList().getChestList().length, (index) {
+                              PropList().getPropList().length, (index) {
                             return Column(
                               children: [
                                 GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      selectedChest =
-                                          ChestList().getChestList()[index];
+                                      selectedProp =
+                                          PropList().getPropList()[index];
                                     });
                                   },
                                   child: Container(
-                                    color: (selectedChest!.name ==
-                                            ChestList()
-                                                .getChestList()[index]
+                                    color: (selectedProp!.name ==
+                                            PropList()
+                                                .getPropList()[index]
                                                 .name)
                                         ? AppColors.uiColorLight
                                         : AppColors.uiColor,
@@ -97,15 +97,15 @@ class _ChestCreationDialogState extends State<ChestCreationDialog> {
                                             MainAxisAlignment.spaceAround,
                                         children: [
                                           AppText(
-                                            text: ChestList()
-                                                .getChestList()[index]
+                                            text: PropList()
+                                                .getPropList()[index]
                                                 .name
                                                 .toUpperCase(),
                                             fontSize: 0.01,
                                             letterSpacing: 0.0002,
-                                            color: (selectedChest!.name ==
-                                                    ChestList()
-                                                        .getChestList()[index]
+                                            color: (selectedProp!.name ==
+                                                    PropList()
+                                                        .getPropList()[index]
                                                         .name)
                                                 ? AppColors.uiColor
                                                 : Colors.black,
@@ -133,12 +133,12 @@ class _ChestCreationDialogState extends State<ChestCreationDialog> {
                         children: [
                           AppText(
                               bold: true,
-                              text: selectedChest!.name.toUpperCase(),
+                              text: selectedProp!.name.toUpperCase(),
                               fontSize: 0.025,
                               letterSpacing: 0.002,
                               color: AppColors.uiColor),
-                          ChestImage(
-                            name: selectedChest!.name,
+                          PropImage(
+                            name: selectedProp!.name,
                             size: AppLayout.avarage(context) * 0.1,
                             open: false,
                           ),
@@ -182,11 +182,11 @@ class _ChestCreationDialogState extends State<ChestCreationDialog> {
                               color: AppColors.uiColor,
                               buttonText: 'choose',
                               onTap: () {
-                                selectedChest!.setId();
-                                selectedChest!.createLoot(lootValue);
+                                selectedProp!.setId();
+                                selectedProp!.createLoot(lootValue);
                                 user.deselect();
-                                user.selectChest(selectedChest!);
-                                user.startPlacingSomething('chest');
+                                user.selectProp(selectedProp!);
+                                user.startPlacingSomething('prop');
                                 Navigator.pop(context);
                               }),
                         ],

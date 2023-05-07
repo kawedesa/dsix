@@ -162,7 +162,7 @@ class CreatorSelectionUi extends StatelessWidget {
                       ),
                     ),
                   ),
-            (user.chest == null)
+            (user.prop == null)
                 ? const SizedBox()
                 : Container(
                     width: 300,
@@ -181,7 +181,7 @@ class CreatorSelectionUi extends StatelessWidget {
                           Align(
                             alignment: Alignment.topCenter,
                             child: SelectionText(
-                              text: user.chest!.name.toUpperCase(),
+                              text: user.prop!.name.toUpperCase(),
                               fontSize: 18,
                               isBold: false,
                             ),
@@ -196,7 +196,7 @@ class CreatorSelectionUi extends StatelessWidget {
                                   borderSize: 2,
                                   size: 20.0,
                                   onTap: () {
-                                    user.chest!.delete();
+                                    user.prop!.delete();
                                     user.deselect();
                                   })),
                           Align(
@@ -210,7 +210,7 @@ class CreatorSelectionUi extends StatelessWidget {
                                 borderSize: 2,
                                 size: 20.0,
                                 onTap: () {
-                                  user.duplicateChest();
+                                  user.duplicateProp();
                                 }),
                           ),
                         ],
