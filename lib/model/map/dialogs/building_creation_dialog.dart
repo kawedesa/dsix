@@ -141,11 +141,11 @@ class _BuildingCreationDialogState extends State<BuildingCreationDialog> {
                               color: AppColors.uiColor,
                               buttonText: 'choose',
                               onTap: () {
-                                selectedBuilding!.id =
-                                    DateTime.now().millisecondsSinceEpoch;
+                                selectedBuilding!.setId();
+                                selectedBuilding!.resetPosition();
+                                user.startPlacingSomething('building');
                                 user.deselect();
                                 user.selectBuilding(selectedBuilding!);
-                                user.startPlacingSomething('building');
                                 Navigator.pop(context);
                               }),
                         ],

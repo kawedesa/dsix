@@ -1,4 +1,5 @@
 import 'package:dsix/model/attributes/attributes_info_bar.dart';
+import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/npc/npc_list.dart';
 import 'package:dsix/model/user/user.dart';
@@ -152,11 +153,11 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                               color: AppColors.uiColor,
                               buttonText: 'choose',
                               onTap: () {
-                                selectedNpc!.id =
-                                    DateTime.now().millisecondsSinceEpoch;
+                                selectedNpc!.setId();
+                                selectedNpc!.resetPosition();
+                                user.startPlacingSomething('npc');
                                 user.deselect();
                                 user.selectNpc(selectedNpc!);
-                                user.startPlacingSomething('npc');
                                 Navigator.pop(context);
                               }),
                         ],

@@ -181,7 +181,8 @@ class CreatorSelectionUi extends StatelessWidget {
                           Align(
                             alignment: Alignment.topCenter,
                             child: SelectionText(
-                              text: user.prop!.name.toUpperCase(),
+                              text: '${user.prop!.type} ${user.prop!.name}'
+                                  .toUpperCase(),
                               fontSize: 18,
                               isBold: false,
                             ),

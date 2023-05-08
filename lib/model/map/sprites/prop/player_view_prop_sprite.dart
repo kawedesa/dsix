@@ -58,7 +58,8 @@ class PlayerViewPropSprite extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: SvgPicture.asset(
-                  AppImages().getPropSprite(prop.name, prop.lootIsEmpty()),
+                  AppImages()
+                      .getPropSprite(prop.name, prop.type, prop.lootIsEmpty()),
                   height: prop.size,
                   width: prop.size,
                 ),

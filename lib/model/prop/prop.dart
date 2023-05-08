@@ -7,6 +7,7 @@ class Prop {
   int id;
   String name;
   double size;
+  String type;
   Position position;
   List<Item> loot;
   bool locked;
@@ -15,6 +16,7 @@ class Prop {
     required this.id,
     required this.name,
     required this.size,
+    required this.type,
     required this.position,
     required this.loot,
     required this.locked,
@@ -27,6 +29,7 @@ class Prop {
         id: 0,
         name: '',
         size: 10,
+        type: '',
         position: Position.empty(),
         loot: [],
         locked: false);
@@ -38,6 +41,7 @@ class Prop {
       'id': id,
       'name': name,
       'size': size,
+      'type': type,
       'position': position.toMap(),
       'loot': loot,
       'locked': locked,
@@ -56,6 +60,7 @@ class Prop {
       id: data?['id'],
       name: data?['name'],
       size: data?['size'],
+      type: data?['type'],
       position: Position.fromMap(data?['position']),
       loot: loot,
       locked: data?['locked'],
@@ -69,6 +74,10 @@ class Prop {
   void changePosition(Position newPosition) {
     position = newPosition;
     update();
+  }
+
+  void resetPosition() {
+    position = Position.empty();
   }
 
   bool lootIsEmpty() {
@@ -96,11 +105,8 @@ class Prop {
 
   void createLoot(int lootValue) {
     switch (name) {
-      case 'normal chest':
-        loot = Shop().createLoot(lootValue, 'normal');
-        break;
-      case 'magic chest':
-        loot = Shop().createLoot(lootValue, 'magic');
+      case 'chest':
+        loot = Shop().createChestLoot(lootValue, type);
         break;
     }
     update();

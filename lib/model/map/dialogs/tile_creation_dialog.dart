@@ -199,11 +199,11 @@ class _TileCreationDialogState extends State<TileCreationDialog> {
                               color: AppColors.uiColor,
                               buttonText: 'choose',
                               onTap: () {
-                                selectedTile!.id =
-                                    DateTime.now().millisecondsSinceEpoch;
+                                selectedTile!.setId();
+                                selectedTile!.resetPosition();
+                                user.startPlacingSomething('tile');
                                 user.deselect();
                                 user.selectTile(selectedTile!);
-                                user.startPlacingSomething('tile');
                                 Navigator.pop(context);
                               }),
                         ],

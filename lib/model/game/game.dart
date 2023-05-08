@@ -132,7 +132,7 @@ class Game {
     deleteTiles();
     deleteBuildings();
     deleteNpcs();
-    deleteChests();
+    deleteProps();
     deleteBattleLog();
     round++;
     turn.reset();
@@ -168,7 +168,7 @@ class Game {
     deleteTiles();
     deleteBuildings();
     deleteNpcs();
-    deleteChests();
+    deleteProps();
     deleteBattleLog();
   }
 
@@ -257,21 +257,21 @@ class Game {
     npcBatch.commit();
   }
 
-  void deleteChests() async {
-    var chestBatch = database.batch();
+  void deleteProps() async {
+    var propBatch = database.batch();
 
     await database
         .collection('game')
         .doc('gameID')
-        .collection('chests')
+        .collection('props')
         .get()
         .then((snapshot) {
       for (DocumentSnapshot ds in snapshot.docs) {
-        chestBatch.delete(ds.reference);
+        propBatch.delete(ds.reference);
       }
     });
 
-    chestBatch.commit();
+    propBatch.commit();
   }
 
   void deleteBattleLog() async {

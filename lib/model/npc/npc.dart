@@ -124,6 +124,10 @@ class Npc {
     );
   }
 
+  void setId() {
+    id = DateTime.now().millisecondsSinceEpoch;
+  }
+
   void passTurn(List<Player> players, List<Npc> npcs) {
     checkEffectsOnPassTurn();
     reduceAbilityCooldown();
@@ -155,6 +159,10 @@ class Npc {
 
   void changePosition(Position newPosition) {
     position = newPosition;
+  }
+
+  void resetPosition() {
+    position = Position.empty();
   }
 
   void knockBack(Position actionCenter) {
@@ -552,7 +560,7 @@ class Npc {
         lootValue = 150 + (Random().nextDouble() * 200).toInt();
         break;
     }
-    loot = Shop().createLoot(lootValue, 'normal');
+    loot = Shop().createNpcLoot(lootValue);
   }
 
   void addItemToLoot(Item item) {

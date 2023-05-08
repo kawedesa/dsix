@@ -1,3 +1,4 @@
+import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/prop/prop_list.dart';
 import 'package:dsix/model/user/user.dart';
@@ -31,6 +32,43 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
     }
   }
 
+  int typeIndex = 0;
+  List<String> typeList = [];
+
+  void setTypeList() {
+    switch (selectedProp!.name) {
+      case 'chest':
+        typeList = [
+          'normal',
+          'magic',
+        ];
+        break;
+      case 'vase':
+        typeList = [
+          'blue',
+          'brown',
+          'orange',
+          'pink',
+          'yellow',
+        ];
+        break;
+    }
+  }
+
+  void changeTypeIndex(int value) {
+    typeIndex += value;
+
+    if (typeIndex < 0) {
+      typeIndex = typeList.length - 1;
+    }
+
+    if (typeIndex > typeList.length - 1) {
+      typeIndex = 0;
+    }
+    selectedProp!.type = typeList[typeIndex];
+    localRefresh();
+  }
+
   void localRefresh() {
     setState(() {});
   }
@@ -40,6 +78,7 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
     final user = Provider.of<User>(context);
 
     selectedProp ??= PropList().getPropList().first;
+    setTypeList();
 
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -133,48 +172,90 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
                         children: [
                           AppText(
                               bold: true,
-                              text: selectedProp!.name.toUpperCase(),
+                              text:
+                                  '${selectedProp!.type} ${selectedProp!.name}'
+                                      .toUpperCase(),
                               fontSize: 0.025,
                               letterSpacing: 0.002,
                               color: AppColors.uiColor),
-                          PropImage(
-                            name: selectedProp!.name,
-                            size: AppLayout.avarage(context) * 0.1,
-                            open: false,
-                          ),
                           SizedBox(
-                            width: AppLayout.avarage(context) * 0.125,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            width: AppLayout.avarage(context) * 0.25,
+                            height: AppLayout.avarage(context) * 0.25,
+                            child: Stack(
                               children: [
-                                AppCircularButton(
-                                  icon: AppImages.minus,
-                                  iconColor: AppColors.uiColor,
-                                  color: Colors.transparent,
-                                  borderColor: AppColors.uiColor,
-                                  size: 0.025,
-                                  onTap: () {
-                                    changeLootValue(-100);
-                                    localRefresh();
-                                  },
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: PropImage(
+                                    name: selectedProp!.name,
+                                    type: selectedProp!.type,
+                                    size: AppLayout.avarage(context) * 0.15,
+                                    open: false,
+                                  ),
                                 ),
-                                AppText(
-                                  text: '\$$lootValue',
-                                  fontSize: 0.02,
-                                  letterSpacing: 0.0005,
-                                  color: AppColors.uiColor,
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: AppCircularButton(
+                                      color: Colors.transparent,
+                                      borderColor: AppColors.uiColor,
+                                      iconColor: AppColors.uiColor,
+                                      icon: AppImages.left,
+                                      onTap: () {
+                                        changeTypeIndex(-1);
+                                      },
+                                      size: 0.035),
                                 ),
-                                AppCircularButton(
-                                  icon: AppImages.plus,
-                                  iconColor: AppColors.uiColor,
-                                  color: Colors.transparent,
-                                  borderColor: AppColors.uiColor,
-                                  size: 0.025,
-                                  onTap: () {
-                                    changeLootValue(100);
-                                    localRefresh();
-                                  },
-                                )
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: AppCircularButton(
+                                      color: Colors.transparent,
+                                      borderColor: AppColors.uiColor,
+                                      iconColor: AppColors.uiColor,
+                                      icon: AppImages.right,
+                                      onTap: () {
+                                        changeTypeIndex(1);
+                                      },
+                                      size: 0.035),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: SizedBox(
+                                    width: AppLayout.avarage(context) * 0.125,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        AppCircularButton(
+                                          icon: AppImages.minus,
+                                          iconColor: AppColors.uiColor,
+                                          color: Colors.transparent,
+                                          borderColor: AppColors.uiColor,
+                                          size: 0.025,
+                                          onTap: () {
+                                            changeLootValue(-100);
+                                            localRefresh();
+                                          },
+                                        ),
+                                        AppText(
+                                          text: '\$$lootValue',
+                                          fontSize: 0.02,
+                                          letterSpacing: 0.0005,
+                                          color: AppColors.uiColor,
+                                        ),
+                                        AppCircularButton(
+                                          icon: AppImages.plus,
+                                          iconColor: AppColors.uiColor,
+                                          color: Colors.transparent,
+                                          borderColor: AppColors.uiColor,
+                                          size: 0.025,
+                                          onTap: () {
+                                            changeLootValue(100);
+                                            localRefresh();
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -183,10 +264,11 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
                               buttonText: 'choose',
                               onTap: () {
                                 selectedProp!.setId();
+                                selectedProp!.resetPosition();
                                 selectedProp!.createLoot(lootValue);
+                                user.startPlacingSomething('prop');
                                 user.deselect();
                                 user.selectProp(selectedProp!);
-                                user.startPlacingSomething('prop');
                                 Navigator.pop(context);
                               }),
                         ],

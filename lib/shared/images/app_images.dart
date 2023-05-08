@@ -586,7 +586,7 @@ class AppImages {
   //PROPS
   static const grave = 'assets/images/sprites/props/grave.svg';
   static const graveColor = 'assets/images/sprites/props/graveColor.svg';
-
+//CHEST
   static const normalChestClosed =
       'assets/images/sprites/props/normalChestClosed.svg';
   static const normalChestOpen =
@@ -595,24 +595,52 @@ class AppImages {
       'assets/images/sprites/props/magicChestClosed.svg';
   static const magicChestOpen =
       'assets/images/sprites/props/magicChestOpen.svg';
+//VASE
+  static const blueVase = 'assets/images/sprites/props/blueVase.svg';
+  static const brownVase = 'assets/images/sprites/props/brownVase.svg';
+  static const orangeVase = 'assets/images/sprites/props/orangeVase.svg';
+  static const pinkVase = 'assets/images/sprites/props/pinkVase.svg';
+  static const yellowVase = 'assets/images/sprites/props/yellowVase.svg';
 
-  String getPropSprite(String prop, bool open) {
+  String getPropSprite(String prop, String type, bool open) {
     String propSprite = '';
 
     switch (prop) {
-      case 'normal chest':
-        if (open) {
-          propSprite = normalChestOpen;
-        } else {
-          propSprite = normalChestClosed;
+      case 'chest':
+        switch (type) {
+          case 'normal':
+            if (open) {
+              propSprite = normalChestOpen;
+            } else {
+              propSprite = normalChestClosed;
+            }
+            break;
+          case 'magic':
+            if (open) {
+              propSprite = magicChestOpen;
+            } else {
+              propSprite = magicChestClosed;
+            }
+            break;
         }
-
         break;
-      case 'magic chest':
-        if (open) {
-          propSprite = magicChestOpen;
-        } else {
-          propSprite = magicChestClosed;
+      case 'vase':
+        switch (type) {
+          case 'blue':
+            propSprite = blueVase;
+            break;
+          case 'brown':
+            propSprite = brownVase;
+            break;
+          case 'orange':
+            propSprite = orangeVase;
+            break;
+          case 'pink':
+            propSprite = pinkVase;
+            break;
+          case 'yellow':
+            propSprite = yellowVase;
+            break;
         }
         break;
     }

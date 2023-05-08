@@ -41,6 +41,10 @@ class Building {
         isFlipped: data?['isFlipped']);
   }
 
+  void setId() {
+    id = DateTime.now().millisecondsSinceEpoch;
+  }
+
   void flip() {
     if (isFlipped) {
       isFlipped = false;
@@ -62,6 +66,10 @@ class Building {
   void changePosition(Position newPosition) {
     position = newPosition;
     update();
+  }
+
+  void resetPosition() {
+    position = Position.empty();
   }
 
   void changeSize(double value) {

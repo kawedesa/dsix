@@ -6,7 +6,7 @@ import 'dart:math';
 import 'item.dart';
 
 class Shop {
-  List<Item> createLoot(int value, lootType) {
+  List<Item> createChestLoot(int value, String type) {
     List<Item> loot = [];
     int lootValue = value;
     int currentValue = 0;
@@ -20,7 +20,7 @@ class Shop {
         continue;
       }
 
-      String category = lootCategory(lootType);
+      String category = lootCategory(type);
       Item newItem = randomItem(category);
 
       if (currentValue + newItem.value <= lootValue) {
@@ -29,7 +29,7 @@ class Shop {
       }
     }
 
-    switch (lootType) {
+    switch (type) {
       case 'magic':
         for (int i = 0; i < 3; i++) {
           int randomItem = Random().nextInt(loot.length);
@@ -42,10 +42,45 @@ class Shop {
     return loot;
   }
 
+  List<Item> createNpcLoot(int value) {
+    List<Item> loot = [];
+    int lootValue = value;
+    int currentValue = 0;
+
+    while (currentValue < lootValue) {
+      int leftOverAmount = lootValue - currentValue;
+
+      if (leftOverAmount < 100) {
+        loot.add(createGold(leftOverAmount));
+        currentValue += leftOverAmount;
+        continue;
+      }
+
+      String category = lootCategory('npc');
+      Item newItem = randomItem(category);
+
+      if (currentValue + newItem.value <= lootValue) {
+        loot.add(newItem);
+        currentValue += newItem.value;
+      }
+    }
+    return loot;
+  }
+
   String lootCategory(String lootType) {
     List<String> category = [];
 
     switch (lootType) {
+      case 'npc':
+        category = [
+          'light weapons',
+          'heavy weapons',
+          'ranged weapons',
+          // 'magic weapons',
+          'armor',
+          'consumables',
+        ];
+        break;
       case 'normal':
         category = [
           'light weapons',

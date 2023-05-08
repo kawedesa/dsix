@@ -50,6 +50,10 @@ class Tile {
     );
   }
 
+  void setId() {
+    id = DateTime.now().millisecondsSinceEpoch;
+  }
+
   void flipVertical() {
     if (verticalFlip) {
       verticalFlip = false;
@@ -71,6 +75,10 @@ class Tile {
   void changePosition(Position newPosition) {
     position = newPosition;
     update();
+  }
+
+  void resetPosition() {
+    position = Position.empty();
   }
 
   void changeRotation(double value) {

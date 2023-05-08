@@ -106,7 +106,7 @@ class User {
   }
 
   bool somethingIsSelected() {
-    if (npc == null && building == null) {
+    if (npc == null && building == null && prop == null) {
       return false;
     } else {
       return true;
@@ -189,7 +189,7 @@ class User {
 
   void duplicateNpc() {
     Npc newNpc = npc!;
-    newNpc.id = DateTime.now().millisecondsSinceEpoch;
+    newNpc.setId();
     newNpc.position.dx += 5;
     newNpc.set();
     npc = newNpc;
@@ -232,7 +232,7 @@ class User {
 
   void duplicateBuilding() {
     Building newBuilding = building!;
-    newBuilding.id = DateTime.now().millisecondsSinceEpoch;
+    newBuilding.setId();
     newBuilding.position.dx += 5;
     newBuilding.set();
     building = newBuilding;
@@ -264,7 +264,7 @@ class User {
 
   void duplicateProp() {
     Prop newProp = prop!;
-    newProp.id = DateTime.now().millisecondsSinceEpoch;
+    newProp.setId();
     newProp.position.dx += 5;
     int lootValue = newProp.getLootValue();
     newProp.loot = [];
@@ -300,8 +300,7 @@ class User {
   void putTileOnTop() {
     Tile newTile = tile!;
     tile!.delete();
-
-    newTile.id = DateTime.now().millisecondsSinceEpoch;
+    newTile.setId();
     newTile.set();
   }
 

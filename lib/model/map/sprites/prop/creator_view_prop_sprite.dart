@@ -75,8 +75,8 @@ class _CreatorViewPropSpriteState extends State<CreatorViewPropSprite> {
                           _controller.tempPosition, widget.prop);
                     },
                     child: SvgPicture.asset(
-                      AppImages().getPropSprite(
-                          widget.prop.name, widget.prop.lootIsEmpty()),
+                      AppImages().getPropSprite(widget.prop.name,
+                          widget.prop.type, widget.prop.lootIsEmpty()),
                       height: widget.prop.size,
                       width: widget.prop.size,
                     ),
