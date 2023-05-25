@@ -738,6 +738,8 @@ class AppImages {
   }
 
   //NPCS
+
+  //ALIVE
   static const babyBear = 'assets/images/sprites/npcs/babyBear.svg';
   static const zombie = 'assets/images/sprites/npcs/zombie.svg';
   static const giantBat = 'assets/images/sprites/npcs/giantBat.svg';
@@ -752,6 +754,26 @@ class AppImages {
   static const basilisk = 'assets/images/sprites/npcs/basilisk.svg';
   static const mamaBear = 'assets/images/sprites/npcs/mamaBear.svg';
   static const gnomeWizzard = 'assets/images/sprites/npcs/gnomeWizzard.svg';
+
+  //DEAD
+  static const deadBabyBear = 'assets/images/sprites/npcs/deadBabyBear.svg';
+  static const deadZombie = 'assets/images/sprites/npcs/deadZombie.svg';
+  static const deadGiantBat = 'assets/images/sprites/npcs/deadGiantBat.svg';
+  static const deadSkeleton = 'assets/images/sprites/npcs/deadSkeleton.svg';
+  static const deadSkeletonMage =
+      'assets/images/sprites/npcs/deadSkeletonMage.svg';
+  static const deadSkeletonWarrior =
+      'assets/images/sprites/npcs/deadSkeletonWarrior.svg';
+  static const deadDemonHead = 'assets/images/sprites/npcs/deadDemonHead.svg';
+  static const deadGiantFrog = 'assets/images/sprites/npcs/deadGiantFrog.svg';
+  static const deadGoblinBandit =
+      'assets/images/sprites/npcs/deadGoblinBandit.svg';
+  static const deadGoblinMarksman =
+      'assets/images/sprites/npcs/deadGoblinMarksman.svg';
+  static const deadBasilisk = 'assets/images/sprites/npcs/deadBasilisk.svg';
+  static const deadMamaBear = 'assets/images/sprites/npcs/deadMamaBear.svg';
+  static const deadGnomeWizzard =
+      'assets/images/sprites/npcs/deadGnomeWizzard.svg';
 
   String getNpcSprite(String npc) {
     String npcSprite = '';
@@ -795,6 +817,54 @@ class AppImages {
         break;
       case 'gnome wizzard':
         npcSprite = gnomeWizzard;
+        break;
+    }
+
+    return npcSprite;
+  }
+
+  String getDeadNpcSprite(String npc) {
+    String npcSprite = '';
+
+    switch (npc) {
+      case 'baby bear':
+        npcSprite = deadBabyBear;
+        break;
+      case 'zombie':
+        npcSprite = deadZombie;
+        break;
+      case 'giant bat':
+        npcSprite = deadGiantBat;
+        break;
+      case 'skeleton':
+        npcSprite = deadSkeleton;
+        break;
+      case 'skeleton mage':
+        npcSprite = deadSkeletonMage;
+        break;
+      case 'skeleton warrior':
+        npcSprite = deadSkeletonWarrior;
+        break;
+      case 'demon head':
+        npcSprite = deadDemonHead;
+        break;
+      case 'giant frog':
+        npcSprite = deadGiantFrog;
+        break;
+      case 'goblin bandit':
+        npcSprite = deadGoblinBandit;
+        break;
+      case 'goblin marksman':
+        npcSprite = deadGoblinMarksman;
+        break;
+      case 'basilisk':
+        npcSprite = deadBasilisk;
+        break;
+      case 'mama bear':
+        npcSprite = deadMamaBear;
+        break;
+      case 'gnome wizzard':
+        npcSprite = deadGnomeWizzard;
         break;
     }
 

@@ -3,6 +3,7 @@ import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
 import 'package:dsix/model/map/menu/map_menu.dart';
 import 'package:dsix/model/map/sprites/action_area_sprite.dart';
+import 'package:dsix/model/map/sprites/empty_sprite.dart';
 import 'package:dsix/model/map/sprites/prop/creator_view_prop_sprite.dart';
 import 'package:dsix/model/map/sprites/tile/creator_view_tile_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
@@ -276,6 +277,7 @@ class CreatorMapActionModeController {
 
     for (Player player in players) {
       if (player.life.isDead()) {
+        playerSprites.add(const EmptySprite());
         continue;
       }
 
@@ -288,6 +290,7 @@ class CreatorMapActionModeController {
       }
 
       if (player.invisible) {
+        playerSprites.add(const EmptySprite());
         continue;
       }
 
@@ -296,7 +299,9 @@ class CreatorMapActionModeController {
         playerSprites.add(CreatorViewPlayerSprite(
           player: player,
         ));
+        continue;
       }
+      playerSprites.add(const EmptySprite());
     }
 
     return Stack(

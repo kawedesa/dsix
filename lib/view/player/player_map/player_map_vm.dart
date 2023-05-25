@@ -1,4 +1,5 @@
 import 'package:dsix/model/building/building.dart';
+import 'package:dsix/model/map/sprites/empty_sprite.dart';
 import 'package:dsix/model/map/sprites/prop/player_view_prop_sprite.dart';
 import 'package:dsix/model/map/sprites/tile/player_view_tile_sprite.dart';
 import 'package:dsix/model/player/player.dart';
@@ -139,6 +140,7 @@ class PlayerMapVM {
 
     for (Npc npc in npcs) {
       if (npc.life.isDead()) {
+        npcSprites.add(const EmptySprite());
         continue;
       }
       if (npc.invisible &&
@@ -149,6 +151,7 @@ class PlayerMapVM {
         continue;
       }
       if (npc.invisible) {
+        npcSprites.add(const EmptySprite());
         continue;
       }
       if (normalVisibleArea.contains(npc.position.getOffset()) ||
@@ -156,8 +159,11 @@ class PlayerMapVM {
         npcSprites.add(PlayerViewNpcSprite(
           npc: npc,
         ));
+        continue;
       }
+      npcSprites.add(const EmptySprite());
     }
+
     return Stack(
       children: npcSprites,
     );
