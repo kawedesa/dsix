@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dsix/model/combat/hit_box.dart';
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/item/item.dart';
 import 'package:dsix/model/item/shop.dart';
@@ -23,6 +26,7 @@ class Prop {
   });
 
   final database = FirebaseFirestore.instance;
+  HitBox hitBox = HitBox();
 
   factory Prop.empty() {
     return Prop(
@@ -106,7 +110,20 @@ class Prop {
   void createLoot(int lootValue) {
     switch (name) {
       case 'chest':
-        loot = Shop().createChestLoot(lootValue, type);
+        loot = Shop().createPropLoot(lootValue, type);
+
+        switch (type) {
+          case 'magic':
+            for (int i = 0; i < 3; i++) {
+              int randomItem = Random().nextInt(loot.length);
+              loot[randomItem] = Shop().randomItemEnchant(loot[randomItem]);
+            }
+            break;
+        }
+
+        break;
+      case 'vase':
+        loot = Shop().createPropLoot(lootValue, 'consumables');
         break;
     }
     update();

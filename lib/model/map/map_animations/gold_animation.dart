@@ -3,6 +3,8 @@ import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/map/map_text.dart';
 import 'package:flutter/material.dart';
 
+import 'sine_curve.dart';
+
 class GoldAnimation extends StatefulWidget {
   final int amount;
   final Position position;
@@ -24,7 +26,7 @@ class _GoldAnimationState extends State<GoldAnimation>
   void initState() {
     super.initState();
     _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2))
+        AnimationController(vsync: this, duration: const Duration(seconds: 3))
           ..forward();
     _opacity = Tween<double>(begin: 2, end: 0.0).animate(_controller);
     _scale = Tween<double>(begin: 2, end: 4).animate(_controller);
@@ -42,8 +44,7 @@ class _GoldAnimationState extends State<GoldAnimation>
     if (speed > 1) {
       speed -= 1;
     }
-
-    return 4 * (0.5 - (0.5 - Curves.easeInOutBack.transform(speed)).abs());
+    return const SineCurve(count: 3).transform(speed);
   }
 
   double goUp(double value) {
@@ -80,11 +81,9 @@ class _GoldAnimationState extends State<GoldAnimation>
             scale: _scale,
             child: MapText(
               text: getAmount(),
-              fontSize: 0.8,
-              paintColor: (widget.amount > 0)
-                  ? const Color.fromARGB(255, 187, 22, 22)
-                  : const Color.fromARGB(255, 150, 129, 33),
-              strokeColor: Colors.transparent,
+              fontSize: 1,
+              paintColor: const Color.fromARGB(255, 202, 156, 41),
+              strokeColor: const Color.fromARGB(255, 150, 109, 33),
             ),
           ),
         ),

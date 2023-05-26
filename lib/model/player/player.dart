@@ -190,10 +190,8 @@ class Player {
       return false;
     }
 
-    Path intersection = Path.combine(
-        PathOperation.intersect,
-        hitBox.getWithPositionOffset('player', position.getOffset()),
-        attackArea);
+    Path intersection = Path.combine(PathOperation.intersect,
+        hitBox.getPlayerHitBox(position.getOffset()), attackArea);
 
     if (intersection.computeMetrics().isEmpty) {
       return false;

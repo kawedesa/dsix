@@ -1,3 +1,5 @@
+import 'package:dsix/shared/app_colors.dart';
+import 'package:dsix/shared/app_layout.dart';
 import 'package:dsix/shared/shared_widgets/text/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
@@ -49,17 +51,31 @@ class _TurnAnimationState extends State<TurnAnimation>
                   color: Colors.black.withAlpha(200),
                   border: Border.all(
                     color: Colors.black.withAlpha(255),
-                    width: 3,
+                    width: 2,
                   ),
                 ),
-                width: 275,
-                height: 75,
-                child: const Center(
-                  child: AppText(
-                      text: 'YOUR TURN',
-                      fontSize: 0.01,
-                      letterSpacing: 0.002,
-                      color: Colors.white),
+                width: AppLayout.avarage(context) * 0.15,
+                height: AppLayout.avarage(context) * 0.04,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const AppText(
+                        text: 'YOUR TURN',
+                        fontSize: 0.01,
+                        letterSpacing: 0.002,
+                        color: AppColors.uiColor,
+                      ),
+                      SizedBox(
+                        height: AppLayout.avarage(context) * 0.002,
+                      ),
+                      Container(
+                        width: AppLayout.avarage(context) * 0.08,
+                        height: AppLayout.avarage(context) * 0.0008,
+                        color: AppColors.uiColor,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

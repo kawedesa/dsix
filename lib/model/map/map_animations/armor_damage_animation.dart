@@ -4,6 +4,8 @@ import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/map/map_text.dart';
 import 'package:flutter/material.dart';
 
+import 'sine_curve.dart';
+
 class ArmorDamageAnimation extends StatefulWidget {
   final int damage;
   final Position position;
@@ -43,8 +45,7 @@ class _ArmorDamageAnimationState extends State<ArmorDamageAnimation>
     if (speed > 1) {
       speed -= 1;
     }
-
-    return 4 * (0.5 - (0.5 - Curves.easeInOutBack.transform(speed)).abs());
+    return const SineCurve(count: 3).transform(speed);
   }
 
   double goUp(double value) {
@@ -54,7 +55,7 @@ class _ArmorDamageAnimationState extends State<ArmorDamageAnimation>
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: widget.position.dx - 3,
+      left: widget.position.dx - 1.5,
       top: widget.position.dy - 5,
       child: AnimatedBuilder(
         animation: _controller,
@@ -71,7 +72,7 @@ class _ArmorDamageAnimationState extends State<ArmorDamageAnimation>
             scale: _scale,
             child: MapText(
               text: (-1 * widget.damage).toString(),
-              fontSize: 0.75,
+              fontSize: 0.8,
               strokeColor: const Color.fromARGB(255, 44, 118, 118),
               paintColor: const Color.fromARGB(255, 40, 155, 173),
             ),

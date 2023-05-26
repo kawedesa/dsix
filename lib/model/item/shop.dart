@@ -6,7 +6,7 @@ import 'dart:math';
 import 'item.dart';
 
 class Shop {
-  List<Item> createChestLoot(int value, String type) {
+  List<Item> createPropLoot(int value, String type) {
     List<Item> loot = [];
     int lootValue = value;
     int currentValue = 0;
@@ -14,29 +14,19 @@ class Shop {
     while (currentValue < lootValue) {
       int leftOverAmount = lootValue - currentValue;
 
-      if (leftOverAmount < 100) {
-        loot.add(createGold(leftOverAmount));
-        currentValue += leftOverAmount;
-        continue;
-      }
-
       String category = lootCategory(type);
       Item newItem = randomItem(category);
 
       if (currentValue + newItem.value <= lootValue) {
         loot.add(newItem);
         currentValue += newItem.value;
+        leftOverAmount -= newItem.value;
       }
-    }
 
-    switch (type) {
-      case 'magic':
-        for (int i = 0; i < 3; i++) {
-          int randomItem = Random().nextInt(loot.length);
-          loot[randomItem] = randomItemEnchant(loot[randomItem]);
-        }
-
-        break;
+      if (leftOverAmount > 0 && leftOverAmount < 100) {
+        loot.add(createGold(leftOverAmount));
+        currentValue += leftOverAmount;
+      }
     }
 
     return loot;
@@ -50,18 +40,18 @@ class Shop {
     while (currentValue < lootValue) {
       int leftOverAmount = lootValue - currentValue;
 
-      if (leftOverAmount < 100) {
-        loot.add(createGold(leftOverAmount));
-        currentValue += leftOverAmount;
-        continue;
-      }
-
       String category = lootCategory('npc');
       Item newItem = randomItem(category);
 
       if (currentValue + newItem.value <= lootValue) {
         loot.add(newItem);
         currentValue += newItem.value;
+        leftOverAmount -= newItem.value;
+      }
+
+      if (leftOverAmount > 0 && leftOverAmount < 100) {
+        loot.add(createGold(leftOverAmount));
+        currentValue += leftOverAmount;
       }
     }
     return loot;
@@ -81,23 +71,31 @@ class Shop {
           'consumables',
         ];
         break;
-      case 'normal':
+      case 'consumables':
+        category = [
+          'consumables',
+        ];
+        break;
+      case 'armor':
+        category = [
+          'armor',
+        ];
+        break;
+      case 'weapon':
         category = [
           'light weapons',
           'heavy weapons',
           'ranged weapons',
           // 'magic weapons',
-          'armor',
-          'consumables',
         ];
         break;
       case 'magic':
         category = [
+          'armor',
           'light weapons',
           'heavy weapons',
           'ranged weapons',
           // 'magic weapons',
-          'armor',
         ];
         break;
     }

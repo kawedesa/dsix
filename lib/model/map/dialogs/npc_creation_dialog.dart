@@ -1,5 +1,4 @@
 import 'package:dsix/model/attributes/attributes_info_bar.dart';
-import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/npc/npc_list.dart';
 import 'package:dsix/model/user/user.dart';

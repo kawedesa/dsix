@@ -90,6 +90,9 @@ flutter:
     fonts:
     - asset: fonts/Grobold.ttf
    
+  - family: SuperComic
+    fonts:
+    - asset: fonts/SuperComic.ttf
 
   - family: Poppins
     fonts:

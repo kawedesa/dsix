@@ -21,7 +21,7 @@ class EffectsUi extends StatelessWidget {
     if (tempArmor != 0) {
       effectsIcons.add(SpriteEffects(
           effect: Effect(
-        name: 'tempArmor',
+        name: 'defend',
         value: tempArmor,
         countdown: tempArmor,
       )));
@@ -29,7 +29,7 @@ class EffectsUi extends StatelessWidget {
     if (tempVision != 0) {
       effectsIcons.add(SpriteEffects(
           effect: Effect(
-        name: 'tempVision',
+        name: 'look',
         value: 0,
         countdown: 0,
       )));

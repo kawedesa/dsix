@@ -3,19 +3,17 @@ import 'package:dsix/shared/images/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class AuraActivationAnimation extends StatefulWidget {
+class AuraAnimation extends StatefulWidget {
   final String aura;
   final Position position;
 
-  const AuraActivationAnimation(
-      {super.key, required this.aura, required this.position});
+  const AuraAnimation({super.key, required this.aura, required this.position});
 
   @override
-  State<AuraActivationAnimation> createState() =>
-      _AuraActivationAnimationState();
+  State<AuraAnimation> createState() => _AuraAnimationState();
 }
 
-class _AuraActivationAnimationState extends State<AuraActivationAnimation>
+class _AuraAnimationState extends State<AuraAnimation>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _opacity;

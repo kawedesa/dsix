@@ -84,7 +84,7 @@ class NpcSpriteImage extends StatelessWidget {
             alignment: Alignment.center,
             child: HitBoxSprite(
               size: npc.size,
-              hitBox: npc.hitBox.get(npc.name),
+              hitBox: npc.hitBox.npcHitBox(npc.name),
             )),
       ],
     );

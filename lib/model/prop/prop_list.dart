@@ -6,7 +6,7 @@ class PropList {
       id: 0,
       name: 'chest',
       size: 15,
-      type: 'normal',
+      type: 'weapon',
       position: Position.empty(),
       loot: [],
       locked: true);
@@ -22,8 +22,8 @@ class PropList {
 
   List<Prop> getPropList() {
     return [
-      chest,
       vase,
+      chest,
     ];
   }
 }

@@ -192,7 +192,7 @@ class Npc {
     }
 
     Path intersection = Path.combine(PathOperation.intersect,
-        hitBox.getWithPositionOffset(name, position.getOffset()), attackArea);
+        hitBox.getNpcHitBox(name, position.getOffset()), attackArea);
 
     if (intersection.computeMetrics().isEmpty) {
       return false;

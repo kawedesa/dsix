@@ -25,7 +25,7 @@ class MapText extends StatelessWidget {
                 style: TextStyle(
                   fontSize: fontSize,
                   letterSpacing: 0.01,
-                  fontFamily: 'Grobold',
+                  fontFamily: 'SuperComic',
                   color: (paintColor == null) ? Colors.white : paintColor,
                 ),
               ),
@@ -40,7 +40,7 @@ class MapText extends StatelessWidget {
                         (strokeColor == null) ? Colors.black : strokeColor!,
                   fontSize: fontSize,
                   letterSpacing: 0.01,
-                  fontFamily: 'Grobold',
+                  fontFamily: 'SuperComic',
                 ),
               ),
             ],

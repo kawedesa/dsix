@@ -40,14 +40,15 @@ class AppImages {
   static const effectBlind = 'assets/images/ui/effectBlind.svg';
   static const effectBurn = 'assets/images/ui/effectBurn.svg';
   static const effectCry = 'assets/images/ui/effectCry.svg';
+  static const effectDefend = 'assets/images/ui/effectDefend.svg';
   static const effectEmpower = 'assets/images/ui/effectEmpower.svg';
   static const effectIllusion = 'assets/images/ui/effectIllusion.svg';
   static const effectInvisible = 'assets/images/ui/effectInvisible.svg';
+  static const effectLook = 'assets/images/ui/effectLook.svg';
   static const effectRage = 'assets/images/ui/effectRage.svg';
+  static const effectReload = 'assets/images/ui/effectReload.svg';
   static const effectSlow = 'assets/images/ui/effectSlow.svg';
   static const effectStun = 'assets/images/ui/effectStun.svg';
-  static const effectTempVision = 'assets/images/ui/effectTempVision.svg';
-  static const effectTempArmor = 'assets/images/ui/effectTempArmor.svg';
   static const effectVulnerable = 'assets/images/ui/effectVulnerable.svg';
   static const effectWeaken = 'assets/images/ui/effectWeaken.svg';
 
@@ -67,6 +68,9 @@ class AppImages {
       case 'cry':
         effectIcon = effectCry;
         break;
+      case 'defend':
+        effectIcon = effectDefend;
+        break;
       case 'empower':
         effectIcon = effectEmpower;
         break;
@@ -76,23 +80,23 @@ class AppImages {
       case 'invisible':
         effectIcon = effectInvisible;
         break;
-      case 'rage':
-        effectIcon = effectRage;
+      case 'look':
+        effectIcon = effectLook;
         break;
       case 'poison':
         effectIcon = effectPoison;
+        break;
+      case 'rage':
+        effectIcon = effectRage;
+        break;
+      case 'reload':
+        effectIcon = effectReload;
         break;
       case 'slow':
         effectIcon = effectSlow;
         break;
       case 'stun':
         effectIcon = effectStun;
-        break;
-      case 'tempArmor':
-        effectIcon = effectTempArmor;
-        break;
-      case 'tempVision':
-        effectIcon = effectTempVision;
         break;
       case 'vulnerable':
         effectIcon = effectVulnerable;
@@ -587,20 +591,24 @@ class AppImages {
   static const grave = 'assets/images/sprites/props/grave.svg';
   static const graveColor = 'assets/images/sprites/props/graveColor.svg';
 //CHEST
-  static const normalChestClosed =
-      'assets/images/sprites/props/normalChestClosed.svg';
-  static const normalChestOpen =
-      'assets/images/sprites/props/normalChestOpen.svg';
-  static const magicChestClosed =
-      'assets/images/sprites/props/magicChestClosed.svg';
-  static const magicChestOpen =
-      'assets/images/sprites/props/magicChestOpen.svg';
+  static const chestArmorClosed =
+      'assets/images/sprites/props/chestArmorClosed.svg';
+  static const chestArmorOpen =
+      'assets/images/sprites/props/chestArmorOpen.svg';
+  static const chestMagicClosed =
+      'assets/images/sprites/props/chestMagicClosed.svg';
+  static const chestMagicOpen =
+      'assets/images/sprites/props/chestMagicOpen.svg';
+  static const chestWeaponClosed =
+      'assets/images/sprites/props/chestWeaponClosed.svg';
+  static const chestWeaponOpen =
+      'assets/images/sprites/props/chestWeaponOpen.svg';
 //VASE
-  static const blueVase = 'assets/images/sprites/props/blueVase.svg';
-  static const brownVase = 'assets/images/sprites/props/brownVase.svg';
-  static const orangeVase = 'assets/images/sprites/props/orangeVase.svg';
-  static const pinkVase = 'assets/images/sprites/props/pinkVase.svg';
-  static const yellowVase = 'assets/images/sprites/props/yellowVase.svg';
+  static const vaseBlue = 'assets/images/sprites/props/vaseBlue.svg';
+  static const vaseBrown = 'assets/images/sprites/props/vaseBrown.svg';
+  static const vaseOrange = 'assets/images/sprites/props/vaseOrange.svg';
+  static const vasePink = 'assets/images/sprites/props/vasePink.svg';
+  static const vaseYellow = 'assets/images/sprites/props/vaseYellow.svg';
 
   String getPropSprite(String prop, String type, bool open) {
     String propSprite = '';
@@ -608,18 +616,25 @@ class AppImages {
     switch (prop) {
       case 'chest':
         switch (type) {
-          case 'normal':
+          case 'armor':
             if (open) {
-              propSprite = normalChestOpen;
+              propSprite = chestArmorOpen;
             } else {
-              propSprite = normalChestClosed;
+              propSprite = chestArmorClosed;
             }
             break;
           case 'magic':
             if (open) {
-              propSprite = magicChestOpen;
+              propSprite = chestMagicOpen;
             } else {
-              propSprite = magicChestClosed;
+              propSprite = chestMagicClosed;
+            }
+            break;
+          case 'weapon':
+            if (open) {
+              propSprite = chestWeaponOpen;
+            } else {
+              propSprite = chestWeaponClosed;
             }
             break;
         }
@@ -627,19 +642,19 @@ class AppImages {
       case 'vase':
         switch (type) {
           case 'blue':
-            propSprite = blueVase;
+            propSprite = vaseBlue;
             break;
           case 'brown':
-            propSprite = brownVase;
+            propSprite = vaseBrown;
             break;
           case 'orange':
-            propSprite = orangeVase;
+            propSprite = vaseOrange;
             break;
           case 'pink':
-            propSprite = pinkVase;
+            propSprite = vasePink;
             break;
           case 'yellow':
-            propSprite = yellowVase;
+            propSprite = vaseYellow;
             break;
         }
         break;

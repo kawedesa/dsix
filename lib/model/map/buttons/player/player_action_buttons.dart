@@ -1,4 +1,5 @@
 import 'package:dsix/model/combat/attack.dart';
+import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user/user.dart';
@@ -19,6 +20,8 @@ class PlayerActioButtons extends StatefulWidget {
 }
 
 class _PlayerActioButtonsState extends State<PlayerActioButtons> {
+  final BattleLog _battleLog = BattleLog.empty();
+
   int selectedButtonId = 0;
   void selectActionButton(int id) {
     selectedButtonId = id;
@@ -84,6 +87,9 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
         startAction: () {
           user.player.defend();
           user.player.update();
+          _battleLog.reset();
+          _battleLog.addAuras('defend', user.player.position);
+          _battleLog.newBattleLog();
         },
         resetAction: () {},
         resetArea: () {});
@@ -101,6 +107,9 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
         startAction: () {
           user.player.look();
           user.player.update();
+          _battleLog.reset();
+          _battleLog.addAuras('look', user.player.position);
+          _battleLog.newBattleLog();
         },
         resetAction: () {},
         resetArea: () {});
@@ -194,6 +203,9 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       startAction: () {
         user.player.reload(attack);
         user.player.update();
+        _battleLog.reset();
+        _battleLog.addAuras('reload', user.player.position);
+        _battleLog.newBattleLog();
         localRefresh();
       },
       resetAction: () {},

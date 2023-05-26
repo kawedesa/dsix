@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:dsix/model/combat/position.dart';
+import 'package:dsix/model/map/map_animations/sine_curve.dart';
 import 'package:dsix/model/map/map_text.dart';
 import 'package:dsix/shared/app_colors.dart';
 
@@ -45,8 +46,7 @@ class _LifeDamageAnimationState extends State<LifeDamageAnimation>
     if (speed > 1) {
       speed -= 1;
     }
-
-    return 4 * (0.5 - (0.5 - Curves.easeInOutBack.transform(speed)).abs());
+    return const SineCurve(count: 2).transform(speed);
   }
 
   double goUp(double value) {
@@ -73,7 +73,7 @@ class _LifeDamageAnimationState extends State<LifeDamageAnimation>
             scale: _scale,
             child: MapText(
               text: (-1 * widget.damage).toString(),
-              fontSize: 1.0,
+              fontSize: 1,
               strokeColor: (widget.damage > 0)
                   ? const Color.fromARGB(255, 141, 21, 10)
                   : const Color.fromARGB(255, 38, 88, 36),

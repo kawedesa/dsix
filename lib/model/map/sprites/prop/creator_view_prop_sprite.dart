@@ -1,4 +1,5 @@
 import 'package:dsix/model/combat/position.dart';
+import 'package:dsix/model/map/sprites/hit_box_sprite.dart';
 import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
@@ -7,6 +8,7 @@ import 'package:dsix/shared/images/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:transparent_pointer/transparent_pointer.dart';
 
 class CreatorViewPropSprite extends StatefulWidget {
   final Prop prop;
@@ -41,39 +43,14 @@ class _CreatorViewPropSpriteState extends State<CreatorViewPropSprite> {
           left:
               _controller.tempPosition.newPosition.dx - (widget.prop.size / 2),
           top: _controller.tempPosition.newPosition.dy - (widget.prop.size / 2),
-          child: SizedBox(
-            height: widget.prop.size,
-            width: widget.prop.size,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: GestureDetector(
-                    onTap: () {
-                      if (_controller.selected) {
-                        user.deselect();
-                      } else {
-                        user.deselect();
-                        user.selectProp(widget.prop);
-                      }
-
-                      widget.fullRefresh();
-                    },
-                    onPanStart: (details) {
-                      _controller.drag = true;
-
-                      user.deselect();
-                      user.selectProp(widget.prop);
-                      widget.fullRefresh();
-                    },
-                    onPanUpdate: (details) {
-                      _controller.tempPosition.panUpdate(details.delta, false);
-                      localRefresh();
-                    },
-                    onPanEnd: (details) {
-                      _controller.endMove(
-                          _controller.tempPosition, widget.prop);
-                    },
+          child: GestureDetector(
+            child: SizedBox(
+              width: widget.prop.size,
+              height: widget.prop.size,
+              child: Stack(
+                children: [
+                  TransparentPointer(
+                    transparent: true,
                     child: SvgPicture.asset(
                       AppImages().getPropSprite(widget.prop.name,
                           widget.prop.type, widget.prop.lootIsEmpty()),
@@ -81,9 +58,38 @@ class _CreatorViewPropSpriteState extends State<CreatorViewPropSprite> {
                       width: widget.prop.size,
                     ),
                   ),
-                ),
-              ],
+                  HitBoxSprite(
+                    size: widget.prop.size,
+                    hitBox: widget.prop.hitBox
+                        .propHitBox(widget.prop.name, widget.prop.type),
+                  ),
+                ],
+              ),
             ),
+            onTap: () {
+              if (_controller.selected) {
+                user.deselect();
+              } else {
+                user.deselect();
+                user.selectProp(widget.prop);
+              }
+
+              widget.fullRefresh();
+            },
+            onPanStart: (details) {
+              _controller.drag = true;
+
+              user.deselect();
+              user.selectProp(widget.prop);
+              widget.fullRefresh();
+            },
+            onPanUpdate: (details) {
+              _controller.tempPosition.panUpdate(details.delta, false);
+              localRefresh();
+            },
+            onPanEnd: (details) {
+              _controller.endMove(_controller.tempPosition, widget.prop);
+            },
           ),
         ));
   }

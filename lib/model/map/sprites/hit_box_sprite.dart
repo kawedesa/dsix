@@ -10,13 +10,10 @@ class HitBoxSprite extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.center,
-      child: Padding(
-        padding: EdgeInsets.only(bottom: size * 0.6),
-        child: CustomPaint(
-          size: Size(size, size),
-          painter: HitBoxSpritePainter(
-            hitBox: hitBox,
-          ),
+      child: CustomPaint(
+        size: Size(size, size),
+        painter: HitBoxSpritePainter(
+          hitBox: hitBox,
         ),
       ),
     );

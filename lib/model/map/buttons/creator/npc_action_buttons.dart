@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:dsix/model/combat/ability.dart';
 import 'package:dsix/model/combat/attack.dart';
+import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/npc/npc.dart';
 import 'package:dsix/model/player/player.dart';
 import 'package:dsix/model/user/user.dart';
@@ -21,6 +22,8 @@ class NpcActionButtons extends StatefulWidget {
 }
 
 class _NpcActionButtonsState extends State<NpcActionButtons> {
+  final BattleLog _battleLog = BattleLog.empty();
+
   int selectedButtonId = 0;
   void selectActionButton(int id) {
     selectedButtonId = id;
@@ -89,6 +92,9 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
         startAction: () {
           user.npc!.defend();
           user.npc!.update();
+          _battleLog.reset();
+          _battleLog.addAuras('defend', user.npc!.position);
+          _battleLog.newBattleLog();
         },
         resetAction: () {},
         resetArea: () {});
@@ -106,6 +112,9 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
         startAction: () {
           user.npc!.look();
           user.npc!.update();
+          _battleLog.reset();
+          _battleLog.addAuras('look', user.npc!.position);
+          _battleLog.newBattleLog();
         },
         resetAction: () {},
         resetArea: () {});
@@ -190,6 +199,9 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
       startAction: () {
         user.npc!.reload(attack);
         user.npc!.update();
+        _battleLog.reset();
+        _battleLog.addAuras('reload', user.npc!.position);
+        _battleLog.newBattleLog();
         localRefresh();
       },
       resetAction: () {},

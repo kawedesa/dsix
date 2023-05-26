@@ -50,7 +50,7 @@ class PlayerSpriteImage extends StatelessWidget {
             alignment: Alignment.center,
             child: HitBoxSprite(
               size: player.size,
-              hitBox: player.hitBox.get('player'),
+              hitBox: player.hitBox.playerHitBox(),
             )),
       ],
     );

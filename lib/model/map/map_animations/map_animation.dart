@@ -2,7 +2,7 @@ import 'package:dsix/model/combat/action_area.dart';
 import 'package:dsix/model/combat/action_info.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/turn.dart';
-import 'package:dsix/model/map/map_animations/aura_activation_animation.dart';
+import 'package:dsix/model/map/map_animations/aura_animation.dart';
 import 'package:dsix/model/map/map_animations/gold_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
@@ -86,7 +86,7 @@ class MapAnimation {
 
   void addAuraAnimation(List<AuraInfo> info) {
     for (AuraInfo auraInfo in info) {
-      auraAnimations.add(AuraActivationAnimation(
+      auraAnimations.add(AuraAnimation(
         position: auraInfo.position,
         aura: auraInfo.aura,
       ));

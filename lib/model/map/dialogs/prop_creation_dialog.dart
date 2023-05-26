@@ -1,4 +1,3 @@
-import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/prop/prop_list.dart';
 import 'package:dsix/model/user/user.dart';
@@ -23,8 +22,23 @@ class PropCreationDialog extends StatefulWidget {
 }
 
 class _PropCreationDialogState extends State<PropCreationDialog> {
-  Prop? selectedProp;
-  int lootValue = 500;
+  Prop selectedProp = PropList().getPropList().first;
+  int lootValue = 100;
+
+  void selectCategory(int index) {
+    selectedProp = PropList().getPropList()[index];
+    typeIndex = 0;
+    switch (selectedProp.name) {
+      case 'vase':
+        lootValue = 100;
+        break;
+      case 'chest':
+        lootValue = 500;
+        break;
+    }
+    localRefresh();
+  }
+
   void changeLootValue(int value) {
     lootValue += value;
     if (lootValue < 0) {
@@ -33,14 +47,21 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
   }
 
   int typeIndex = 0;
-  List<String> typeList = [];
+  List<String> typeList = [
+    'blue',
+    'brown',
+    'orange',
+    'pink',
+    'yellow',
+  ];
 
   void setTypeList() {
-    switch (selectedProp!.name) {
+    switch (selectedProp.name) {
       case 'chest':
         typeList = [
-          'normal',
+          'armor',
           'magic',
+          'weapon',
         ];
         break;
       case 'vase':
@@ -65,7 +86,7 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
     if (typeIndex > typeList.length - 1) {
       typeIndex = 0;
     }
-    selectedProp!.type = typeList[typeIndex];
+    selectedProp.type = typeList[typeIndex];
     localRefresh();
   }
 
@@ -76,9 +97,6 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-
-    selectedProp ??= PropList().getPropList().first;
-    setTypeList();
 
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -113,13 +131,10 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    setState(() {
-                                      selectedProp =
-                                          PropList().getPropList()[index];
-                                    });
+                                    selectCategory(index);
                                   },
                                   child: Container(
-                                    color: (selectedProp!.name ==
+                                    color: (selectedProp.name ==
                                             PropList()
                                                 .getPropList()[index]
                                                 .name)
@@ -142,7 +157,7 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
                                                 .toUpperCase(),
                                             fontSize: 0.01,
                                             letterSpacing: 0.0002,
-                                            color: (selectedProp!.name ==
+                                            color: (selectedProp.name ==
                                                     PropList()
                                                         .getPropList()[index]
                                                         .name)
@@ -172,9 +187,8 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
                         children: [
                           AppText(
                               bold: true,
-                              text:
-                                  '${selectedProp!.type} ${selectedProp!.name}'
-                                      .toUpperCase(),
+                              text: '${selectedProp.type} ${selectedProp.name}'
+                                  .toUpperCase(),
                               fontSize: 0.025,
                               letterSpacing: 0.002,
                               color: AppColors.uiColor),
@@ -186,8 +200,8 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
                                 Align(
                                   alignment: Alignment.center,
                                   child: PropImage(
-                                    name: selectedProp!.name,
-                                    type: selectedProp!.type,
+                                    name: selectedProp.name,
+                                    type: selectedProp.type,
                                     size: AppLayout.avarage(context) * 0.15,
                                     open: false,
                                   ),
@@ -263,12 +277,12 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
                               color: AppColors.uiColor,
                               buttonText: 'choose',
                               onTap: () {
-                                selectedProp!.setId();
-                                selectedProp!.resetPosition();
-                                selectedProp!.createLoot(lootValue);
+                                selectedProp.setId();
+                                selectedProp.resetPosition();
+                                selectedProp.createLoot(lootValue);
                                 user.startPlacingSomething('prop');
                                 user.deselect();
-                                user.selectProp(selectedProp!);
+                                user.selectProp(selectedProp);
                                 Navigator.pop(context);
                               }),
                         ],

@@ -33,7 +33,7 @@ class CreatorViewDeadNpcSprite extends StatelessWidget {
                         width: npc.size / 1.25,
                         height: npc.size / 1.25,
                         child: const RiveAnimation.asset(
-                          AppAnimations.shiny,
+                          AppAnimations.loot,
                         ),
                       ),
                     ),
