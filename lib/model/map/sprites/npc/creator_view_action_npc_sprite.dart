@@ -2,7 +2,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:dsix/model/combat/position.dart';
 import 'package:dsix/model/map/sprites/aura_sprite.dart';
 import 'package:dsix/model/npc/npc.dart';
-import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
@@ -14,10 +13,12 @@ import 'package:transparent_pointer/transparent_pointer.dart';
 
 class CreatorViewActionNpcSprite extends StatefulWidget {
   final Npc npc;
+  final ValueNotifier<Path> actionArea;
   final Function() fullRefresh;
   const CreatorViewActionNpcSprite({
     super.key,
     required this.npc,
+    required this.actionArea,
     required this.fullRefresh,
   });
 
@@ -41,7 +42,7 @@ class _CreatorViewActionNpcSpriteState
     _controller.initializeTempPosition(widget.npc.position);
     _controller.checkSelected(user, widget.npc);
 
-    return ChangeNotifierProxyProvider<Spawner, TempPosition>(
+    return ChangeNotifierProxyProvider<dynamic, TempPosition>(
         create: (context) => _controller.tempPosition,
         update: (context, _, tempPosition) => tempPosition!..panEnd(),
         child: Positioned(
@@ -59,7 +60,6 @@ class _CreatorViewActionNpcSpriteState
                     transparent: true,
                     child: NpcSpriteVisionRange(
                       selected: _controller.selected,
-                      inAttackArea: _controller.inActionArea(user, widget.npc),
                       npcMode: user.npcMode,
                       range: widget.npc.attributes.vision.getRange(),
                     ),
@@ -69,12 +69,18 @@ class _CreatorViewActionNpcSpriteState
                   alignment: Alignment.center,
                   child: TransparentPointer(
                     transparent: true,
-                    child: NpcSpriteMoveRange(
-                      selected: _controller.selected,
-                      inAttackArea: _controller.inActionArea(user, widget.npc),
-                      npcMode: user.npcMode,
-                      maxRange: widget.npc.attributes.movement.maxRange(),
-                      distanceMoved: _controller.tempPosition.distanceMoved,
+                    child: ValueListenableBuilder<Path>(
+                      valueListenable: widget.actionArea,
+                      builder: (context, position, child) {
+                        return NpcSpriteMoveRange(
+                          selected: _controller.selected,
+                          inAttackArea:
+                              widget.npc.inActionArea(widget.actionArea.value),
+                          npcMode: user.npcMode,
+                          maxRange: widget.npc.attributes.movement.maxRange(),
+                          distanceMoved: _controller.tempPosition.distanceMoved,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -126,13 +132,6 @@ class NpcSpriteController {
   bool selected = false;
   void checkSelected(User user, Npc npc) {
     selected = user.checkSelectedNpc(npc.id);
-  }
-
-  bool inActionArea(User user, Npc npc) {
-    if (selected && user.npcMode == 'action') {
-      return false;
-    }
-    return npc.inActionArea(user.combat.actionArea.area);
   }
 
   //WALK
@@ -235,6 +234,10 @@ class NpcSpriteMoveRange extends StatelessWidget {
       range = 7;
     }
 
+    if (npcMode == 'action') {
+      range = 7;
+    }
+
     return range;
   }
 
@@ -259,14 +262,12 @@ class NpcSpriteMoveRange extends StatelessWidget {
 
 class NpcSpriteVisionRange extends StatelessWidget {
   final bool selected;
-  final bool inAttackArea;
   final String npcMode;
   final double range;
 
   const NpcSpriteVisionRange({
     Key? key,
     required this.selected,
-    required this.inAttackArea,
     required this.npcMode,
     required this.range,
   }) : super(key: key);
@@ -278,11 +279,9 @@ class NpcSpriteVisionRange extends StatelessWidget {
         : DottedBorder(
             borderType: BorderType.Circle,
             dashPattern: const [3, 6],
-            color: (inAttackArea)
-                ? AppColors.cancel.withAlpha(200)
-                : (selected)
-                    ? AppColors.uiColorLight.withAlpha(200)
-                    : Colors.transparent,
+            color: (selected)
+                ? AppColors.uiColorLight.withAlpha(200)
+                : Colors.transparent,
             strokeWidth: 0.3,
             child: AnimatedContainer(
               curve: Curves.fastLinearToSlowEaseIn,

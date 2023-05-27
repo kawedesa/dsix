@@ -11,9 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PlayerActioButtons extends StatefulWidget {
+  final Function(Path) getActionArea;
   final Function() fullRefresh;
 
-  const PlayerActioButtons({super.key, required this.fullRefresh});
+  const PlayerActioButtons(
+      {super.key, required this.getActionArea, required this.fullRefresh});
 
   @override
   State<PlayerActioButtons> createState() => _PlayerActioButtonsState();
@@ -169,24 +171,25 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       hide: hideButton(user, id),
       startAction: () {
         selectActionButton(id);
+        user.playerActionMode();
         user.combat.startAttack(
             user.mapInfo.getOnScreenPosition(user.player.position),
             user.player.position,
             user.player.attack(attack),
             user.player,
             null);
-
-        user.playerActionMode();
         localRefresh();
       },
       resetAction: () {
         deselectActionButton();
-        user.combat.resetAction();
         user.playerStandMode();
+        user.combat.resetAction();
+        widget.getActionArea(user.combat.actionArea.area);
         widget.fullRefresh();
       },
       resetArea: () {
         user.combat.resetArea();
+        widget.getActionArea(user.combat.actionArea.area);
         localRefresh();
       },
     );
@@ -219,13 +222,14 @@ class _PlayerActioButtonsState extends State<PlayerActioButtons> {
       getMouseOffset: (mouseOffset) {
         user.combat.setMousePosition(mouseOffset);
         user.combat.setActionArea();
-        widget.fullRefresh();
+        widget.getActionArea(user.combat.actionArea.area);
       },
       onTap: () {
         deselectActionButton();
+        user.playerStandMode();
         user.combat.confirmAction(npcs, players);
         user.combat.resetAction();
-        user.playerStandMode();
+        widget.getActionArea(user.combat.actionArea.area);
         localRefresh();
       },
     );

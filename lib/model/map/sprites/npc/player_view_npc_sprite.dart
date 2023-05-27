@@ -8,10 +8,11 @@ import 'package:provider/provider.dart';
 
 class PlayerViewNpcSprite extends StatelessWidget {
   final Npc npc;
-
+  final ValueNotifier<Path> actionArea;
   const PlayerViewNpcSprite({
     super.key,
     required this.npc,
+    required this.actionArea,
   });
 
   Offset getPosition(Npc npc) {
@@ -43,26 +44,31 @@ class PlayerViewNpcSprite extends StatelessWidget {
             AuraSprite(auras: npc.effects.auras),
             Align(
               alignment: Alignment.center,
-              child: Container(
-                width: 7,
-                height: 7,
-                decoration: (npc.inActionArea(user.combat.actionArea.area))
-                    ? BoxDecoration(
-                        color: AppColors.cancel.withAlpha(200),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.cancel,
-                          width: 0.3,
-                        ),
-                      )
-                    : BoxDecoration(
-                        color: AppColors.uiColorDark.withAlpha(25),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.uiColorDark.withAlpha(100),
-                          width: 0.3,
-                        ),
-                      ),
+              child: ValueListenableBuilder<Path>(
+                valueListenable: actionArea,
+                builder: (context, position, child) {
+                  return Container(
+                    width: 7,
+                    height: 7,
+                    decoration: (npc.inActionArea(user.combat.actionArea.area))
+                        ? BoxDecoration(
+                            color: AppColors.cancel.withAlpha(200),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.cancel,
+                              width: 0.3,
+                            ),
+                          )
+                        : BoxDecoration(
+                            color: AppColors.uiColorDark.withAlpha(25),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.uiColorDark.withAlpha(100),
+                              width: 0.3,
+                            ),
+                          ),
+                  );
+                },
               ),
             ),
             NpcSpriteImage(npc: npc),

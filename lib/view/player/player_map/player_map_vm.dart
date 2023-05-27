@@ -127,8 +127,8 @@ class PlayerMapVM {
     );
   }
 
-  Widget createNpcSprites(
-      User user, List<Npc> npcs, List<Player> players, bool sharedTeamVison) {
+  Widget createNpcSprites(User user, List<Npc> npcs, List<Player> players,
+      ValueNotifier<Path> actionArea, bool sharedTeamVison) {
     List<Widget> npcSprites = [];
 
     Path canSeeInvisibleArea = Path();
@@ -147,6 +147,7 @@ class PlayerMapVM {
           canSeeInvisibleArea.contains(npc.position.getOffset())) {
         npcSprites.add(PlayerViewNpcSprite(
           npc: npc,
+          actionArea: actionArea,
         ));
         continue;
       }
@@ -158,6 +159,7 @@ class PlayerMapVM {
           canSeeInvisibleArea.contains(npc.position.getOffset())) {
         npcSprites.add(PlayerViewNpcSprite(
           npc: npc,
+          actionArea: actionArea,
         ));
         continue;
       }
@@ -252,7 +254,8 @@ class PlayerMapVM {
     );
   }
 
-  Widget createPlayerSprites(User user, List<Player> players) {
+  Widget createPlayerSprites(
+      User user, List<Player> players, ValueNotifier<Path> actionArea) {
     List<Widget> playerSprites = [];
 
     //OTHER PLAYERS
@@ -266,6 +269,7 @@ class PlayerMapVM {
 
       playerSprites.add(PlayerViewOtherPlayerSprite(
         player: otherPlayer,
+        actionArea: actionArea,
       ));
     }
 

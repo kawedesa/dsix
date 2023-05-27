@@ -14,8 +14,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NpcActionButtons extends StatefulWidget {
+  final Function(Path) getActionArea;
   final Function() fullRefresh;
-  const NpcActionButtons({super.key, required this.fullRefresh});
+  const NpcActionButtons(
+      {super.key, required this.getActionArea, required this.fullRefresh});
 
   @override
   State<NpcActionButtons> createState() => _NpcActionButtonsState();
@@ -165,24 +167,25 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
       hide: hideButton(user, id),
       startAction: () {
         selectActionButton(id);
+        user.npcActionMode();
         user.combat.startAttack(
             user.mapInfo.getOnScreenPosition(user.npc!.position),
             user.npc!.position,
             user.npc!.attack(attack),
             null,
             user.npc!);
-
-        user.npcActionMode();
         localRefresh();
       },
       resetAction: () {
         deselectActionButton();
-        user.combat.resetAction();
         user.npcStandMode();
-        widget.fullRefresh();
+        user.combat.resetAction();
+        widget.getActionArea(user.combat.actionArea.area);
+        localRefresh();
       },
       resetArea: () {
         user.combat.resetArea();
+        widget.getActionArea(user.combat.actionArea.area);
         localRefresh();
       },
     );
@@ -227,14 +230,13 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
   Widget createAbilityButton(int id, User user, Ability ability) {
     Function startAction = () {
       selectActionButton(id);
+      user.npcActionMode();
       user.combat.startAbility(
           user.mapInfo.getOnScreenPosition(user.npc!.position),
           user.npc!.position,
           ability,
           null,
           user.npc);
-
-      user.npcActionMode();
       localRefresh();
     };
 
@@ -281,12 +283,14 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
       },
       resetAction: () {
         deselectActionButton();
-        user.combat.resetAction();
         user.npcStandMode();
-        widget.fullRefresh();
+        user.combat.resetAction();
+        widget.getActionArea(user.combat.actionArea.area);
+        localRefresh();
       },
       resetArea: () {
         user.combat.resetArea();
+        widget.getActionArea(user.combat.actionArea.area);
         localRefresh();
       },
     );
@@ -298,13 +302,14 @@ class _NpcActionButtonsState extends State<NpcActionButtons> {
       getMouseOffset: (mouseOffset) {
         user.combat.setMousePosition(mouseOffset);
         user.combat.setActionArea();
-        widget.fullRefresh();
+        widget.getActionArea(user.combat.actionArea.area);
       },
       onTap: () {
         deselectActionButton();
+        user.npcStandMode();
         user.combat.confirmAction(npcs, players);
         user.combat.resetAction();
-        user.npcStandMode();
+        widget.getActionArea(user.combat.actionArea.area);
         localRefresh();
       },
     );

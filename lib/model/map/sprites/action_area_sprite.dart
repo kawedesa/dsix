@@ -1,47 +1,22 @@
+import 'package:dsix/shared/images/action_area_image.dart';
 import 'package:flutter/material.dart';
 
 class ActionAreaSprite extends StatelessWidget {
-  final Path area;
-
-  const ActionAreaSprite({Key? key, required this.area}) : super(key: key);
+  final ValueNotifier<Path> actionArea;
+  const ActionAreaSprite({Key? key, required this.actionArea})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: ActionAreaSpritePainter(
-        area: area,
-      ),
+    return ValueListenableBuilder<Path>(
+      valueListenable: actionArea,
+      builder: (context, position, child) {
+        return CustomPaint(
+          painter: ActionAreaImage(
+            area: actionArea.value,
+          ),
+        );
+      },
     );
-  }
-}
-
-class ActionAreaSpritePainter extends CustomPainter {
-  Path area;
-  ActionAreaSpritePainter({required this.area});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final fillColor = Paint()..color = Colors.red.withAlpha(75);
-
-    final strokeColor = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 0.25
-      ..style = PaintingStyle.stroke
-      ..strokeJoin = StrokeJoin.round;
-
-    canvas.drawPath(
-      area,
-      strokeColor,
-    );
-
-    canvas.drawPath(
-      area,
-      fillColor,
-    );
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }

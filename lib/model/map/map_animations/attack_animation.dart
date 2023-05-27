@@ -1,4 +1,4 @@
-import 'package:dsix/model/map/sprites/action_area_sprite.dart';
+import 'package:dsix/shared/images/action_area_image.dart';
 import 'package:flutter/material.dart';
 
 class AttackAnimation extends StatefulWidget {
@@ -34,8 +34,10 @@ class _AttackAnimationState extends State<AttackAnimation>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _opacity,
-      child: ActionAreaSprite(
-        area: widget.attackArea,
+      child: CustomPaint(
+        painter: ActionAreaImage(
+          area: widget.attackArea,
+        ),
       ),
     );
   }

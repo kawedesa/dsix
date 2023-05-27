@@ -27,6 +27,7 @@ class PlayerMapView extends StatefulWidget {
 }
 
 class _PlayerMapViewState extends State<PlayerMapView> {
+  ValueNotifier<Path> actionArea = ValueNotifier(Path());
   final PlayerMapVM _playerMapVM = PlayerMapVM();
   final MapAnimation _mapAnimation = MapAnimation();
 
@@ -75,7 +76,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                   _playerMapVM.createBuildingSprites(
                       user, buildings, players, game.sharedTeamVision),
                   ActionAreaSprite(
-                    area: user.combat.actionArea.area,
+                    actionArea: actionArea,
                   ),
                   _mapAnimation.displayAttackAnimations(),
                   _playerMapVM.createPropSprites(
@@ -84,8 +85,8 @@ class _PlayerMapViewState extends State<PlayerMapView> {
                       user, npcs, players, game.sharedTeamVision),
                   _playerMapVM.createDeadPlayerSprites(players),
                   _playerMapVM.createNpcSprites(
-                      user, npcs, players, game.sharedTeamVision),
-                  _playerMapVM.createPlayerSprites(user, players),
+                      user, npcs, players, actionArea, game.sharedTeamVision),
+                  _playerMapVM.createPlayerSprites(user, players, actionArea),
                   _mapAnimation.displayTargetAnimations(),
                   _mapAnimation.displayAuraAnimations(),
                   _mapAnimation.displayAuraAnimations(),
@@ -94,7 +95,11 @@ class _PlayerMapViewState extends State<PlayerMapView> {
             ),
           ),
           _mapAnimation.displayTurnAnimations(),
-          PlayerActioButtons(fullRefresh: refresh),
+          PlayerActioButtons(
+              getActionArea: (path) {
+                actionArea.value = path;
+              },
+              fullRefresh: refresh),
           MapMenu(
             color: user.color,
             borderColor: user.lightColor,

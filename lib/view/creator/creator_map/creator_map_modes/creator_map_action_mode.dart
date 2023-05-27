@@ -44,9 +44,18 @@ class CreatorMapActionMode extends StatefulWidget {
 class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
   final CreatorMapActionModeController _creatorMapController =
       CreatorMapActionModeController();
+  ValueNotifier<Path> actionArea = ValueNotifier(Path());
+
   final MapAnimation _mapAnimation = MapAnimation();
+
   void refresh() {
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    actionArea.dispose();
+    super.dispose();
   }
 
   @override
@@ -97,7 +106,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   _creatorMapController.createBuildingSprites(
                       buildings, refresh),
                   ActionAreaSprite(
-                    area: user.combat.actionArea.area,
+                    actionArea: actionArea,
                   ),
                   _mapAnimation.displayAttackAnimations(),
                   _creatorMapController.createPropSprites(props, refresh),
@@ -105,8 +114,9 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   _creatorMapController.createDeadPlayerSprites(
                       user.mapInfo, players, npcs),
                   _creatorMapController.createPlayerSprites(
-                      user.mapInfo, players, npcs),
-                  _creatorMapController.createNpcSprites(user, npcs, refresh),
+                      user.mapInfo, players, npcs, actionArea),
+                  _creatorMapController.createNpcSprites(
+                      user, npcs, actionArea, refresh),
                   _mapAnimation.displayTargetAnimations(),
                   _mapAnimation.displayAuraAnimations(),
                 ],
@@ -118,7 +128,11 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
           // ignore: prefer_const_constructors
           CreatorSelectionUi(),
 
-          NpcActionButtons(fullRefresh: refresh),
+          NpcActionButtons(
+              getActionArea: (path) {
+                actionArea.value = path;
+              },
+              fullRefresh: refresh),
           _mapAnimation.displayTurnAnimations(),
           InGameMenu(
             refresh: () => refresh(),
@@ -204,7 +218,8 @@ class CreatorMapActionModeController {
     );
   }
 
-  Widget createNpcSprites(User user, List<Npc> npcs, Function refresh) {
+  Widget createNpcSprites(User user, List<Npc> npcs,
+      ValueNotifier<Path> actionArea, Function refresh) {
     List<Widget> npcSprites = [];
 
     for (Npc npc in npcs) {
@@ -214,6 +229,7 @@ class CreatorMapActionModeController {
 
       npcSprites.add(CreatorViewActionNpcSprite(
         npc: npc,
+        actionArea: actionArea,
         fullRefresh: () {
           refresh();
         },
@@ -265,8 +281,8 @@ class CreatorMapActionModeController {
     );
   }
 
-  Widget createPlayerSprites(
-      MapInfo mapInfo, List<Player> players, List<Npc> npcs) {
+  Widget createPlayerSprites(MapInfo mapInfo, List<Player> players,
+      List<Npc> npcs, ValueNotifier<Path> actionArea) {
     List<Widget> playerSprites = [];
 
     Path canSeeInvisibleArea = Path();
@@ -285,6 +301,7 @@ class CreatorMapActionModeController {
           canSeeInvisibleArea.contains(player.position.getOffset())) {
         playerSprites.add(CreatorViewPlayerSprite(
           player: player,
+          actionArea: actionArea,
         ));
         continue;
       }
@@ -298,6 +315,7 @@ class CreatorMapActionModeController {
           canSeeInvisibleArea.contains(player.position.getOffset())) {
         playerSprites.add(CreatorViewPlayerSprite(
           player: player,
+          actionArea: actionArea,
         ));
         continue;
       }
