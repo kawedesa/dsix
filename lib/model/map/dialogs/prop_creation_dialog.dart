@@ -31,9 +31,11 @@ class _PropCreationDialogState extends State<PropCreationDialog> {
     switch (selectedProp.name) {
       case 'vase':
         lootValue = 100;
+        setTypeList();
         break;
       case 'chest':
         lootValue = 500;
+        setTypeList();
         break;
     }
     localRefresh();

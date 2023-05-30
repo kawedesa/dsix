@@ -75,9 +75,10 @@ class MapAnimation {
       return;
     }
 
+    addActionAreaAnimation(battleLog.last.attackInfo);
+    addAuraAnimation(battleLog.last.auras);
     addAttackAnimation(battleLog.last.attackInfo);
     addHitAnimation(battleLog.last.attackInfo, battleLog.last.targets, refresh);
-    addAuraAnimation(battleLog.last.auras);
     addLifeDamageAnimation(battleLog.last.targets, refresh);
     addArmorDamageAnimation(battleLog.last.targets, refresh);
     addGoldAnimation(battleLog.last.targets, refresh);

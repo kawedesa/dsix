@@ -71,7 +71,7 @@ class _TurnAnimationState extends State<TurnAnimation>
                       ),
                       Container(
                         width: AppLayout.avarage(context) * 0.08,
-                        height: AppLayout.avarage(context) * 0.0008,
+                        height: AppLayout.avarage(context) * 0.0006,
                         color: AppColors.uiColor,
                       ),
                     ],
