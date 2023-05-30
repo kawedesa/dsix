@@ -69,7 +69,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
     final props = Provider.of<List<Prop>>(context);
     final battleLog = Provider.of<List<BattleLog>>(context);
 
-    _mapAnimation.checkBattleLog(battleLog);
+    _mapAnimation.checkBattleLog(battleLog, refresh);
     _mapAnimation.checkNpcTurn(game.turn);
     user.updateNpc(npcs);
     user.setNpcMode(game.turn.currentTurn);
@@ -108,7 +108,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   ActionAreaSprite(
                     actionArea: actionArea,
                   ),
-                  _mapAnimation.displayAttackAnimations(),
+                  _mapAnimation.displayActionAreaAnimations(),
                   _creatorMapController.createPropSprites(props, refresh),
                   _creatorMapController.createDeadNpcSprites(npcs),
                   _creatorMapController.createDeadPlayerSprites(
@@ -117,6 +117,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                       user.mapInfo, players, npcs, actionArea),
                   _creatorMapController.createNpcSprites(
                       user, npcs, actionArea, refresh),
+                  _mapAnimation.displayAttackAnimations(),
                   _mapAnimation.displayTargetAnimations(),
                   _mapAnimation.displayAuraAnimations(),
                 ],

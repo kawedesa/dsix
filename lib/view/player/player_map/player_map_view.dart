@@ -46,7 +46,7 @@ class _PlayerMapViewState extends State<PlayerMapView> {
     final props = Provider.of<List<Prop>>(context);
     final battleLog = Provider.of<List<BattleLog>>(context);
 
-    _mapAnimation.checkBattleLog(battleLog);
+    _mapAnimation.checkBattleLog(battleLog, refresh);
     _mapAnimation.checkPlayerTurn(game.turn);
     user.mapInfo.setMap(game.map);
     user.setPlayerMode(game.turn.currentTurn);

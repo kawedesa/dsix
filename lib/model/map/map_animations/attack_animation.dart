@@ -1,42 +1,31 @@
-import 'package:dsix/shared/images/action_area_image.dart';
+import 'package:dsix/model/combat/action_info.dart';
+import 'package:dsix/shared/app_animations.dart';
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
 
-class AttackAnimation extends StatefulWidget {
-  final Path attackArea;
+class AttackAnimation extends StatelessWidget {
+  final ActionInfo attackInfo;
 
-  const AttackAnimation({super.key, required this.attackArea});
-
-  @override
-  State<AttackAnimation> createState() => _AttackAnimationState();
-}
-
-class _AttackAnimationState extends State<AttackAnimation>
-    with TickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _opacity;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 3000))
-      ..forward();
-    _opacity = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  const AttackAnimation({super.key, required this.attackInfo});
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _opacity,
-      child: CustomPaint(
-        painter: ActionAreaImage(
-          area: widget.attackArea,
+    double size = attackInfo.attack.range.min + attackInfo.attack.range.max;
+
+    return Transform.translate(
+      offset: Offset(attackInfo.actionCenter.dx - size / 2,
+          attackInfo.actionCenter.dy - size / 2),
+      child: Transform.rotate(
+        angle: attackInfo.angle + 1.5708,
+        child: Transform.translate(
+          offset: Offset(size / 2, 0),
+          child: SizedBox(
+            width: size,
+            height: size,
+            child: const RiveAnimation.asset(
+              AppAnimations.attack,
+            ),
+          ),
         ),
       ),
     );

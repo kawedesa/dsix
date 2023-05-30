@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:dsix/model/combat/action_area.dart';
 import 'package:dsix/model/combat/action_info.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/turn.dart';
+import 'package:dsix/model/map/map_animations/action_area_animation.dart';
 import 'package:dsix/model/map/map_animations/aura_animation.dart';
 import 'package:dsix/model/map/map_animations/gold_animation.dart';
+import 'package:dsix/model/map/map_animations/hit_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
@@ -52,12 +56,13 @@ class MapAnimation {
   }
 
   //BATTLE ANIMATIONS
+  List<Widget> actionAreaAnimations = [];
   List<Widget> attackAnimations = [];
   List<Widget> auraAnimations = [];
   List<Widget> targetAnimations = [];
   int currentLog = 0;
 
-  void checkBattleLog(List<BattleLog> battleLog) {
+  void checkBattleLog(List<BattleLog> battleLog, Function refresh) {
     if (battleLog.isEmpty) {
       return;
     }
@@ -71,17 +76,31 @@ class MapAnimation {
     }
 
     addAttackAnimation(battleLog.last.attackInfo);
+    addHitAnimation(battleLog.last.attackInfo, battleLog.last.targets, refresh);
     addAuraAnimation(battleLog.last.auras);
-    addLifeDamageAnimation(battleLog.last.targets);
-    addArmorDamageAnimation(battleLog.last.targets);
-    addGoldAnimation(battleLog.last.targets);
+    addLifeDamageAnimation(battleLog.last.targets, refresh);
+    addArmorDamageAnimation(battleLog.last.targets, refresh);
+    addGoldAnimation(battleLog.last.targets, refresh);
     currentLog = battleLog.last.id;
   }
 
-  void addAttackAnimation(ActionInfo attackInfo) {
-    Path attackArea = ActionArea().getArea(attackInfo);
+  void addActionAreaAnimation(ActionInfo attackInfo) {
+    actionAreaAnimations.add(ActionAreaAnimation(attackInfo: attackInfo));
+  }
 
-    attackAnimations.add(AttackAnimation(attackArea: attackArea));
+  void addAttackAnimation(ActionInfo attackInfo) {
+    attackAnimations.add(AttackAnimation(attackInfo: attackInfo));
+  }
+
+  void addHitAnimation(
+      ActionInfo attackInfo, List<Target> targets, Function refresh) {
+    if (attackInfo == ActionInfo.empty()) {
+      return;
+    }
+    Timer(const Duration(milliseconds: 50), () {
+      targetAnimations.add(HitAnimation(targets: targets));
+      refresh();
+    });
   }
 
   void addAuraAnimation(List<AuraInfo> info) {
@@ -93,34 +112,52 @@ class MapAnimation {
     }
   }
 
-  void addLifeDamageAnimation(List<Target> targets) {
+  void addLifeDamageAnimation(List<Target> targets, Function refresh) {
     for (Target target in targets) {
       if (target.life == 0) {
         continue;
       }
-      targetAnimations.add(
-          LifeDamageAnimation(damage: target.life, position: target.position));
+      Timer(const Duration(milliseconds: 400), () {
+        targetAnimations.add(LifeDamageAnimation(
+            damage: target.life, position: target.position));
+        refresh();
+      });
     }
   }
 
-  void addArmorDamageAnimation(List<Target> targets) {
+  void addArmorDamageAnimation(List<Target> targets, Function refresh) {
     for (Target target in targets) {
       if (target.armor == 0) {
         continue;
       }
-      targetAnimations.add(ArmorDamageAnimation(
-          damage: target.armor, position: target.position));
+      Timer(const Duration(milliseconds: 400), () {
+        targetAnimations.add(ArmorDamageAnimation(
+            damage: target.armor, position: target.position));
+        refresh();
+      });
     }
   }
 
-  void addGoldAnimation(List<Target> targets) {
+  void addGoldAnimation(List<Target> targets, Function refresh) {
     for (Target target in targets) {
       if (target.gold == 0) {
         continue;
       }
-      targetAnimations
-          .add(GoldAnimation(amount: target.gold, position: target.position));
+      Timer(const Duration(milliseconds: 400), () {
+        targetAnimations
+            .add(GoldAnimation(amount: target.gold, position: target.position));
+        refresh();
+      });
     }
+  }
+
+  Widget displayActionAreaAnimations() {
+    return TransparentPointer(
+      transparent: true,
+      child: Stack(
+        children: actionAreaAnimations,
+      ),
+    );
   }
 
   Widget displayAttackAnimations() {
