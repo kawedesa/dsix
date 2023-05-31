@@ -8,9 +8,57 @@ class AttackAnimation extends StatelessWidget {
 
   const AttackAnimation({super.key, required this.attackInfo});
 
-  @override
-  Widget build(BuildContext context) {
+  Widget createAttackAnimation(ActionInfo attackInfo) {
     double size = attackInfo.attack.range.min + attackInfo.attack.range.max;
+    String attackAnimation = 'thrust';
+
+    switch (attackInfo.attack.name) {
+      case 'bite':
+        attackAnimation = 'thrust';
+        break;
+      case 'blast':
+        attackAnimation = 'thrust';
+        break;
+      case 'claw':
+        attackAnimation = 'slash';
+        break;
+      case 'crush':
+        attackAnimation = 'thrust';
+        break;
+      case 'jab':
+        attackAnimation = 'thrust';
+        break;
+      case 'punch':
+        attackAnimation = 'thrust';
+        break;
+      case 'shot':
+        attackAnimation = 'thrust';
+        break;
+      case 'slam':
+        attackAnimation = 'thrust';
+        break;
+      case 'swing':
+        attackAnimation = 'slash';
+        break;
+      case 'slash':
+        attackAnimation = 'slash';
+        break;
+      case 'throw':
+        attackAnimation = 'thrust';
+        break;
+      case 'thrust':
+        attackAnimation = 'thrust';
+        break;
+      case 'tongue':
+        attackAnimation = 'thrust';
+        break;
+      case 'volley':
+        attackAnimation = 'thrust';
+        break;
+      case 'whip':
+        attackAnimation = 'thrust';
+        break;
+    }
 
     return Transform.translate(
       offset: Offset(attackInfo.actionCenter.dx - size / 2,
@@ -22,12 +70,18 @@ class AttackAnimation extends StatelessWidget {
           child: SizedBox(
             width: size,
             height: size,
-            child: const RiveAnimation.asset(
+            child: RiveAnimation.asset(
               AppAnimations.attack,
+              animations: [attackAnimation],
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return createAttackAnimation(attackInfo);
   }
 }

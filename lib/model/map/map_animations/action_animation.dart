@@ -1,62 +1,49 @@
 import 'dart:async';
-
-import 'package:dsix/model/combat/action_area.dart';
 import 'package:dsix/model/combat/action_info.dart';
 import 'package:dsix/model/combat/battle_log.dart';
-import 'package:dsix/model/game/turn.dart';
-import 'package:dsix/model/map/map_animations/action_area_animation.dart';
 import 'package:dsix/model/map/map_animations/aura_animation.dart';
 import 'package:dsix/model/map/map_animations/gold_animation.dart';
 import 'package:dsix/model/map/map_animations/hit_animation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
-
 import 'armor_damage_animation.dart';
 import 'attack_animation.dart';
 import 'life_damage_animation.dart';
-import 'turn_animation.dart';
 
-class MapAnimation {
-  //TURN ANIMATION
-  List<Widget> turnAnimation = [];
-  int currentTurn = 0;
+class ActionAnimation extends StatefulWidget {
+  const ActionAnimation({super.key});
 
-  void checkPlayerTurn(Turn turn) {
-    if (turn.count == currentTurn) {
-      return;
-    }
-    if (turn.currentTurn != 'player') {
-      return;
-    }
+  @override
+  State<ActionAnimation> createState() => _ActionAnimationState();
+}
 
-    currentTurn = turn.count;
-    turnAnimation.add(const TurnAnimation());
+class _ActionAnimationState extends State<ActionAnimation> {
+  final MapAnimationController _actionAnimationController =
+      MapAnimationController();
+
+  void refresh() {
+    setState(() {});
   }
 
-  void checkNpcTurn(Turn turn) {
-    if (turn.count == currentTurn) {
-      return;
-    }
-    if (turn.currentTurn != 'npc') {
-      return;
-    }
-    currentTurn = turn.count;
-    turnAnimation.add(const TurnAnimation());
-  }
+  @override
+  Widget build(BuildContext context) {
+    final battleLog = Provider.of<List<BattleLog>>(context);
 
-  Widget displayTurnAnimations() {
-    return Align(
-      alignment: const Alignment(0, -0.75),
-      child: TransparentPointer(
-          transparent: true,
-          child: Stack(
-            children: turnAnimation,
-          )),
+    _actionAnimationController.checkBattleLog(battleLog, refresh);
+
+    return Stack(
+      children: [
+        _actionAnimationController.displayAttackAnimations(),
+        _actionAnimationController.displayTargetAnimations(),
+        _actionAnimationController.displayAuraAnimations(),
+      ],
     );
   }
+}
 
+class MapAnimationController {
   //BATTLE ANIMATIONS
-  List<Widget> actionAreaAnimations = [];
   List<Widget> attackAnimations = [];
   List<Widget> auraAnimations = [];
   List<Widget> targetAnimations = [];
@@ -75,7 +62,6 @@ class MapAnimation {
       return;
     }
 
-    addActionAreaAnimation(battleLog.last.attackInfo);
     addAuraAnimation(battleLog.last.auras);
     addAttackAnimation(battleLog.last.attackInfo);
     addHitAnimation(battleLog.last.attackInfo, battleLog.last.targets, refresh);
@@ -83,10 +69,6 @@ class MapAnimation {
     addArmorDamageAnimation(battleLog.last.targets, refresh);
     addGoldAnimation(battleLog.last.targets, refresh);
     currentLog = battleLog.last.id;
-  }
-
-  void addActionAreaAnimation(ActionInfo attackInfo) {
-    actionAreaAnimations.add(ActionAreaAnimation(attackInfo: attackInfo));
   }
 
   void addAttackAnimation(ActionInfo attackInfo) {
@@ -150,15 +132,6 @@ class MapAnimation {
         refresh();
       });
     }
-  }
-
-  Widget displayActionAreaAnimations() {
-    return TransparentPointer(
-      transparent: true,
-      child: Stack(
-        children: actionAreaAnimations,
-      ),
-    );
   }
 
   Widget displayAttackAnimations() {

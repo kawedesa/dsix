@@ -1,6 +1,7 @@
 import 'package:dsix/model/building/building.dart';
-import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/model/game/game.dart';
+import 'package:dsix/model/game/turn.dart';
+import 'package:dsix/model/map/map_animations/turn_animation.dart';
 import 'package:dsix/model/map/menu/map_menu.dart';
 import 'package:dsix/model/map/sprites/action_area_sprite.dart';
 import 'package:dsix/model/map/sprites/empty_sprite.dart';
@@ -14,8 +15,7 @@ import 'package:dsix/model/user/user.dart';
 import 'package:dsix/shared/app_colors.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:dsix/shared/app_layout.dart';
-
-import 'package:dsix/model/map/map_animations/map_animation.dart';
+import 'package:dsix/model/map/map_animations/action_animation.dart';
 import 'package:dsix/model/map/mouse_input.dart';
 import 'package:dsix/model/map/vision_grid.dart';
 import 'package:dsix/shared/shared_widgets/text/app_text.dart';
@@ -29,6 +29,7 @@ import 'package:dsix/model/map/ui/selection/creator_selection_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:transparent_pointer/transparent_pointer.dart';
 import '../../../../model/map/menu/in_game_menu.dart';
 import '../../../../model/map/buttons/creator/npc_action_buttons.dart';
 
@@ -45,8 +46,6 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
   final CreatorMapActionModeController _creatorMapController =
       CreatorMapActionModeController();
   ValueNotifier<Path> actionArea = ValueNotifier(Path());
-
-  final MapAnimation _mapAnimation = MapAnimation();
 
   void refresh() {
     setState(() {});
@@ -67,10 +66,8 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
     final buildings = Provider.of<List<Building>>(context);
     final tiles = Provider.of<List<Tile>>(context);
     final props = Provider.of<List<Prop>>(context);
-    final battleLog = Provider.of<List<BattleLog>>(context);
 
-    _mapAnimation.checkBattleLog(battleLog, refresh);
-    _mapAnimation.checkNpcTurn(game.turn);
+    _creatorMapController.checkTurn(game.turn);
     user.updateNpc(npcs);
     user.setNpcMode(game.turn.currentTurn);
 
@@ -108,7 +105,6 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                   ActionAreaSprite(
                     actionArea: actionArea,
                   ),
-                  _mapAnimation.displayActionAreaAnimations(),
                   _creatorMapController.createPropSprites(props, refresh),
                   _creatorMapController.createDeadNpcSprites(npcs),
                   _creatorMapController.createDeadPlayerSprites(
@@ -117,9 +113,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                       user.mapInfo, players, npcs, actionArea),
                   _creatorMapController.createNpcSprites(
                       user, npcs, actionArea, refresh),
-                  _mapAnimation.displayAttackAnimations(),
-                  _mapAnimation.displayTargetAnimations(),
-                  _mapAnimation.displayAuraAnimations(),
+                  const ActionAnimation(),
                 ],
               ),
             ),
@@ -134,7 +128,7 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
                 actionArea.value = path;
               },
               fullRefresh: refresh),
-          _mapAnimation.displayTurnAnimations(),
+          _creatorMapController.displayTurnAnimations(),
           InGameMenu(
             refresh: () => refresh(),
           ),
@@ -150,6 +144,32 @@ class _CreatorMapActionModeState extends State<CreatorMapActionMode> {
 }
 
 class CreatorMapActionModeController {
+//TURN ANIMATION
+  List<Widget> turnAnimation = [];
+  int currentTurn = 0;
+
+  void checkTurn(Turn turn) {
+    if (turn.count == currentTurn) {
+      return;
+    }
+    if (turn.currentTurn != 'npc') {
+      return;
+    }
+    currentTurn = turn.count;
+    turnAnimation.add(const TurnAnimation());
+  }
+
+  Widget displayTurnAnimations() {
+    return Align(
+      alignment: const Alignment(0, -0.75),
+      child: TransparentPointer(
+          transparent: true,
+          child: Stack(
+            children: turnAnimation,
+          )),
+    );
+  }
+
 //SPRITES
 //TILES
   Widget createTileSprites(List<Tile> tiles, Function refresh) {

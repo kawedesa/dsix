@@ -104,7 +104,6 @@ class _CreatorMapEditModeState extends State<CreatorMapEditMode> {
 
 class CreatorMapEditModeController {
 //SPRITES
-
 //TILES
   Widget createTileSprites(List<Tile> tiles, Function refresh) {
     List<Widget> tileSprites = [];

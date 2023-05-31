@@ -1,4 +1,6 @@
 import 'package:dsix/model/building/building.dart';
+import 'package:dsix/model/game/turn.dart';
+import 'package:dsix/model/map/map_animations/turn_animation.dart';
 import 'package:dsix/model/map/sprites/empty_sprite.dart';
 import 'package:dsix/model/map/sprites/prop/player_view_prop_sprite.dart';
 import 'package:dsix/model/map/sprites/tile/player_view_tile_sprite.dart';
@@ -14,9 +16,36 @@ import 'package:dsix/model/map/sprites/npc/player_view_npc_sprite.dart';
 import 'package:dsix/model/map/sprites/player/player_view_other_player_sprite.dart';
 import 'package:dsix/model/map/sprites/player/player_view_player_sprite.dart';
 import 'package:flutter/material.dart';
+import 'package:transparent_pointer/transparent_pointer.dart';
 import '../../../model/npc/npc.dart';
 
 class PlayerMapVM {
+//TURN ANIMATION
+  List<Widget> turnAnimation = [];
+  int currentTurn = 0;
+
+  void checkTurn(Turn turn) {
+    if (turn.count == currentTurn) {
+      return;
+    }
+    if (turn.currentTurn != 'player') {
+      return;
+    }
+    currentTurn = turn.count;
+    turnAnimation.add(const TurnAnimation());
+  }
+
+  Widget displayTurnAnimations() {
+    return Align(
+      alignment: const Alignment(0, -0.75),
+      child: TransparentPointer(
+          transparent: true,
+          child: Stack(
+            children: turnAnimation,
+          )),
+    );
+  }
+
   //SPRITES
   //TILE
   Widget createTileSprites(List<Tile> tiles) {
