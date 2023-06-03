@@ -119,7 +119,7 @@ class _RaceViewState extends State<RaceView> {
                               sex: _raceVM.selectedSex,
                               size: AppLayout.avarage(context) * 0.25,
                               headMovement: AppLayout.avarage(context) * 0.002,
-                              effects: const [],
+                              color: Colors.transparent,
                             ),
                           ),
                         ],

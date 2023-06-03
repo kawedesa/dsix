@@ -62,7 +62,7 @@ class _InventoryViewState extends State<InventoryView> {
                         sex: user.player.sex,
                         size: AppLayout.avarage(context) * 0.25,
                         headMovement: AppLayout.avarage(context) * 0.002,
-                        effects: const [],
+                        color: Colors.transparent,
                       )),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

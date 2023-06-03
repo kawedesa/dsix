@@ -57,11 +57,6 @@ class MapAnimationController {
       return;
     }
 
-    if (currentLog == 0) {
-      currentLog = battleLog.last.id;
-      return;
-    }
-
     addAuraAnimation(battleLog.last.auras);
     addAttackAnimation(battleLog.last.attackInfo);
     addHitAnimation(battleLog.last.attackInfo, battleLog.last.targets, refresh);
@@ -77,11 +72,9 @@ class MapAnimationController {
 
   void addHitAnimation(
       ActionInfo attackInfo, List<Target> targets, Function refresh) {
-    if (attackInfo == ActionInfo.empty()) {
-      return;
-    }
     Timer(const Duration(milliseconds: 50), () {
-      targetAnimations.add(HitAnimation(targets: targets));
+      targetAnimations
+          .add(HitAnimation(actionInfo: attackInfo, targets: targets));
       refresh();
     });
   }

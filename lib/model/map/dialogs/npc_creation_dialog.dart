@@ -140,7 +140,7 @@ class _NpcCreationDialogState extends State<NpcCreationDialog> {
                               letterSpacing: 0.002,
                               color: AppColors.uiColor),
                           NpcImage(
-                            npc: selectedNpc!,
+                            name: selectedNpc!.name,
                             size: AppLayout.avarage(context) * 0.2,
                           ),
                           AttributesInfoBar(

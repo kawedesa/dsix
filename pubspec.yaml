@@ -38,6 +38,7 @@ dependencies:
 
   transparent_pointer: ^1.0.0 
   dotted_border: ^2.0.0+3
+  confetti: ^0.7.0
   flutter_svg: ^1.1.5
   rive: ^0.9.1
 

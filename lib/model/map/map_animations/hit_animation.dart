@@ -1,20 +1,27 @@
 import 'dart:math';
 
+import 'package:dsix/model/combat/action_info.dart';
 import 'package:dsix/model/combat/battle_log.dart';
 import 'package:dsix/shared/app_animations.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
 class HitAnimation extends StatelessWidget {
+  final ActionInfo actionInfo;
   final List<Target> targets;
 
-  const HitAnimation({super.key, required this.targets});
+  const HitAnimation(
+      {super.key, required this.actionInfo, required this.targets});
 
-  Widget createHitAnimation(List<Target> targets) {
+  Widget createHitAnimation(ActionInfo actionInfo, List<Target> targets) {
     List<Widget> hitAnimation = [];
     double size = 15;
 
     for (Target target in targets) {
+      if (target.life == 0 && actionInfo.attack.name == '') {
+        continue;
+      }
+
       if (target.armor > 0) {
         double randomRotation = Random().nextDouble();
         hitAnimation.add(Positioned(
@@ -61,6 +68,6 @@ class HitAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return createHitAnimation(targets);
+    return createHitAnimation(actionInfo, targets);
   }
 }
