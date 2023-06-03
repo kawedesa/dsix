@@ -28,7 +28,7 @@ class CreatorViewDeadNpcSprite extends StatelessWidget {
               (npc.loot.isEmpty)
                   ? const SizedBox()
                   : Align(
-                      alignment: Alignment.topCenter,
+                      alignment: Alignment.bottomCenter,
                       child: SizedBox(
                         width: npc.size / 1.25,
                         height: npc.size / 1.25,

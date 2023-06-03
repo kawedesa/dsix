@@ -4,10 +4,12 @@ import 'package:dsix/model/prop/prop.dart';
 import 'package:dsix/model/spawner/spawner.dart';
 import 'package:dsix/model/combat/temp_position.dart';
 import 'package:dsix/model/user/user.dart';
+import 'package:dsix/shared/app_animations.dart';
 import 'package:dsix/shared/images/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:rive/rive.dart';
 import 'package:transparent_pointer/transparent_pointer.dart';
 
 class CreatorViewPropSprite extends StatefulWidget {
@@ -53,11 +55,28 @@ class _CreatorViewPropSpriteState extends State<CreatorViewPropSprite> {
                     transparent: true,
                     child: SvgPicture.asset(
                       AppImages().getPropSprite(widget.prop.name,
-                          widget.prop.type, widget.prop.lootIsEmpty()),
+                          widget.prop.type, _controller.isOpen(widget.prop)),
                       height: widget.prop.size,
                       width: widget.prop.size,
                     ),
                   ),
+                  (widget.prop.loot.isNotEmpty &&
+                          widget.prop.name == 'chest' &&
+                          widget.prop.locked == false)
+                      ? TransparentPointer(
+                          transparent: true,
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: SizedBox(
+                              width: widget.prop.size / 1.25,
+                              height: widget.prop.size / 1.25,
+                              child: const RiveAnimation.asset(
+                                AppAnimations.loot,
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
                   HitBoxSprite(
                     size: widget.prop.size,
                     hitBox: widget.prop.hitBox
@@ -121,5 +140,26 @@ class PropSpriteController {
   void endMove(TempPosition tempPosition, Prop prop) {
     prop.changePosition(tempPosition.newPosition);
     drag = false;
+  }
+
+  //OPEN
+  bool isOpen(Prop prop) {
+    bool isOpen = false;
+    if (prop.lootIsEmpty()) {
+      isOpen = true;
+      return isOpen;
+    }
+
+    if (prop.locked) {
+      isOpen = false;
+      return isOpen;
+    }
+
+    if (prop.locked == false && prop.name == 'chest') {
+      isOpen = true;
+      return isOpen;
+    }
+
+    return isOpen;
   }
 }

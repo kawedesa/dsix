@@ -74,8 +74,10 @@ class _CreatorViewActionNpcSpriteState
                       builder: (context, position, child) {
                         return NpcSpriteMoveRange(
                           selected: _controller.selected,
-                          inAttackArea:
-                              widget.npc.inActionArea(widget.actionArea.value),
+                          inAttackArea: (_controller.selected)
+                              ? false
+                              : widget.npc
+                                  .inActionArea(widget.actionArea.value),
                           npcMode: user.npcMode,
                           maxRange: widget.npc.attributes.movement.maxRange(),
                           distanceMoved: _controller.tempPosition.distanceMoved,
